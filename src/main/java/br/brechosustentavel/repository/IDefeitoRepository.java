@@ -4,7 +4,7 @@
  */
 package br.brechosustentavel.repository;
 
-import br.projeto.model.Defeito;
+import br.brechosustentavel.model.Defeito;
 import java.util.Optional;
 
 /**

@@ -4,7 +4,6 @@
  */
 package br.brechosustentavel.service;
 
-import br.projeto.model.Usuario;
 import java.util.Optional;
 
 /**

@@ -4,9 +4,9 @@
  */
 package br.brechosustentavel.presenter;
 
-import br.projeto.model.Usuario;
-import br.projeto.service.AutenticacaoService;
-import br.projeto.view.LoginView;
+import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.service.AutenticacaoService;
+import br.brechosustentavel.view.LoginView;
 
 /**
  *

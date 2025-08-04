@@ -4,7 +4,9 @@
  */
 package br.brechosustentavel.presenter;
 
-import br.projeto.view.IAnuncioView;
+import br.brechosustentavel.repository.IItemRepository;
+import br.brechosustentavel.service.SessaoUsuarioService;
+import br.brechosustentavel.view.IAnuncioView;
 
 /**
  *
@@ -12,9 +14,9 @@ import br.projeto.view.IAnuncioView;
  */
 public class AnuncioPresenter {
     private IAnuncioView view;
-    private SessaoUsuario usuarioAutenticado;
+    private SessaoUsuarioService usuarioAutenticado;
     
-    public AnuncioPresenter(SessaoUsuario usuarioAutenticado, IAnuncioView view, IItemRepository repositorioItem){
+    public AnuncioPresenter(SessaoUsuarioService usuarioAutenticado, IAnuncioView view, IItemRepository repositorioItem){
         this.view = view;
         this.usuarioAutenticado = usuarioAutenticado;
         
