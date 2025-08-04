@@ -4,7 +4,7 @@
  */
 package br.brechosustentavel.repository;
 
-import br.projeto.model.Transacao;
+import br.brechosustentavel.model.Transacao;
 import java.util.Optional;
 
 /**

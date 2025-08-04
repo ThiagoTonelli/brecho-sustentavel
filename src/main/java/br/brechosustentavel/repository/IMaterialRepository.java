@@ -4,7 +4,7 @@
  */
 package br.brechosustentavel.repository;
 
-import br.projeto.model.Material;
+import br.brechosustentavel.model.Material;
 import java.util.Optional;
 
 /**
