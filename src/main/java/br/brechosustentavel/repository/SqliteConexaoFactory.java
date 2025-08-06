@@ -7,23 +7,24 @@ package br.brechosustentavel.repository;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 /**
  *
  * @author kaila
  */
-public final class ConexaoH2 {
+public class SQLiteConexaoFactory extends ConexaoFactory{
     private Connection connection;
-    
-    public ConexaoH2() {
+
+    public SQLiteConexaoFactory() {
         try {
-            this.connection = DriverManager.getConnection("jdbc:h2:./meu_brecho_h2", "sa", "");
+            this.connection = DriverManager.getConnection("jdbc:sqlite:c:/sqlite/db/chinook.db");
         } catch (SQLException e) {
-            throw new RuntimeException("Falha ao conectar com H2 " + e.getMessage());
+            throw new RuntimeException("Falha ao conectar com SQLite " + e.getMessage());
         }
     }
     
-    public Connection getConnection() {
+    @Override
+    public Connection getConexao() {
         return this.connection;
     }
 }
-
