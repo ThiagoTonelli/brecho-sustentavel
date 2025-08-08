@@ -19,7 +19,6 @@ public class LoginPresenter {
     private Usuario usuario;
     
     public LoginPresenter(){
-        
     }
     
     

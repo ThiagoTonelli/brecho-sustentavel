@@ -12,7 +12,7 @@ import java.sql.Connection;
  */
 public abstract class ConexaoFactory {
     
-    public static ConexaoFactory getConexao(String sgdb){
+    public static ConexaoFactory getConexaoFactory(String sgdb){
         if(sgdb.equalsIgnoreCase("sqlite")){
             return new SQLiteConexaoFactory();
         }

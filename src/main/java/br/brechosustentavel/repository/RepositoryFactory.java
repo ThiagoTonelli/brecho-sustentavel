@@ -5,24 +5,25 @@
 package br.brechosustentavel.repository;
 
 import br.brechosustentavel.configuracao.ConfiguracaoAdapter;
-import java.sql.Connection;
 
 /**
  *
  * @author kaila
  */
+
+
 public abstract class RepositoryFactory {
-    private String sgbd;
+    private static String sgbd;
     
-    public static RepositoryFactory getRepositoryFactory(String sgbd){
+    public static RepositoryFactory getRepositoryFactory(){
         ConfiguracaoAdapter configuracao = new ConfiguracaoAdapter();
         sgbd = configuracao.getValor("SGBD");
-        ConexaoFactory conexao = ConexaoFactory.getConexao(sgbd);
+        ConexaoFactory conexao = ConexaoFactory.getConexaoFactory(sgbd);
         if (sgbd.equalsIgnoreCase("sqlite")){
-            return new SQLiteRepositoryFactory((Connection) conexao);
+            return new SQLiteRepositoryFactory(conexao.getConexao());
         }
         else if (sgbd.equalsIgnoreCase("h2")){
-            return new H2RepositoryFactory((Connection) conexao);
+            return new H2RepositoryFactory(conexao.getConexao());
         }
         throw new IllegalArgumentException("Banco de dados passado por parâmetro não existe!");
     }

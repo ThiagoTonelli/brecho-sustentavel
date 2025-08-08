@@ -18,7 +18,7 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
     }
     @Override
     public IUsuarioRepository getUsuarioRepository() {
-        return (IUsuarioRepository) new UsuarioRepositorySQLite(conexao);
+        return new UsuarioRepositorySQLite(conexao);
     }
 
     @Override
