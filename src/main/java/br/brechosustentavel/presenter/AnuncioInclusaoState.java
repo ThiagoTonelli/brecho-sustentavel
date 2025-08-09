@@ -4,7 +4,8 @@
  */
 package br.brechosustentavel.presenter;
 
-import com.thiago.brechosustentavel.presenter.AnuncioPresenter;
+import br.brechosustentavel.command.NovoAnuncioCommand;
+
 
 /**
  *
@@ -16,4 +17,12 @@ public class AnuncioInclusaoState extends AnuncioPresenterState {
         super(anuncioPresenter);
     }
     
+    @Override
+    public void salvar() {
+        new NovoAnuncioCommand().executar(anuncioPresenter);
+
+        //presenter.setEstado(new VisualizacaoState(anuncioPresenter));
+    }
+
+
 }

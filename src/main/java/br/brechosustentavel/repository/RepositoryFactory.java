@@ -4,6 +4,8 @@
  */
 package br.brechosustentavel.repository;
 
+import br.brechosustentavel.repository.h2.H2RepositoryFactory;
+import br.brechosustentavel.repository.sqlite.SQLiteRepositoryFactory;
 import br.brechosustentavel.configuracao.ConfiguracaoAdapter;
 
 /**

@@ -21,5 +21,17 @@ public class Item {
     private List<Defeito> defeitos;
     private Material material;
     private List<EventoLinhaDoTempo> linhaDoTempo;
+
+    public Item(String tipoDePeca, String subcategoria, String tamanho, double massaEstimada, String estadoDeConservacao, double precoBase, List<Defeito> defeitos, Material material) {
+        this.tipoDePeca = tipoDePeca;
+        this.subcategoria = subcategoria;
+        this.tamanho = tamanho;
+        this.massaEstimada = massaEstimada;
+        this.estadoDeConservacao = estadoDeConservacao;
+        this.precoBase = precoBase;
+        this.defeitos = defeitos;
+        this.material = material;
+    }
+    
     
 }

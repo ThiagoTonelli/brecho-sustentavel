@@ -2,39 +2,42 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.repository;
+package br.brechosustentavel.repository.sqlite;
 
+import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.repository.IUsuarioRepository;
 import java.sql.Connection;
+import java.util.Optional;
 
 /**
  *
  * @author thiag
  */
-public class H2RepositoryFactory extends RepositoryFactory{
-    public H2RepositoryFactory(Connection conexao){}
+public class SQLiteUsuarioRepository implements IUsuarioRepository{
+    private Connection conexao;
+
+    public SQLiteUsuarioRepository(Connection conexao) {
+        this.conexao = conexao;
+    }
 
     @Override
-    public IUsuarioRepository getUsuarioRepository() {
+    public void criarUsuario() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public IMaterialRepository getMaterialRepository() {
+    public void excluir() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public ITransacaoRepository getTransacaoRepository() {
+    public void editar() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public IDefeitoRepository getDefeitoRepository() {
+    public Optional<Usuario> consultar() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-    @Override
-    public IItemRepository getItemRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 }

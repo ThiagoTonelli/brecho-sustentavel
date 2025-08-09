@@ -4,7 +4,8 @@
  */
 package br.brechosustentavel.command;
 
-import com.thiago.brechosustentavel.presenter.AnuncioPresenter;
+import br.brechosustentavel.presenter.AnuncioPresenter;
+
 
 /**
  *

@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.repository;
+package br.brechosustentavel.repository.h2;
 
+import br.brechosustentavel.repository.ConexaoFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

@@ -4,6 +4,8 @@
  */
 package br.brechosustentavel.repository;
 
+import br.brechosustentavel.repository.h2.H2ConexaoFactory;
+import br.brechosustentavel.repository.sqlite.SQLiteConexaoFactory;
 import java.sql.Connection;
 
 /**

@@ -45,10 +45,10 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" attributes="0">
-                          <EmptySpace pref="231" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="labelId_c" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="txtId_c" alignment="0" pref="373" max="32767" attributes="0"/>
@@ -64,7 +64,7 @@
                           </Group>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
+                          <EmptySpace min="246" pref="504" max="32767" attributes="0"/>
                           <Component id="btnEnviar1" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -141,12 +141,12 @@
                       <Component id="selectDefeitos" min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="txtPrecoBase" min="-2" pref="33" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="45" max="32767" attributes="0"/>
+                  <EmptySpace pref="13" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnEnviar" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                       <Component id="btnEnviar1" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="87" max="32767" attributes="0"/>
+                  <EmptySpace pref="119" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
