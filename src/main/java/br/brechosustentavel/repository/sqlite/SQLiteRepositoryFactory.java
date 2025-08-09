@@ -2,8 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.repository;
+package br.brechosustentavel.repository.sqlite;
 
+import br.brechosustentavel.repository.IDefeitoRepository;
+import br.brechosustentavel.repository.IItemRepository;
+import br.brechosustentavel.repository.IMaterialRepository;
+import br.brechosustentavel.repository.ITransacaoRepository;
+import br.brechosustentavel.repository.IUsuarioRepository;
+import br.brechosustentavel.repository.RepositoryFactory;
 import java.sql.Connection;
 
 /**
@@ -18,7 +24,7 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
     }
     @Override
     public IUsuarioRepository getUsuarioRepository() {
-        return new UsuarioRepositorySQLite(conexao);
+        return new SQLiteUsuarioRepository(conexao);
     }
 
     @Override

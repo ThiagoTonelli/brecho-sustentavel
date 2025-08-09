@@ -2,23 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.repository;
+package br.brechosustentavel.repository.sqlite;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 
 /**
  *
- * @author kaila
+ * @author thiag
  */
-public class SQLiteInicializaBancoDeDados {
+public class SQLiteDefeitoRepository {
     private Connection conexao;
-    
-    public SQLiteInicializaBancoDeDados(Connection conexao) {
+
+    public SQLiteDefeitoRepository(Connection conexao) {
         this.conexao = conexao;
     }
     
-    public void inicializarTabelas(){
-        
-    }
 }

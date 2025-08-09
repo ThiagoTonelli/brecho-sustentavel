@@ -2,41 +2,45 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.repository;
+package br.brechosustentavel.repository.h2;
 
-import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.repository.IDefeitoRepository;
+import br.brechosustentavel.repository.IItemRepository;
+import br.brechosustentavel.repository.IMaterialRepository;
+import br.brechosustentavel.repository.ITransacaoRepository;
+import br.brechosustentavel.repository.IUsuarioRepository;
+import br.brechosustentavel.repository.RepositoryFactory;
 import java.sql.Connection;
-import java.util.Optional;
 
 /**
  *
  * @author thiag
  */
-public class UsuarioRepositorySQLite implements IUsuarioRepository{
-    private Connection conexao;
-
-    public UsuarioRepositorySQLite(Connection conexao) {
-        this.conexao = conexao;
-    }
+public class H2RepositoryFactory extends RepositoryFactory{
+    public H2RepositoryFactory(Connection conexao){}
 
     @Override
-    public void criarUsuario() {
+    public IUsuarioRepository getUsuarioRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void excluir() {
+    public IMaterialRepository getMaterialRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void editar() {
+    public ITransacaoRepository getTransacaoRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public Optional<Usuario> consultar() {
+    public IDefeitoRepository getDefeitoRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
+    @Override
+    public IItemRepository getItemRepository() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

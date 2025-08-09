@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.repository;
+package br.brechosustentavel.repository.sqlite;
 
 import java.sql.Connection;
 
@@ -10,11 +10,12 @@ import java.sql.Connection;
  *
  * @author thiag
  */
-public class DefeitoRepositorySQLite {
+public class SQLiteTransacaoRepository {
     private Connection conexao;
 
-    public DefeitoRepositorySQLite(Connection conexao) {
+    public SQLiteTransacaoRepository(Connection conexao) {
         this.conexao = conexao;
     }
+    
     
 }

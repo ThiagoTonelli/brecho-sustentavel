@@ -1,8 +1,7 @@
 package br.brechosustentavel.presenter;
 
 
-import br.brechosustentavel.command.novoAnuncioCommand;
-import com.thiago.brechosustentavel.presenter.AnuncioPresenter;
+import br.brechosustentavel.command.NovoAnuncioCommand;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -21,7 +20,7 @@ public abstract class AnuncioPresenterState {
     }
 
     public void salvar() {
-        new novoAnuncioCommand().executar(anuncioPresenter);
+        new NovoAnuncioCommand().executar(anuncioPresenter);
     }
 
     public void excluir() {
