@@ -20,7 +20,7 @@ public class UsuarioRepositorySQLite implements IUsuarioRepository{
     }
 
     @Override
-    public void criar() {
+    public void criarUsuario() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
