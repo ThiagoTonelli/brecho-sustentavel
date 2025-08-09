@@ -13,13 +13,25 @@ import br.brechosustentavel.view.IAnuncioView;
  * @author thiag
  */
 public class AnuncioPresenter {
-    private IAnuncioView view;
-    private SessaoUsuarioService usuarioAutenticado;
+    private final IAnuncioView view;
+    private final SessaoUsuarioService usuarioAutenticado;
     
     public AnuncioPresenter(SessaoUsuarioService usuarioAutenticado, IAnuncioView view, IItemRepository repositorioItem){
         this.view = view;
         this.usuarioAutenticado = usuarioAutenticado;
+    }
+
+    public IAnuncioView getView() {
+        return view;
+    }
+
+    public SessaoUsuarioService getUsuarioAutenticado() {
+        return usuarioAutenticado;
+    }
+    
+    public void novoAnuncio(){
         
     }
+    
     
 }
