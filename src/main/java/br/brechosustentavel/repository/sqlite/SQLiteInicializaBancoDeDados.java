@@ -89,7 +89,7 @@ public class SQLiteInicializaBancoDeDados {
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         nome TEXT NOT NULL,
                         valor_estrelas REAL NOT NULL,
-                        tipo_perfil TEXT NOT NULL CHECK(tipo_perfil IN ('vendedor', 'comprador'))
+                        tipo_perfil TEXT NOT NULL CHECK(tipo_perfil IN ('Vendedor', 'Comprador'))
                     );
                      """;
         executarSQL(sql);
@@ -283,3 +283,4 @@ public class SQLiteInicializaBancoDeDados {
         }
     }
 }
+
