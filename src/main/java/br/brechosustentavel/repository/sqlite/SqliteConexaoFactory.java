@@ -15,17 +15,14 @@ import java.sql.SQLException;
  */
 public class SQLiteConexaoFactory extends ConexaoFactory{
     private Connection conexao;
-
-    public SQLiteConexaoFactory() {
-        try {
-            this.conexao = DriverManager.getConnection("jdbc:sqlite:brechosustavel.db");
-        } catch (SQLException e) {
-            throw new RuntimeException("Falha ao conectar com SQLite " + e.getMessage());
-        }
-    }
     
     @Override
     public Connection getConexao() {
-        return this.conexao;
+        try {
+            this.conexao = DriverManager.getConnection("jdbc:sqlite:brechosustavel.db");
+            return conexao;
+        } catch (SQLException e) {
+            throw new RuntimeException("Falha ao conectar com SQLite " + e.getMessage());
+        } 
     }
 }
