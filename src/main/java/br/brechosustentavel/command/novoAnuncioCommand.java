@@ -4,14 +4,13 @@
  */
 package br.brechosustentavel.command;
 import br.brechosustentavel.model.Item;
-import br.brechosustentavel.presenter.AnuncioPresenter;
 import java.util.Optional;
 
 
 /**
  *
  * @author thiag
- */
+ *//*
 public class NovoAnuncioCommand implements IAnuncioCommand {
 
     @Override
@@ -27,9 +26,9 @@ public class NovoAnuncioCommand implements IAnuncioCommand {
             String estadoConservacao = anuncioPresenter.getView().getTxtEstadoConservacao().getText();
             String defeitos = (String ) anuncioPresenter.getView().getSelectComposicao().getSelectedItem(); /// ANALISAR
             double precoBase = Double.parseDouble(anuncioPresenter.getView().getTxtPrecoBase().getText());
-            Item item = new Item(tipoPeca, subcategoria, tamanho, cor, composicao, massa, estadoConservacao, defeitos, precoBase);
+            //Item item = new Item(tipoPeca, subcategoria, tamanho, cor, composicao, massa, estadoConservacao, defeitos, precoBase);
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());
         }
     }
-}
+}*/

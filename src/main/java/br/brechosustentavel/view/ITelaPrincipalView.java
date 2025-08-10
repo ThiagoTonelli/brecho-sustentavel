@@ -2,15 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package br.brechosustentavel.command;
+package br.brechosustentavel.view;
 
-/*import br.brechosustentavel.presenter.AnuncioPresenter;
-
+import javax.swing.JDesktopPane;
 
 /**
  *
  * @author thiag
- *//*
-public interface IAnuncioCommand {
-    public void executar(AnuncioPresenter anuncioPresenter);
-}*/
+ */
+public interface ITelaPrincipalView {
+    public JDesktopPane getjDesktopPane1();
+}

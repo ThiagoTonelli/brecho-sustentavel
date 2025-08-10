@@ -15,7 +15,7 @@ public class ConfiguracaoAdapter {
     private final Dotenv dotenv;
    
     public ConfiguracaoAdapter() {
-        dotenv = Dotenv.configure().filename("configuracaoSGBD.env").load();
+        dotenv = Dotenv.configure().directory("src/main/java/br/brechosustentavel/configuracao").filename("configuracaoSGBD.env").load();
     }
 
     public String getValor(String chave) {

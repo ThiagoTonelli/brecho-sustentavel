@@ -5,6 +5,7 @@
 package br.brechosustentavel.repository;
 
 import br.brechosustentavel.model.Defeito;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,5 +16,6 @@ public interface IDefeitoRepository {
     public void criar();
     public void excluir();
     public void editar();
+    public List<String> buscarDefeitos(String tipoPeca);
     public Optional<Defeito> consultar();
 }
