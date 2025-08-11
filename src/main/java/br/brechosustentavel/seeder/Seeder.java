@@ -115,26 +115,26 @@ public class Seeder {
         String sqlInsertDefeito = "INSERT OR IGNORE INTO defeito (nome, desconto, id_tipo) VALUES (?, ?, ?)";
 
         Object[][] defeitos = {
-            {"Rasgo estruturante", -30.0, "Vestuário"},
-            {"Ausência de botão principal", -15.0, "Vestuário"},
-            {"Zíper parcialmente funcional", -15.0, "Vestuário"},
-            {"Mancha permanente", -20.0, "Vestuário"},
-            {"Desgaste por pilling acentuado", -10.0, "Vestuário"},
+            {"Rasgo estruturante", 30.0, "Vestuário"},
+            {"Ausência de botão principal", 15.0, "Vestuário"},
+            {"Zíper parcialmente funcional", 15.0, "Vestuário"},
+            {"Mancha permanente", 20.0, "Vestuário"},
+            {"Desgaste por pilling acentuado", 10.0, "Vestuário"},
 
-            {"Sola sem relevo funcional", -25.0, "Calçados"},
-            {"Descolamento parcial de entressola", -20.0, "Calçados"},
-            {"Arranhões profundos", -15.0, "Calçados"},
-            {"Palmilha original ausente", -10.0, "Calçados"},
-            {"Odor persistente leve", -10.0, "Calçados"},
+            {"Sola sem relevo funcional", 25.0, "Calçados"},
+            {"Descolamento parcial de entressola", 20.0, "Calçados"},
+            {"Arranhões profundos", 15.0, "Calçados"},
+            {"Palmilha original ausente", 10.0, "Calçados"},
+            {"Odor persistente leve", 10.0, "Calçados"},
 
-            {"Alça reparada", -20.0, "Bolsas e mochilas"},
-            {"Fecho defeituoso", -20.0, "Bolsas e mochilas"},
-            {"Desbotamento extenso", -15.0, "Bolsas e mochilas"},
-            {"Forro rasgado", -15.0, "Bolsas e mochilas"},
+            {"Alça reparada", 20.0, "Bolsas e mochilas"},
+            {"Fecho defeituoso", 20.0, "Bolsas e mochilas"},
+            {"Desbotamento extenso", 15.0, "Bolsas e mochilas"},
+            {"Forro rasgado", 15.0, "Bolsas e mochilas"},
 
-            {"Oxidação visível", -20.0, "Bijuterias e acessórios"},
-            {"Pedra ausente", -15.0, "Bijuterias e acessórios"},
-            {"Fecho frouxo", -10.0, "Bijuterias e acessórios"}
+            {"Oxidação visível", 20.0, "Bijuterias e acessórios"},
+            {"Pedra ausente", 15.0, "Bijuterias e acessórios"},
+            {"Fecho frouxo", 10.0, "Bijuterias e acessórios"}
         };
 
         try (PreparedStatement pstmt = conexao.prepareStatement(sqlInsertDefeito)) {
