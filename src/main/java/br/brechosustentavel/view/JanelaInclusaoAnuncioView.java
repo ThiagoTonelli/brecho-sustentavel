@@ -40,7 +40,6 @@ public class JanelaInclusaoAnuncioView extends javax.swing.JInternalFrame implem
         txtId_c = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
         labelTitulo = new javax.swing.JLabel();
-        txtTamanho = new javax.swing.JTextField();
         txtMassa = new javax.swing.JTextField();
         txtEstadoConservacao = new javax.swing.JTextField();
         txtPrecoBase = new javax.swing.JTextField();
@@ -65,6 +64,7 @@ public class JanelaInclusaoAnuncioView extends javax.swing.JInternalFrame implem
         scrollDefeitos = new javax.swing.JScrollPane();
         painelScrollDefeitos = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
+        selectTamanho = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -93,12 +93,6 @@ public class JanelaInclusaoAnuncioView extends javax.swing.JInternalFrame implem
 
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         labelTitulo.setText("Novo anúncio");
-
-        txtTamanho.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTamanhoActionPerformed(evt);
-            }
-        });
 
         txtMassa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,6 +155,7 @@ public class JanelaInclusaoAnuncioView extends javax.swing.JInternalFrame implem
         btnEnviar1.setText("Cancelar");
 
         selectTipoDePeca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        selectTipoDePeca.setLightWeightPopupEnabled(false);
         selectTipoDePeca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectTipoDePecaActionPerformed(evt);
@@ -191,28 +186,30 @@ public class JanelaInclusaoAnuncioView extends javax.swing.JInternalFrame implem
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        selectTamanho.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                .addContainerGap(100, Short.MAX_VALUE)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap(99, Short.MAX_VALUE)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEnviar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(labelCor)
                         .addComponent(labelId_c)
                         .addComponent(labelSubcategoria)
                         .addComponent(txtId_c)
                         .addComponent(selectSubcategoria, 0, 361, Short.MAX_VALUE)
                         .addComponent(labelTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtTamanho)
                         .addComponent(txtCor)
                         .addComponent(labelMassa)
                         .addComponent(txtMassa)
                         .addComponent(labelEstadoConservacao)
                         .addComponent(labelTitulo)
-                        .addComponent(txtEstadoConservacao)))
+                        .addComponent(txtEstadoConservacao))
+                    .addComponent(selectTamanho, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
@@ -264,13 +261,13 @@ public class JanelaInclusaoAnuncioView extends javax.swing.JInternalFrame implem
                             .addComponent(labelSubcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(labelDefeitos, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panel1Layout.createSequentialGroup()
                                 .addComponent(selectSubcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(labelTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(selectTamanho))
                             .addComponent(scrollDefeitos, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -350,10 +347,6 @@ public class JanelaInclusaoAnuncioView extends javax.swing.JInternalFrame implem
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMassaActionPerformed
 
-    private void txtTamanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTamanhoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTamanhoActionPerformed
-
     private void txtId_cActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtId_cActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtId_cActionPerformed
@@ -381,6 +374,7 @@ public class JanelaInclusaoAnuncioView extends javax.swing.JInternalFrame implem
     private javax.swing.JComboBox<String> selectComposicao1;
     private javax.swing.JComboBox<String> selectComposicao2;
     private javax.swing.JComboBox<String> selectSubcategoria;
+    private javax.swing.JComboBox<String> selectTamanho;
     private javax.swing.JComboBox<String> selectTipoDePeca;
     private javax.swing.JSpinner spinnerComposicao;
     private javax.swing.JSpinner spinnerComposicao1;
@@ -390,7 +384,6 @@ public class JanelaInclusaoAnuncioView extends javax.swing.JInternalFrame implem
     private javax.swing.JTextField txtId_c;
     private javax.swing.JTextField txtMassa;
     private javax.swing.JTextField txtPrecoBase;
-    private javax.swing.JTextField txtTamanho;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -459,8 +452,8 @@ public class JanelaInclusaoAnuncioView extends javax.swing.JInternalFrame implem
     }
 
     @Override
-    public JTextField getTxtTamanho() {
-        return txtTamanho;
+    public JComboBox<String> getSelectTamanho() {
+        return selectTamanho;
     }
 
     @Override

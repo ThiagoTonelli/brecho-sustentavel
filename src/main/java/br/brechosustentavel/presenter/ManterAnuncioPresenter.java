@@ -4,8 +4,8 @@
  */
 package br.brechosustentavel.presenter;
 
-import br.brechosustentavel.repository.IItemRepository;
 import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
+import br.brechosustentavel.view.JanelaInclusaoAnuncioView;
 
 /**
  *
@@ -25,8 +25,8 @@ public class ManterAnuncioPresenter {
         this.estado = novoEstado;
     }
     
-    public IJanelaInclusaoAnuncioView getView(){
-        return view;
+    public JanelaInclusaoAnuncioView getView(){
+        return (JanelaInclusaoAnuncioView) view;
     }
     
 }

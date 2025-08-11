@@ -18,9 +18,9 @@ import javax.swing.JOptionPane;
  *
  * @author thiag
  */
-public class InclusaoAnuncioState extends PresenterAnuncioState{
+public class JanelaInclusaoAnuncioState extends PresenterAnuncioState{
     
-    public InclusaoAnuncioState(ManterAnuncioPresenter presenter) throws PropertyVetoException {
+    public JanelaInclusaoAnuncioState(ManterAnuncioPresenter presenter) throws PropertyVetoException {
         super(presenter);
         configurarTela();
         
@@ -56,7 +56,7 @@ public class InclusaoAnuncioState extends PresenterAnuncioState{
             command.executar(this.presenter);
             
             this.cancelar();
-            
+
             JOptionPane.showMessageDialog(null, "anuncio salvo");
         }catch(Exception e){
             //JOptionPane.shoMessagemDi

@@ -21,7 +21,7 @@ public class CarregarTiposDePecaCommand implements ICommand{
     public void executar(ManterAnuncioPresenter presenter) {
         IJanelaInclusaoAnuncioView view = presenter.getView();
         JComboBox jcomboTipoPeca = view.getSelectTipoDePeca();
-        jcomboTipoPeca.removeAll();
+        jcomboTipoPeca.removeAllItems();
         
         RepositoryFactory fabrica = getRepositoryFactory();
         ITipoDePecaRepository repository = fabrica.getTipoDePecaRepository();

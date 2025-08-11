@@ -17,42 +17,36 @@ import br.brechosustentavel.view.JanelaInclusaoAnuncioView;
  * @author thiag
  */
 public class JanelaPrincipalState{
-
+    TelaPrincipalPresenter telaPresenter;
+    
     public JanelaPrincipalState(TelaPrincipalPresenter telaPresenter) throws PropertyVetoException {
+        this.telaPresenter = telaPresenter;
         JanelaPrincipalView janelaPrincipal = new JanelaPrincipalView();
         telaPresenter.getView().getjDesktopPane1().add(janelaPrincipal);
+        janelaPrincipal.setMaximum(true);
         janelaPrincipal.setVisible(true);
-
+        
         janelaPrincipal.getButtonAdicionar().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                try {
-                    JanelaInclusaoAnuncioView janelaDeInclusao = new JanelaInclusaoAnuncioView();
-                    
-                    telaPresenter.getView().getjDesktopPane1().add(janelaDeInclusao);
-                    janelaDeInclusao.setVisible(true);
-                    
-                    ManterAnuncioPresenter presenterDoAnuncio = new ManterAnuncioPresenter(janelaDeInclusao);
-                    presenterDoAnuncio.setEstado(new InclusaoAnuncioState(presenterDoAnuncio));
-                } catch (Exception ex){
-                    //janelaPresenter.setEstado(new VisualizarAnuncioState(janelaPresenter));
-                }
+                incluir();
             }
         });
-        /*janelaPresenter.getView().getButtonVisualizar().addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                try {
-                    new CarregarDefeitosPorTipoCommand().executar(anuncioPresenter);
-                } catch (Exception ex){
-                    
-                }
-            }
-        });*/
     }
 
     public void incluir() {
-        throw new RuntimeException("Não é possível excluir estando neste estado");
+        try {
+             JanelaInclusaoAnuncioView janelaDeInclusao = new JanelaInclusaoAnuncioView();
+                    
+            telaPresenter.getView().getjDesktopPane1().add(janelaDeInclusao);
+            janelaDeInclusao.setMaximum(true);
+            janelaDeInclusao.setVisible(true);
+                    
+            ManterAnuncioPresenter presenterDoAnuncio = new ManterAnuncioPresenter(janelaDeInclusao);
+            presenterDoAnuncio.setEstado(new JanelaInclusaoAnuncioState(presenterDoAnuncio));
+            } catch (Exception ex){
+                    //janelaPresenter.setEstado(new VisualizarAnuncioState(janelaPresenter));
+            }
     }
 
     public void excluir() {

@@ -28,7 +28,7 @@ public interface IJanelaInclusaoAnuncioView {
     public JTextField getTxtEstadoConservacao();
     public JTextField getTxtId_c();
     public JTextField getTxtMassa();   
-    public JTextField getTxtTamanho();
+    public JComboBox<String> getSelectTamanho();
     public JComboBox<String> getSelectTipoDePeca();
     public JTextField getTxtPrecoBase();
 }

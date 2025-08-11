@@ -37,9 +37,8 @@ public class BrechoSustentavel {
                 System.out.println("BD inicializado com sucesso");
                 
                 RepositoryFactory fabrica = getRepositoryFactory();
-                IUsuarioRepository usuarioRepository = fabrica.getUsuarioRepository();
                 TelaPrincipalView telaPrincipalView = new TelaPrincipalView();
-                TelaPrincipalPresenter telaPresenter = new TelaPrincipalPresenter(usuarioRepository, telaPrincipalView);   
+                TelaPrincipalPresenter telaPresenter = new TelaPrincipalPresenter(telaPrincipalView);   
         } catch(SQLException e){
             System.out.println("Falha ao inicializar BD. " +  e.getMessage());
         }
