@@ -3,32 +3,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package br.brechosustentavel.command;
-import br.brechosustentavel.model.Item;
+import br.brechosustentavel.model.Peca;
+import br.brechosustentavel.presenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.TelaPrincipalPresenter;
 import java.util.Optional;
 
 
 /**
  *
  * @author thiag
- *//*
-public class NovoAnuncioCommand implements IAnuncioCommand {
+ */
+public class NovoAnuncioCommand implements ICommand{
 
     @Override
-    public void executar(AnuncioPresenter anuncioPresenter) {
+    public void executar(ManterAnuncioPresenter presenter) {
         try {
-            String id_c = anuncioPresenter.getView().getTxtId_c().getText();
-            String tipoPeca = (String ) anuncioPresenter.getView().getSelectTipoDePeca().getSelectedItem();
-            String subcategoria = (String ) anuncioPresenter.getView().getSelectSubcategoria().getSelectedItem();
-            double tamanho = Double.parseDouble(anuncioPresenter.getView().getTxtTamanho().getText());
-            String cor = anuncioPresenter.getView().getTxtCor().getText();
-            String composicao = (String ) anuncioPresenter.getView().getSelectComposicao().getSelectedItem();
-            double massa = Double.parseDouble(anuncioPresenter.getView().getTxtMassa().getText());
-            String estadoConservacao = anuncioPresenter.getView().getTxtEstadoConservacao().getText();
-            String defeitos = (String ) anuncioPresenter.getView().getSelectComposicao().getSelectedItem(); /// ANALISAR
-            double precoBase = Double.parseDouble(anuncioPresenter.getView().getTxtPrecoBase().getText());
-            //Item item = new Item(tipoPeca, subcategoria, tamanho, cor, composicao, massa, estadoConservacao, defeitos, precoBase);
+            String id_c = presenter.getView().getTxtId_c().getText();
+            String tipoPeca = (String ) presenter.getView().getSelectTipoDePeca().getSelectedItem();
+            String subcategoria = (String ) presenter.getView().getSelectSubcategoria().getSelectedItem();
+            double tamanho = Double.parseDouble(presenter.getView().getTxtTamanho().getText());
+            String cor = presenter.getView().getTxtCor().getText();
+            String composicao = (String ) presenter.getView().getSelectComposicao().getSelectedItem();
+            double massa = Double.parseDouble(presenter.getView().getTxtMassa().getText());
+            String estadoConservacao = presenter.getView().getTxtEstadoConservacao().getText();
+            String defeitos = (String ) presenter.getView().getSelectComposicao().getSelectedItem(); /// ANALISAR
+            double precoBase = Double.parseDouble(presenter.getView().getTxtPrecoBase().getText());
+            //Item item = new Peca(tipoPeca, subcategoria, tamanho, cor, composicao, massa, estadoConservacao, defeitos, precoBase);
         } catch (Exception ex) {
             throw new RuntimeException(ex.getMessage());
         }
     }
-}*/
+
+
+}

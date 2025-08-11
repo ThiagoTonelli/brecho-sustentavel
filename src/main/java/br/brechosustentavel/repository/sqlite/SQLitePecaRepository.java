@@ -10,10 +10,10 @@ import java.sql.Connection;
  *
  * @author thiag
  */
-public class SQLiteItemRepository {
+public class SQLitePecaRepository {
     private Connection conexao;
 
-    public SQLiteItemRepository(Connection conexao) {
+    public SQLitePecaRepository(Connection conexao) {
         this.conexao = conexao;
     }
     

@@ -1,10 +1,11 @@
 package br.brechosustentavel.presenter;
 
-import br.brechosustentavel.view.IJanelaPrincipalView;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import br.brechosustentavel.view.IJanelaPrincipalView;
+import br.brechosustentavel.view.JanelaInclusaoAnuncioView;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -15,20 +16,24 @@ import java.beans.PropertyVetoException;
  *
  * @author thiag
  */
-public class JanelaPrincipalState extends PresenterState {
+public class JanelaPrincipalState{
 
     public JanelaPrincipalState(TelaPrincipalPresenter telaPresenter) throws PropertyVetoException {
-        super(telaPresenter);
         JanelaPrincipalView janelaPrincipal = new JanelaPrincipalView();
         telaPresenter.getView().getjDesktopPane1().add(janelaPrincipal);
         janelaPrincipal.setVisible(true);
-        telaPresenter.getView().setVisible(true);
 
         janelaPrincipal.getButtonAdicionar().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
                 try {
-                    telaPresenter.setEstado(new InclusaoAnuncioState(telaPresenter));
+                    JanelaInclusaoAnuncioView janelaDeInclusao = new JanelaInclusaoAnuncioView();
+                    
+                    telaPresenter.getView().getjDesktopPane1().add(janelaDeInclusao);
+                    janelaDeInclusao.setVisible(true);
+                    
+                    ManterAnuncioPresenter presenterDoAnuncio = new ManterAnuncioPresenter(janelaDeInclusao);
+                    presenterDoAnuncio.setEstado(new InclusaoAnuncioState(presenterDoAnuncio));
                 } catch (Exception ex){
                     //janelaPresenter.setEstado(new VisualizarAnuncioState(janelaPresenter));
                 }

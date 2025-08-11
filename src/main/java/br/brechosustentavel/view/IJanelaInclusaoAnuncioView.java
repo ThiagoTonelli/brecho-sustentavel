@@ -14,7 +14,7 @@ import javax.swing.JTextField;
  *
  * @author thiag
  */
-public interface IJanelaAnuncioView {
+public interface IJanelaInclusaoAnuncioView {
     public JComboBox<String> getSelectComposicao();
     public JComboBox<String> getSelectSubcategoria();
     public JPanel getPainelScrollDefeitos();

@@ -25,4 +25,5 @@ public class SQLiteConexaoFactory extends ConexaoFactory{
             throw new RuntimeException("Falha ao conectar com SQLite " + e.getMessage());
         } 
     }
+    
 }

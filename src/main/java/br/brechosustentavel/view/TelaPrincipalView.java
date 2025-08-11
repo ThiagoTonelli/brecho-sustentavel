@@ -4,12 +4,8 @@
  */
 package br.brechosustentavel.view;
 
-import com.formdev.flatlaf.FlatLightLaf;
-import java.beans.PropertyVetoException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
-import javax.swing.UIManager;
+
 
 /**
  *
@@ -20,12 +16,7 @@ public class TelaPrincipalView extends javax.swing.JFrame implements ITelaPrinci
     /**
      * Creates new form TelaPrincipal
      */
-    public TelaPrincipalView() throws PropertyVetoException {
-        try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public TelaPrincipalView() {
         initComponents();
     }
 
@@ -121,11 +112,7 @@ public class TelaPrincipalView extends javax.swing.JFrame implements ITelaPrinci
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new TelaPrincipalView().setVisible(true);
-                } catch (PropertyVetoException ex) {
-                    Logger.getLogger(TelaPrincipalView.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new TelaPrincipalView().setVisible(true);
             }
         });
     }

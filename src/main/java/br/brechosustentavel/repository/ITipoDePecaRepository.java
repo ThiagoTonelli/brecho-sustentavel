@@ -4,16 +4,12 @@
  */
 package br.brechosustentavel.repository;
 
-import br.brechosustentavel.model.Peca;
-import java.util.Optional;
+import java.util.List;
 
 /**
  *
  * @author thiag
  */
-public interface IItemRepository {
-    public void criar();
-    public void excluir();
-    public void editar();
-    public Optional<Peca> consultar();
+public interface ITipoDePecaRepository {
+    public List<String> buscarTiposDePeca();
 }

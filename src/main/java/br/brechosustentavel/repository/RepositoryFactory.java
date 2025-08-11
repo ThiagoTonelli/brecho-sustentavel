@@ -38,4 +38,6 @@ public abstract class RepositoryFactory {
     public abstract IDefeitoRepository getDefeitoRepository();
     
     public abstract IItemRepository getItemRepository();
+    
+    public abstract ITipoDePecaRepository getTipoDePecaRepository();
 }
