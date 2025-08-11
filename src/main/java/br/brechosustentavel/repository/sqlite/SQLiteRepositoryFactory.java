@@ -7,6 +7,7 @@ package br.brechosustentavel.repository.sqlite;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.IItemRepository;
 import br.brechosustentavel.repository.IMaterialRepository;
+import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.ITransacaoRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
@@ -22,8 +23,15 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
     public SQLiteRepositoryFactory(Connection conexao){
         this.conexao = conexao;
     }
+    
     @Override
-    public IUsuarioRepository getUsuarioRepository() {
+    public IDefeitoRepository getDefeitoRepository() {
+        // Substitua a linha de erro pela linha abaixo:
+        return new SQLiteDefeitoRepository(conexao);
+    }
+    
+    @Override
+    public IUsuarioRepository getUsuarioRepository(){
         return new SQLiteUsuarioRepository(conexao);
     }
 
@@ -38,12 +46,12 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
     }
 
     @Override
-    public IDefeitoRepository getDefeitoRepository() {
+    public IItemRepository getItemRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public IItemRepository getItemRepository() {
+    public ITipoDePecaRepository getTipoDePecaRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

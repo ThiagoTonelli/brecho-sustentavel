@@ -4,13 +4,13 @@
  */
 package br.brechosustentavel.command;
 
-/*import br.brechosustentavel.presenter.AnuncioPresenter;
+import br.brechosustentavel.presenter.ManterAnuncioPresenter;
 
 
-/**
+/*
  *
  * @author thiag
- *//*
-public interface IAnuncioCommand {
-    public void executar(AnuncioPresenter anuncioPresenter);
-}*/
+ */
+public interface ICommand {
+    public void executar(ManterAnuncioPresenter presenter);
+}

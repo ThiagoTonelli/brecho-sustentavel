@@ -27,5 +27,6 @@ public final class H2ConexaoFactory extends ConexaoFactory{
     public Connection getConexao() {
         return this.connection;
     }
+
 }
 

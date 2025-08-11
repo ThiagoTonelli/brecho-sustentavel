@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author thiag
  */
-public class Item {
+public class Peca {
     private String id_c;
     private String tipoDePeca;
     private String subcategoria;
@@ -22,7 +22,7 @@ public class Item {
     private Material material;
     private List<EventoLinhaDoTempo> linhaDoTempo;
 
-    public Item(String tipoDePeca, String subcategoria, String tamanho, double massaEstimada, String estadoDeConservacao, double precoBase, List<Defeito> defeitos, Material material) {
+    public Peca(String tipoDePeca, String subcategoria, String tamanho, double massaEstimada, String estadoDeConservacao, double precoBase, List<Defeito> defeitos, Material material) {
         this.tipoDePeca = tipoDePeca;
         this.subcategoria = subcategoria;
         this.tamanho = tamanho;

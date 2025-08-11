@@ -3,32 +3,47 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package br.brechosustentavel.command;
+import br.brechosustentavel.presenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import static br.brechosustentavel.repository.RepositoryFactory.getRepositoryFactory;
+import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
 import java.util.List;
+import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 
 /**
  *
  * @author thiag
  */
-/*public class CarregarDefeitosPorTipoCommand implements IAnuncioCommand{
+public class CarregarDefeitosPorTipoCommand implements ICommand{
 
     @Override
-    public void executar(AnuncioPresenter anuncioPresenter) {
+    public void executar(ManterAnuncioPresenter presenter) {
+        IJanelaInclusaoAnuncioView view = presenter.getView();
+        String tipoPeca = (String ) view.getSelectTipoDePeca().getSelectedItem();
+        JPanel painelDefeitos = view.getPainelScrollDefeitos();
+        painelDefeitos.removeAll();
+        
+        if (tipoPeca == null || tipoPeca.trim().isEmpty()){
+            view.getPainelScrollDefeitos().revalidate();
+            view.getPainelScrollDefeitos().repaint();
+        }
+        
         RepositoryFactory fabrica = getRepositoryFactory();
         IDefeitoRepository repository = fabrica.getDefeitoRepository();
-        String tipoPeca = (String ) anuncioPresenter.getView().getSelectTipoDePeca().getSelectedItem();
         List<String> defeitos = repository.buscarDefeitos(tipoPeca);
-        int contador = 0;
+        
+        System.out.println("Número de defeitos encontrados para '" + tipoPeca + "': " + defeitos.size());
+
+        painelDefeitos.setLayout(new BoxLayout(painelDefeitos, BoxLayout.Y_AXIS));
         for(String defeito : defeitos){
-            JCheckBox checkBox = new JCheckBox(defeito + contador++);
-            anuncioPresenter.getView().getPainelScrollDefeitos().add(checkBox);
+            JCheckBox checkBox = new JCheckBox(defeito);
+            view.getPainelScrollDefeitos().add(checkBox);
         }
-        new NovoAnuncioCommand().executar(anuncioPresenter);
-        new NovoAnuncioCommand().executar(anuncioPresenter);
-    }
-    
+        
+        view.getPainelScrollDefeitos().revalidate();
+        view.getPainelScrollDefeitos().repaint();
+    }  
 }
-*/
