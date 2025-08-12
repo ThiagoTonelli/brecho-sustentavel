@@ -23,16 +23,19 @@ public class AutenticacaoService {
         this.hashService = hashService;
     }
 
-    public void autenticar(Usuario usuario) {
+    public Usuario autenticar(Usuario usuario) {
         Optional<Usuario> optUsuario = usuarioRepository.buscarPorEmail(usuario.getEmail());
-        if (optUsuario.isPresent()) {
+        
+        if(optUsuario.isPresent()) {
             Usuario usuarioEncontrado = optUsuario.get();
-            if (usuarioEncontrado.getSenha().equalsIgnoreCase(usuario.getSenha())) {
-                //colocar algo
-            } else {
+            
+            if(hashService.verificarHash(usuario.getSenha(), usuarioEncontrado.getSenha())) {
+                return usuarioEncontrado;
+            }else {
                 throw new RuntimeException("Usuário " + usuario.getEmail() + " não autenticado");
             }
         }
+       throw new RuntimeException("Usuário não existe");
     }
 
 }
