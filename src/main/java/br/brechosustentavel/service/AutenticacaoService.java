@@ -4,28 +4,35 @@
  */
 package br.brechosustentavel.service;
 
+import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.repository.IUsuarioRepository;
+import br.brechosustentavel.service.hash.HashService;
+import java.util.Optional;
+
 
 /**
  *
  * @author kaila
  */
 public class AutenticacaoService {
-    
-    public AutenticacaoService(){
-    
+    private IUsuarioRepository usuarioRepository;
+    private HashService hashService;
+
+    public AutenticacaoService(IUsuarioRepository usuarioRepository, HashService hashService) {
+        this.usuarioRepository = usuarioRepository;
+        this.hashService = hashService;
     }
+
+    public void autenticar(Usuario usuario) {
+        Optional<Usuario> optUsuario = usuarioRepository.buscarPorEmail(usuario.getEmail());
+        if (optUsuario.isPresent()) {
+            Usuario usuarioEncontrado = optUsuario.get();
+            if (usuarioEncontrado.getSenha().equalsIgnoreCase(usuario.getSenha())) {
+                //colocar algo
+            } else {
+                throw new RuntimeException("Usuário " + usuario.getEmail() + " não autenticado");
+            }
+        }
+    }
+
 }
-    
-   // public void autenticar(Usuario usuario){
-//        Optional<Usuario> optUsuario = ;
-        
-       // if(optUsuario.isPresent()){
-         //   Usuario usuarioEncontrado = optUsuario.get();
-          //  if(usuarioEncontrado.getSenha().equalsIgnoreCase(usuario.getSenha())){
-                //usuario.setAutenticado(true); -> sessao
-          //  }else{
-           //     throw new RuntimeException("Usuário " + usuario.getEmail() + " não autenticado");
-           // }
-        //}
-   // }
-//}

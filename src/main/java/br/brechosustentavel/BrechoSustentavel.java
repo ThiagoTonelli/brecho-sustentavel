@@ -12,6 +12,8 @@ import static br.brechosustentavel.repository.RepositoryFactory.getRepositoryFac
 import br.brechosustentavel.repository.sqlite.SQLiteConexaoFactory;
 import br.brechosustentavel.repository.sqlite.SQLiteInicializaBancoDeDados;
 import br.brechosustentavel.seeder.Seeder;
+import br.brechosustentavel.service.hash.BCryptAdapter;
+import br.brechosustentavel.service.hash.HashService;
 import br.brechosustentavel.view.TelaPrincipalView;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
@@ -29,9 +31,10 @@ public class BrechoSustentavel {
             ConexaoFactory conexaoFactory = new SQLiteConexaoFactory();
             try(Connection conexao = conexaoFactory.getConexao()){
                 SQLiteInicializaBancoDeDados inicializador = new SQLiteInicializaBancoDeDados(conexao);
+                HashService hashBCrypt = new BCryptAdapter();
                 inicializador.inicializar();
                 
-                Seeder seeder = new Seeder(conexao);
+                Seeder seeder = new Seeder(conexao, hashBCrypt);
                 seeder.inserir();
             }
                 System.out.println("BD inicializado com sucesso");
