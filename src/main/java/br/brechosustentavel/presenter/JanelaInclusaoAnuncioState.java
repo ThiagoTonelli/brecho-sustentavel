@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.presenter;
 
+import br.brechosustentavel.command.CarregarComposicaoCommand;
 import br.brechosustentavel.command.CarregarDefeitosPorTipoCommand;
 import br.brechosustentavel.command.CarregarTiposDePecaCommand;
 import br.brechosustentavel.command.ICommand;
@@ -29,7 +30,6 @@ public class JanelaInclusaoAnuncioState extends PresenterAnuncioState{
             @Override
             public void actionPerformed(ActionEvent e){
                 try{
-                    
                     new CarregarDefeitosPorTipoCommand().executar(presenter);
                 }catch (Exception ex){
                     JOptionPane.showMessageDialog(null, "Erro ao carregar defeitos: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -42,9 +42,10 @@ public class JanelaInclusaoAnuncioState extends PresenterAnuncioState{
         try{
             new CarregarTiposDePecaCommand().executar(presenter);
             new CarregarDefeitosPorTipoCommand().executar(presenter);
+            new CarregarComposicaoCommand().executar(presenter);
         }
         catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Erro ao carregar defeitos: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro ao carregar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
     

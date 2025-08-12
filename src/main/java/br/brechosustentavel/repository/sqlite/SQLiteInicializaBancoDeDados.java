@@ -154,7 +154,7 @@ public class SQLiteInicializaBancoDeDados {
                     """;
         executarSQL(sql);
     }
-
+    
     private void criarTabelaItem() {
         String sql = """
                     CREATE TABLE IF NOT EXISTS item (

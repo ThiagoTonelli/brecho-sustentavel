@@ -5,6 +5,7 @@
 package br.brechosustentavel.repository;
 
 import br.brechosustentavel.model.Material;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -16,4 +17,5 @@ public interface IMaterialRepository {
     public void excluir();
     public void editar();
     public Optional<Material> consultar();
+    public Map<String, Double> buscarMateriais();
 }

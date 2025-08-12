@@ -28,8 +28,9 @@ public class Seeder {
         //inserirUsuario();
         //inserirTiposPeca();
         //inserirInsignias();
-        deletarDefeitos();
-        inserirDefeitos();
+        //deletarDefeitos();
+        //inserirDefeitos();
+        inserirComposicoes();
     }
 
     private void inserirUsuario() {
@@ -169,6 +170,31 @@ public class Seeder {
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao inserir defeitos: " + e.getMessage(), e);
+        }
+    }
+    
+        
+    private void inserirComposicoes() {
+        String sql = "INSERT OR IGNORE INTO composicao (nome, fator_emissao) VALUES (?, ?)";
+
+        Object[][] composicoes = {
+            {"algodão", 5.2},
+            {"poliéster", 9.5},
+            {"couro", 14.8},
+            {"metal (ligas leves)", 8.6},
+            {"plástico de base fóssil", 3.1},
+            {"outros", 4.0}
+        };
+
+        try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            for (Object[] comp : composicoes) {
+                pstmt.setString(1, (String) comp[0]);
+                pstmt.setDouble(2, (Double) comp[1]);
+                pstmt.addBatch();
+            }
+            pstmt.executeBatch();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao inserir composições: " + e.getMessage(), e);
         }
     }
 
