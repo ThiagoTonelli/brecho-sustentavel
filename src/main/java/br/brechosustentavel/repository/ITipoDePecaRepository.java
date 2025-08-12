@@ -12,4 +12,8 @@ import java.util.List;
  */
 public interface ITipoDePecaRepository {
     public List<String> buscarTiposDePeca();
+    
+    public int buscarIdTipo(String tipo);
+    
+    
 }
