@@ -36,6 +36,8 @@ public class JanelaInclusaoAnuncioState extends PresenterAnuncioState{
                 }
             }
         });
+        salvar();
+        cancelar();
     }
     
     private void configurarTela(){
@@ -52,16 +54,36 @@ public class JanelaInclusaoAnuncioState extends PresenterAnuncioState{
     @Override
     public void salvar(){
         try {
-            ICommand command = new NovoAnuncioCommand();
-            
-            command.executar(this.presenter);
-            
-            this.cancelar();
-
-            JOptionPane.showMessageDialog(null, "anuncio salvo");
+            presenter.getView().getBtnEnviar().addActionListener(new ActionListener (){
+                @Override
+                public void actionPerformed(ActionEvent e){
+                    try{
+                        ICommand command = new NovoAnuncioCommand();
+                        command.executar(presenter);
+                        JOptionPane.showMessageDialog(null, "anuncio salvo");
+                    }catch (Exception ex){
+                        JOptionPane.showMessageDialog(null, "Erro ao salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
+            //this.cancelar();
         }catch(Exception e){
             //JOptionPane.shoMessagemDi
         }
+    }
+    
+    @Override
+    public void cancelar(){
+        presenter.getView().getBtnCancelar().addActionListener(new ActionListener (){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    presenter.getView().dispose();
+                }catch (Exception ex){
+                        JOptionPane.showMessageDialog(null, "Erro ao cancelar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });  
     }
     
 }

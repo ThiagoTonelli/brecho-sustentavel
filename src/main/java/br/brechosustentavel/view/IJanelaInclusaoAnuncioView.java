@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.view;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,4 +32,6 @@ public interface IJanelaInclusaoAnuncioView {
     public JComboBox<String> getSelectTamanho();
     public JComboBox<String> getSelectTipoDePeca();
     public JTextField getTxtPrecoBase();
+    public JButton getBtnEnviar();
+    public JButton getBtnCancelar();
 }

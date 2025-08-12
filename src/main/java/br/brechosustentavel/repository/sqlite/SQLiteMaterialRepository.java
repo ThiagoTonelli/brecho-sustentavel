@@ -32,14 +32,14 @@ public class SQLiteMaterialRepository implements IMaterialRepository{
         Map<String, Double> composicao_valor = new HashMap<>();
         try {
             Statement stmt = conexao.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT nome, fato_emissao FROM composicao");
+            ResultSet rs = stmt.executeQuery("SELECT nome, fator_emissao FROM composicao");
             while(rs.next()){
                 composicao_valor.put(rs.getString("nome"), rs.getDouble("fator_emissao"));
             
             }
             return composicao_valor;
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar tipos de peça no banco de dados", e);
+            throw new RuntimeException("Erro ao buscar materiais no banco de dados", e);
         }
     }
 
