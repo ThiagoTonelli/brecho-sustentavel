@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.seeder;
 
+import br.brechosustentavel.service.hash.HashService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,45 +20,35 @@ import java.util.Map;
 public class Seeder {
 
     private Connection conexao;
+    private HashService hashService;
 
-    public Seeder(Connection conexao) {
+    public Seeder(Connection conexao, HashService hashService) {
         this.conexao = conexao;
+        this.hashService = hashService;
     }
 
     public void inserir() {
-        //inserirUsuario();
-        //inserirTiposPeca();
-        //inserirInsignias();
-        //deletarDefeitos();
-        //inserirDefeitos();
+        inserirUsuario();
+        inserirTiposPeca();
+        inserirInsignias();
+        inserirDefeitos();
         inserirComposicoes();
     }
 
     private void inserirUsuario() {
-        String sql = "INSERT INTO usuario (nome_completo, telefone, email, senha, data_criacao, admin) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, 1);";
+        String sql = "INSERT INTO usuario (nome, telefone, email, senha, data_criacao, admin) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, 1);";
 
         try(PreparedStatement pstmt = conexao.prepareStatement(sql)) {
             pstmt.setString(1, "Thiago Tonelli");
             pstmt.setString(2, "28 91234-5678");
             pstmt.setString(3, "thiago@brechosustentavel.com");
-            pstmt.setString(4, "123456"); //fazer hash
+            pstmt.setString(4, hashService.gerarHash("123456"));
             pstmt.executeUpdate();
         } catch(SQLException e){
             throw new RuntimeException("Erro ao salvar cliente: " + e.getMessage());
         } 
     }
     
-    private void deletarDefeitos() {
-        String sql = "DELETE from defeito";
-
-        try(Statement stmt = conexao.createStatement()) {
-            stmt.executeUpdate(sql);
-        } catch(SQLException e){
-            throw new RuntimeException("Erro ao salvar cliente: " + e.getMessage());
-        } 
-    }
-    
-
     private void inserirTiposPeca() {
         String sql = "INSERT INTO tipo_peca (nome) VALUES (?)";
 
@@ -106,7 +97,7 @@ public class Seeder {
              pstmt.executeBatch();
 
          }catch(SQLException e) {
-            throw new RuntimeException("Erro ao salvar tipo de peça: " + e.getMessage());
+            throw new RuntimeException("Erro ao salvar insignias: " + e.getMessage());
         } 
     }
     
@@ -126,7 +117,6 @@ public class Seeder {
         }
         
         String sqlInsertDefeito = "INSERT OR IGNORE INTO defeito (nome, desconto, id_tipo) VALUES (?, ?, ?)";
-        // deletar todas tabelas
         Object[][] defeitos = {
             {"Rasgo estruturante", 0.30, "Vestuário"},
             {"Ausência de botão principal", 0.15, "Vestuário"},

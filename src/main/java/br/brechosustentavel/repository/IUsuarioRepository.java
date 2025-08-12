@@ -12,8 +12,5 @@ import java.util.Optional;
  * @author thiag
  */
 public interface IUsuarioRepository {
-    public void criarUsuario();
-    public void excluir();
-    public void editar();
-    public Optional<Usuario> consultar();
+    public Optional<Usuario> buscarPorEmail(String email);
 }

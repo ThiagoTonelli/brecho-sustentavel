@@ -29,13 +29,13 @@ public class SQLiteInicializaBancoDeDados {
         criarTabelaTipoPeca();
         criarTabelaDefeito();
         criarTabelaComposicao();
-        criarTabelaItem();
-        criarTabelaDefeitoItem();
+        criarTabelaPeca();
+        criarTabelaDefeitoPeca();
         criarTabelaAnuncio();
         criarTabelaOferta();
         criarTabelaTransacao();
         criarTabelaEventoLinhaDoTempo();
-        criarTabelaComposicaoItem();
+        criarTabelaComposicaoPeca();
         criarTabelaDenuncia();
     }
     
@@ -43,11 +43,11 @@ public class SQLiteInicializaBancoDeDados {
         String sql = """
                      CREATE TABLE IF NOT EXISTS usuario (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        nome_completo TEXT NOT NULL,
+                        nome TEXT NOT NULL,
                         telefone TEXT,
                         email TEXT NOT NULL UNIQUE,
                         senha TEXT NOT NULL,
-                        data_criacao DATETIME NOT NULL,
+                        data_criacao DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         admin BOOLEAN NOT NULL DEFAULT 0
                      );
                      """;
@@ -155,9 +155,9 @@ public class SQLiteInicializaBancoDeDados {
         executarSQL(sql);
     }
     
-    private void criarTabelaItem() {
+    private void criarTabelaPeca() {
         String sql = """
-                    CREATE TABLE IF NOT EXISTS item (
+                    CREATE TABLE IF NOT EXISTS peca (
                         id_c TEXT PRIMARY KEY,
                         subcategoria TEXT NOT NULL,
                         tamanho TEXT NOT NULL,
@@ -170,29 +170,29 @@ public class SQLiteInicializaBancoDeDados {
         executarSQL(sql);
     }
 
-    private void criarTabelaComposicaoItem() {
+    private void criarTabelaComposicaoPeca() {
         String sql = """
-                     CREATE TABLE IF NOT EXISTS composicao_item (
+                     CREATE TABLE IF NOT EXISTS composicao_peca (
                         id_composicao INTEGER NOT NULL,
-                        id_item TEXT NOT NULL,
-                        PRIMARY KEY (id_composicao, id_item),
+                        id_peca TEXT NOT NULL,
+                        PRIMARY KEY (id_composicao, id_peca),
                         FOREIGN KEY (id_composicao) REFERENCES composicao(id) ON DELETE CASCADE,
-                        FOREIGN KEY (id_item) REFERENCES item(id_c) ON DELETE CASCADE
+                        FOREIGN KEY (id_peca) REFERENCES peca(id_c) ON DELETE CASCADE
                      );
                      """;
         executarSQL(sql);
     
     }
     
-    private void criarTabelaDefeitoItem() {
+    private void criarTabelaDefeitoPeca() {
         String sql = """
-                    CREATE TABLE IF NOT EXISTS defeito_item (
+                    CREATE TABLE IF NOT EXISTS defeito_peca (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         id_defeito INTEGER NOT NULL,
-                        id_item TEXT NOT NULL,
-                        UNIQUE (id_defeito, id_item),
+                        id_peca TEXT NOT NULL,
+                        UNIQUE (id_defeito, id_peca),
                         FOREIGN KEY (id_defeito) REFERENCES defeito(id) ON DELETE CASCADE,
-                        FOREIGN KEY (id_item) REFERENCES item(id_c) ON DELETE CASCADE
+                        FOREIGN KEY (id_peca) REFERENCES peca(id_c) ON DELETE CASCADE
                     );
                     """;
         executarSQL(sql);
@@ -202,14 +202,14 @@ public class SQLiteInicializaBancoDeDados {
         String sql = """
                     CREATE TABLE IF NOT EXISTS evento_linha_tempo (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        id_item TEXT NOT NULL,
+                        id_peca TEXT NOT NULL,
                         descricao TEXT NOT NULL,
                         ciclo_n INTEGER NOT NULL,
                         tipo_evento TEXT NOT NULL,
                         data DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         gwp_evitado REAL NOT NULL,
-                        mci_item REAL NOT NULL,
-                        FOREIGN KEY (id_item) REFERENCES item(id_c) ON DELETE CASCADE
+                        mci_peca REAL NOT NULL,
+                        FOREIGN KEY (id_peca) REFERENCES peca(id_c) ON DELETE CASCADE
                     );
                     """;
         executarSQL(sql);
@@ -220,12 +220,12 @@ public class SQLiteInicializaBancoDeDados {
                      CREATE TABLE IF NOT EXISTS anuncio (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         id_vendedor INTEGER NOT NULL,
-                        id_defeito_item INTEGER NOT NULL,
+                        id_defeito_peca INTEGER NOT NULL,
                         valor_final REAL NOT NULL,
                         gwp REAL NOT NULL,
                         mci REAL NOT NULL,
                         FOREIGN KEY (id_vendedor) REFERENCES vendedor(id_vendedor) ON DELETE CASCADE,
-                        FOREIGN KEY (id_defeito_item) REFERENCES defeito_item(id) ON DELETE CASCADE
+                        FOREIGN KEY (id_defeito_peca) REFERENCES defeito_peca(id) ON DELETE CASCADE
                      );
                      """;
         executarSQL(sql);
