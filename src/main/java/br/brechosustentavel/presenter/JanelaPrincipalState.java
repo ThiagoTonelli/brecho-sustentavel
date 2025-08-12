@@ -36,7 +36,7 @@ public class JanelaPrincipalState{
 
     public void incluir() {
         try {
-             JanelaInclusaoAnuncioView janelaDeInclusao = new JanelaInclusaoAnuncioView();
+            JanelaInclusaoAnuncioView janelaDeInclusao = new JanelaInclusaoAnuncioView();
                     
             telaPresenter.getView().getjDesktopPane1().add(janelaDeInclusao);
             janelaDeInclusao.setMaximum(true);

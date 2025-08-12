@@ -25,9 +25,10 @@ public class Seeder {
     }
 
     public void inserir() {
-        inserirUsuario();
-        inserirTiposPeca();
-        inserirInsignias();
+        //inserirUsuario();
+        //inserirTiposPeca();
+        //inserirInsignias();
+        deletarDefeitos();
         inserirDefeitos();
     }
 
@@ -44,6 +45,17 @@ public class Seeder {
             throw new RuntimeException("Erro ao salvar cliente: " + e.getMessage());
         } 
     }
+    
+    private void deletarDefeitos() {
+        String sql = "DELETE from defeito";
+
+        try(Statement stmt = conexao.createStatement()) {
+            stmt.executeUpdate(sql);
+        } catch(SQLException e){
+            throw new RuntimeException("Erro ao salvar cliente: " + e.getMessage());
+        } 
+    }
+    
 
     private void inserirTiposPeca() {
         String sql = "INSERT INTO tipo_peca (nome) VALUES (?)";
@@ -113,28 +125,28 @@ public class Seeder {
         }
         
         String sqlInsertDefeito = "INSERT OR IGNORE INTO defeito (nome, desconto, id_tipo) VALUES (?, ?, ?)";
-
+        // deletar todas tabelas
         Object[][] defeitos = {
-            {"Rasgo estruturante", 30.0, "Vestuário"},
-            {"Ausência de botão principal", 15.0, "Vestuário"},
-            {"Zíper parcialmente funcional", 15.0, "Vestuário"},
-            {"Mancha permanente", 20.0, "Vestuário"},
-            {"Desgaste por pilling acentuado", 10.0, "Vestuário"},
+            {"Rasgo estruturante", 0.30, "Vestuário"},
+            {"Ausência de botão principal", 0.15, "Vestuário"},
+            {"Zíper parcialmente funcional", 0.15, "Vestuário"},
+            {"Mancha permanente", 0.20, "Vestuário"},
+            {"Desgaste por pilling acentuado", 0.10, "Vestuário"},
 
-            {"Sola sem relevo funcional", 25.0, "Calçados"},
-            {"Descolamento parcial de entressola", 20.0, "Calçados"},
-            {"Arranhões profundos", 15.0, "Calçados"},
-            {"Palmilha original ausente", 10.0, "Calçados"},
-            {"Odor persistente leve", 10.0, "Calçados"},
+            {"Sola sem relevo funcional", 0.25, "Calçados"},
+            {"Descolamento parcial de entressola",  0.20, "Calçados"},
+            {"Arranhões profundos",  0.15, "Calçados"},
+            {"Palmilha original ausente", 0.10, "Calçados"},
+            {"Odor persistente leve", 0.10, "Calçados"},
 
-            {"Alça reparada", 20.0, "Bolsas e mochilas"},
-            {"Fecho defeituoso", 20.0, "Bolsas e mochilas"},
-            {"Desbotamento extenso", 15.0, "Bolsas e mochilas"},
-            {"Forro rasgado", 15.0, "Bolsas e mochilas"},
+            {"Alça reparada", 0.20, "Bolsas e mochilas"},
+            {"Fecho defeituoso", 0.20, "Bolsas e mochilas"},
+            {"Desbotamento extenso", 0.15, "Bolsas e mochilas"},
+            {"Forro rasgado", 0.15, "Bolsas e mochilas"},
 
-            {"Oxidação visível", 20.0, "Bijuterias e acessórios"},
-            {"Pedra ausente", 15.0, "Bijuterias e acessórios"},
-            {"Fecho frouxo", 10.0, "Bijuterias e acessórios"}
+            {"Oxidação visível", 0.20, "Bijuterias e acessórios"},
+            {"Pedra ausente", 0.15, "Bijuterias e acessórios"},
+            {"Fecho frouxo", 0.10, "Bijuterias e acessórios"}
         };
 
         try (PreparedStatement pstmt = conexao.prepareStatement(sqlInsertDefeito)) {
