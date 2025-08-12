@@ -31,8 +31,8 @@ public class BrechoSustentavel {
                 SQLiteInicializaBancoDeDados inicializador = new SQLiteInicializaBancoDeDados(conexao);
                 inicializador.inicializar();
                 
-                //Seeder seeder = new Seeder(conexao);
-                //seeder.inserir();
+                Seeder seeder = new Seeder(conexao);
+                seeder.inserir();
             }
                 System.out.println("BD inicializado com sucesso");
                 
