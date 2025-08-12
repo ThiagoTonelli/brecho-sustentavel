@@ -6,6 +6,7 @@ package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -39,4 +40,22 @@ public class SQLiteTipoPecaRepository implements ITipoDePecaRepository{
             throw new RuntimeException("Erro ao buscar tipos de peça no banco de dados", e);
         }
     } 
+    
+    @Override
+    public int buscarIdTipo(String tipo) {
+        String sql = "SELECT id FROM tipo_peca WHERE nome = ?";
+        try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            pstmt.setString(1, tipo);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id");
+                } else {
+                    return -1; // ou algum valor que indique "não encontrado"
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar id do tipo de peça no banco de dados", e);
+        }
+    }
+ 
 }
