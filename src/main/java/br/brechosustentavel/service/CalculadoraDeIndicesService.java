@@ -15,15 +15,30 @@ public class CalculadoraDeIndicesService {
     public double calcularGwpBase(Peca peca){ 
         Map<String, Integer> materialQuantidade = peca.getMaterialQuantidade();
         Map<String, Double> materialDesconto = peca.getMaterialDesconto();
+        double massa = peca.getMassaEstimada();
         double gwpBase = 0;
-        
+        for (String chave : materialQuantidade.keySet()) {
+            double quantidade = materialQuantidade.get(chave)/100;
+            double desconto = materialDesconto.get(chave);
+            gwpBase += (desconto * quantidade * massa);
+        }
+        return gwpBase;
     }
     
     public double calcularMCI(Peca peca){
-        
+        Map<String, Integer> materialQuantidade = peca.getMaterialQuantidade();
+        Map<String, Double> materialDesconto = peca.getMaterialDesconto();
+        double d_j = 0;
+        for (String chave : materialQuantidade.keySet()) {
+            d_j = materialDesconto.get(chave);
+        }
+        double q = 1 - d_j;
+        return q;
     }
     
     public double calcularGwpAvoided(Peca peca){
-        
+        double gwpBase = calcularGwpBase(peca);
+        double gwpAvoided = gwpBase - (0.05 * gwpBase);
+        return gwpAvoided;
     }
 }
