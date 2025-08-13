@@ -23,19 +23,17 @@ public class AutenticacaoService {
         this.hashService = hashService;
     }
 
-    public Usuario autenticar(Usuario usuario) {
-        Optional<Usuario> optUsuario = usuarioRepository.buscarPorEmail(usuario.getEmail());
+    public Usuario autenticar(String email, String senha) {
+        Optional<Usuario> optUsuario = usuarioRepository.buscarPorEmail(email);
         
         if(optUsuario.isPresent()) {
             Usuario usuarioEncontrado = optUsuario.get();
             
-            if(hashService.verificarHash(usuario.getSenha(), usuarioEncontrado.getSenha())) {
+            if(hashService.verificarHash(senha, usuarioEncontrado.getSenha())) {
                 return usuarioEncontrado;
-            }else {
-                throw new RuntimeException("Usuário " + usuario.getEmail() + " não autenticado");
             }
         }
-       throw new RuntimeException("Usuário não existe");
+       throw new RuntimeException("Credenciais inválidas!");
     }
 
 }
