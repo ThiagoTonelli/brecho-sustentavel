@@ -15,13 +15,20 @@ public class EventoLinhaDoTempo {
     private double gwpEvitado;
     private double mciItem;
     private Peca peca;
+    private int ciclo_n;
 
-    public EventoLinhaDoTempo(Peca peca, String tipoEvento, LocalDateTime dataHora, double gwpEvitado, double mciItem) {
-        this.peca = peca;
+    public EventoLinhaDoTempo(String tipoEvento, LocalDateTime dataHora, double gwpEvitado, double mciItem) {
         this.tipoEvento = tipoEvento;
         this.dataHora = dataHora;
         this.gwpEvitado = gwpEvitado;
         this.mciItem = mciItem;
+    }
+    
+    public void setCliclo(int ciclo_n){
+        this.ciclo_n = ciclo_n;
+    }
+    public void setPeca(Peca peca){
+        this.peca = peca;
     }
     
 }

@@ -6,6 +6,7 @@ package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IDefeitoRepository;
+import br.brechosustentavel.repository.ILinhaDoTempoRepository;
 import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.ITransacaoRepository;
@@ -54,4 +55,8 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
         return new SQLiteTipoPecaRepository(conexaoFactory);
     }
     
+    @Override
+    public ILinhaDoTempoRepository getLinhaDoTempoRepository(){
+        return new SQLiteLinhaDoTempoRepository(conexaoFactory);
+    }
 }

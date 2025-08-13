@@ -84,7 +84,9 @@ public class NovoAnuncioCommand implements ICommand {
                 double gwpBase = calcularIndices.calcularGwpBase(novaPeca);
                 double mciPeca = calcularIndices.calcularMCI(novaPeca);
                 LocalDateTime data = LocalDateTime.now();
-                EventoLinhaDoTempo evento = new EventoLinhaDoTempo(novaPeca, "publicação", data, gwpAvoided, mciPeca);
+                EventoLinhaDoTempo evento = new EventoLinhaDoTempo("publicação", data, gwpAvoided, mciPeca);
+                evento.setPeca(novaPeca);
+                evento.setCliclo(1);
                 
                 
                 /*
