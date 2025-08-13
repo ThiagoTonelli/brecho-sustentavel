@@ -10,7 +10,7 @@ import javax.swing.JButton;
  *
  * @author thiag
  */
-public interface IJanelaPrincipalView {
+public interface IJanelaVendedorView {
     public JButton getButtonAdicionar();
     public JButton getButtonVisualizar();
 }

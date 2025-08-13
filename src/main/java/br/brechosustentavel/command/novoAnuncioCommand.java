@@ -1,12 +1,11 @@
 package br.brechosustentavel.command;
 
 import br.brechosustentavel.model.Peca;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.IPecaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.gerador_id_c.GeradorIdService;
-import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
 import java.awt.Component;
 import javax.swing.JCheckBox;
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import br.brechosustentavel.view.IJanelaManterAnuncioView;
 
 /**
  *
@@ -25,12 +25,12 @@ public class NovoAnuncioCommand implements ICommand {
     public void executar(ManterAnuncioPresenter presenter) {
         try {
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
-            IJanelaInclusaoAnuncioView view = presenter.getView();
+            IJanelaManterAnuncioView view = presenter.getView();
 
             String id_c = view.getTxtId_c().getText();
             String tipoPeca = (String) view.getSelectTipoDePeca().getSelectedItem();
             String subcategoria = (String) view.getSelectSubcategoria().getSelectedItem();
-            String tamanho = (String) view.getSelectTamanho().getSelectedItem(); // Tamanho é geralmente texto (ex: "M", "42")
+            String tamanho = (String) view.getSelectTamanho().getSelectedItem();
             String cor = view.getTxtCor().getText();
 
             Map<String, Integer> materiaisQuantidade = new HashMap<>();
@@ -65,9 +65,6 @@ public class NovoAnuncioCommand implements ICommand {
                 }
             }
             System.out.println(defeitosSelecionados);
-            
-            
-
 
             
             IPecaRepository repository = fabrica.getPecaRepository();
@@ -92,15 +89,9 @@ public class NovoAnuncioCommand implements ICommand {
             System.out.println("Defeitos Selecionados: " + defeitosSelecionados.size());
 
 
-            // --- 4. Persistência dos Dados ---
-            // RepositoryFactory fabrica = RepositoryFactory.getRepositoryFactory();
-            // IPecaRepository itemRepository = fabrica.getItemRepository();
-            // itemRepository.criar(novaPeca); // Você precisará implementar este método no seu repositório
-
         } catch (NumberFormatException e) {
             throw new RuntimeException("Erro de formato numérico. Verifique se os campos de preço, massa, etc., estão preenchidos corretamente.", e);
         } catch (Exception ex) {
-            // Lança a exceção para que a camada de apresentação (State) a possa capturar e mostrar ao utilizador
             throw new RuntimeException("Ocorreu um erro ao criar o anúncio: " + ex.getMessage(), ex);
         }
     }

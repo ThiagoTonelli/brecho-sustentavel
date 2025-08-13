@@ -4,7 +4,7 @@
  */
 package br.brechosustentavel.command;
 
-import br.brechosustentavel.presenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
 
 
 /*
