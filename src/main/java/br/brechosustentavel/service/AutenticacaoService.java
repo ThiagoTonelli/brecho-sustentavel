@@ -22,8 +22,21 @@ public class AutenticacaoService {
         this.usuarioRepository = usuarioRepository;
         this.hashService = hashService;
     }
+    
+    public void cadastrar(Usuario usuario){
+        if(usuarioRepository.buscarPorEmail(usuario.getEmail()).isPresent()){
+            throw new RuntimeException("O email informado já está em uso");
+        }
+        
+        
+    
+    }
 
     public Usuario autenticar(String email, String senha) {
+        if(email == null || email.isBlank()){
+            throw new IllegalArgumentException("Email inválido");
+        }
+        
         Optional<Usuario> optUsuario = usuarioRepository.buscarPorEmail(email);
         
         if(optUsuario.isPresent()) {
