@@ -8,10 +8,12 @@ package br.brechosustentavel.repository.sqlite;
 import br.brechosustentavel.model.Material;
 import br.brechosustentavel.repository.IMaterialRepository;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -61,5 +63,24 @@ public class SQLiteMaterialRepository implements IMaterialRepository{
     @Override
     public Optional<Material> consultar() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    @Override
+    public Map<String, Double> buscarMateriaisNome(List<String> nomes) {
+        Map<String, Double> materiais = new HashMap<>();
+        for(String material : nomes){
+            String sql = "SELECT nome, fator_emissao FROM composicao WHERE nome = ?";
+            try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+                pstmt.setString(1, material);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        materiais.put(rs.getString("nome"), rs.getDouble("fator_emissao"));
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException("Erro ao buscar id do tipo de peça no banco de dados", e);
+            }
+        }
+        return materiais;
     }
 }

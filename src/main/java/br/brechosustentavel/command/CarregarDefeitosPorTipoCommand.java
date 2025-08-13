@@ -8,7 +8,7 @@ import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import static br.brechosustentavel.repository.RepositoryFactory.getRepositoryFactory;
 import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
-import java.util.List;
+import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -33,15 +33,17 @@ public class CarregarDefeitosPorTipoCommand implements ICommand{
         
         RepositoryFactory fabrica = getRepositoryFactory();
         IDefeitoRepository repository = fabrica.getDefeitoRepository();
-        List<String> defeitos = repository.buscarDefeitos(tipoPeca);
+        Map<String, Double> defeitos = repository.buscarDefeitos(tipoPeca);
         
         System.out.println("Número de defeitos encontrados para '" + tipoPeca + "': " + defeitos.size());
 
         painelDefeitos.setLayout(new BoxLayout(painelDefeitos, BoxLayout.Y_AXIS));
-        for(String defeito : defeitos){
-            JCheckBox checkBox = new JCheckBox(defeito);
+        
+        defeitos.forEach((chave, valor) -> {
+            JCheckBox checkBox = new JCheckBox(chave);
+            checkBox.putClientProperty(chave, valor);
             view.getPainelScrollDefeitos().add(checkBox);
-        }
+        });
         
         view.getPainelScrollDefeitos().revalidate();
         view.getPainelScrollDefeitos().repaint();

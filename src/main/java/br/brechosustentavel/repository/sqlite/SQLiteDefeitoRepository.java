@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -41,15 +43,15 @@ public class SQLiteDefeitoRepository implements IDefeitoRepository{
     }
 
     @Override
-    public List<String> buscarDefeitos(String tipoPeca) {
-        List<String> defeitos = new ArrayList<>();
+    public Map<String, Double> buscarDefeitos(String tipoPeca) {
+        Map<String, Double> defeitos = new HashMap<>();
         int tipo = new SQLiteTipoPecaRepository(conexao).buscarIdTipo(tipoPeca);
-        String sql = "SELECT nome FROM defeito WHERE id_tipo = ?";
+        String sql = "SELECT nome, desconto FROM defeito WHERE id_tipo = ?";
         try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
             pstmt.setInt(1, tipo);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
-                    defeitos.add(rs.getString("nome"));
+                    defeitos.put(rs.getString("nome"), rs.getDouble("desconto"));
                 }
                 return defeitos;
             }
