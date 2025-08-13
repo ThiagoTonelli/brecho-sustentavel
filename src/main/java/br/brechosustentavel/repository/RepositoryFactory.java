@@ -47,4 +47,8 @@ public abstract class RepositoryFactory {
     public abstract ITipoDePecaRepository getTipoDePecaRepository();
     
     public abstract ILinhaDoTempoRepository getLinhaDoTempoRepository();
+    
+    public abstract IVendedorRepository getVendedorRepository();
+    
+    public abstract ICompradorRepository getCompradorRepository();
 }
