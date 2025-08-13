@@ -5,13 +5,13 @@
 package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.repository.IDefeitoRepository;
-import br.brechosustentavel.repository.IItemRepository;
 import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.ITransacaoRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import java.sql.Connection;
+import br.brechosustentavel.repository.IPecaRepository;
 
 /**
  *
@@ -46,8 +46,8 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
     }
 
     @Override
-    public IItemRepository getItemRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public IPecaRepository getPecaRepository() {
+        return new SQLitePecaRepository(conexao);
     }
 
     @Override

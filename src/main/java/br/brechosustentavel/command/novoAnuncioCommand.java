@@ -1,26 +1,31 @@
 package br.brechosustentavel.command;
 
-import br.brechosustentavel.model.Defeito;
 import br.brechosustentavel.model.Peca;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter;
-import br.brechosustentavel.repository.IItemRepository;
+import br.brechosustentavel.repository.IMaterialRepository;
+import br.brechosustentavel.repository.IPecaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.service.gerador_id_c.GeradorIdService;
 import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
 import java.awt.Component;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import javax.swing.JCheckBox;
+import static br.brechosustentavel.repository.RepositoryFactory.getRepositoryFactory;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
  * @author thiag
  */
 public class NovoAnuncioCommand implements ICommand {
-
+    
     @Override
     public void executar(ManterAnuncioPresenter presenter) {
         try {
+            RepositoryFactory fabrica = getRepositoryFactory();
             IJanelaInclusaoAnuncioView view = presenter.getView();
 
             String id_c = view.getTxtId_c().getText();
@@ -28,42 +33,59 @@ public class NovoAnuncioCommand implements ICommand {
             String subcategoria = (String) view.getSelectSubcategoria().getSelectedItem();
             String tamanho = (String) view.getSelectTamanho().getSelectedItem(); // Tamanho é geralmente texto (ex: "M", "42")
             String cor = view.getTxtCor().getText();
-            String composicao = (String) view.getSelectComposicao().getSelectedItem();
-            int composicaoPorcentagem = (int) view.getSpinnerComposicao().getValue();
-            String composicao1 = (String) view.getSelectComposicao1().getSelectedItem();
-            int composicao1Porcentagem = (int) view.getSpinnerComposicao1().getValue();
-            String composicao2 = (String) view.getSelectComposicao2().getSelectedItem();
-            int composicao2Porcentagem = (int) view.getSpinnerComposicao2().getValue();
-            
-            double massa = Double.parseDouble(view.getTxtMassa().getText());
-            String estadoConservacao = view.getTxtEstadoConservacao().getText();
-            double precoBase = Double.parseDouble(view.getTxtPrecoBase().getText());
 
-            // obter defeitos selecionados
-            List<String> defeitosSelecionados = new ArrayList<>();
+            Map<String, Integer> materiaisQuantidade = new HashMap<>();
+
+            materiaisQuantidade.put((String) view.getSelectComposicao().getSelectedItem(), (int) view.getSpinnerComposicao().getValue());
+            materiaisQuantidade.put((String) view.getSelectComposicao1().getSelectedItem() , (int) view.getSpinnerComposicao1().getValue());
+            materiaisQuantidade.put((String) view.getSelectComposicao2().getSelectedItem(), (int) view.getSpinnerComposicao2().getValue());
+            
+            double massaEstimada = Double.parseDouble(view.getTxtMassa().getText());
+            String estadoDeConservacao = view.getTxtEstadoConservacao().getText();
+            double precoBase = Double.parseDouble(view.getTxtPrecoBase().getText());
+            
+            
+            //cria repositorio dos materiais
+            IMaterialRepository repositoryMaterial = fabrica.getMaterialRepository();   
+            //limpa materiais com quantidade na composicao = 0
+            materiaisQuantidade.entrySet().removeIf(entry -> entry.getValue() <= 0);
+            Set<String> chaves = materiaisQuantidade.keySet();
+            List<String> listaChaves = new ArrayList<>(chaves);
+            //pega apenas os materiais que foram realmente selecionados
+            Map<String, Double> materiaisDesconto = repositoryMaterial.buscarMateriaisNome(listaChaves);
+            
+            
+            Map<String, Double> defeitosSelecionados = new HashMap<>();
             for (Component comp : view.getPainelScrollDefeitos().getComponents()) {
                 if (comp instanceof JCheckBox) {
                     JCheckBox checkBox = (JCheckBox) comp;
                     if (checkBox.isSelected()) {
-                        // Aqui você pode criar um objeto Defeito simples apenas com o nome
-                        // O ideal seria buscar o objeto completo no banco de dados se precisar do percentual
-                        defeitosSelecionados.add(checkBox.getText());
+                        double desconto = (double) checkBox.getClientProperty("desconto");
+                        defeitosSelecionados.put(checkBox.getText(), desconto);
                     }
                 }
             }
             System.out.println(defeitosSelecionados);
-
-            // --- 3. Criação do Objeto do Modelo ---
-            // Nota: O construtor do seu modelo Peca pode precisar de ajustes para aceitar os tipos corretos.
-            // Por enquanto, vou assumir um construtor que aceita os dados que temos.
-            // O ideal seria passar uma lista de objetos Material em vez de uma String de composição.
             
-            // Peca novaPeca = new Peca(tipoPeca, subcategoria, tamanho, massa, estadoConservacao, precoBase, defeitosSelecionados, null);
+            
+
+
+            
+            IPecaRepository repository = fabrica.getPecaRepository();
+            
             if(id_c == null || id_c.trim().isEmpty()){
                 //chama o service para id_c
-                id_c = "teste da silva";
+                GeradorIdService gerador = new GeradorIdService();
+                String id = gerador.Gerar();
+                while(repository.consultarId_c(id)){
+                    id = gerador.Gerar();
+                }
+                id_c = id;
             }
-
+            
+            Peca peca = new Peca(id_c, tipoPeca , subcategoria, tamanho, cor, massaEstimada, estadoDeConservacao, precoBase,  defeitosSelecionados, materiaisDesconto, materiaisQuantidade);
+            
+            
             System.out.println("--- ANÚNCIO A SER SALVO ---");
             System.out.println("ID-C: " + id_c);
             System.out.println("Tipo: " + tipoPeca);
@@ -73,7 +95,7 @@ public class NovoAnuncioCommand implements ICommand {
 
             // --- 4. Persistência dos Dados ---
             // RepositoryFactory fabrica = RepositoryFactory.getRepositoryFactory();
-            // IItemRepository itemRepository = fabrica.getItemRepository();
+            // IPecaRepository itemRepository = fabrica.getItemRepository();
             // itemRepository.criar(novaPeca); // Você precisará implementar este método no seu repositório
 
         } catch (NumberFormatException e) {

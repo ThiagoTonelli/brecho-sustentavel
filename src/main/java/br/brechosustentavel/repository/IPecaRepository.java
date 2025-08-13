@@ -11,9 +11,10 @@ import java.util.Optional;
  *
  * @author thiag
  */
-public interface IItemRepository {
+public interface IPecaRepository {
     public void criar();
     public void excluir();
     public void editar();
     public Optional<Peca> consultar();
+    public boolean consultarId_c(String id_c);
 }
