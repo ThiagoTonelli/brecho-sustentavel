@@ -11,13 +11,13 @@ import javax.swing.JButton;
  *
  * @author thiag
  */
-public class JanelaPrincipalView extends javax.swing.JInternalFrame implements IJanelaPrincipalView{
+public class JanelaVendedorView extends javax.swing.JInternalFrame implements IJanelaVendedorView{
 
     /**
      * Creates new form JanelaPrincipal
      * @throws java.beans.PropertyVetoException
      */
-    public JanelaPrincipalView() throws PropertyVetoException {
+    public JanelaVendedorView() throws PropertyVetoException {
         initComponents();
     }
 

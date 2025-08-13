@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.presenter;
+package br.brechosustentavel.presenter.VendedorPresenter;
 
 import br.brechosustentavel.command.CarregarComposicaoCommand;
 import br.brechosustentavel.command.CarregarDefeitosPorTipoCommand;
@@ -19,9 +19,9 @@ import javax.swing.JOptionPane;
  *
  * @author thiag
  */
-public class JanelaInclusaoAnuncioState extends PresenterAnuncioState{
+public class InclusaoAnuncioState extends ManterAnuncioState{
     
-    public JanelaInclusaoAnuncioState(ManterAnuncioPresenter presenter) throws PropertyVetoException {
+    public InclusaoAnuncioState(ManterAnuncioPresenter presenter) throws PropertyVetoException {
         super(presenter);
         configurarTela();
         
@@ -84,6 +84,16 @@ public class JanelaInclusaoAnuncioState extends PresenterAnuncioState{
                 }
             }
         });  
+    }
+
+    @Override
+    public void editar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void visualizar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

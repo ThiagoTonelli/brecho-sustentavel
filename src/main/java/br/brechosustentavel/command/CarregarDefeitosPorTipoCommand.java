@@ -6,11 +6,11 @@ package br.brechosustentavel.command;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
-import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
 import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+import br.brechosustentavel.view.IJanelaManterAnuncioView;
 
 /**
  *
@@ -20,7 +20,7 @@ public class CarregarDefeitosPorTipoCommand implements ICommand{
 
     @Override
     public void executar(ManterAnuncioPresenter presenter) {
-        IJanelaInclusaoAnuncioView view = presenter.getView();
+        IJanelaManterAnuncioView view = presenter.getView();
         String tipoPeca = (String ) view.getSelectTipoDePeca().getSelectedItem();
         JPanel painelDefeitos = view.getPainelScrollDefeitos();
         painelDefeitos.removeAll();

@@ -4,12 +4,12 @@
  */
 package br.brechosustentavel.command;
 
-import br.brechosustentavel.presenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
-import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
 import java.util.List;
 import javax.swing.JComboBox;
+import br.brechosustentavel.view.IJanelaManterAnuncioView;
 /**
  *
  * @author thiag
@@ -18,7 +18,7 @@ public class CarregarTiposDePecaCommand implements ICommand{
 
     @Override
     public void executar(ManterAnuncioPresenter presenter) {
-        IJanelaInclusaoAnuncioView view = presenter.getView();
+        IJanelaManterAnuncioView view = presenter.getView();
         JComboBox jcomboTipoPeca = view.getSelectTipoDePeca();
         jcomboTipoPeca.removeAllItems();
         

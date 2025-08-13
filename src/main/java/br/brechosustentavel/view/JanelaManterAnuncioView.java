@@ -16,13 +16,13 @@ import javax.swing.JTextField;
  *
  * @author thiag
  */
-public class JanelaInclusaoAnuncioView extends javax.swing.JInternalFrame implements IJanelaInclusaoAnuncioView{
+public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implements IJanelaManterAnuncioView{
 
     /**
      * Creates new form ManterItemView
      * @throws java.beans.PropertyVetoException
      */
-    public JanelaInclusaoAnuncioView() throws PropertyVetoException{
+    public JanelaManterAnuncioView() throws PropertyVetoException{
         initComponents();
     }
 

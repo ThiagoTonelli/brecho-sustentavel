@@ -4,14 +4,14 @@
  */
 package br.brechosustentavel.command;
 
-import br.brechosustentavel.presenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
-import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
 import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
+import br.brechosustentavel.view.IJanelaManterAnuncioView;
 
 /**
  *
@@ -21,7 +21,7 @@ public class CarregarComposicaoCommand implements ICommand{
     
     @Override
     public void executar(ManterAnuncioPresenter presenter) {
-        IJanelaInclusaoAnuncioView view = presenter.getView();
+        IJanelaManterAnuncioView view = presenter.getView();
         JComboBox jcomboComposicao = view.getSelectComposicao();
         JComboBox jcomboComposicao1 = view.getSelectComposicao1();
         JComboBox jcomboComposicao2 = view.getSelectComposicao2();
