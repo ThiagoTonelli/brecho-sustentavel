@@ -6,8 +6,8 @@ package br.brechosustentavel.presenter;
 
 import br.brechosustentavel.model.Usuario;
 import br.brechosustentavel.service.AutenticacaoService;
+import br.brechosustentavel.service.CadastroService;
 import br.brechosustentavel.service.SessaoUsuarioService;
-import br.brechosustentavel.view.CadastroView;
 import br.brechosustentavel.view.LoginView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,10 +24,7 @@ public class LoginPresenter {
     private SessaoUsuarioService sessaoUsuarioService;
     private Usuario usuario;
     
-    public LoginPresenter(AutenticacaoService autenticacaoService, SessaoUsuarioService sessaoUsuarioService) {
-        this.autenticacaoService = autenticacaoService;
-        this.sessaoUsuarioService = sessaoUsuarioService;
-        
+    public LoginPresenter() {        
         view = new LoginView();
         view.setVisible(false);
         view.getBtnEntrar().addActionListener(new ActionListener() {
@@ -59,6 +56,9 @@ public class LoginPresenter {
         String email = view.getTxtEmail().getText();
         String senha = view.getTxtSenha().getText();
         
+        if(autenticacaoService == null){
+            throw new RuntimeException("Passe uma instancia de AutenticacaoService válida.");
+        }
         Usuario usuarioAutenticado = autenticacaoService.autenticar(email, senha);
         
         try {
@@ -74,10 +74,12 @@ public class LoginPresenter {
     }
     
     private void cadastrar(){
-        new CadastroView().setVisible(true);
+        new CadastroPresenter(new CadastroService());
         view.dispose();
     }
     
-    
+    public void setAutenticacaoService(AutenticacaoService autenticacaoService){
+        this.autenticacaoService = autenticacaoService;
+    }
     
 }
