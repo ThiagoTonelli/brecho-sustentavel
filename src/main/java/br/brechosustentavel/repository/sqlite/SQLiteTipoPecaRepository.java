@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.repository.sqlite;
 
+import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,17 +20,17 @@ import java.sql.ResultSet;
  * @author thiag
  */
 public class SQLiteTipoPecaRepository implements ITipoDePecaRepository{
-    private Connection conexao;
+    private final ConexaoFactory conexaoFactory;
 
-    public SQLiteTipoPecaRepository(Connection conexao) {
-        this.conexao = conexao;
+    public SQLiteTipoPecaRepository(ConexaoFactory conexaoFactory) {
+        this.conexaoFactory = conexaoFactory;
     }
     
     @Override
     public List<String> buscarTiposDePeca() {
         List<String> tipos = new ArrayList<>();
-        try {
-            Statement stmt = conexao.createStatement();
+        try(Connection conexao = this.conexaoFactory.getConexao();
+            Statement stmt = conexao.createStatement()){
             ResultSet rs = stmt.executeQuery("SELECT nome FROM tipo_peca");
             while(rs.next()){
                 tipos.add(rs.getString("nome"));
@@ -44,7 +45,8 @@ public class SQLiteTipoPecaRepository implements ITipoDePecaRepository{
     @Override
     public int buscarIdTipo(String tipo) {
         String sql = "SELECT id FROM tipo_peca WHERE nome = ?";
-        try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
             pstmt.setString(1, tipo);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {

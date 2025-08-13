@@ -4,13 +4,13 @@
  */
 package br.brechosustentavel.repository.sqlite;
 
+import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.ITransacaoRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
-import java.sql.Connection;
 import br.brechosustentavel.repository.IPecaRepository;
 
 /**
@@ -18,26 +18,25 @@ import br.brechosustentavel.repository.IPecaRepository;
  * @author thiag
  */
 public class SQLiteRepositoryFactory extends RepositoryFactory{
-    private static Connection conexao;
+    private final ConexaoFactory conexaoFactory;
     
-    public SQLiteRepositoryFactory(Connection conexao){
-        this.conexao = conexao;
+    public SQLiteRepositoryFactory(ConexaoFactory conexaoFactory){
+        this.conexaoFactory = conexaoFactory;
     }
     
     @Override
     public IDefeitoRepository getDefeitoRepository() {
-        // Substitua a linha de erro pela linha abaixo:
-        return new SQLiteDefeitoRepository(conexao);
+        return new SQLiteDefeitoRepository(conexaoFactory, getTipoDePecaRepository());
     }
     
     @Override
     public IUsuarioRepository getUsuarioRepository(){
-        return new SQLiteUsuarioRepository(conexao);
+        return new SQLiteUsuarioRepository(conexaoFactory);
     }
 
     @Override
     public IMaterialRepository getMaterialRepository() {
-        return new SQLiteMaterialRepository(conexao);
+        return new SQLiteMaterialRepository(conexaoFactory);
     }
 
     @Override
@@ -47,12 +46,12 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
 
     @Override
     public IPecaRepository getPecaRepository() {
-        return new SQLitePecaRepository(conexao);
+        return new SQLitePecaRepository(conexaoFactory);
     }
 
     @Override
     public ITipoDePecaRepository getTipoDePecaRepository() {
-        return new SQLiteTipoPecaRepository(conexao);
+        return new SQLiteTipoPecaRepository(conexaoFactory);
     }
     
 }

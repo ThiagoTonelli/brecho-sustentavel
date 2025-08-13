@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.repository.sqlite;
 
+import br.brechosustentavel.repository.ConexaoFactory;
 import java.sql.Connection;
 
 /**
@@ -11,10 +12,10 @@ import java.sql.Connection;
  * @author thiag
  */
 public class SQLiteTransacaoRepository {
-    private Connection conexao;
+    private final ConexaoFactory conexaoFactory;
 
-    public SQLiteTransacaoRepository(Connection conexao) {
-        this.conexao = conexao;
+    public SQLiteTransacaoRepository(ConexaoFactory conexaoFactory) {
+        this.conexaoFactory = conexaoFactory;
     }
     
     

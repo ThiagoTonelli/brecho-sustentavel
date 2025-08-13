@@ -6,7 +6,6 @@ package br.brechosustentavel.command;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
-import static br.brechosustentavel.repository.RepositoryFactory.getRepositoryFactory;
 import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
 import java.util.Map;
 import javax.swing.BoxLayout;
@@ -31,7 +30,7 @@ public class CarregarDefeitosPorTipoCommand implements ICommand{
             view.getPainelScrollDefeitos().repaint();
         }
         
-        RepositoryFactory fabrica = getRepositoryFactory();
+        RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         IDefeitoRepository repository = fabrica.getDefeitoRepository();
         Map<String, Double> defeitos = repository.buscarDefeitos(tipoPeca);
         

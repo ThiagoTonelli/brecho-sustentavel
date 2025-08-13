@@ -7,7 +7,6 @@ package br.brechosustentavel.command;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
-import static br.brechosustentavel.repository.RepositoryFactory.getRepositoryFactory;
 import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
 import java.util.Map;
 
@@ -36,7 +35,7 @@ public class CarregarComposicaoCommand implements ICommand{
         spinner2.setValue(0);
         spinner3.setValue(0);
         
-        RepositoryFactory fabrica = getRepositoryFactory();
+        RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         IMaterialRepository repository = fabrica.getMaterialRepository();
         Map<String, Double> tiposMateriais = repository.buscarMateriais();
         System.out.println(tiposMateriais);

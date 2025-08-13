@@ -15,20 +15,25 @@ import br.brechosustentavel.configuracao.ConfiguracaoAdapter;
 
 
 public abstract class RepositoryFactory {
-    private static String sgbd;
+    private static RepositoryFactory instancia;
     
-    public static RepositoryFactory getRepositoryFactory(){
-        ConfiguracaoAdapter configuracao = new ConfiguracaoAdapter();
-        sgbd = configuracao.getValor("SGBD");
-        ConexaoFactory conexao = ConexaoFactory.getConexaoFactory(sgbd);
-        if (sgbd.equalsIgnoreCase("sqlite")){
-            return new SQLiteRepositoryFactory(conexao.getConexao());
+    public static RepositoryFactory getInstancia(){
+        if(instancia == null){
+            ConfiguracaoAdapter configuracao = new ConfiguracaoAdapter();
+            String sgbd = configuracao.getValor("SGBD");
+            ConexaoFactory conexaoFactory = ConexaoFactory.getConexaoFactory(sgbd);
+            
+            if (sgbd.equalsIgnoreCase("sqlite")){
+                instancia = new SQLiteRepositoryFactory(conexaoFactory);
+            } else if (sgbd.equalsIgnoreCase("h2")){
+                instancia = new H2RepositoryFactory(conexaoFactory);
+            } else {
+                throw new IllegalArgumentException("Banco de dados passado por parâmetro não existe!");
+            }
         }
-        else if (sgbd.equalsIgnoreCase("h2")){
-            return new H2RepositoryFactory(conexao.getConexao());
-        }
-        throw new IllegalArgumentException("Banco de dados passado por parâmetro não existe!");
+        return instancia;
     }
+    
     public abstract IUsuarioRepository getUsuarioRepository();
     
     public abstract IMaterialRepository getMaterialRepository();

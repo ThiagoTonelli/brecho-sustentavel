@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.repository.h2;
 
+import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
@@ -18,7 +19,11 @@ import br.brechosustentavel.repository.IPecaRepository;
  * @author thiag
  */
 public class H2RepositoryFactory extends RepositoryFactory{
-    public H2RepositoryFactory(Connection conexao){}
+    private final ConexaoFactory conexaoFactory;
+    
+    public H2RepositoryFactory(ConexaoFactory conexaoFactory){
+        this.conexaoFactory = conexaoFactory;
+    }
 
     @Override
     public IUsuarioRepository getUsuarioRepository() {
