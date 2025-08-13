@@ -9,7 +9,6 @@ import br.brechosustentavel.service.gerador_id_c.GeradorIdService;
 import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
 import java.awt.Component;
 import javax.swing.JCheckBox;
-import static br.brechosustentavel.repository.RepositoryFactory.getRepositoryFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +24,7 @@ public class NovoAnuncioCommand implements ICommand {
     @Override
     public void executar(ManterAnuncioPresenter presenter) {
         try {
-            RepositoryFactory fabrica = getRepositoryFactory();
+            RepositoryFactory fabrica = RepositoryFactory.getInstancia();
             IJanelaInclusaoAnuncioView view = presenter.getView();
 
             String id_c = view.getTxtId_c().getText();

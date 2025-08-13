@@ -5,6 +5,7 @@
 package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.model.Peca;
+import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IPecaRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,10 +18,10 @@ import java.util.Optional;
  * @author thiag
  */
 public class SQLitePecaRepository implements IPecaRepository{
-    private Connection conexao;
+    private final ConexaoFactory conexaoFactory;
 
-    public SQLitePecaRepository(Connection conexao) {
-        this.conexao = conexao;
+    public SQLitePecaRepository(ConexaoFactory conexaoFactory) {
+        this.conexaoFactory = conexaoFactory;
     }
 
     @Override
@@ -46,7 +47,8 @@ public class SQLitePecaRepository implements IPecaRepository{
     @Override
     public boolean consultarId_c(String id_c) {
         String sql = "SELECT * FROM peca WHERE id_c = ?";
-        try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
             pstmt.setString(1, id_c);
             try (ResultSet rs = pstmt.executeQuery()) {
                     return rs.next();

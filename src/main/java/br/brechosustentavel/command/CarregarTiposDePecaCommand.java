@@ -7,7 +7,6 @@ package br.brechosustentavel.command;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
-import static br.brechosustentavel.repository.RepositoryFactory.getRepositoryFactory;
 import br.brechosustentavel.view.IJanelaInclusaoAnuncioView;
 import java.util.List;
 import javax.swing.JComboBox;
@@ -23,7 +22,7 @@ public class CarregarTiposDePecaCommand implements ICommand{
         JComboBox jcomboTipoPeca = view.getSelectTipoDePeca();
         jcomboTipoPeca.removeAllItems();
         
-        RepositoryFactory fabrica = getRepositoryFactory();
+        RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         ITipoDePecaRepository repository = fabrica.getTipoDePecaRepository();
         List<String> tipoDePeca = repository.buscarTiposDePeca();
        

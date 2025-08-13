@@ -6,6 +6,7 @@ package br.brechosustentavel.repository.sqlite;
 
 
 import br.brechosustentavel.model.Material;
+import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IMaterialRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,21 +24,22 @@ import java.util.Optional;
  */
 
 public class SQLiteMaterialRepository implements IMaterialRepository{
-    private Connection conexao;
+    private final ConexaoFactory conexaoFactory;
 
-    public SQLiteMaterialRepository(Connection conexao) {
-        this.conexao = conexao;
+    public SQLiteMaterialRepository(ConexaoFactory conexaoFactory) {
+        this.conexaoFactory = conexaoFactory;
     }
     
     @Override
     public Map<String, Double> buscarMateriais(){
         Map<String, Double> composicao_valor = new HashMap<>();
-        try {
-            Statement stmt = conexao.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT nome, fator_emissao FROM composicao");
+        String sql = "SELECT nome, fator_emissao FROM composicao;";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+            PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()){
                 composicao_valor.put(rs.getString("nome"), rs.getDouble("fator_emissao"));
-            
             }
             return composicao_valor;
         } catch (SQLException e) {
@@ -68,15 +70,20 @@ public class SQLiteMaterialRepository implements IMaterialRepository{
     @Override
     public Map<String, Double> buscarMateriaisNome(List<String> nomes) {
         Map<String, Double> materiais = new HashMap<>();
+        String sql = "SELECT nome, fator_emissao FROM composicao WHERE nome = ?";
+        
         for(String material : nomes){
-            String sql = "SELECT nome, fator_emissao FROM composicao WHERE nome = ?";
-            try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
-                pstmt.setString(1, material);
-                try (ResultSet rs = pstmt.executeQuery()) {
-                    while (rs.next()) {
-                        materiais.put(rs.getString("nome"), rs.getDouble("fator_emissao"));
-                    }
+
+            try (Connection conexao = this.conexaoFactory.getConexao();
+                 PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+                
+                pstmt.setString(1, material);            
+                ResultSet rs = pstmt.executeQuery();
+                
+                while (rs.next()) {
+                    materiais.put(rs.getString("nome"), rs.getDouble("fator_emissao"));
                 }
+                
             } catch (SQLException e) {
                 throw new RuntimeException("Erro ao buscar id do tipo de peça no banco de dados", e);
             }
