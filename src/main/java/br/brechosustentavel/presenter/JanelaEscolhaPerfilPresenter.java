@@ -6,21 +6,15 @@ package br.brechosustentavel.presenter;
 
 import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.view.JanelaVendedorView;
-import java.beans.PropertyVetoException;
 
 /**
  *
  * @author kaila
  */
 public class JanelaEscolhaPerfilPresenter {
-    private TelaPrincipalPresenter telaPresenter;
-    private String estado;
+    private TelaPrincipalPresenter telaPresenter = new TelaPrincipalPresenter();
     
-    public JanelaEscolhaPerfilPresenter(TelaPrincipalPresenter telaPresenter) throws PropertyVetoException {
-        this.telaPresenter = telaPresenter;;
-    }
-    
-    public void telaVendedor() throws PropertyVetoException{
+    public void telaVendedor(){
         JanelaVendedorView janelaVendedor = new JanelaVendedorView();
         telaPresenter.getView().getjDesktopPane1().add(janelaVendedor);
         janelaVendedor.setMaximum(true);

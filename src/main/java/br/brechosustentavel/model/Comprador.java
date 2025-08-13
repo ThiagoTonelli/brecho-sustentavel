@@ -9,6 +9,7 @@ package br.brechosustentavel.model;
  * @author thiag
  */
 public class Comprador {
+    private int id;
     private String coletaveis; // avaliar
     private int nivel;
     private double estrelas;
@@ -16,4 +17,8 @@ public class Comprador {
     private String selo; // avaliar
     private double totalGwp;
     private String estatisticas; // avaliar se seria uma classe 
+    
+    public Comprador(int id){
+        this.id = id;
+    }
 }

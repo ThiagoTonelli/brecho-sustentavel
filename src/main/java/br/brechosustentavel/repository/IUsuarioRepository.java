@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author thiag
  */
 public interface IUsuarioRepository {
-    public void cadastrarUsuario(Usuario usuario);
+    public Usuario cadastrarUsuario(Usuario usuario);
     public Optional<Usuario> buscarPorEmail(String email);
     public boolean isVazio();
 }
