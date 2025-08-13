@@ -27,18 +27,32 @@ public class SQLiteUsuarioRepository implements IUsuarioRepository{
     }
 
     @Override
-    public Optional<Usuario> buscarPorEmail(String email) {
-        if(email == null || email.isBlank()){
-            throw new IllegalArgumentException("Email inválido");
-        }
+    public void cadastrarUsuario(Usuario usuario){       
+        String sql = "INSERT INTO usuario (nome, telefone, email, senha, data_criacao, admin) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?);";
         
+        try(PreparedStatement pstmt = conexao.prepareStatement(sql)){
+            pstmt.setString(1, usuario.getNome());
+            pstmt.setString(2, usuario.getTelefone());
+            pstmt.setString(3, usuario.getEmail());
+            pstmt.setString(4, usuario.getTelefone());
+            
+       }catch(SQLException e){
+           throw new RuntimeException("Erro ao cadastrar usuario: " + e.getMessage());
+       }
+        
+        
+        
+    }
+    
+    @Override
+    public Optional<Usuario> buscarPorEmail(String email) {
         String sql = "SELECT * FROM usuario WHERE email = ?;";
 
-        try(PreparedStatement pstmt = conexao.prepareStatement(sql)){
+        try(PreparedStatement pstmt = conexao.prepareStatement(sql)) {
            pstmt.setString(1, email);
            ResultSet rs = pstmt.executeQuery();
 
-           if(rs.next()){
+           if(rs.next()) {
                Usuario usuario = new Usuario(
                        rs.getString("nome"),
                        rs.getString("telefone"),
@@ -50,11 +64,23 @@ public class SQLiteUsuarioRepository implements IUsuarioRepository{
                usuario.setAdmin(rs.getBoolean("admin"));
                
                return Optional.of(usuario);
-           }
-           return Optional.empty();
-           
-       }catch(SQLException e){
+            }
+            return Optional.empty();    
+        } catch(SQLException e) {
            throw new RuntimeException("Erro ao buscar usuario por email: " + e.getMessage());
-       }
-    }    
-} 
+        }
+    }
+    
+    @Override
+    public boolean isVazio(){
+        String sql = "SELECT COUNT(*) AS qtd_usuario FROM usuario;";
+        
+        try(PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+           ResultSet rs = pstmt.executeQuery();
+           
+           return rs.next() && rs.getInt(1) == 0;
+        } catch(SQLException e) {
+           throw new RuntimeException("Erro ao contar usuários: " + e.getMessage());
+        }
+    }
+}
