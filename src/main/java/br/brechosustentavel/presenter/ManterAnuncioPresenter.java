@@ -13,12 +13,10 @@ import br.brechosustentavel.view.JanelaInclusaoAnuncioView;
  */
 public class ManterAnuncioPresenter {
     private final IJanelaInclusaoAnuncioView view;
-    //private final IItemRepository itemRepository;
     private PresenterAnuncioState estado;
 
     public ManterAnuncioPresenter(IJanelaInclusaoAnuncioView view) {
         this.view = view;
-        //this.itemRepository = itemRepository;
     }
     
     public void setEstado(PresenterAnuncioState novoEstado){
