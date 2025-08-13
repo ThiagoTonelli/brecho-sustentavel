@@ -6,6 +6,7 @@ package br.brechosustentavel.view;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -17,7 +18,7 @@ import javax.swing.JTextField;
  */
 public interface IJanelaManterAnuncioView {
     public JComboBox<String> getSelectComposicao();
-    public JComboBox<String> getSelectSubcategoria();
+    public JTextField getTxtSubcategoria();
     public JPanel getPainelScrollDefeitos();
     public JScrollPane getScrollDefeitos();
     public JComboBox<String> getSelectComposicao1();
@@ -34,4 +35,5 @@ public interface IJanelaManterAnuncioView {
     public JTextField getTxtPrecoBase();
     public JButton getBtnEnviar();
     public JButton getBtnCancelar();
+    public JButton getBtnGerarId();
 }

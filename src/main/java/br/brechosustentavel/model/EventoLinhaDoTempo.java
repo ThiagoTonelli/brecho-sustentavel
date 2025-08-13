@@ -4,25 +4,24 @@
  */
 package br.brechosustentavel.model;
 
-import java.util.Date;
-
+import java.time.LocalDateTime;
 /**
  *
  * @author thiag
  */
 public class EventoLinhaDoTempo {
     private String tipoEvento;
-    private Date dataHora;
+    private LocalDateTime dataHora;
     private double gwpEvitado;
     private double mciItem;
-    private String descricaoAdional;
+    private Peca peca;
 
-    public EventoLinhaDoTempo(String tipoEvento, Date dataHora, double gwpEvitado, double mciItem, String descricaoAdional) {
+    public EventoLinhaDoTempo(Peca peca, String tipoEvento, LocalDateTime dataHora, double gwpEvitado, double mciItem) {
+        this.peca = peca;
         this.tipoEvento = tipoEvento;
         this.dataHora = dataHora;
         this.gwpEvitado = gwpEvitado;
         this.mciItem = mciItem;
-        this.descricaoAdional = descricaoAdional;
     }
     
 }

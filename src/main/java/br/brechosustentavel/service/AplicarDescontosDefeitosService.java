@@ -13,9 +13,15 @@ import br.brechosustentavel.model.Peca;
 public class AplicarDescontosDefeitosService {
     public double calcularDescontos(Peca peca){
         double precoFinal = peca.getPrecoBase();
+        double menorPreco = precoFinal * 0.05;
         for (double desconto : peca.getDefeitos().values()) {
             precoFinal -= precoFinal * desconto; 
         }
-        return precoFinal;
+        if (precoFinal < menorPreco){
+            return menorPreco;
+        }
+        else{
+            return precoFinal;
+        }
     }
 }
