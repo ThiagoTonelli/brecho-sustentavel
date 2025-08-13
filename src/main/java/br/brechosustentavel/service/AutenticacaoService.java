@@ -7,6 +7,7 @@ package br.brechosustentavel.service;
 import br.brechosustentavel.model.Usuario;
 import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.service.hash.HashService;
+import br.brechosustentavel.service.verificador_telefone.VerificadorTelefoneService;
 import java.util.Optional;
 
 
@@ -23,15 +24,6 @@ public class AutenticacaoService {
         this.hashService = hashService;
     }
     
-    public void cadastrar(Usuario usuario){
-        if(usuarioRepository.buscarPorEmail(usuario.getEmail()).isPresent()){
-            throw new RuntimeException("O email informado já está em uso");
-        }
-        
-        
-    
-    }
-
     public Usuario autenticar(String email, String senha) {
         if(email == null || email.isBlank()){
             throw new IllegalArgumentException("Email inválido");
