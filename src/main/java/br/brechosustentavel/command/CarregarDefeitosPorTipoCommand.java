@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package br.brechosustentavel.command;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import java.util.Map;

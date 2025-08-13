@@ -26,9 +26,8 @@ public class Peca {
     private Map<String, Integer> materialQuantidade;
     private List<EventoLinhaDoTempo> linhaDoTempo;
 
-    public Peca(String id_c, String tipoDePeca, String subcategoria, String tamanho, String cor, double massaEstimada, String estadoDeConservacao, double precoBase, Map<String, Double> defeitos, Map<String, Double> materialDesconto, Map<String, Integer> materialQuantidade) {
+    public Peca(String id_c, String subcategoria, String tamanho, String cor, double massaEstimada, String estadoDeConservacao, double precoBase) {
         this.id_c = id_c;
-        this.tipoDePeca = tipoDePeca;
         this.subcategoria = subcategoria;
         this.tamanho = tamanho;
         this.cor = cor;
@@ -36,11 +35,28 @@ public class Peca {
         this.estadoDeConservacao = estadoDeConservacao;
         this.precoBase = precoBase;
         this.defeitos = defeitos;
-        this.materialDesconto = materialDesconto;
-        this.materialQuantidade = materialQuantidade;
 
     }
+
+    public void setMaterialDesconto(Map<String, Double> materialDesconto) {
+        this.materialDesconto = materialDesconto;
+    }
+
+    public void setMaterialQuantidade(Map<String, Integer> materialQuantidade) {
+        this.materialQuantidade = materialQuantidade;
+    }
     
+    public void setLinhaDoTempo(List<EventoLinhaDoTempo> linhaDoTempo){
+        this.linhaDoTempo = linhaDoTempo;
+    }
+
+    public void setDefeitos(Map<String, Double> defeitos) {
+        this.defeitos = defeitos;
+    }
+
+    public void setTipoDePeca(String tipoDePeca) {
+        this.tipoDePeca = tipoDePeca;
+    }
     
     public void setPrecoFinal(double precoFinal){
         this.precoFinal = precoFinal;

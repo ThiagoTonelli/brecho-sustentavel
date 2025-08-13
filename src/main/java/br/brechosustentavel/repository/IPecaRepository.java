@@ -15,6 +15,6 @@ public interface IPecaRepository {
     public void criar();
     public void excluir();
     public void editar();
-    public Optional<Peca> consultar();
-    public boolean consultarId_c(String id_c);
+    public Optional<Peca> consultar(String idC);
+    public boolean ExisteId_c(String id_c);
 }

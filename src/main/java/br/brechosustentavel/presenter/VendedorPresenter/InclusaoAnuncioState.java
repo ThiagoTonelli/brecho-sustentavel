@@ -7,6 +7,7 @@ package br.brechosustentavel.presenter.VendedorPresenter;
 import br.brechosustentavel.command.CarregarComposicaoCommand;
 import br.brechosustentavel.command.CarregarDefeitosPorTipoCommand;
 import br.brechosustentavel.command.CarregarTiposDePecaCommand;
+import br.brechosustentavel.command.GerarIdCommand;
 import br.brechosustentavel.command.ICommand;
 import br.brechosustentavel.command.NovoAnuncioCommand;
 import java.awt.event.ActionEvent;
@@ -24,7 +25,7 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
     public InclusaoAnuncioState(ManterAnuncioPresenter presenter) throws PropertyVetoException {
         super(presenter);
         configurarTela();
-        
+
         JComboBox<String> selectTipoDePeca = presenter.getView().getSelectTipoDePeca();
         selectTipoDePeca.addActionListener(new ActionListener (){
             @Override
@@ -38,10 +39,21 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
         });
         salvar();
         cancelar();
+                
     }
     
     private void configurarTela(){
         try{
+            presenter.getView().getBtnGerarId().addActionListener(new ActionListener (){
+                @Override
+                public void actionPerformed(ActionEvent e){
+                    try{
+                    new GerarIdCommand().executar(presenter);
+                    }catch (Exception ex){
+                        JOptionPane.showMessageDialog(null, "Erro ao carregar id_c: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
             new CarregarTiposDePecaCommand().executar(presenter);
             new CarregarDefeitosPorTipoCommand().executar(presenter);
             new CarregarComposicaoCommand().executar(presenter);
@@ -58,6 +70,9 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
                 @Override
                 public void actionPerformed(ActionEvent e){
                     try{
+                        if(!todosCamposPreenchidos()){
+                            JOptionPane.showMessageDialog(null, "Preencha todos os campos e verifique se a soma dos materiais atinge os 100%", "Aviso", JOptionPane.WARNING_MESSAGE);
+                        }
                         ICommand command = new NovoAnuncioCommand();
                         command.executar(presenter);
                         JOptionPane.showMessageDialog(null, "anuncio salvo");
@@ -95,5 +110,34 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
     public void visualizar() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    private boolean todosCamposPreenchidos() {
+
+        // campos de texto obrigatórios
+        if (presenter.getView().getTxtId_c().getText().trim().isEmpty()) return false;
+        if (presenter.getView().getTxtSubcategoria().getText().trim().isEmpty()) return false;
+        if (presenter.getView().getTxtCor().getText().trim().isEmpty()) return false;
+        if (presenter.getView().getTxtMassa().getText().trim().isEmpty()) return false;
+        if (presenter.getView().getTxtEstadoConservacao().getText().trim().isEmpty()) return false;
+        if (presenter.getView().getTxtPrecoBase().getText().trim().isEmpty()) return false;
+
+        // combobox obrigatórios
+        if (presenter.getView().getSelectTipoDePeca().getSelectedIndex() == -1) return false;
+        if (presenter.getView().getSelectTamanho().getSelectedIndex() == -1) return false;
+        if (presenter.getView().getSelectComposicao().getSelectedIndex() == -1) return false;
+        if (presenter.getView().getSelectComposicao1().getSelectedIndex() == -1) return false;
+        if (presenter.getView().getSelectComposicao2().getSelectedIndex() == -1) return false;
+
+        // pelo menos um material com quantidade > 0 ou != de 100
+        int somaMateriais = 0;
+        somaMateriais += (int) presenter.getView().getSpinnerComposicao().getValue();
+        somaMateriais += (int) presenter.getView().getSpinnerComposicao1().getValue();
+        somaMateriais += (int) presenter.getView().getSpinnerComposicao2().getValue();
+        if (somaMateriais <= 0 && somaMateriais != 100) return false;
+
+        return true;
+    }
+
+
     
 }
