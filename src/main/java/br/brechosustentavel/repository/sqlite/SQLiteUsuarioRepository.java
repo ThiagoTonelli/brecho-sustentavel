@@ -29,21 +29,21 @@ public class SQLiteUsuarioRepository implements IUsuarioRepository{
 
     @Override
     public void cadastrarUsuario(Usuario usuario){       
-        String sql = "INSERT INTO usuario (nome, telefone, email, senha, data_criacao, admin) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?);";
+        String sql = "INSERT INTO usuario (nome, telefone, email, senha, admin) VALUES (?, ?, ?, ?, ?);";
         
         try(Connection conexao = this.conexaoFactory.getConexao();
             PreparedStatement pstmt = conexao.prepareStatement(sql)){
             pstmt.setString(1, usuario.getNome());
             pstmt.setString(2, usuario.getTelefone());
             pstmt.setString(3, usuario.getEmail());
-            pstmt.setString(4, usuario.getTelefone());
+            pstmt.setString(4, usuario.getSenha());
+            pstmt.setBoolean(5, usuario.isAdmin());
             
-       }catch(SQLException e){
+            pstmt.executeUpdate();
+            
+       } catch(SQLException e) {
            throw new RuntimeException("Erro ao cadastrar usuario: " + e.getMessage());
-       }
-        
-        
-        
+       }   
     }
     
     @Override

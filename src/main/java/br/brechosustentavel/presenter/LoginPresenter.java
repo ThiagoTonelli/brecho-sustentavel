@@ -7,6 +7,7 @@ package br.brechosustentavel.presenter;
 import br.brechosustentavel.model.Usuario;
 import br.brechosustentavel.service.AutenticacaoService;
 import br.brechosustentavel.service.SessaoUsuarioService;
+import br.brechosustentavel.view.CadastroView;
 import br.brechosustentavel.view.LoginView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,8 +52,6 @@ public class LoginPresenter {
             }
         });
         
-        view.getTxtEmail().setText("");
-        view.getTxtSenha().setText("");
         view.setVisible(true);
     }
     
@@ -66,7 +65,7 @@ public class LoginPresenter {
             sessaoUsuarioService.getInstancia().setUsuarioAutenticado(usuarioAutenticado);
             sessaoUsuarioService.setAutenticado(true);
             
-            new JanelaEscolhaPerfilPresenter();
+            //new JanelaEscolhaPerfilPresenter();
             view.dispose();
         } catch(Exception e) {
             JOptionPane.showMessageDialog(view, "Falha na autenticação: " + e.getMessage());
@@ -75,7 +74,8 @@ public class LoginPresenter {
     }
     
     private void cadastrar(){
-    
+        new CadastroView().setVisible(true);
+        view.dispose();
     }
     
     
