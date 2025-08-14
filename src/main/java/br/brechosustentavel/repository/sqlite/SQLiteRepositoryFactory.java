@@ -5,6 +5,7 @@
 package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.repository.ConexaoFactory;
+import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
 import br.brechosustentavel.repository.IMaterialRepository;
@@ -13,6 +14,7 @@ import br.brechosustentavel.repository.ITransacaoRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.repository.IPecaRepository;
+import br.brechosustentavel.repository.IVendedorRepository;
 
 /**
  *
@@ -58,5 +60,15 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
     @Override
     public ILinhaDoTempoRepository getLinhaDoTempoRepository(){
         return new SQLiteLinhaDoTempoRepository(conexaoFactory);
+    }
+
+    @Override
+    public IVendedorRepository getVendedorRepository() {
+        return new SQLiteVendedorRepository(conexaoFactory);
+    }
+
+    @Override
+    public ICompradorRepository getCompradorRepository() {
+        return new SQLiteCompradorRepository(conexaoFactory);
     }
 }

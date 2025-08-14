@@ -5,6 +5,10 @@
 package br.brechosustentavel.presenter;
 
 import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.presenter.VendedorPresenter.JanelaVendedorPresenter;
+import br.brechosustentavel.repository.ICompradorRepository;
+import br.brechosustentavel.repository.IVendedorRepository;
+import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.AutenticacaoService;
 import br.brechosustentavel.service.CadastroService;
 import br.brechosustentavel.service.SessaoUsuarioService;
@@ -23,8 +27,14 @@ public class LoginPresenter {
     private AutenticacaoService autenticacaoService;
     private SessaoUsuarioService sessaoUsuarioService;
     private Usuario usuario;
+    private IVendedorRepository vendedorRepository;
+    private ICompradorRepository compradorRepository;
     
-    public LoginPresenter() {        
+    public LoginPresenter() {
+        RepositoryFactory fabrica = RepositoryFactory.getInstancia();
+        vendedorRepository = fabrica.getVendedorRepository();
+        compradorRepository = fabrica.getCompradorRepository();
+        
         view = new LoginView();
         view.setVisible(false);
         view.getBtnEntrar().addActionListener(new ActionListener() {
@@ -59,13 +69,28 @@ public class LoginPresenter {
         if(autenticacaoService == null){
             throw new RuntimeException("Passe uma instancia de AutenticacaoService válida.");
         }
-        Usuario usuarioAutenticado = autenticacaoService.autenticar(email, senha);
-        
+
         try {
+            Usuario usuarioAutenticado = autenticacaoService.autenticar(email, senha);
+            
+            boolean isComprador = compradorRepository.buscarPorId(usuarioAutenticado.getId()).isPresent();
+            boolean isVendedor = vendedorRepository.buscarPorId(usuarioAutenticado.getId()).isPresent();
+            
             sessaoUsuarioService.getInstancia().setUsuarioAutenticado(usuarioAutenticado);
             sessaoUsuarioService.setAutenticado(true);
             
-            //new JanelaEscolhaPerfilPresenter();
+             if(isVendedor && isComprador){
+                new JanelaEscolhaPerfilPresenter();
+             } else if(isVendedor) {
+                sessaoUsuarioService.getInstancia().setTipoPerfil("Vendedor");
+                new JanelaEscolhaPerfilPresenter();
+             } else if(isComprador) {
+                sessaoUsuarioService.getInstancia().setTipoPerfil("Comprador");
+                new JanelaEscolhaPerfilPresenter();
+             } else {
+                 new JanelaEscolhaPerfilPresenter();
+             }
+       
             view.dispose();
         } catch(Exception e) {
             JOptionPane.showMessageDialog(view, "Falha na autenticação: " + e.getMessage());
@@ -80,6 +105,10 @@ public class LoginPresenter {
     
     public void setAutenticacaoService(AutenticacaoService autenticacaoService){
         this.autenticacaoService = autenticacaoService;
+    }
+    
+    public void setSessaoUsuarioService(SessaoUsuarioService sessaoUsuarioService){
+        this.sessaoUsuarioService = sessaoUsuarioService;
     }
     
 }

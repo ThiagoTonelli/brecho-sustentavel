@@ -4,10 +4,13 @@
  */
 package br.brechosustentavel.repository;
 
+import br.brechosustentavel.model.Comprador;
+import java.util.Optional;
+
 /**
  *
  * @author kaila
  */
-public class ICompradorRepository {
-    
+public interface ICompradorRepository {
+    public Optional<Comprador> buscarPorId(int id);
 }

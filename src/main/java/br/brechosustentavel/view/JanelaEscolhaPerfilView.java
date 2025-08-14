@@ -4,6 +4,8 @@
  */
 package br.brechosustentavel.view;
 
+import javax.swing.JButton;
+
 /**
  *
  * @author kaila
@@ -75,4 +77,14 @@ public class JanelaEscolhaPerfilView extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnVendedor;
     private javax.swing.JLabel lblEscolhaPerfil;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getBtnComprador() {
+        return btnComprador;
+    }
+
+    public JButton getBtnVendedor() {
+        return btnVendedor;
+    }
+
+    
 }

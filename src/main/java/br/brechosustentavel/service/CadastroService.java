@@ -44,10 +44,10 @@ public class CadastroService {
         
         if(!isVazio()){
             if(isComprador){
-                Comprador comprador = new Comprador(usuarioCadastrado.getId());
+                new Comprador().setId(usuarioCadastrado.getId());
             }
             else{
-                Vendedor vendedor = new Vendedor(usuarioCadastrado.getId());
+                new Vendedor().setId(usuarioCadastrado.getId());
             }
         }
     }
