@@ -10,15 +10,69 @@ package br.brechosustentavel.model;
  */
 public class Comprador {
     private int id;
-    private String coletaveis; // avaliar
-    private int nivel;
+    private String nivel;
     private double estrelas;
-    private String insignas; // avaliar
-    private String selo; // avaliar
-    private double totalGwp;
-    private String estatisticas; // avaliar se seria uma classe 
+    private int comprasFinalizadas;
+    private boolean selo;
+    private double gwpEvitado;
     
-    public Comprador(int id){
+    public Comprador(String nivel, double estrelas, int comprasFinalizadas, double gwpEvitado, boolean selo){
+        this.estrelas = estrelas;
+        this.comprasFinalizadas = comprasFinalizadas;
+        this.gwpEvitado = gwpEvitado;
+        this.selo = selo;
+    }
+    
+    public Comprador(){
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
+
+    public String getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(String nivel) {
+        this.nivel = nivel;
+    }
+
+    public double getEstrelas() {
+        return estrelas;
+    }
+
+    public void setEstrelas(double estrelas) {
+        this.estrelas = estrelas;
+    }
+
+    public int getComprasFinalizadas() {
+        return comprasFinalizadas;
+    }
+
+    public void setComprasFinalizadas(int comprasFinalizadas) {
+        this.comprasFinalizadas = comprasFinalizadas;
+    }
+
+    public boolean isSelo() {
+        return selo;
+    }
+
+    public void setSelo(boolean selo) {
+        this.selo = selo;
+    }
+
+    public double getGwpEvitado() {
+        return gwpEvitado;
+    }
+
+    public void setGwpEvitado(double gwpEvitado) {
+        this.gwpEvitado = gwpEvitado;
+    }
+    
+    
 }

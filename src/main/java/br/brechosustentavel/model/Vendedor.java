@@ -10,14 +10,58 @@ package br.brechosustentavel.model;
  */
 public class Vendedor {
     private int id;
-    private int nivel;
+    private String nivel;
     private double estrelas;
-    private String selosDeTemporada;
-    private int rankingSemanal;
-    private double beneficioClimaticoAcumulado;
-    private String indicadores;
+    private int vendasConcluidas;
+    private double gwpContribuido;
+
+    public Vendedor(String nivel, double estrelas, int vendasConcluidas, double gwpContribuido){
+        this.nivel = nivel;
+        this.estrelas = estrelas;
+        this.vendasConcluidas = vendasConcluidas;
+        this.gwpContribuido = gwpContribuido;
+    }
+
+    public Vendedor() {
+    }
     
-    public Vendedor(int id){
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
+
+    public String getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(String nivel) {
+        this.nivel = nivel;
+    }
+
+    public double getEstrelas() {
+        return estrelas;
+    }
+
+    public void setEstrelas(double estrelas) {
+        this.estrelas = estrelas;
+    }
+
+    public int getVendasConcluidas() {
+        return vendasConcluidas;
+    }
+
+    public void setVendasConcluidas(int vendasConcluidas) {
+        this.vendasConcluidas = vendasConcluidas;
+    }
+
+    public double getGwpContribuido() {
+        return gwpContribuido;
+    }
+
+    public void setGwpContribuido(double gwpContribuido) {
+        this.gwpContribuido = gwpContribuido;
+    }    
 }

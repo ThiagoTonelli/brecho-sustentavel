@@ -13,4 +13,5 @@ import java.util.Optional;
  */
 public interface IVendedorRepository {
     public Optional<Vendedor> buscarPorId(int id);
+    public Vendedor cadastrarVendedor(Vendedor vendedor);
 }

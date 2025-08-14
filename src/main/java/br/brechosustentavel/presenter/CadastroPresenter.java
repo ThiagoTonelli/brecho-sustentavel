@@ -97,7 +97,7 @@ public class CadastroPresenter {
             JOptionPane.showMessageDialog(view, "Cadastro realizado com sucesso!");
             view.dispose();
             
-           // new JanelaEscolhaPerfilPresenter(new TelaPrincipalPresenter()); 
+            new LoginPresenter(); 
             
         } catch(Exception e) { 
             JOptionPane.showMessageDialog(view, "" + e.getMessage());

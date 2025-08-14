@@ -62,6 +62,7 @@ public class BrechoSustentavel {
             LoginView loginView = new LoginView();
             LoginPresenter loginPresenter = new LoginPresenter();
             loginPresenter.setAutenticacaoService(autenticacaoService);
+            loginPresenter.setSessaoUsuarioService(sessao);
  
             
             
