@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -27,44 +28,57 @@ public class SQLiteLinhaDoTempoRepository implements ILinhaDoTempoRepository{
     
     @Override
     public Optional<EventoLinhaDoTempo> ultimoEvento(String id_c) {
-        // A consulta SQL busca o último evento (mais recente) para um 'id_peca',
-        // ordenando pela data em ordem decrescente e limitando a 1 resultado.
         String sql = "SELECT * FROM evento_linha_tempo WHERE id_peca = ? ORDER BY data DESC LIMIT 1";
-
+        
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
 
             pstmt.setString(1, id_c);
 
             try (ResultSet rs = pstmt.executeQuery()) {
-                // Verifica se a consulta retornou um registro.
+
                 if (rs.next()) {
-                    // Extrai os dados da linha atual do ResultSet.
+
                     int id = rs.getInt("id");
                     String idPeca = rs.getString("id_peca");
                     String descricao = rs.getString("descricao");
                     int cicloN = rs.getInt("ciclo_n");
                     String tipoEvento = rs.getString("tipo_evento");
-                    // Converte o Timestamp do SQL para LocalDateTime do Java.
                     LocalDateTime data = rs.getTimestamp("data").toLocalDateTime();
                     double gwpEvitado = rs.getDouble("gwp_evitado");
                     double mciPeca = rs.getDouble("mci_peca");
 
-                    // Cria o objeto EventoLinhaDoTempo.
-                    EventoLinhaDoTempo evento = new EventoLinhaDoTempo(tipoEvento, data, gwpEvitado, mciPeca);
+
+                    EventoLinhaDoTempo evento = new EventoLinhaDoTempo(descricao, tipoEvento, data, gwpEvitado, mciPeca);
                     evento.setCliclo(cicloN);
                     
-                    // Retorna um Optional com o evento encontrado.
+                    
                     return Optional.of(evento);
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao buscar o último evento da peça: " + e.getMessage());
-            // Em um projeto real, trate a exceção de forma adequada (log, etc.).
+            throw new RuntimeException("Erro ao buscar ultimo evento no banco de dados", e);
         }
-
-        // Se nenhum registro foi encontrado, retorna um Optional vazio.
         return Optional.empty();
+    }
+    
+    @Override
+     public void criar(String id_c, EventoLinhaDoTempo evento) {
+        String sql = "INSERT INTO evento_linha_tempo(id_peca, descricao, ciclo_n, tipo_evento, data, gwp_evitado, mci_peca) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            
+            pstmt.setString(1, id_c);
+            pstmt.setString(2, evento.getDescricao());
+            pstmt.setInt(3, evento.getCiclo_n());
+            pstmt.setString(4, evento.getTipoEvento());
+            pstmt.setTimestamp(5, Timestamp.valueOf(evento.getDataHora()));
+            pstmt.setDouble(6, evento.getGwpEvitado());
+            pstmt.setDouble(7, evento.getMciPeca());
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao inserir evento no banco de dados", e);
+        }
     }
     
 }

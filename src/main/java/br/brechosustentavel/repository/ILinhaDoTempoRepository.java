@@ -13,4 +13,5 @@ import java.util.Optional;
  */
 public interface ILinhaDoTempoRepository {
     public Optional<EventoLinhaDoTempo> ultimoEvento(String id_c);
+    public void criar(String id_c, EventoLinhaDoTempo evento);
 }

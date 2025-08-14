@@ -3,6 +3,7 @@ package br.brechosustentavel.command;
 import br.brechosustentavel.model.EventoLinhaDoTempo;
 import br.brechosustentavel.model.Peca;
 import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.repository.ILinhaDoTempoRepository;
 import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.IPecaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
@@ -29,7 +30,8 @@ public class NovoAnuncioCommand implements ICommand {
     public void executar(ManterAnuncioPresenter presenter) {
         try {
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
-            IPecaRepository repository = fabrica.getPecaRepository();
+            IPecaRepository repositoryPeca = fabrica.getPecaRepository();
+            ILinhaDoTempoRepository repositoryLinhaDoTempo = fabrica.getLinhaDoTempoRepository();
             IJanelaManterAnuncioView view = presenter.getView();
             
             //captura valores da presenter
@@ -69,7 +71,7 @@ public class NovoAnuncioCommand implements ICommand {
                     }
                 }
             }
-            Optional<Peca> peca = repository.consultar(id_c); 
+            Optional<Peca> peca = repositoryPeca.consultar(id_c); 
             if(peca.isEmpty()){
                 Peca novaPeca = new Peca(id_c, subcategoria, tamanho, cor, massaEstimada, estadoDeConservacao, precoBase);
                 novaPeca.setTipoDePeca(tipoPeca);
@@ -84,11 +86,13 @@ public class NovoAnuncioCommand implements ICommand {
                 double gwpBase = calcularIndices.calcularGwpBase(novaPeca);
                 double mciPeca = calcularIndices.calcularMCI(novaPeca);
                 LocalDateTime data = LocalDateTime.now();
-                EventoLinhaDoTempo evento = new EventoLinhaDoTempo("publicação", data, gwpAvoided, mciPeca);
-                evento.setPeca(novaPeca);
+                EventoLinhaDoTempo evento = new EventoLinhaDoTempo("Primeira publicação", "publicação", data, gwpAvoided, mciPeca);
                 evento.setCliclo(1);
-                
-                
+                List<EventoLinhaDoTempo> eventosLinha = new ArrayList<>();
+                eventosLinha.add(evento);
+                novaPeca.setLinhaDoTempo(eventosLinha);
+                repositoryPeca.criar(novaPeca);
+                repositoryLinhaDoTempo.criar(id_c, evento);
                 /*
                 System.out.println("--- ANÚNCIO A SER SALVO ---");
                 System.out.println("ID-C: " + id_c);

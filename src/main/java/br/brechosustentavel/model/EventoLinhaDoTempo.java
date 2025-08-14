@@ -10,25 +10,48 @@ import java.time.LocalDateTime;
  * @author thiag
  */
 public class EventoLinhaDoTempo {
+    private String descricao;
     private String tipoEvento;
     private LocalDateTime dataHora;
     private double gwpEvitado;
-    private double mciItem;
-    private Peca peca;
+    private double mciPeca;
     private int ciclo_n;
 
-    public EventoLinhaDoTempo(String tipoEvento, LocalDateTime dataHora, double gwpEvitado, double mciItem) {
+    public EventoLinhaDoTempo(String descricao, String tipoEvento, LocalDateTime dataHora, double gwpEvitado, double mciPeca) {
+        this.descricao = descricao;
         this.tipoEvento = tipoEvento;
         this.dataHora = dataHora;
         this.gwpEvitado = gwpEvitado;
-        this.mciItem = mciItem;
+        this.mciPeca = mciPeca;
     }
     
     public void setCliclo(int ciclo_n){
         this.ciclo_n = ciclo_n;
     }
-    public void setPeca(Peca peca){
-        this.peca = peca;
+
+    public String getTipoEvento() {
+        return tipoEvento;
     }
+
+    public LocalDateTime getDataHora() {
+        return dataHora;
+    }
+
+    public double getGwpEvitado() {
+        return gwpEvitado;
+    }
+
+    public double getMciPeca() {
+        return mciPeca;
+    }
+
+    public int getCiclo_n() {
+        return ciclo_n;
+    }
+    
+    public String getDescricao() {
+        return descricao;
+    }
+    
     
 }
