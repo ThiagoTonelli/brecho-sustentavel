@@ -12,7 +12,7 @@ import java.util.Optional;
  * @author thiag
  */
 public interface IPecaRepository {
-    public void criar();
+    public void criar(Peca peca);
     public void excluir();
     public void editar();
     public Optional<Peca> consultar(String idC);
