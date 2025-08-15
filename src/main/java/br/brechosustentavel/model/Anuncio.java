@@ -11,18 +11,43 @@ import java.util.List;
  * @author thiag
  */
 public class Anuncio {
+    private int idAnuncio;
     private int idVendedor;
-    private List<String> defeitoPeca;
+    private Peca peca;
     private double valor_final;
     private double gwp_avoided;
     private double mci;
 
-    public Anuncio(int idVendedor, List<String> defeitoPeca, double valor_final, double gwp_avoided, double mci) {
+    public Anuncio(int idVendedor, Peca peca, double valor_final, double gwp_avoided, double mci) {
         this.idVendedor = idVendedor;
-        this.defeitoPeca = defeitoPeca;
+        this.peca = peca;
         this.valor_final = valor_final;
         this.gwp_avoided = gwp_avoided;
         this.mci = mci;
     }    
+
+    public int getIdVendedor() {
+        return idVendedor;
+    }
+
+    public Peca getPeca() {
+        return peca;
+    }
+
+    public double getValor_final() {
+        return valor_final;
+    }
+
+    public double getGwp_avoided() {
+        return gwp_avoided;
+    }
+
+    public double getMci() {
+        return mci;
+    }
+    
+    public void setIdAnuncio(int idAnuncio){
+        this.idAnuncio = idAnuncio;
+    }
     
 }

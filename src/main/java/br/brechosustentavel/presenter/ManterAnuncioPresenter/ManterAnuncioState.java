@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.presenter.VendedorPresenter;
+package br.brechosustentavel.presenter.ManterAnuncioPresenter;
 
-import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
 
 /**
  *

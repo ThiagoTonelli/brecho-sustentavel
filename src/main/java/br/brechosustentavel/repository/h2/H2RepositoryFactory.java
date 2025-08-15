@@ -5,6 +5,7 @@
 package br.brechosustentavel.repository.h2;
 
 import br.brechosustentavel.repository.ConexaoFactory;
+import br.brechosustentavel.repository.IAnuncioRepository;
 import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
@@ -13,7 +14,6 @@ import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.ITransacaoRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
-import java.sql.Connection;
 import br.brechosustentavel.repository.IPecaRepository;
 import br.brechosustentavel.repository.IVendedorRepository;
 
@@ -70,6 +70,11 @@ public class H2RepositoryFactory extends RepositoryFactory{
 
     @Override
     public ICompradorRepository getCompradorRepository() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public IAnuncioRepository getAnuncioRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

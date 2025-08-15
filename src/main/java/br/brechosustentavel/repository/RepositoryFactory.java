@@ -51,4 +51,6 @@ public abstract class RepositoryFactory {
     public abstract IVendedorRepository getVendedorRepository();
     
     public abstract ICompradorRepository getCompradorRepository();
+    
+    public abstract IAnuncioRepository getAnuncioRepository();
 }

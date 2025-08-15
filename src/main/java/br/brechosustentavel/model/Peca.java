@@ -113,6 +113,35 @@ public class Peca {
     public List<EventoLinhaDoTempo> getLinhaDoTempo() {
         return linhaDoTempo;
     }
+
+    public void setId_c(String id_c) {
+        this.id_c = id_c;
+    }
+
+    public void setSubcategoria(String subcategoria) {
+        this.subcategoria = subcategoria;
+    }
+
+    public void setTamanho(String tamanho) {
+        this.tamanho = tamanho;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public void setMassaEstimada(double massaEstimada) {
+        this.massaEstimada = massaEstimada;
+    }
+
+    public void setEstadoDeConservacao(String estadoDeConservacao) {
+        this.estadoDeConservacao = estadoDeConservacao;
+    }
+
+    public void setPrecoBase(double precoBase) {
+        this.precoBase = precoBase;
+    }
+    
     
     
     

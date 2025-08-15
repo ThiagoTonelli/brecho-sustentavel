@@ -52,7 +52,7 @@ public class SQLiteTipoPecaRepository implements ITipoDePecaRepository{
                 if (rs.next()) {
                     return rs.getInt("id");
                 } else {
-                    return -1; // ou algum valor que indique "não encontrado"
+                    return -1;
                 }
             }
         } catch (SQLException e) {

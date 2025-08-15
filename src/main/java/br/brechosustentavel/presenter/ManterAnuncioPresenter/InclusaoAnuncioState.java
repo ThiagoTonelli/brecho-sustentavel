@@ -2,19 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.presenter.VendedorPresenter;
+package br.brechosustentavel.presenter.ManterAnuncioPresenter;
 
-import br.brechosustentavel.command.CarregarComposicaoCommand;
-import br.brechosustentavel.command.CarregarDefeitosPorTipoCommand;
-import br.brechosustentavel.command.CarregarTiposDePecaCommand;
-import br.brechosustentavel.command.GerarIdCommand;
-import br.brechosustentavel.command.ICommand;
-import br.brechosustentavel.command.NovoAnuncioCommand;
+import br.brechosustentavel.commandVendedor.CarregarComposicaoCommand;
+import br.brechosustentavel.commandVendedor.CarregarDefeitosPorTipoCommand;
+import br.brechosustentavel.commandVendedor.CarregarTiposDePecaCommand;
+import br.brechosustentavel.commandVendedor.GerarIdCommand;
+import br.brechosustentavel.commandVendedor.NovoAnuncioCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import br.brechosustentavel.commandVendedor.ICommandVendedor;
 
 /**
  *
@@ -38,8 +38,7 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
             }
         });
         salvar();
-        cancelar();
-                
+        cancelar();         
     }
     
     private void configurarTela(){
@@ -73,9 +72,10 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
                         if(!todosCamposPreenchidos()){
                             JOptionPane.showMessageDialog(null, "Preencha todos os campos e verifique se a soma dos materiais atinge os 100%", "Aviso", JOptionPane.WARNING_MESSAGE);
                         }
-                        ICommand command = new NovoAnuncioCommand();
+                        ICommandVendedor command = new NovoAnuncioCommand();
                         command.executar(presenter);
                         JOptionPane.showMessageDialog(null, "anuncio salvo");
+                        presenter.setEstadoVendedor(new EdicaoAnuncioState(presenter));
                     }catch (Exception ex){
                         JOptionPane.showMessageDialog(null, "Erro ao salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     }

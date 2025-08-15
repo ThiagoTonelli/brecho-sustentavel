@@ -1,8 +1,10 @@
-package br.brechosustentavel.command;
+package br.brechosustentavel.commandVendedor;
 
+import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.model.EventoLinhaDoTempo;
 import br.brechosustentavel.model.Peca;
-import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.repository.IAnuncioRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
 import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.IPecaRepository;
@@ -24,13 +26,14 @@ import java.util.Optional;
  *
  * @author thiag
  */
-public class NovoAnuncioCommand implements ICommand {
+public class NovoAnuncioCommand implements ICommandVendedor {
     
     @Override
     public void executar(ManterAnuncioPresenter presenter) {
         try {
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
             IPecaRepository repositoryPeca = fabrica.getPecaRepository();
+            IAnuncioRepository repositoryAnuncio = fabrica.getAnuncioRepository();
             ILinhaDoTempoRepository repositoryLinhaDoTempo = fabrica.getLinhaDoTempoRepository();
             IJanelaManterAnuncioView view = presenter.getView();
             
@@ -68,11 +71,12 @@ public class NovoAnuncioCommand implements ICommand {
                     if (checkBox.isSelected()) {
                         double desconto = (double) checkBox.getClientProperty("desconto");
                         defeitosSelecionados.put(checkBox.getText(), desconto);
+
                     }
                 }
             }
-            Optional<Peca> peca = repositoryPeca.consultar(id_c); 
-            if(peca.isEmpty()){
+            Optional<Peca> pecaOpt = repositoryPeca.consultar(id_c); 
+            if(pecaOpt.isEmpty()){
                 Peca novaPeca = new Peca(id_c, subcategoria, tamanho, cor, massaEstimada, estadoDeConservacao, precoBase);
                 novaPeca.setTipoDePeca(tipoPeca);
                 novaPeca.setDefeitos(defeitosSelecionados);
@@ -93,12 +97,53 @@ public class NovoAnuncioCommand implements ICommand {
                 novaPeca.setLinhaDoTempo(eventosLinha);
                 repositoryPeca.criar(novaPeca);
                 repositoryLinhaDoTempo.criar(id_c, evento);
+                Anuncio anuncio = new Anuncio(12, novaPeca, novaPeca.getPrecoFinal(), gwpAvoided, mciPeca);
+                repositoryAnuncio.criar(anuncio);
                 /*
                 System.out.println("--- ANÚNCIO A SER SALVO ---");
                 System.out.println("ID-C: " + id_c);
                 System.out.println("Tipo: " + tipoPeca);
                 System.out.println("Preço Base: " + precoBase);
                 System.out.println("Defeitos Selecionados: " + defeitosSelecionados.size());*/
+            }
+            else {
+                Peca peca = pecaOpt.get();
+                peca.setId_c(id_c);
+                Optional<EventoLinhaDoTempo> ultimoEventoOpt = repositoryLinhaDoTempo.ultimoEvento(id_c);
+                EventoLinhaDoTempo ultimoEvento = ultimoEventoOpt.get();
+                if (ultimoEvento.getTipoEvento().equals("encerrado")){
+                    peca.setSubcategoria(subcategoria);
+                    peca.setTamanho(tamanho);
+                    peca.setCor(cor);
+                    peca.setMassaEstimada(massaEstimada);
+                    peca.setEstadoDeConservacao(estadoDeConservacao);
+                    peca.setPrecoBase(precoBase);
+                    peca.setTipoDePeca(tipoPeca);
+                    peca.setDefeitos(defeitosSelecionados);
+                    peca.setMaterialDesconto(materiaisDesconto);
+                    peca.setMaterialQuantidade(materiaisQuantidade);
+
+                    //calcula metricas e preco final
+                    AplicarDescontosDefeitosService aplicarDescontos = new AplicarDescontosDefeitosService();
+                    peca.setPrecoFinal(aplicarDescontos.calcularDescontos(peca));
+                    CalculadoraDeIndicesService calcularIndices = new CalculadoraDeIndicesService();
+                    double gwpAvoided = calcularIndices.calcularGwpAvoided(peca);
+                    double gwpBase = calcularIndices.calcularGwpBase(peca);
+                    double mciPeca = calcularIndices.calcularMCI(peca);
+                    LocalDateTime data = LocalDateTime.now();
+                    EventoLinhaDoTempo evento = new EventoLinhaDoTempo("Publicação", "publicação", data, gwpAvoided, mciPeca);
+                    evento.setCliclo(ultimoEvento.getCiclo_n()+1);
+                    List<EventoLinhaDoTempo> eventosLinha = new ArrayList<>();
+                    eventosLinha.add(evento);
+                    peca.setLinhaDoTempo(eventosLinha);
+                    repositoryPeca.criar(peca);
+                    repositoryLinhaDoTempo.criar(id_c, evento);
+                    Anuncio anuncio = new Anuncio(12, peca, peca.getPrecoFinal(), gwpAvoided, mciPeca);
+                    repositoryAnuncio.criar(anuncio);
+                }
+                else {
+                    // nao foi encerrado o item antes da publicacao
+                }
             }
 
         } catch (NumberFormatException e) {

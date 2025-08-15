@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.command;
+package br.brechosustentavel.commandVendedor;
 
-import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.IPecaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.gerador_id_c.GeradorIdService;
@@ -13,7 +13,7 @@ import br.brechosustentavel.service.gerador_id_c.GeradorIdService;
  *
  * @author thiag
  */
-public class GerarIdCommand implements ICommand{
+public class GerarIdCommand implements ICommandVendedor{
 
     @Override
     public void executar(ManterAnuncioPresenter presenter) {

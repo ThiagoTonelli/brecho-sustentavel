@@ -220,12 +220,12 @@ public class SQLiteInicializaBancoDeDados {
                      CREATE TABLE IF NOT EXISTS anuncio (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         id_vendedor INTEGER NOT NULL,
-                        id_defeito_peca INTEGER NOT NULL,
+                        id_peca TEXT NOT NULL UNIQUE,
                         valor_final REAL NOT NULL,
                         gwp REAL NOT NULL,
                         mci REAL NOT NULL,
                         FOREIGN KEY (id_vendedor) REFERENCES vendedor(id_vendedor) ON DELETE CASCADE,
-                        FOREIGN KEY (id_defeito_peca) REFERENCES defeito_peca(id) ON DELETE CASCADE
+                        FOREIGN KEY (id_peca) REFERENCES peca(id_c) ON DELETE CASCADE
                      );
                      """;
         executarSQL(sql);

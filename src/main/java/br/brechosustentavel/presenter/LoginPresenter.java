@@ -5,7 +5,6 @@
 package br.brechosustentavel.presenter;
 
 import br.brechosustentavel.model.Usuario;
-import br.brechosustentavel.presenter.VendedorPresenter.JanelaVendedorPresenter;
 import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.IVendedorRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
