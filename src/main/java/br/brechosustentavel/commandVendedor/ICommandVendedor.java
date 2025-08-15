@@ -2,15 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package br.brechosustentavel.command;
+package br.brechosustentavel.commandVendedor;
 
-import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
 
 
 /*
  *
  * @author thiag
  */
-public interface ICommand {
+public interface ICommandVendedor {
     public void executar(ManterAnuncioPresenter presenter);
 }

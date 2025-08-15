@@ -5,12 +5,14 @@
 package br.brechosustentavel.view;
 
 import javax.swing.JButton;
+import javax.swing.JTable;
 
 /**
  *
  * @author thiag
  */
-public interface IJanelaVendedorView {
+public interface IJanelaPrincipalView {
     public JButton getButtonAdicionar();
     public JButton getButtonVisualizar();
+    public JTable getjTable1();
 }

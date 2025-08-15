@@ -6,18 +6,19 @@ package br.brechosustentavel.view;
 
 import java.beans.PropertyVetoException;
 import javax.swing.JButton;
+import javax.swing.JTable;
 
 /**
  *
  * @author thiag
  */
-public class JanelaVendedorView extends javax.swing.JInternalFrame implements IJanelaVendedorView{
+public class JanelaPrincipalView extends javax.swing.JInternalFrame implements IJanelaPrincipalView{
 
     /**
      * Creates new form JanelaPrincipal
      * @throws java.beans.PropertyVetoException
      */
-    public JanelaVendedorView() throws PropertyVetoException {
+    public JanelaPrincipalView() throws PropertyVetoException {
         initComponents();
     }
 
@@ -151,6 +152,13 @@ public class JanelaVendedorView extends javax.swing.JInternalFrame implements IJ
     public JButton getButtonVisualizar() {
         return buttonVisualizar;
     }
+
+    @Override
+    public JTable getjTable1() {
+        return jTable1;
+    }
+    
+    
     
     
 

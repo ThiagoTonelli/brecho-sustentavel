@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.command;
+package br.brechosustentavel.commandVendedor;
 
-import br.brechosustentavel.presenter.VendedorPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import java.util.List;
@@ -14,7 +14,7 @@ import br.brechosustentavel.view.IJanelaManterAnuncioView;
  *
  * @author thiag
  */
-public class CarregarTiposDePecaCommand implements ICommand{
+public class CarregarTiposDePecaCommand implements ICommandVendedor{
 
     @Override
     public void executar(ManterAnuncioPresenter presenter) {
