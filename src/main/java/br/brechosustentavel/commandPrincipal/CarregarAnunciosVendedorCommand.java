@@ -44,7 +44,7 @@ public class CarregarAnunciosVendedorCommand implements ICommandPrincipal{
                 a.getPeca().getTamanho(),
                 a.getPeca().getCor(),
                 a.getPeca().getMassaEstimada(),
-                a.getGwp_avoided(),
+                a.getGwpAvoided(),
                 a.getMci(),
                 a.getPeca().getPrecoFinal()  
             });

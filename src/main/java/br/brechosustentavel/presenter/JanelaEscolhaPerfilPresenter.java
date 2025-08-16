@@ -5,6 +5,7 @@
 package br.brechosustentavel.presenter;
 
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaEscolhaPerfilView;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import java.awt.event.ActionEvent;
@@ -18,9 +19,11 @@ import javax.swing.JOptionPane;
  */
 public class JanelaEscolhaPerfilPresenter {
     private JanelaEscolhaPerfilView view;
-    private TelaPrincipalPresenter telaPresenter = new TelaPrincipalPresenter();
+    private TelaPrincipalPresenter telaPresenter;
     
     public JanelaEscolhaPerfilPresenter(){
+        this.telaPresenter = new TelaPrincipalPresenter();
+        
         view = new JanelaEscolhaPerfilView();
         view.setVisible(false);
         view.getBtnComprador().addActionListener(new ActionListener() {
@@ -49,6 +52,7 @@ public class JanelaEscolhaPerfilPresenter {
     }
     
     public void telaVendedor() throws PropertyVetoException{
+        
         JanelaPrincipalView janelaVendedor = new JanelaPrincipalView();
         telaPresenter.getView().getjDesktopPane1().add(janelaVendedor);
         janelaVendedor.setMaximum(true);

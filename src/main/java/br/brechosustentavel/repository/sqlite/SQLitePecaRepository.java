@@ -38,6 +38,8 @@ public class SQLitePecaRepository implements IPecaRepository{
             pstmt.setDouble(5, peca.getMassaEstimada());
             pstmt.setString(6, peca.getEstadoDeConservacao());
             pstmt.setDouble(7, peca.getPrecoBase());
+            
+            pstmt.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException("erro ao inserir peça", e);

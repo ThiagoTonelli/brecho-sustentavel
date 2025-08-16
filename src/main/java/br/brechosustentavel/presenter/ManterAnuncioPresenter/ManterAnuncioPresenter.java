@@ -17,7 +17,7 @@ public class ManterAnuncioPresenter {
     private JanelaManterAnuncioView view;
 
     public ManterAnuncioPresenter() throws PropertyVetoException{
-        IJanelaManterAnuncioView view = new JanelaManterAnuncioView();
+        view = new JanelaManterAnuncioView();
     }
     
     public void setEstadoVendedor(ManterAnuncioState novoEstado){

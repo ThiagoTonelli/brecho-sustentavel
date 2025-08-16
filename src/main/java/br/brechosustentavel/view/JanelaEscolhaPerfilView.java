@@ -32,6 +32,7 @@ public class JanelaEscolhaPerfilView extends javax.swing.JInternalFrame {
         btnVendedor = new javax.swing.JButton();
         lblEscolhaPerfil = new javax.swing.JLabel();
 
+        setResizable(true);
         setTitle("Escolha de Perfil");
 
         btnComprador.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -40,7 +41,7 @@ public class JanelaEscolhaPerfilView extends javax.swing.JInternalFrame {
         btnVendedor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVendedor.setText("Vendedor");
 
-        lblEscolhaPerfil.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblEscolhaPerfil.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         lblEscolhaPerfil.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEscolhaPerfil.setText("Em que perfil você deseja entrar?");
 
@@ -48,24 +49,24 @@ public class JanelaEscolhaPerfilView extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblEscolhaPerfil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(412, 412, 412)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnVendedor, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                    .addComponent(btnComprador, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(lblEscolhaPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, 702, Short.MAX_VALUE)
+                    .addComponent(btnVendedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnComprador, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(433, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
+                .addContainerGap(205, Short.MAX_VALUE)
                 .addComponent(lblEscolhaPerfil)
-                .addGap(64, 64, 64)
+                .addGap(73, 73, 73)
                 .addComponent(btnComprador, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addContainerGap(260, Short.MAX_VALUE))
         );
 
         pack();

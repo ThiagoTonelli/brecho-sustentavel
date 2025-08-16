@@ -33,8 +33,7 @@ public class SQLiteTipoPecaRepository implements ITipoDePecaRepository{
             Statement stmt = conexao.createStatement()){
             ResultSet rs = stmt.executeQuery("SELECT nome FROM tipo_peca");
             while(rs.next()){
-                tipos.add(rs.getString("nome"));
-            
+                tipos.add(rs.getString("nome"));  
             }
             return tipos;
         } catch (SQLException e) {

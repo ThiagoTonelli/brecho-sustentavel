@@ -24,6 +24,8 @@ public class CadastroPresenter {
         this.cadastroService = cadastroService;
 
         view = new CadastroView();
+        view.setLocationRelativeTo(null);
+        view.setSize(1150, 800);
         view.setVisible(false);
         
         //Caso não tenha usuario cadastrado, não aparece opção de escolha do tipo de perfil
@@ -105,7 +107,7 @@ public class CadastroPresenter {
     }
     
     private void cancelar(){
-        new LoginView().setVisible(true);
+        new LoginPresenter();
         view.dispose();
     }
     

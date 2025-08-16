@@ -4,13 +4,20 @@
  */
 package br.brechosustentavel.presenter.JanelaPrincipalPresenter;
 
+import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.EdicaoAnuncioState;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.InclusaoAnuncioState;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.view.IJanelaPrincipalView;
+import br.brechosustentavel.view.JanelaPrincipalView;
+import br.brechosustentavel.view.JanelaVisualizarPerfilView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 /**
  *
@@ -18,10 +25,12 @@ import java.beans.PropertyVetoException;
  */
 public class VendedorState extends JanelaPrincipalState{
     
-    public VendedorState(JanelaPrincipalPresenter presenter){
+    public VendedorState(JanelaPrincipalPresenter presenter) throws PropertyVetoException{
         super(presenter);
         
-        IJanelaPrincipalView view = presenter.getView();
+        JanelaPrincipalView view = presenter.getView();
+        view.setMaximum(true);
+        view.setVisible(true);
         view.getButtonAdicionar().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -33,14 +42,35 @@ public class VendedorState extends JanelaPrincipalState{
             public void actionPerformed(ActionEvent e){
                 editar();
             }
-        }); 
+        });
+        view.getMenuVisualizarPerfil().addMenuListener(new MenuListener(){
+            @Override
+            public void menuSelected(MenuEvent e) {
+                JanelaVisualizarPerfilView visualizar = new JanelaVisualizarPerfilPresenter().getView();
+                presenter.setFrame(visualizar);
+                try {
+                    visualizar.setVisible(true);
+                    visualizar.setSelected(true);
+                    visualizar.setMaximum(true);
+                } catch (PropertyVetoException ex) {
+                    Logger.getLogger(VendedorState.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            @Override
+            public void menuDeselected(MenuEvent e) {}
+
+            @Override
+            public void menuCanceled(MenuEvent e) {}
+        });            
     }
     
     @Override
     public void criar(){
         try {
-            ManterAnuncioPresenter presenter = new ManterAnuncioPresenter();
-            presenter.setEstadoVendedor(new InclusaoAnuncioState(presenter));
+            ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter();
+            presenter.setFrame(anuncioPresenter.getView());
+            
+            anuncioPresenter.setEstadoVendedor(new InclusaoAnuncioState(anuncioPresenter));
         } catch (PropertyVetoException ex) {
             throw new RuntimeException("erro ao criar novo anuncio", ex);
         }
