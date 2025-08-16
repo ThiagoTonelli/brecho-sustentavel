@@ -11,6 +11,7 @@ import br.brechosustentavel.repository.IPecaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.AplicarDescontosDefeitosService;
 import br.brechosustentavel.service.CalculadoraDeIndicesService;
+import br.brechosustentavel.service.SessaoUsuarioService;
 import java.awt.Component;
 import javax.swing.JCheckBox;
 import java.util.ArrayList;
@@ -97,14 +98,18 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                 novaPeca.setLinhaDoTempo(eventosLinha);
                 repositoryPeca.criar(novaPeca);
                 repositoryLinhaDoTempo.criar(id_c, evento);
-                Anuncio anuncio = new Anuncio(12, novaPeca, novaPeca.getPrecoFinal(), gwpAvoided, mciPeca);
+                SessaoUsuarioService sessao = SessaoUsuarioService.getInstancia();
+                Anuncio anuncio = new Anuncio(sessao.getUsuarioAutenticado().getId(), novaPeca, novaPeca.getPrecoFinal(), gwpAvoided, mciPeca);
                 repositoryAnuncio.criar(anuncio);
-                /*
+                
                 System.out.println("--- ANÚNCIO A SER SALVO ---");
                 System.out.println("ID-C: " + id_c);
                 System.out.println("Tipo: " + tipoPeca);
                 System.out.println("Preço Base: " + precoBase);
-                System.out.println("Defeitos Selecionados: " + defeitosSelecionados.size());*/
+                System.out.println("Defeitos Selecionados: " + defeitosSelecionados.size());
+                System.out.println(anuncio.toString());      
+                System.out.println(materiaisQuantidade);
+                System.out.println(materiaisDesconto);
             }
             else {
                 Peca peca = pecaOpt.get();
@@ -138,8 +143,10 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                     peca.setLinhaDoTempo(eventosLinha);
                     repositoryPeca.criar(peca);
                     repositoryLinhaDoTempo.criar(id_c, evento);
-                    Anuncio anuncio = new Anuncio(12, peca, peca.getPrecoFinal(), gwpAvoided, mciPeca);
+                    SessaoUsuarioService sessao = SessaoUsuarioService.getInstancia();
+                    Anuncio anuncio = new Anuncio(sessao.getUsuarioAutenticado().getId(), peca, peca.getPrecoFinal(), gwpAvoided, mciPeca);
                     repositoryAnuncio.criar(anuncio);
+                    
                 }
                 else {
                     // nao foi encerrado o item antes da publicacao

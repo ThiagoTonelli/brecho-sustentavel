@@ -6,6 +6,8 @@ package br.brechosustentavel.view;
 
 import java.beans.PropertyVetoException;
 import javax.swing.JButton;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JTable;
 
 /**
@@ -31,6 +33,7 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -39,9 +42,18 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         buttonAdicionar = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
+        menuBar = new javax.swing.JMenuBar();
+        menuVisualizarPerfil = new javax.swing.JMenu();
+        menuPerfil = new javax.swing.JMenu();
+        opcTrocarPerfil = new javax.swing.JMenuItem();
+        opcAddPerfil = new javax.swing.JMenuItem();
+        menuConfiguracao = new javax.swing.JMenu();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setIconifiable(true);
         setMaximizable(true);
+        setResizable(true);
         setTitle("Bem-vindo Vendedor!");
         setPreferredSize(new java.awt.Dimension(1000, 677));
         try {
@@ -66,6 +78,7 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
 
         jButton1.setText("jButton1");
 
+        buttonVisualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonVisualizar.setText("Visualizar");
         buttonVisualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -73,6 +86,7 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
             }
         });
 
+        buttonAdicionar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         buttonAdicionar.setText("Adicionar Anúncio");
         buttonAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,37 +103,56 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(64, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                        .addGap(87, 87, 87)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                        .addGap(88, 88, 88)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 951, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(buttonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
-                        .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 853, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(63, Short.MAX_VALUE))
+                        .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(97, Short.MAX_VALUE)
+                .addContainerGap(92, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(93, Short.MAX_VALUE))
         );
+
+        menuVisualizarPerfil.setText("Visualizar Perfil");
+        menuBar.add(menuVisualizarPerfil);
+
+        menuPerfil.setText("Perfil");
+        menuPerfil.setToolTipText("");
+
+        opcTrocarPerfil.setText("Trocar perfil");
+        menuPerfil.add(opcTrocarPerfil);
+
+        opcAddPerfil.setText("Adicionar novo perfil");
+        menuPerfil.add(opcAddPerfil);
+
+        menuBar.add(menuPerfil);
+
+        menuConfiguracao.setText("Configuração");
+        menuBar.add(menuConfiguracao);
+
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,6 +190,28 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     public JTable getjTable1() {
         return jTable1;
     }
+
+    public JMenu getMenuConfiguracao() {
+        return menuConfiguracao;
+    }
+
+    public JMenu getMenuPerfil() {
+        return menuPerfil;
+    }
+
+    public JMenu getMenuVisualizarPerfil() {
+        return menuVisualizarPerfil;
+    }
+
+    public JMenuItem getOpcAddPerfil() {
+        return opcAddPerfil;
+    }
+
+    public JMenuItem getOpcTrocarPerfil() {
+        return opcTrocarPerfil;
+    }
+    
+    
     
     
     
@@ -167,9 +222,16 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     private javax.swing.JButton buttonVisualizar;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu menuConfiguracao;
+    private javax.swing.JMenu menuPerfil;
+    private javax.swing.JMenu menuVisualizarPerfil;
+    private javax.swing.JMenuItem opcAddPerfil;
+    private javax.swing.JMenuItem opcTrocarPerfil;
     // End of variables declaration//GEN-END:variables
 }

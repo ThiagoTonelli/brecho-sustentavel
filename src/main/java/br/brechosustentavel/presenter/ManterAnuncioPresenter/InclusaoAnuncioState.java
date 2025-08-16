@@ -42,7 +42,10 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
     }
     
     private void configurarTela(){
+        
         try{
+            presenter.getView().setMaximum(true);
+            presenter.getView().setVisible(true);
             presenter.getView().getBtnGerarId().addActionListener(new ActionListener (){
                 @Override
                 public void actionPerformed(ActionEvent e){

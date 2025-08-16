@@ -52,7 +52,21 @@ public class SQLiteVendedorRepository implements IVendedorRepository{
 
     @Override
     public Vendedor cadastrarVendedor(Vendedor vendedor) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "INSERT INTO vendedor (id_vendedor, nivel_reputacao, estrelas, vendas_concluidas, gwp_contribuido) VALUES (?, ?, ?, ?, ?);";
+        
+        try(Connection conexao = this.conexaoFactory.getConexao();
+            PreparedStatement pstmt = conexao.prepareStatement(sql)){
+            pstmt.setInt(1, vendedor.getId());
+            pstmt.setString(2, vendedor.getNivel());
+            pstmt.setDouble(3, vendedor.getEstrelas());
+            pstmt.setInt(4, vendedor.getVendasConcluidas());
+            pstmt.setDouble(5, vendedor.getGwpContribuido());
+            pstmt.executeUpdate();
+           
+            return vendedor;
+       } catch(SQLException e) {
+           throw new RuntimeException("Erro ao cadastrar usuario: " + e.getMessage());
+       }   
     }
     
 }

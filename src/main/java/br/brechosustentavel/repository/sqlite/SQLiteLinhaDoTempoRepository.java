@@ -75,6 +75,8 @@ public class SQLiteLinhaDoTempoRepository implements ILinhaDoTempoRepository{
             pstmt.setTimestamp(5, Timestamp.valueOf(evento.getDataHora()));
             pstmt.setDouble(6, evento.getGwpEvitado());
             pstmt.setDouble(7, evento.getMciPeca());
+            
+            pstmt.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao inserir evento no banco de dados", e);

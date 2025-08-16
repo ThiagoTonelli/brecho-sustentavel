@@ -51,4 +51,9 @@ public class SQLiteCompradorRepository implements ICompradorRepository{
            throw new RuntimeException("Erro ao buscar vendedor por ID: " + e.getMessage());
        }   
     }
+
+    @Override
+    public Comprador cadastrarComprador(Comprador comprador) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

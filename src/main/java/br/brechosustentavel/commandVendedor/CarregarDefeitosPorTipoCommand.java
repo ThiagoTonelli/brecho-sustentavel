@@ -40,7 +40,7 @@ public class CarregarDefeitosPorTipoCommand implements ICommandVendedor{
         
         defeitos.forEach((chave, valor) -> {
             JCheckBox checkBox = new JCheckBox(chave);
-            checkBox.putClientProperty(chave, valor);
+            checkBox.putClientProperty("desconto", valor);
             view.getPainelScrollDefeitos().add(checkBox);
         });
         

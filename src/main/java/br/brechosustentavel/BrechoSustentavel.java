@@ -56,19 +56,17 @@ public class BrechoSustentavel {
         try{
             ConexaoFactory conexaoFactory = new SQLiteConexaoFactory();
             Connection conexao = conexaoFactory.getConexao();
-            SQLiteInicializaBancoDeDados inicializador = new SQLiteInicializaBancoDeDados(conexao);
+            //SQLiteInicializaBancoDeDados inicializador = new SQLiteInicializaBancoDeDados(conexao);
             HashService hashBCrypt = new BCryptAdapter();
-            inicializador.inicializar();
-            Seeder seeder = new Seeder(conexao, hashBCrypt);
-            seeder.inserir();
+            //inicializador.inicializar();
+            //Seeder seeder = new Seeder(conexao, hashBCrypt);
+            //seeder.inserir();
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
             IUsuarioRepository usuarioRepository = fabrica.getUsuarioRepository();
             AutenticacaoService autenticacaoService = new AutenticacaoService(usuarioRepository, hashBCrypt);
             SessaoUsuarioService sessao = SessaoUsuarioService.getInstancia();
             LoginView loginView = new LoginView();
             LoginPresenter loginPresenter = new LoginPresenter();
-            loginPresenter.setAutenticacaoService(autenticacaoService);
-            loginPresenter.setSessaoUsuarioService(sessao);
  
             
             

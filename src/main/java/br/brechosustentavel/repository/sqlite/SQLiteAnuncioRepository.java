@@ -32,18 +32,20 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository{
     
     @Override
     public void criar(Anuncio anuncio){
-        String sql = "INSERT INTO anuncio(id_vendedor, id_peca, valor_final, gwp, mci) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO anuncio(id_vendedor, id_peca, valor_final, gwp, mci) VALUES(?, ?, ?, ?, ?)";
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
             
             pstmt.setInt(1, anuncio.getIdVendedor());
             pstmt.setString(2, anuncio.getPeca().getId_c());
-            pstmt.setDouble(3, anuncio.getValor_final());
-            pstmt.setDouble(4, anuncio.getGwp_avoided());
+            pstmt.setDouble(3, anuncio.getValorFinal());
+            pstmt.setDouble(4, anuncio.getGwpAvoided());
             pstmt.setDouble(5, anuncio.getMci());
+            
+            pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir anuncio no banco de dados", e);
+            throw new RuntimeException("Erro ao inserir anuncio no banco de dados: " + e.getMessage());
         }
     }
     

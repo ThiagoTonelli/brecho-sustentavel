@@ -14,15 +14,15 @@ public class Anuncio {
     private int idAnuncio;
     private int idVendedor;
     private Peca peca;
-    private double valor_final;
-    private double gwp_avoided;
+    private double valorFinal;
+    private double gwpAvoided;
     private double mci;
 
-    public Anuncio(int idVendedor, Peca peca, double valor_final, double gwp_avoided, double mci) {
+    public Anuncio(int idVendedor, Peca peca, double valorFinal, double gwpAvoided, double mci) {
         this.idVendedor = idVendedor;
         this.peca = peca;
-        this.valor_final = valor_final;
-        this.gwp_avoided = gwp_avoided;
+        this.valorFinal = valorFinal;
+        this.gwpAvoided = gwpAvoided;
         this.mci = mci;
     }    
 
@@ -34,12 +34,12 @@ public class Anuncio {
         return peca;
     }
 
-    public double getValor_final() {
-        return valor_final;
+    public double getValorFinal() {
+        return valorFinal;
     }
 
-    public double getGwp_avoided() {
-        return gwp_avoided;
+    public double getGwpAvoided() {
+        return gwpAvoided;
     }
 
     public double getMci() {
@@ -49,5 +49,12 @@ public class Anuncio {
     public void setIdAnuncio(int idAnuncio){
         this.idAnuncio = idAnuncio;
     }
+
+    @Override
+    public String toString() {
+        return "Anuncio{" + "idAnuncio=" + idAnuncio + ", idVendedor=" + idVendedor + ", peca=" + peca + ", valorFinal=" + valorFinal + ", gwpAvoided=" + gwpAvoided + ", mci=" + mci + '}';
+    }
+    
+    
     
 }
