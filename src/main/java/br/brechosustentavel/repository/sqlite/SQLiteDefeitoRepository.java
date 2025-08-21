@@ -4,7 +4,6 @@
  */
 package br.brechosustentavel.repository.sqlite;
 
-import br.brechosustentavel.model.Defeito;
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
@@ -14,7 +13,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  *
@@ -45,7 +43,7 @@ public class SQLiteDefeitoRepository implements IDefeitoRepository{
     }
 
     @Override
-    public Map<String, Double> buscarDefeitos(String tipoPeca) {
+    public Map<String, Double> buscarDefeitosPorTipo(String tipoPeca) {
         Map<String, Double> defeitos = new HashMap<>();
         int tipoId = this.tipoPecaRepository.buscarIdTipo(tipoPeca);
         String sql = "SELECT nome, desconto FROM defeito WHERE id_tipo = ?";
@@ -67,7 +65,22 @@ public class SQLiteDefeitoRepository implements IDefeitoRepository{
     }
 
     @Override
-    public Optional<Defeito> consultar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Integer buscarIdPeloNomeDoDefeito(String nomeDefeito){
+        String sql = "SELECT id FROM defeito WHERE nome = ?";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            pstmt.setString(1, nomeDefeito);
+
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar id do tipo de peça no banco de dados: " + e.getMessage());
+        }
+        return 0;
     }
 }

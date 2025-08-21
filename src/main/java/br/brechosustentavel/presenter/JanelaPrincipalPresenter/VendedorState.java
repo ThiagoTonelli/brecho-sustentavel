@@ -4,10 +4,12 @@
  */
 package br.brechosustentavel.presenter.JanelaPrincipalPresenter;
 
+import br.brechosustentavel.commandPrincipal.CarregarAnunciosVendedorCommand;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.EdicaoAnuncioState;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.InclusaoAnuncioState;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.IJanelaPrincipalView;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import br.brechosustentavel.view.JanelaVisualizarPerfilView;
@@ -25,9 +27,9 @@ import javax.swing.event.MenuListener;
  */
 public class VendedorState extends JanelaPrincipalState{
     
-    public VendedorState(JanelaPrincipalPresenter presenter) throws PropertyVetoException{
+    public VendedorState(JanelaPrincipalPresenter presenter, SessaoUsuarioService usuarioAutenticado) throws PropertyVetoException{
         super(presenter);
-        
+        new CarregarAnunciosVendedorCommand().executar(presenter, usuarioAutenticado);
         JanelaPrincipalView view = presenter.getView();
         view.setMaximum(true);
         view.setVisible(true);

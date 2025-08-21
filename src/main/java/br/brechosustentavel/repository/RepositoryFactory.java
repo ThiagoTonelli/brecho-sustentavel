@@ -7,6 +7,7 @@ package br.brechosustentavel.repository;
 import br.brechosustentavel.repository.h2.H2RepositoryFactory;
 import br.brechosustentavel.repository.sqlite.SQLiteRepositoryFactory;
 import br.brechosustentavel.configuracao.ConfiguracaoAdapter;
+import br.brechosustentavel.repository.sqlite.SQLiteDefeitoPecaRepository;
 
 /**
  *
@@ -53,4 +54,6 @@ public abstract class RepositoryFactory {
     public abstract ICompradorRepository getCompradorRepository();
     
     public abstract IAnuncioRepository getAnuncioRepository();
+    
+    public abstract IDefeitoPecaRepository getDefeitoPecaRepository();
 }

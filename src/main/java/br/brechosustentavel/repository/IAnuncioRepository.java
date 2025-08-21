@@ -13,5 +13,5 @@ import java.util.List;
  */
 public interface IAnuncioRepository {
     public void criar(Anuncio anuncio);
-    public List<Anuncio> buscarAnuncios(int id_vendedor);
+    public List<Anuncio> buscarAnuncios(int id_vendedor, IDefeitoRepository repositoryDefeito);
 }

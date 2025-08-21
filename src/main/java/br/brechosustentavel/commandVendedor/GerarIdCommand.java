@@ -16,7 +16,7 @@ import br.brechosustentavel.service.gerador_id_c.GeradorIdService;
 public class GerarIdCommand implements ICommandVendedor{
 
     @Override
-    public void executar(ManterAnuncioPresenter presenter) {
+    public Object executar(ManterAnuncioPresenter presenter) {
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         IPecaRepository repository = fabrica.getPecaRepository();
         //chama o service para id_c
@@ -27,6 +27,7 @@ public class GerarIdCommand implements ICommandVendedor{
             id = gerador.Gerar();
         }
         presenter.getView().getTxtId_c().setText(id);
+        return null;
     }
     
 }

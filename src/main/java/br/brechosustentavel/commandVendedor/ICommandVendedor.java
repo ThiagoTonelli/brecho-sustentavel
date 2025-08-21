@@ -12,5 +12,5 @@ import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresen
  * @author thiag
  */
 public interface ICommandVendedor {
-    public void executar(ManterAnuncioPresenter presenter);
+    public Object executar(ManterAnuncioPresenter presenter);
 }

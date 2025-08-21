@@ -42,10 +42,9 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
     }
     
     private void configurarTela(){
-        
+
         try{
-            presenter.getView().setMaximum(true);
-            presenter.getView().setVisible(true);
+            presenter.getView().getBtnExcluir().setVisible(false);
             presenter.getView().getBtnGerarId().addActionListener(new ActionListener (){
                 @Override
                 public void actionPerformed(ActionEvent e){
@@ -59,7 +58,10 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
             new CarregarTiposDePecaCommand().executar(presenter);
             new CarregarDefeitosPorTipoCommand().executar(presenter);
             new CarregarComposicaoCommand().executar(presenter);
-        }
+            presenter.getView().setMaximum(true);
+            presenter.getView().setVisible(true);
+        }   
+            
         catch (Exception ex){
             JOptionPane.showMessageDialog(null, "Erro ao carregar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -123,10 +125,9 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
         if (presenter.getView().getTxtMassa().getText().trim().isEmpty()) return false;
         if (presenter.getView().getTxtEstadoConservacao().getText().trim().isEmpty()) return false;
         if (presenter.getView().getTxtPrecoBase().getText().trim().isEmpty()) return false;
-
+        if (presenter.getView().getTxtTamanho().getText().trim().isEmpty()) return false;
         // combobox obrigatórios
         if (presenter.getView().getSelectTipoDePeca().getSelectedIndex() == -1) return false;
-        if (presenter.getView().getSelectTamanho().getSelectedIndex() == -1) return false;
         if (presenter.getView().getSelectComposicao().getSelectedIndex() == -1) return false;
         if (presenter.getView().getSelectComposicao1().getSelectedIndex() == -1) return false;
         if (presenter.getView().getSelectComposicao2().getSelectedIndex() == -1) return false;

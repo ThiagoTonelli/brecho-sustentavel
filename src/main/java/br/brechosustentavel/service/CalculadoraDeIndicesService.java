@@ -13,12 +13,12 @@ import java.util.Map;
  */
 public class CalculadoraDeIndicesService {
     public double calcularGwpBase(Peca peca){ 
-        Map<String, Integer> materialQuantidade = peca.getMaterialQuantidade();
+        Map<String, Double> materialQuantidade = peca.getMaterialQuantidade();
         Map<String, Double> materialDesconto = peca.getMaterialDesconto();
         double massa = peca.getMassaEstimada();
         double gwpBase = 0;
         for (String chave : materialQuantidade.keySet()) {
-            double quantidade = materialQuantidade.get(chave)/100;
+            double quantidade = (materialQuantidade.get(chave)/100);
             double desconto = materialDesconto.get(chave);
             gwpBase += (desconto * quantidade * massa);
         }
@@ -26,11 +26,9 @@ public class CalculadoraDeIndicesService {
     }
     
     public double calcularMCI(Peca peca){
-        Map<String, Integer> materialQuantidade = peca.getMaterialQuantidade();
-        Map<String, Double> materialDesconto = peca.getMaterialDesconto();
         double d_j = 0;
-        for (String chave : materialQuantidade.keySet()) {
-            d_j = materialDesconto.get(chave);
+        for (String chave : peca.getDefeitos().keySet()) {
+            d_j += peca.getDefeitos().get(chave);
         }
         double q = 1 - d_j;
         return q;
