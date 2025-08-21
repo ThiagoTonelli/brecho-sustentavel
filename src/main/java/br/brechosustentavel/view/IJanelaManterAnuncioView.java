@@ -30,10 +30,11 @@ public interface IJanelaManterAnuncioView {
     public JTextField getTxtEstadoConservacao();
     public JTextField getTxtId_c();
     public JTextField getTxtMassa();   
-    public JComboBox<String> getSelectTamanho();
+    public JTextField getTxtTamanho();
     public JComboBox<String> getSelectTipoDePeca();
     public JTextField getTxtPrecoBase();
     public JButton getBtnEnviar();
     public JButton getBtnCancelar();
     public JButton getBtnGerarId();
+    public JButton getBtnExcluir();
 }

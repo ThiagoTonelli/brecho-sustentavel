@@ -20,7 +20,7 @@ import br.brechosustentavel.view.IJanelaManterAnuncioView;
 public class CarregarComposicaoCommand implements ICommandVendedor{
     
     @Override
-    public void executar(ManterAnuncioPresenter presenter) {
+    public Object executar(ManterAnuncioPresenter presenter) {
         IJanelaManterAnuncioView view = presenter.getView();
         JComboBox jcomboComposicao = view.getSelectComposicao();
         JComboBox jcomboComposicao1 = view.getSelectComposicao1();
@@ -55,6 +55,7 @@ public class CarregarComposicaoCommand implements ICommandVendedor{
         spinner2.addChangeListener(e -> atualizarEstado(spinner1, spinner2, spinner3, jcomboComposicao, jcomboComposicao1, jcomboComposicao2, spinner2));
         spinner3.addChangeListener(e -> atualizarEstado(spinner1, spinner2, spinner3, jcomboComposicao, jcomboComposicao1, jcomboComposicao2, spinner3));
         //atualizarEstado(spinner1, spinner2, spinner3, jcomboComposicao, jcomboComposicao1, jcomboComposicao2, spinner1);
+        return null;
     } 
     
     private void atualizarEstado(

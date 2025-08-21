@@ -43,7 +43,7 @@ public class JanelaPrincipalPresenter{
             setEstado(new CompradorState(this));
         }
         else if (usuario.getTipoPerfil().equalsIgnoreCase("Vendedor")){
-            setEstado(new VendedorState(this));
+            setEstado(new VendedorState(this, usuario));
         }
     }
     

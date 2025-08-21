@@ -65,9 +65,11 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
         scrollDefeitos = new javax.swing.JScrollPane();
         painelScrollDefeitos = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
-        selectTamanho = new javax.swing.JComboBox<>();
         btnGerarId = new javax.swing.JButton();
         txtSubcategoria = new javax.swing.JTextField();
+        txtTamanho = new javax.swing.JTextField();
+        labelComposicao1 = new javax.swing.JLabel();
+        btnExcluir = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -93,7 +95,12 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
             }
         });
 
-        btnEnviar.setText("Enviar");
+        btnEnviar.setText("Salvar");
+        btnEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarActionPerformed(evt);
+            }
+        });
 
         labelTitulo.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         labelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -193,8 +200,6 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        selectTamanho.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         btnGerarId.setText("Gerar ID_C");
         btnGerarId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,37 +213,55 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
             }
         });
 
+        txtTamanho.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTamanhoActionPerformed(evt);
+            }
+        });
+
+        labelComposicao1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        labelComposicao1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelComposicao1.setText("%");
+
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
                 .addContainerGap(149, Short.MAX_VALUE)
-                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(labelId_c)
-                    .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnEnviar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(labelCor)
-                        .addComponent(labelSubcategoria)
-                        .addComponent(labelTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtCor)
-                        .addComponent(labelMassa)
-                        .addComponent(txtMassa)
-                        .addComponent(labelEstadoConservacao)
-                        .addComponent(txtEstadoConservacao)
-                        .addComponent(selectTamanho, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                            .addComponent(txtId_c, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnGerarId))
-                        .addComponent(txtSubcategoria)))
+                    .addComponent(labelCor)
+                    .addComponent(labelSubcategoria)
+                    .addComponent(labelTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCor)
+                    .addComponent(labelMassa)
+                    .addComponent(txtMassa)
+                    .addComponent(labelEstadoConservacao)
+                    .addComponent(txtEstadoConservacao)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
+                        .addComponent(txtId_c, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGerarId))
+                    .addComponent(txtSubcategoria)
+                    .addComponent(txtTamanho)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
+                        .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(38, 38, 38)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(labelTipoPeca, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelDefeitos)
-                    .addComponent(labelComposicao)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelPrecoBase)
                     .addComponent(txtPrecoBase)
@@ -253,7 +276,11 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
                             .addComponent(spinnerComposicao, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
                             .addComponent(spinnerComposicao2)))
                     .addComponent(scrollDefeitos, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-                    .addComponent(selectTipoDePeca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(selectTipoDePeca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addComponent(labelComposicao)
+                        .addGap(108, 108, 108)
+                        .addComponent(labelComposicao1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(145, Short.MAX_VALUE))
             .addComponent(labelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -287,22 +314,23 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
                                 .addComponent(txtSubcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(labelTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(selectTamanho))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtTamanho, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(scrollDefeitos, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelCor, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(8, 8, 8)
                         .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
+                                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelCor, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(labelComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCor, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panel1Layout.createSequentialGroup()
+                                .addComponent(labelComposicao1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
                                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(selectComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(spinnerComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCor, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(spinnerComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panel1Layout.createSequentialGroup()
@@ -328,7 +356,8 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
                         .addGap(47, 47, 47)
                         .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(25, 25, 25))))
         );
 
@@ -376,13 +405,27 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSubcategoriaActionPerformed
 
+    private void txtTamanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTamanhoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTamanhoActionPerformed
+
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEnviarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEnviar;
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnGerarId;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel labelComposicao;
+    private javax.swing.JLabel labelComposicao1;
     private javax.swing.JLabel labelCor;
     private javax.swing.JLabel labelDefeitos;
     private javax.swing.JLabel labelEstadoConservacao;
@@ -399,7 +442,6 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
     private javax.swing.JComboBox<String> selectComposicao;
     private javax.swing.JComboBox<String> selectComposicao1;
     private javax.swing.JComboBox<String> selectComposicao2;
-    private javax.swing.JComboBox<String> selectTamanho;
     private javax.swing.JComboBox<String> selectTipoDePeca;
     private javax.swing.JSpinner spinnerComposicao;
     private javax.swing.JSpinner spinnerComposicao1;
@@ -410,6 +452,7 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
     private javax.swing.JTextField txtMassa;
     private javax.swing.JTextField txtPrecoBase;
     private javax.swing.JTextField txtSubcategoria;
+    private javax.swing.JTextField txtTamanho;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -478,8 +521,8 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
     }
 
     @Override
-    public JComboBox<String> getSelectTamanho() {
-        return selectTamanho;
+    public JTextField getTxtTamanho() {
+        return txtTamanho;
     }
 
     @Override
@@ -506,6 +549,13 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
     public JButton getBtnGerarId() {
         return btnGerarId;
     }
+
+    @Override
+    public JButton getBtnExcluir() {
+        return btnExcluir;
+    }
+    
+    
     
     
     

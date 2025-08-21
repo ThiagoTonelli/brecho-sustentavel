@@ -50,25 +50,27 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace pref="149" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="labelId_c" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="btnEnviar" alignment="1" min="-2" pref="100" max="-2" attributes="0"/>
-                          <Component id="labelCor" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelSubcategoria" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="labelTamanho" min="-2" pref="71" max="-2" attributes="0"/>
-                          <Component id="txtCor" max="32767" attributes="0"/>
-                          <Component id="labelMassa" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtMassa" alignment="0" max="32767" attributes="0"/>
-                          <Component id="labelEstadoConservacao" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtEstadoConservacao" alignment="0" max="32767" attributes="0"/>
-                          <Component id="selectTamanho" alignment="1" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <Component id="txtId_c" pref="232" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnGerarId" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="txtSubcategoria" max="32767" attributes="0"/>
+                      <Component id="labelCor" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelSubcategoria" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelTamanho" min="-2" pref="71" max="-2" attributes="0"/>
+                      <Component id="txtCor" max="32767" attributes="0"/>
+                      <Component id="labelMassa" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtMassa" alignment="0" max="32767" attributes="0"/>
+                      <Component id="labelEstadoConservacao" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtEstadoConservacao" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="txtId_c" pref="232" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnGerarId" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="txtSubcategoria" max="32767" attributes="0"/>
+                      <Component id="txtTamanho" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="btnExcluir" min="-2" pref="100" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="btnEnviar" min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
@@ -77,7 +79,6 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="labelTipoPeca" min="-2" pref="91" max="-2" attributes="0"/>
                       <Component id="labelDefeitos" min="-2" max="-2" attributes="0"/>
-                      <Component id="labelComposicao" min="-2" max="-2" attributes="0"/>
                       <Component id="btnCancelar" min="-2" pref="100" max="-2" attributes="0"/>
                       <Component id="labelPrecoBase" min="-2" max="-2" attributes="0"/>
                       <Component id="txtPrecoBase" alignment="0" max="32767" attributes="0"/>
@@ -96,6 +97,11 @@
                       </Group>
                       <Component id="scrollDefeitos" alignment="0" pref="327" max="32767" attributes="0"/>
                       <Component id="selectTipoDePeca" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="labelComposicao" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="108" max="-2" attributes="0"/>
+                          <Component id="labelComposicao1" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace pref="145" max="32767" attributes="0"/>
               </Group>
@@ -137,27 +143,28 @@
                                   <Component id="txtSubcategoria" min="-2" pref="33" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="labelTamanho" min="-2" pref="31" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="selectTamanho" max="32767" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
+                                  <Component id="txtTamanho" min="-2" pref="33" max="-2" attributes="0"/>
                               </Group>
                               <Component id="scrollDefeitos" min="-2" pref="109" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="labelCor" min="-2" pref="31" max="-2" attributes="0"/>
-                              <Component id="labelComposicao" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
-                          </Group>
+                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="labelCor" min="-2" pref="31" max="-2" attributes="0"/>
+                                      <Component id="labelComposicao" alignment="0" min="-2" pref="31" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="txtCor" min="-2" pref="33" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="labelComposicao1" min="-2" pref="31" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="selectComposicao" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                                       <Component id="spinnerComposicao" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                                   </Group>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="txtCor" min="-2" pref="33" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -191,6 +198,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnEnviar" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                               <Component id="btnCancelar" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                              <Component id="btnExcluir" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
@@ -230,8 +238,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnEnviar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Enviar"/>
+            <Property name="text" type="java.lang.String" value="Salvar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="labelTitulo">
           <Properties>
@@ -449,21 +460,6 @@
             <Property name="orientation" type="int" value="1"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="selectTamanho">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
         <Component class="javax.swing.JButton" name="btnGerarId">
           <Properties>
             <Property name="text" type="java.lang.String" value="Gerar ID_C"/>
@@ -475,6 +471,28 @@
         <Component class="javax.swing.JTextField" name="txtSubcategoria">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSubcategoriaActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JTextField" name="txtTamanho">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtTamanhoActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelComposicao1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="%"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnExcluir">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Excluir"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExcluirActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -17,7 +17,7 @@ import br.brechosustentavel.view.IJanelaManterAnuncioView;
 public class CarregarTiposDePecaCommand implements ICommandVendedor{
 
     @Override
-    public void executar(ManterAnuncioPresenter presenter) {
+    public Object executar(ManterAnuncioPresenter presenter) {
         IJanelaManterAnuncioView view = presenter.getView();
         JComboBox jcomboTipoPeca = view.getSelectTipoDePeca();
         jcomboTipoPeca.removeAllItems();
@@ -32,6 +32,7 @@ public class CarregarTiposDePecaCommand implements ICommandVendedor{
         
         jcomboTipoPeca.revalidate();
         jcomboTipoPeca.repaint();
+        return null;
     }
     
 }

@@ -16,6 +16,6 @@ public interface IDefeitoRepository {
     public void criar();
     public void excluir();
     public void editar();
-    public Map<String, Double>  buscarDefeitos(String tipoPeca);
-    public Optional<Defeito> consultar();
+    public Map<String, Double> buscarDefeitosPorTipo(String tipoPeca);
+    public Integer buscarIdPeloNomeDoDefeito(String nomeDefeito);
 }

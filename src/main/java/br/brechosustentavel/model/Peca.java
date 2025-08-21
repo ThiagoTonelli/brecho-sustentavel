@@ -23,7 +23,7 @@ public class Peca {
     private double precoFinal;
     private Map<String, Double> defeitos;
     private Map<String, Double> materialDesconto;
-    private Map<String, Integer> materialQuantidade;
+    private Map<String, Double> materialQuantidade;
     private List<EventoLinhaDoTempo> linhaDoTempo;
 
     public Peca(String id_c, String subcategoria, String tamanho, String cor, double massaEstimada, String estadoDeConservacao, double precoBase) {
@@ -34,7 +34,6 @@ public class Peca {
         this.massaEstimada = massaEstimada;
         this.estadoDeConservacao = estadoDeConservacao;
         this.precoBase = precoBase;
-        this.defeitos = defeitos;
 
     }
 
@@ -42,16 +41,12 @@ public class Peca {
         this.materialDesconto = materialDesconto;
     }
 
-    public void setMaterialQuantidade(Map<String, Integer> materialQuantidade) {
+    public void setMaterialQuantidade(Map<String, Double> materialQuantidade) {
         this.materialQuantidade = materialQuantidade;
     }
     
     public void setLinhaDoTempo(List<EventoLinhaDoTempo> linhaDoTempo){
         this.linhaDoTempo = linhaDoTempo;
-    }
-
-    public void setDefeitos(Map<String, Double> defeitos) {
-        this.defeitos = defeitos;
     }
 
     public void setTipoDePeca(String tipoDePeca) {
@@ -97,16 +92,11 @@ public class Peca {
     public double getPrecoFinal() {
         return precoFinal;
     }
-
-    public Map<String, Double> getDefeitos() {
-        return defeitos;
-    }
-
     public Map<String, Double> getMaterialDesconto() {
         return materialDesconto;
     }
     
-    public Map<String, Integer> getMaterialQuantidade() {
+    public Map<String, Double> getMaterialQuantidade() {
         return materialQuantidade;
     }
 
@@ -140,6 +130,14 @@ public class Peca {
 
     public void setPrecoBase(double precoBase) {
         this.precoBase = precoBase;
+    }
+
+    public Map<String, Double> getDefeitos() {
+        return defeitos;
+    }
+
+    public void setDefeitos(Map<String, Double> defeitosSelecionados) {
+        this.defeitos = defeitosSelecionados;
     }
     
     

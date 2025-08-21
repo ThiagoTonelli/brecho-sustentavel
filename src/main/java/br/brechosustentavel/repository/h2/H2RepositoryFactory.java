@@ -7,6 +7,7 @@ package br.brechosustentavel.repository.h2;
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IAnuncioRepository;
 import br.brechosustentavel.repository.ICompradorRepository;
+import br.brechosustentavel.repository.IDefeitoPecaRepository;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
 import br.brechosustentavel.repository.IMaterialRepository;
@@ -75,6 +76,11 @@ public class H2RepositoryFactory extends RepositoryFactory{
 
     @Override
     public IAnuncioRepository getAnuncioRepository() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public IDefeitoPecaRepository getDefeitoPecaRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

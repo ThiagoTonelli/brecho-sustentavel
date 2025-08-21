@@ -5,6 +5,8 @@ import br.brechosustentavel.model.EventoLinhaDoTempo;
 import br.brechosustentavel.model.Peca;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.IAnuncioRepository;
+import br.brechosustentavel.repository.IDefeitoPecaRepository;
+import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
 import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.IPecaRepository;
@@ -30,25 +32,44 @@ import java.util.Optional;
 public class NovoAnuncioCommand implements ICommandVendedor {
     
     @Override
-    public void executar(ManterAnuncioPresenter presenter) {
+    public Object executar(ManterAnuncioPresenter presenter) {
         try {
+            
+            //carrega repositorios
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
             IPecaRepository repositoryPeca = fabrica.getPecaRepository();
             IAnuncioRepository repositoryAnuncio = fabrica.getAnuncioRepository();
             ILinhaDoTempoRepository repositoryLinhaDoTempo = fabrica.getLinhaDoTempoRepository();
+            IDefeitoPecaRepository repositoryDefeitoPeca = fabrica.getDefeitoPecaRepository();
+            IDefeitoRepository repositoryDefeito = fabrica.getDefeitoRepository();
+            
+            
             IJanelaManterAnuncioView view = presenter.getView();
             
             //captura valores da presenter
             String id_c = view.getTxtId_c().getText();
             String tipoPeca = (String) view.getSelectTipoDePeca().getSelectedItem();
             String subcategoria = view.getTxtSubcategoria().getText();
-            String tamanho = (String) view.getSelectTamanho().getSelectedItem();
+            String tamanho = (String) view.getTxtTamanho().getText();
             String cor = view.getTxtCor().getText();
             
-            Map<String, Integer> materiaisQuantidade = new HashMap<>();
-            materiaisQuantidade.put((String) view.getSelectComposicao().getSelectedItem(), (int) view.getSpinnerComposicao().getValue());
-            materiaisQuantidade.put((String) view.getSelectComposicao1().getSelectedItem() , (int) view.getSpinnerComposicao1().getValue());
-            materiaisQuantidade.put((String) view.getSelectComposicao2().getSelectedItem(), (int) view.getSpinnerComposicao2().getValue());
+            Map<String, Double> materiaisQuantidade = new HashMap<>();
+
+            int quantidade1 = (int) view.getSpinnerComposicao().getValue();
+            if (quantidade1 > 0) {
+                materiaisQuantidade.put((String) view.getSelectComposicao().getSelectedItem(), (double) quantidade1);
+            }
+
+            int quantidade2 = (int) view.getSpinnerComposicao1().getValue();
+            if (quantidade2 > 0) {
+                materiaisQuantidade.put((String) view.getSelectComposicao1().getSelectedItem(), (double) quantidade2);
+            }
+
+            int quantidade3 = (int) view.getSpinnerComposicao2().getValue();
+            if (quantidade3 > 0) {
+                materiaisQuantidade.put((String) view.getSelectComposicao2().getSelectedItem(), (double) quantidade3);
+            }
+
             
             double massaEstimada = Double.parseDouble(view.getTxtMassa().getText());
             String estadoDeConservacao = view.getTxtEstadoConservacao().getText();
@@ -58,7 +79,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
             //cria repositorio dos materiais
             IMaterialRepository repositoryMaterial = fabrica.getMaterialRepository();   
             //limpa materiais com quantidade na composicao = 0
-            materiaisQuantidade.entrySet().removeIf(entry -> entry.getValue() <= 0);
+            materiaisQuantidade.entrySet().removeIf(entry -> entry.getValue() <= 0.0);
             Set<String> chaves = materiaisQuantidade.keySet();
             List<String> listaChaves = new ArrayList<>(chaves);
             //pega apenas os materiais que foram realmente selecionados
@@ -91,6 +112,17 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                 double gwpBase = calcularIndices.calcularGwpBase(novaPeca);
                 double mciPeca = calcularIndices.calcularMCI(novaPeca);
                 LocalDateTime data = LocalDateTime.now();
+                
+                List<Integer> idsDefeitos = new ArrayList<>();
+                for(String defeito : defeitosSelecionados.keySet()){
+                    Integer id = repositoryDefeito.buscarIdPeloNomeDoDefeito(defeito);
+                    if(id == null){
+                        idsDefeitos.add(id);
+                    } 
+                }
+                repositoryDefeitoPeca.adicionarVariosDefeitosAPeca(novaPeca.getId_c(), idsDefeitos);
+                
+                
                 EventoLinhaDoTempo evento = new EventoLinhaDoTempo("Primeira publicação", "publicação", data, gwpAvoided, mciPeca);
                 evento.setCliclo(1);
                 List<EventoLinhaDoTempo> eventosLinha = new ArrayList<>();
@@ -102,6 +134,8 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                 Anuncio anuncio = new Anuncio(sessao.getUsuarioAutenticado().getId(), novaPeca, novaPeca.getPrecoFinal(), gwpAvoided, mciPeca);
                 repositoryAnuncio.criar(anuncio);
                 
+                
+                
                 System.out.println("--- ANÚNCIO A SER SALVO ---");
                 System.out.println("ID-C: " + id_c);
                 System.out.println("Tipo: " + tipoPeca);
@@ -110,6 +144,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                 System.out.println(anuncio.toString());      
                 System.out.println(materiaisQuantidade);
                 System.out.println(materiaisDesconto);
+                return anuncio;
             }
             else {
                 Peca peca = pecaOpt.get();
@@ -127,7 +162,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                     peca.setDefeitos(defeitosSelecionados);
                     peca.setMaterialDesconto(materiaisDesconto);
                     peca.setMaterialQuantidade(materiaisQuantidade);
-
+                    
                     //calcula metricas e preco final
                     AplicarDescontosDefeitosService aplicarDescontos = new AplicarDescontosDefeitosService();
                     peca.setPrecoFinal(aplicarDescontos.calcularDescontos(peca));
@@ -146,7 +181,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                     SessaoUsuarioService sessao = SessaoUsuarioService.getInstancia();
                     Anuncio anuncio = new Anuncio(sessao.getUsuarioAutenticado().getId(), peca, peca.getPrecoFinal(), gwpAvoided, mciPeca);
                     repositoryAnuncio.criar(anuncio);
-                    
+                    return anuncio;
                 }
                 else {
                     // nao foi encerrado o item antes da publicacao
@@ -158,5 +193,6 @@ public class NovoAnuncioCommand implements ICommandVendedor {
         } catch (Exception ex) {
             throw new RuntimeException("Ocorreu um erro ao criar o anúncio: " + ex.getMessage(), ex);
         }
+        return null;
     }
 }

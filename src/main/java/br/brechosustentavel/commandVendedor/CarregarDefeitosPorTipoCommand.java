@@ -19,7 +19,7 @@ import br.brechosustentavel.view.IJanelaManterAnuncioView;
 public class CarregarDefeitosPorTipoCommand implements ICommandVendedor{
 
     @Override
-    public void executar(ManterAnuncioPresenter presenter) {
+    public Object executar(ManterAnuncioPresenter presenter) {
         IJanelaManterAnuncioView view = presenter.getView();
         String tipoPeca = (String ) view.getSelectTipoDePeca().getSelectedItem();
         JPanel painelDefeitos = view.getPainelScrollDefeitos();
@@ -32,7 +32,7 @@ public class CarregarDefeitosPorTipoCommand implements ICommandVendedor{
         
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         IDefeitoRepository repository = fabrica.getDefeitoRepository();
-        Map<String, Double> defeitos = repository.buscarDefeitos(tipoPeca);
+        Map<String, Double> defeitos = repository.buscarDefeitosPorTipo(tipoPeca);
         
         System.out.println("Número de defeitos encontrados para '" + tipoPeca + "': " + defeitos.size());
 
@@ -46,5 +46,6 @@ public class CarregarDefeitosPorTipoCommand implements ICommandVendedor{
         
         view.getPainelScrollDefeitos().revalidate();
         view.getPainelScrollDefeitos().repaint();
+        return null;
     }  
 }
