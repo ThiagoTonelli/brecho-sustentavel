@@ -53,7 +53,15 @@ public class SQLiteCompradorRepository implements ICompradorRepository{
     }
 
     @Override
-    public Comprador cadastrarComprador(Comprador comprador) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void cadastrarComprador(Comprador comprador) {
+       String sql = "INSERT INTO comprador (id_comprador) VALUES (?);";
+        
+        try(Connection conexao = this.conexaoFactory.getConexao();
+            PreparedStatement pstmt = conexao.prepareStatement(sql)){
+            pstmt.setInt(1, comprador.getId());
+            pstmt.executeUpdate();
+       } catch(SQLException e) {
+           throw new RuntimeException("Erro ao cadastrar usuario: " + e.getMessage());
+       }   
     }
 }

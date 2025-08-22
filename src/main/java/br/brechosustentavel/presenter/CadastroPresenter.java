@@ -66,7 +66,7 @@ public class CadastroPresenter {
         String telefone = view.getTxtTelefone().getText();
         String email = view.getTxtEmail().getText();
         String senha = view.getTxtSenha().getText();
-        String confirmacaoSenha = view.getTxtConfirmacaoSenha().getText();
+        String confirmacaoSenha = view.getTxtConfirmacaoSenha().getText(); 
         
         try {
             if (nome.isBlank() || email.isBlank() || senha.isBlank()) {
@@ -79,23 +79,21 @@ public class CadastroPresenter {
                 throw new RuntimeException("As senhas não conferem.");
             }
             
-            boolean isComprador = false;
-            boolean isVendedor = false;
-            if(!cadastroService.isVazio()){                
+            int opcao = 0;
+            if(!cadastroService.isVazio()){      
                 if(view.getRadioComprador().isSelected()) {
-                    isComprador = true;
+                   opcao = 1;
                 } else if(view.getRadioVendedor().isSelected()) {
-                    isVendedor = true;
+                    opcao = 2;
                 } else if(view.getRadioCompradorVendedor().isSelected()) {
-                    isComprador = true;
-                    isVendedor = true;
+                    opcao = 3;
                 }
                 else{
                     throw new RuntimeException("Selecione um perfil.");
                 }
             }
 
-            cadastroService.cadastrar(new Usuario(nome, telefone, email, senha), isComprador, isVendedor);
+            cadastroService.cadastrar(new Usuario(nome, telefone, email, senha), opcao);
             JOptionPane.showMessageDialog(view, "Cadastro realizado com sucesso!");
             view.dispose();
             

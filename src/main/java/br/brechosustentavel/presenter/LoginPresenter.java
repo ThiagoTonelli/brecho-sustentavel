@@ -5,9 +5,7 @@
 package br.brechosustentavel.presenter;
 
 import br.brechosustentavel.model.Usuario;
-import br.brechosustentavel.presenter.JanelaPrincipalPresenter.CompradorState;
 import br.brechosustentavel.presenter.JanelaPrincipalPresenter.JanelaPrincipalPresenter;
-import br.brechosustentavel.presenter.JanelaPrincipalPresenter.VendedorState;
 import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.IVendedorRepository;
@@ -17,7 +15,6 @@ import br.brechosustentavel.service.CadastroService;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.service.hash.BCryptAdapter;
 import br.brechosustentavel.view.LoginView;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -26,8 +23,7 @@ import javax.swing.JOptionPane;
  *
  * @author kaila
  */
-public class LoginPresenter {
-    
+public class LoginPresenter { 
     private LoginView view;
     private SessaoUsuarioService sessao = SessaoUsuarioService.getInstancia();
     private Usuario usuario;
@@ -78,9 +74,11 @@ public class LoginPresenter {
         
         try {
             Usuario usuarioAutenticado = autenticacaoService.autenticar(email, senha);
+            usuarioAutenticado.setVendedor(vendedorRepository.buscarPorId(usuarioAutenticado.getId()).orElse(null));
+            usuarioAutenticado.setComprador(compradorRepository.buscarPorId(usuarioAutenticado.getId()).orElse(null));
             
-            boolean isComprador = compradorRepository.buscarPorId(usuarioAutenticado.getId()).isPresent();
-            boolean isVendedor = vendedorRepository.buscarPorId(usuarioAutenticado.getId()).isPresent();
+            boolean isComprador = usuarioAutenticado.getComprador().isPresent() ;
+            boolean isVendedor = usuarioAutenticado.getVendedor().isPresent();
             
             sessao.setUsuarioAutenticado(usuarioAutenticado);
             sessao.setAutenticado(true);

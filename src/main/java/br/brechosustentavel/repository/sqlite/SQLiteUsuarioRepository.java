@@ -29,7 +29,7 @@ public class SQLiteUsuarioRepository implements IUsuarioRepository{
     }
 
     @Override
-    public Usuario cadastrarUsuario(Usuario usuario){       
+    public void cadastrarUsuario(Usuario usuario){       
         String sql = "INSERT INTO usuario (nome, telefone, email, senha, admin) VALUES (?, ?, ?, ?, ?);";
         
         try(Connection conexao = this.conexaoFactory.getConexao();
@@ -46,7 +46,6 @@ public class SQLiteUsuarioRepository implements IUsuarioRepository{
             if(rs.next()){
                 usuario.setId(rs.getInt(1));
             }
-            return usuario;
        } catch(SQLException e) {
            throw new RuntimeException("Erro ao cadastrar usuario: " + e.getMessage());
        }   
