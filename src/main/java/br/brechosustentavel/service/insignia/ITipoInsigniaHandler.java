@@ -11,6 +11,6 @@ import br.brechosustentavel.model.Usuario;
  * @author kaila
  */
 public interface ITipoInsigniaHandler {
-    public void aplicar();
-    public void verificar(Usuario usuario);
+    public boolean seAplica(Usuario usuario);
+    public void concederInsignia(Usuario usuario);
 }

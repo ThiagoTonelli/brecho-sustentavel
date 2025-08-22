@@ -15,13 +15,11 @@ import java.util.Optional;
  *
  * @author kaila
  */
-public class PrimeiroAnuncioHandler implements ITipoInsigniaHandler{
-    private IAnuncioRepository anuncioRepository;
-    private final IInsigniaRepository insigniaRepository;
+public class CincoVendasHandler implements ITipoInsigniaHandler{
+    private IInsigniaRepository insigniaRepository;
     private IVendedorInsigniaRepository vendedorInsigniaRepository;
     
-    public PrimeiroAnuncioHandler(IAnuncioRepository anuncioRepository, IInsigniaRepository insigniaRepository, IVendedorInsigniaRepository vendedorInsigniaRepository){
-        this.anuncioRepository = anuncioRepository;
+    public CincoVendasHandler(IInsigniaRepository insigniaRepository, IVendedorInsigniaRepository vendedorInsigniaRepository){
         this.insigniaRepository = insigniaRepository;
         this.vendedorInsigniaRepository = vendedorInsigniaRepository;
     }
@@ -33,10 +31,10 @@ public class PrimeiroAnuncioHandler implements ITipoInsigniaHandler{
         }
         return false;
     }
-    
+
     @Override
     public void concederInsignia(Usuario usuario) {
-        String nomeInsignia = "Primeiro Anúncio";
+        String nomeInsignia = "Cinco Vendas";
         Optional<Insignia> optInsignia = insigniaRepository.buscarInsigniaPorNome(nomeInsignia);
         
         if(optInsignia.isEmpty()){
@@ -45,9 +43,9 @@ public class PrimeiroAnuncioHandler implements ITipoInsigniaHandler{
         
         Insignia insignia = optInsignia.get();
         if(!vendedorInsigniaRepository.vendedorPossuiInsignia(insignia.getId(), usuario.getId())){
-            if(anuncioRepository.qtdAnuncioPorVendedor(usuario.getId()) >= 1){
+            if(usuario.getVendedor().get().getVendasConcluidas() >= 5){
                 vendedorInsigniaRepository.inserirInsigniaAVendedor(insignia.getId(), usuario.getId());
             }
         }
-    }     
+    }
 }
