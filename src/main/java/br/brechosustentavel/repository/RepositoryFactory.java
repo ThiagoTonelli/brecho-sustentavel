@@ -64,4 +64,8 @@ public abstract class RepositoryFactory {
     public abstract ICompradorInsigniaRepository getCompradorInsigniaRepository();
     
     public abstract IComposicaoPecaRepository getComposicaoPecaRepository();
+    
+    public abstract IOfertaRepository getOfertaRepository();
+    
+    public abstract IDenunciaRepository getDenunciaRepository();
 }

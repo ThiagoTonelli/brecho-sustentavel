@@ -12,8 +12,10 @@ import br.brechosustentavel.repository.ICompradorInsigniaRepository;
 import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.IDefeitoPecaRepository;
 import br.brechosustentavel.repository.IDefeitoRepository;
+import br.brechosustentavel.repository.IDenunciaRepository;
 import br.brechosustentavel.repository.IInsigniaRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
+import br.brechosustentavel.repository.IOfertaRepository;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.ITransacaoRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
@@ -105,6 +107,16 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
 
     @Override
     public ICompradorInsigniaRepository getCompradorInsigniaRepository() {
+        return new SQLiteCompradorInsigniaRepository(conexaoFactory);
+    }
+
+    @Override
+    public IOfertaRepository getOfertaRepository() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public IDenunciaRepository getDenunciaRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
