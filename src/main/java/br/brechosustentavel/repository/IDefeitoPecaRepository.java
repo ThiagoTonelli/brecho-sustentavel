@@ -16,4 +16,5 @@ public interface IDefeitoPecaRepository {
     public void adicionarVariosDefeitosAPeca(String idPeca, List<Integer> idsDefeitos);
     public Map<String, Integer> buscarIdDefeitosDaPeca(String idPeca);
     public Map<String, Double> buscarNomeDefeitosDaPeca(String idPeca);
+    public void excluirDefeitosDaPeca(String idPeca);
 }

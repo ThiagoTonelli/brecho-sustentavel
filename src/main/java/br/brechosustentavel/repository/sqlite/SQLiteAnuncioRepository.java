@@ -49,33 +49,44 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository{
         }
     }
     
+    @Override
+    public void editar(Anuncio anuncio) {
+        String sql = "UPDATE anuncio SET valor_final = ?, gwp = ?, mci = ? WHERE id_peca = ?";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setDouble(1, anuncio.getValorFinal());
+            pstmt.setDouble(2, anuncio.getGwpAvoided());
+            pstmt.setDouble(3, anuncio.getMci());
+            pstmt.setString(4, anuncio.getPeca().getId_c());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao editar o anúncio: " + e.getMessage(), e);
+        }
+    }
+    
+    
+    
     @Override 
     public List<Anuncio> buscarAnuncios(int id_vendedor, IDefeitoRepository repositoryDefeitoPeca) {
-        // Mapa para evitar duplicatas de anúncios se uma peça tiver múltiplos defeitos
         Map<String, Anuncio> anuncioPorIdPeca = new HashMap<>();
         
-        // 1. NOVA CONSULTA SQL COM JOINS PARA BUSCAR O NOME DO TIPO DA PEÇA
-        // Usamos LEFT JOIN para garantir que anúncios de peças sem defeitos também apareçam.
-        // Usamos DISTINCT para pegar apenas uma linha por anúncio.
         String sqlAnuncios = """
-            SELECT DISTINCT
-                a.id, a.id_vendedor, a.id_peca, a.valor_final, a.gwp, a.mci,
-                p.subcategoria, p.tamanho, p.cor, p.massa,
-                p.estado_conservacao, p.preco_base,
-                tp.nome AS nome_tipo 
-            FROM
-                anuncio a
-            JOIN
-                peca p ON a.id_peca = p.id_c
-            LEFT JOIN
-                defeito_peca dp ON p.id_c = dp.id_peca
-            LEFT JOIN
-                defeito d ON dp.id_defeito = d.id
-            LEFT JOIN
-                tipo_peca tp ON d.id_tipo = tp.id
-            WHERE
-                a.id_vendedor = ?;
-            """;
+        SELECT
+            a.id, a.id_vendedor, a.id_peca, a.valor_final, a.gwp, a.mci,
+            p.subcategoria, p.tamanho, p.cor, p.massa,
+            p.estado_conservacao, p.preco_base,
+            tp.nome AS nome_tipo
+        FROM
+            anuncio a
+        JOIN
+            peca p ON a.id_peca = p.id_c
+        LEFT JOIN
+            tipo_peca tp ON p.id_tipo = tp.id
+        WHERE
+            a.id_vendedor = ?;
+        """;
 
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sqlAnuncios)) {

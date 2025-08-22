@@ -164,7 +164,9 @@ public class SQLiteInicializaBancoDeDados {
                         cor TEXT NOT NULL,
                         massa REAL NOT NULL,
                         estado_conservacao TEXT NOT NULL,
-                        preco_base REAL NOT NULL
+                        preco_base REAL NOT NULL,
+                        id_tipo INTEGER,
+                        FOREIGN KEY (id_tipo) REFERENCES tipo_peca(id) ON DELETE SET NULL
                     );
                     """;
         executarSQL(sql);

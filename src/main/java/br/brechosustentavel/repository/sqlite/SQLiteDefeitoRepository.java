@@ -81,6 +81,6 @@ public class SQLiteDefeitoRepository implements IDefeitoRepository{
         catch (SQLException e) {
             throw new RuntimeException("Erro ao buscar id do tipo de peça no banco de dados: " + e.getMessage());
         }
-        return 0;
+        return null; // Retorna null se não encontrar o defeito
     }
 }

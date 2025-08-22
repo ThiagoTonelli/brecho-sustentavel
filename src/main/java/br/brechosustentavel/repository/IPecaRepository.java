@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface IPecaRepository {
     public void criar(Peca peca);
     public void excluir();
-    public void editar();
+    public void editar(Peca peca);
     public Optional<Peca> consultar(String idC);
     public boolean ExisteId_c(String id_c);
 }
