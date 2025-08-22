@@ -241,6 +241,7 @@ public class SQLiteInicializaBancoDeDados {
                         id_comprador INTEGER NOT NULL,
                         id_anuncio INTEGER NOT NULL,
                         valor REAL NOT NULL,
+                        data DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         FOREIGN KEY (id_anuncio) REFERENCES anuncio(id) ON DELETE CASCADE,
                         FOREIGN KEY (id_comprador) REFERENCES comprador(id_comprador) ON DELETE CASCADE
                     );
