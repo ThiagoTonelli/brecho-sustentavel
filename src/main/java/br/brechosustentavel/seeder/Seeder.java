@@ -84,7 +84,7 @@ public class Seeder {
              pstmt.setString(3, "Comprador");
              pstmt.addBatch();
              
-             pstmt.setString(1, "Dez compras");
+             pstmt.setString(1, "Dez Compras");
              pstmt.setDouble(2, 0.2);
              pstmt.setString(3, "Comprador");
              pstmt.addBatch();
