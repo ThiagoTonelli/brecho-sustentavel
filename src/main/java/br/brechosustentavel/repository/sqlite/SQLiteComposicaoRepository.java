@@ -47,18 +47,20 @@ public class SQLiteComposicaoRepository implements IComposicaoRepository{
     }
 
     @Override
-    public void criar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void excluir() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void editar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Integer buscarIdComposicaoPorNome(String nome) {
+        String sql = "SELECT id FROM composicao WHERE nome = ?";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+            PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            pstmt.setString(1, nome);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar id da composicao da peca no banco de dados: " + e.getMessage());
+        }
+        return null; // Retorna null se não encontrar o defeito
     }
 
     @Override
