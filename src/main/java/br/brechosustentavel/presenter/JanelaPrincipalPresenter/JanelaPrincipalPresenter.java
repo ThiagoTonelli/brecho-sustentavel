@@ -4,27 +4,20 @@
  */
 package br.brechosustentavel.presenter.JanelaPrincipalPresenter;
 
-import br.brechosustentavel.model.Usuario;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter.EdicaoAnuncioState;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter.InclusaoAnuncioState;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
+
+import br.brechosustentavel.observer.Observador;
+import br.brechosustentavel.observer.Observavel;
 import br.brechosustentavel.presenter.TelaPrincipalPresenter;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaPrincipalView;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import br.brechosustentavel.view.IJanelaPrincipalView;
-import java.awt.Component;
 import javax.swing.JInternalFrame;
 
 /**
  *
  * @author thiag
  */
-public class JanelaPrincipalPresenter{
+public class JanelaPrincipalPresenter implements Observador{
     private JanelaPrincipalView view;
     private SessaoUsuarioService usuario;
     private JanelaPrincipalState estado;
@@ -34,6 +27,8 @@ public class JanelaPrincipalPresenter{
         this.view = new JanelaPrincipalView();
         this.usuario = usuario;
         this.telaPrincipal = telaPrincipal;
+        
+        Observavel.getInstance().addObserver(this);
         telaPrincipal.getView().setLocationRelativeTo(null);
         telaPrincipal.getView().setSize(1150, 800);
         telaPrincipal.getView().setVisible(true);
@@ -57,6 +52,13 @@ public class JanelaPrincipalPresenter{
     
     public void setFrame(JInternalFrame frame){
         telaPrincipal.getView().getjDesktopPane1().add(frame);
+    }
+
+    @Override
+    public void atualizar() {
+        if (estado instanceof VendedorState) {
+            ((VendedorState) estado).carregar();
+        }
     }
 
 }

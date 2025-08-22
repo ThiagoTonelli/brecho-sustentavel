@@ -29,7 +29,7 @@ public class VendedorState extends JanelaPrincipalState{
     
     public VendedorState(JanelaPrincipalPresenter presenter, SessaoUsuarioService usuarioAutenticado) throws PropertyVetoException{
         super(presenter);
-        new CarregarAnunciosVendedorCommand().executar(presenter, usuarioAutenticado);
+        carregar();
         JanelaPrincipalView view = presenter.getView();
         view.setMaximum(true);
         view.setVisible(true);
@@ -63,7 +63,7 @@ public class VendedorState extends JanelaPrincipalState{
 
             @Override
             public void menuCanceled(MenuEvent e) {}
-        });            
+        });         
     }
     
     @Override
@@ -71,7 +71,6 @@ public class VendedorState extends JanelaPrincipalState{
         try {
             ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter();
             presenter.setFrame(anuncioPresenter.getView());
-            
             anuncioPresenter.setEstadoVendedor(new InclusaoAnuncioState(anuncioPresenter));
         } catch (PropertyVetoException ex) {
             throw new RuntimeException("erro ao criar novo anuncio", ex);
@@ -90,6 +89,10 @@ public class VendedorState extends JanelaPrincipalState{
     
     @Override
     public void carregar(){
-        
+        try {
+            new CarregarAnunciosVendedorCommand().executar(presenter, SessaoUsuarioService.getInstancia());
+        } catch (Exception e) {
+            System.err.println("Erro ao recarregar anúncios: " + e.getMessage());
+        }
     }
 }

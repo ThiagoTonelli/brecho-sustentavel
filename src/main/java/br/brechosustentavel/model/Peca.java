@@ -14,6 +14,7 @@ import java.util.Map;
 public class Peca {
     private String id_c;
     private String tipoDePeca;
+    private int idTipoDePeca;
     private String subcategoria;
     private String tamanho;
     private String cor;
@@ -139,8 +140,14 @@ public class Peca {
     public void setDefeitos(Map<String, Double> defeitosSelecionados) {
         this.defeitos = defeitosSelecionados;
     }
-    
-    
+
+    public int getIdTipoDePeca() {
+        return idTipoDePeca;
+    }
+
+    public void setIdTipoDePeca(int idTipoDePeca) {
+        this.idTipoDePeca = idTipoDePeca;
+    }
     
     
     

@@ -95,5 +95,20 @@ public class SQLiteDefeitoPecaRepository implements IDefeitoPecaRepository{
         }
         return defeitos;
     }
+    
+    @Override
+    public void excluirDefeitosDaPeca(String idPeca) {
+        String sql = "DELETE FROM defeito_peca WHERE id_peca = ?";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setString(1, idPeca);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao excluir os defeitos da peça: " + e.getMessage(), e);
+        }
+    }
 }
 

@@ -26,7 +26,7 @@ public class SQLitePecaRepository implements IPecaRepository{
 
     @Override
     public void criar(Peca peca) {
-        String sql = "INSERT INTO peca(id_c, subcategoria, tamanho, cor, massa, estado_conservacao, preco_base) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO peca(id_c, subcategoria, tamanho, cor, massa, estado_conservacao, preco_base, id_tipo) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
@@ -38,7 +38,8 @@ public class SQLitePecaRepository implements IPecaRepository{
             pstmt.setDouble(5, peca.getMassaEstimada());
             pstmt.setString(6, peca.getEstadoDeConservacao());
             pstmt.setDouble(7, peca.getPrecoBase());
-            
+            pstmt.setInt(8, peca.getIdTipoDePeca());
+
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -50,10 +51,38 @@ public class SQLitePecaRepository implements IPecaRepository{
     public void excluir() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
-    public void editar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void editar(Peca peca) {
+        String sql = """
+                     UPDATE peca SET
+                         subcategoria = ?,
+                         tamanho = ?,
+                         cor = ?,
+                         massa = ?,
+                         estado_conservacao = ?,
+                         preco_base = ?,
+                         id_tipo = ?
+                     WHERE id_c = ?
+                     """;
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setString(1, peca.getSubcategoria());
+            pstmt.setString(2, peca.getTamanho());
+            pstmt.setString(3, peca.getCor());
+            pstmt.setDouble(4, peca.getMassaEstimada());
+            pstmt.setString(5, peca.getEstadoDeConservacao());
+            pstmt.setDouble(6, peca.getPrecoBase());
+            pstmt.setInt(7, peca.getIdTipoDePeca());
+            pstmt.setString(8, peca.getId_c()); // A cláusula WHERE é crucial!
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao editar a peça: " + e.getMessage(), e);
+        }
     }
 
     @Override

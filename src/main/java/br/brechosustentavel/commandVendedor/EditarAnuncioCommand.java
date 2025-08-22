@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package br.brechosustentavel.commandVendedor;
 
 import br.brechosustentavel.model.Anuncio;
@@ -16,27 +20,26 @@ import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.AplicarDescontosDefeitosService;
 import br.brechosustentavel.service.CalculadoraDeIndicesService;
 import br.brechosustentavel.service.SessaoUsuarioService;
+import br.brechosustentavel.view.IJanelaManterAnuncioView;
 import java.awt.Component;
-import javax.swing.JCheckBox;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import br.brechosustentavel.view.IJanelaManterAnuncioView;
-import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
+import javax.swing.JCheckBox;
 
 /**
  *
  * @author thiag
  */
-public class NovoAnuncioCommand implements ICommandVendedor {
-    
+public class EditarAnuncioCommand implements ICommandVendedor{
+
     @Override
     public Object executar(ManterAnuncioPresenter presenter) {
         try {
-            
             //carrega repositorios
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
             IPecaRepository repositoryPeca = fabrica.getPecaRepository();
@@ -77,7 +80,8 @@ public class NovoAnuncioCommand implements ICommandVendedor {
             double massaEstimada = Double.parseDouble(view.getTxtMassa().getText());
             String estadoDeConservacao = view.getTxtEstadoConservacao().getText();
             double precoBase = Double.parseDouble(view.getTxtPrecoBase().getText());
-
+            
+            
             //cria repositorio dos materiais
             IMaterialRepository repositoryMaterial = fabrica.getMaterialRepository();   
             //limpa materiais com quantidade na composicao = 0
@@ -86,6 +90,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
             List<String> listaChaves = new ArrayList<>(chaves);
             //pega apenas os materiais que foram realmente selecionados
             Map<String, Double> materiaisDesconto = repositoryMaterial.buscarMateriaisNome(listaChaves);
+            
             
             //captura quais defeitos foram selecionados para a peca
             Map<String, Double> defeitosSelecionados = new HashMap<>();
@@ -99,56 +104,15 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                     }
                 }
             }
-            
-            
             Optional<Peca> pecaOpt = repositoryPeca.consultar(id_c); 
-            if(pecaOpt.isEmpty()){
-                Peca novaPeca = new Peca(id_c, subcategoria, tamanho, cor, massaEstimada, estadoDeConservacao, precoBase);
 
-                novaPeca.setDefeitos(defeitosSelecionados);
-                novaPeca.setMaterialDesconto(materiaisDesconto);
-                novaPeca.setMaterialQuantidade(materiaisQuantidade);
-                //calcula metricas e preco final
-                AplicarDescontosDefeitosService aplicarDescontos = new AplicarDescontosDefeitosService();
-                novaPeca.setPrecoFinal(aplicarDescontos.calcularDescontos(novaPeca));
-                CalculadoraDeIndicesService calcularIndices = new CalculadoraDeIndicesService();
-                double gwpAvoided = calcularIndices.calcularGwpAvoided(novaPeca);
-                double gwpBase = calcularIndices.calcularGwpBase(novaPeca);
-                double mciPeca = calcularIndices.calcularMCI(novaPeca);
-                LocalDateTime data = LocalDateTime.now();
-                
-                List<Integer> idsDefeitos = new ArrayList<>();
-                for(String defeito : defeitosSelecionados.keySet()){
-                    Integer id = repositoryDefeito.buscarIdPeloNomeDoDefeito(defeito);
-                    if(id != null){ 
-                        idsDefeitos.add(id); 
-                    }
-                }
-                repositoryDefeitoPeca.adicionarVariosDefeitosAPeca(novaPeca.getId_c(), idsDefeitos);
-                int idTipo = repositoryTipoDePeca.buscarIdTipo(tipoPeca);
-                
-                novaPeca.setTipoDePeca(tipoPeca);
-                novaPeca.setIdTipoDePeca(idTipo);
-                EventoLinhaDoTempo evento = new EventoLinhaDoTempo("Primeira publicação", "publicação", data, gwpAvoided, mciPeca);
-                evento.setCliclo(1);
-                List<EventoLinhaDoTempo> eventosLinha = new ArrayList<>();
-                eventosLinha.add(evento);
-                novaPeca.setLinhaDoTempo(eventosLinha);
-                repositoryPeca.criar(novaPeca);
-                repositoryLinhaDoTempo.criar(id_c, evento);
-                SessaoUsuarioService sessao = SessaoUsuarioService.getInstancia();
-                Anuncio anuncio = new Anuncio(sessao.getUsuarioAutenticado().getId(), novaPeca, novaPeca.getPrecoFinal(), gwpAvoided, mciPeca);
-                repositoryAnuncio.criar(anuncio);
-                
-                Observavel.getInstance().notifyObservers();
-                return anuncio;
-            }
-            else {
+            if(pecaOpt.isPresent()) {
                 Peca peca = pecaOpt.get();
                 peca.setId_c(id_c);
                 Optional<EventoLinhaDoTempo> ultimoEventoOpt = repositoryLinhaDoTempo.ultimoEvento(id_c);
                 EventoLinhaDoTempo ultimoEvento = ultimoEventoOpt.get();
                 if (ultimoEvento.getTipoEvento().equals("encerrado")){
+                    
                     peca.setSubcategoria(subcategoria);
                     peca.setTamanho(tamanho);
                     peca.setCor(cor);
@@ -159,7 +123,10 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                     peca.setMaterialDesconto(materiaisDesconto);
                     peca.setMaterialQuantidade(materiaisQuantidade);
                     
+                    //excluir defeitos antigos
                     repositoryDefeitoPeca.excluirDefeitosDaPeca(peca.getId_c());
+                    
+                    
                     List<Integer> idsDefeitos = new ArrayList<>();
                     for(String defeito : defeitosSelecionados.keySet()){
                         Integer id = repositoryDefeito.buscarIdPeloNomeDoDefeito(defeito);
@@ -184,12 +151,11 @@ public class NovoAnuncioCommand implements ICommandVendedor {
 
                     
                     EventoLinhaDoTempo evento = new EventoLinhaDoTempo("Publicação", "publicação", data, gwpAvoided, mciPeca);
-                    evento.setCliclo(ultimoEvento.getCiclo_n()+1);
+                    evento.setCliclo(ultimoEvento.getCiclo_n());
                     List<EventoLinhaDoTempo> eventosLinha = new ArrayList<>();
                     eventosLinha.add(evento);
                     peca.setLinhaDoTempo(eventosLinha);
                     repositoryPeca.editar(peca);
-                    repositoryLinhaDoTempo.criar(id_c, evento);
                     SessaoUsuarioService sessao = SessaoUsuarioService.getInstancia();
                     Anuncio anuncio = new Anuncio(sessao.getUsuarioAutenticado().getId(), peca, peca.getPrecoFinal(), gwpAvoided, mciPeca);
                     repositoryAnuncio.editar(anuncio);
@@ -198,7 +164,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                     return anuncio;
                 }
                 else {
-                    // nao foi encerrado o item antes da publicacao
+                    //ta tentando editar depois de vender
                 }
             }
 
@@ -209,4 +175,5 @@ public class NovoAnuncioCommand implements ICommandVendedor {
         }
         return null;
     }
+    
 }
