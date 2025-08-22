@@ -6,13 +6,13 @@ package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IAnuncioRepository;
+import br.brechosustentavel.repository.IComposicaoRepository;
 import br.brechosustentavel.repository.ICompradorInsigniaRepository;
 import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.IDefeitoPecaRepository;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.IInsigniaRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
-import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.ITransacaoRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
@@ -43,8 +43,8 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
     }
 
     @Override
-    public IMaterialRepository getMaterialRepository() {
-        return new SQLiteMaterialRepository(conexaoFactory);
+    public IComposicaoRepository getComposicaoRepository() {
+        return new SQLiteComposicaoRepository(conexaoFactory);
     }
 
     @Override

@@ -9,7 +9,6 @@ import br.brechosustentavel.repository.IAnuncioRepository;
 import br.brechosustentavel.repository.IDefeitoPecaRepository;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
-import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.IPecaRepository;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
@@ -26,6 +25,7 @@ import java.util.Set;
 import br.brechosustentavel.view.IJanelaManterAnuncioView;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import br.brechosustentavel.repository.IComposicaoRepository;
 
 /**
  *
@@ -79,7 +79,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
             double precoBase = Double.parseDouble(view.getTxtPrecoBase().getText());
 
             //cria repositorio dos materiais
-            IMaterialRepository repositoryMaterial = fabrica.getMaterialRepository();   
+            IComposicaoRepository repositoryMaterial = fabrica.getComposicaoRepository();   
             //limpa materiais com quantidade na composicao = 0
             materiaisQuantidade.entrySet().removeIf(entry -> entry.getValue() <= 0.0);
             Set<String> chaves = materiaisQuantidade.keySet();

@@ -15,6 +15,7 @@ import java.beans.PropertyVetoException;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import br.brechosustentavel.commandVendedor.ICommandVendedor;
+import br.brechosustentavel.model.Anuncio;
 
 /**
  *
@@ -78,7 +79,7 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
                             JOptionPane.showMessageDialog(null, "Preencha todos os campos e verifique se a soma dos materiais atinge os 100%", "Aviso", JOptionPane.WARNING_MESSAGE);
                         }
                         ICommandVendedor command = new NovoAnuncioCommand();
-                        command.executar(presenter);
+                        Anuncio anuncio = (Anuncio) command.executar(presenter);
                         JOptionPane.showMessageDialog(null, "anuncio salvo");
                         presenter.setEstadoVendedor(new EdicaoAnuncioState(presenter));
                     }catch (Exception ex){

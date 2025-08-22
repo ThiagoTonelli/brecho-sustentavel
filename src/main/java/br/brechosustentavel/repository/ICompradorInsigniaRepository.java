@@ -4,10 +4,15 @@
  */
 package br.brechosustentavel.repository;
 
+import br.brechosustentavel.model.Insignia;
+import java.util.List;
+
 /**
  *
  * @author kaila
  */
 public interface ICompradorInsigniaRepository {
-    
+    public void inserirInsigniaAComprador(int idInsignia, int idComprador);
+    public List<Insignia> buscarInsigniaPorComprador(int idComprador);
+    public boolean compradorPossuiInsignia(int idInsignia, int idComprador);
 }

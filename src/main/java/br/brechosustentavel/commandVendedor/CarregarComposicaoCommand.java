@@ -5,13 +5,13 @@
 package br.brechosustentavel.commandVendedor;
 
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
-import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import br.brechosustentavel.view.IJanelaManterAnuncioView;
+import br.brechosustentavel.repository.IComposicaoRepository;
 
 /**
  *
@@ -36,7 +36,7 @@ public class CarregarComposicaoCommand implements ICommandVendedor{
         spinner3.setValue(0);
         
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
-        IMaterialRepository repository = fabrica.getMaterialRepository();
+        IComposicaoRepository repository = fabrica.getComposicaoRepository();
         Map<String, Double> tiposMateriais = repository.buscarMateriais();
         System.out.println(tiposMateriais);
         for (String nome : tiposMateriais.keySet()) {
