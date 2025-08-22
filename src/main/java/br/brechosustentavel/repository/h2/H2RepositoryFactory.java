@@ -19,7 +19,9 @@ import br.brechosustentavel.repository.IPecaRepository;
 import br.brechosustentavel.repository.IVendedorRepository;
 import br.brechosustentavel.repository.IComposicaoRepository;
 import br.brechosustentavel.repository.ICompradorInsigniaRepository;
+import br.brechosustentavel.repository.IDenunciaRepository;
 import br.brechosustentavel.repository.IInsigniaRepository;
+import br.brechosustentavel.repository.IOfertaRepository;
 import br.brechosustentavel.repository.IVendedorInsigniaRepository;
 
 /**
@@ -105,6 +107,16 @@ public class H2RepositoryFactory extends RepositoryFactory{
 
     @Override
     public IComposicaoPecaRepository getComposicaoPecaRepository() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public IOfertaRepository getOfertaRepository() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public IDenunciaRepository getDenunciaRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
