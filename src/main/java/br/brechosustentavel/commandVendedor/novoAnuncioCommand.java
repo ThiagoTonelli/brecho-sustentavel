@@ -47,6 +47,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
             IDefeitoRepository repositoryDefeito = fabrica.getDefeitoRepository();
             ITipoDePecaRepository repositoryTipoDePeca = fabrica.getTipoDePecaRepository();
             IComposicaoPecaRepository repositoryComposicaoPeca = fabrica.getComposicaoPecaRepository();
+            IComposicaoRepository repositoryComposicao = fabrica.getComposicaoRepository();
             
             
             IJanelaManterAnuncioView view = presenter.getView();
@@ -80,14 +81,13 @@ public class NovoAnuncioCommand implements ICommandVendedor {
             String estadoDeConservacao = view.getTxtEstadoConservacao().getText();
             double precoBase = Double.parseDouble(view.getTxtPrecoBase().getText());
 
-            //cria repositorio dos materiais
-            IComposicaoRepository repositoryMaterial = fabrica.getComposicaoRepository();   
+  
             //limpa materiais com quantidade na composicao = 0
             materiaisQuantidade.entrySet().removeIf(entry -> entry.getValue() <= 0.0);
             Set<String> chaves = materiaisQuantidade.keySet();
             List<String> listaChaves = new ArrayList<>(chaves);
             //pega apenas os materiais que foram realmente selecionados
-            Map<String, Double> materiaisDesconto = repositoryMaterial.buscarMateriaisNome(listaChaves);
+            Map<String, Double> materiaisDesconto = repositoryComposicao.buscarMateriaisNome(listaChaves);
             
             //captura quais defeitos foram selecionados para a peca
             Map<String, Double> defeitosSelecionados = new HashMap<>();
@@ -102,6 +102,10 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                 }
             }
             
+            List<Integer> idsComposicao = new ArrayList<>();
+            for(String nomeComposicao : materiaisDesconto.keySet()){
+                idsComposicao.add(repositoryComposicao.buscarIdComposicaoPorNome(nomeComposicao));
+            }
             
             Optional<Peca> pecaOpt = repositoryPeca.consultar(id_c); 
             if(pecaOpt.isEmpty()){
@@ -142,7 +146,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                 Anuncio anuncio = new Anuncio(sessao.getUsuarioAutenticado().getId(), novaPeca, novaPeca.getPrecoFinal(), gwpAvoided, mciPeca);
                 repositoryAnuncio.criar(anuncio);
                 
-                repositoryComposicaoPeca.adicionarComposicaoAPeca(novaPeca, idsDefeitos);
+                repositoryComposicaoPeca.adicionarComposicaoAPeca(novaPeca, idsComposicao);
                 
                 Observavel.getInstance().notifyObservers();
                 return anuncio;
@@ -197,6 +201,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                     SessaoUsuarioService sessao = SessaoUsuarioService.getInstancia();
                     Anuncio anuncio = new Anuncio(sessao.getUsuarioAutenticado().getId(), peca, peca.getPrecoFinal(), gwpAvoided, mciPeca);
                     repositoryAnuncio.editar(anuncio);
+                    repositoryComposicaoPeca.adicionarComposicaoAPeca(peca, idsComposicao);
                     
                     Observavel.getInstance().notifyObservers();
                     return anuncio;

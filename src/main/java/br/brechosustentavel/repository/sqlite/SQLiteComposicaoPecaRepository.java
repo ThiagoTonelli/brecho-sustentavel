@@ -26,7 +26,7 @@ public class SQLiteComposicaoPecaRepository implements IComposicaoPecaRepository
     
     @Override
     public void adicionarComposicaoAPeca(Peca peca, List<Integer> idMateriais) {
-        String sql = "INSERT INTO composicao_peca (id_composicao, id_peca) VALUES (?, ?)";
+        String sql = "INSERT INTO composicao_peca (id_composicao, id_peca, quantidade) VALUES (?, ?, ?)";
         String idPeca = peca.getId_c();
 
         for (Integer idComposicao : idMateriais) {
@@ -34,6 +34,7 @@ public class SQLiteComposicaoPecaRepository implements IComposicaoPecaRepository
                 PreparedStatement pstmt = conexao.prepareStatement(sql)) {
                 pstmt.setInt(1, idComposicao);
                 pstmt.setString(2, idPeca);
+                //pstmt.setString(3, peca.getMaterialQuantidade().get());
 
                 pstmt.executeUpdate();
 

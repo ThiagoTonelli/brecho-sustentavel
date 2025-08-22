@@ -15,9 +15,7 @@ import java.util.Optional;
  * @author thiag
  */
 public interface IComposicaoRepository {
-    public void criar();
-    public void excluir();
-    public void editar();
+    public Integer buscarIdComposicaoPorNome(String nome);
     public Optional<Material> consultar();
     public Map<String, Double> buscarMateriais();
     public Map<String, Double> buscarMateriaisNome(List<String> materiais);
