@@ -6,9 +6,11 @@ package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IAnuncioRepository;
+import br.brechosustentavel.repository.ICompradorInsigniaRepository;
 import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.IDefeitoPecaRepository;
 import br.brechosustentavel.repository.IDefeitoRepository;
+import br.brechosustentavel.repository.IInsigniaRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
 import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
@@ -16,6 +18,7 @@ import br.brechosustentavel.repository.ITransacaoRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.repository.IPecaRepository;
+import br.brechosustentavel.repository.IVendedorInsigniaRepository;
 import br.brechosustentavel.repository.IVendedorRepository;
 
 /**
@@ -82,5 +85,20 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
     @Override
     public IDefeitoPecaRepository getDefeitoPecaRepository() {
         return new SQLiteDefeitoPecaRepository(conexaoFactory);
+    }
+
+    @Override
+    public IInsigniaRepository getInsigniaRepository() {
+        return new SQLiteInsigniaRepository(conexaoFactory);
+    }
+
+    @Override
+    public IVendedorInsigniaRepository getVendedorInsigniaRepository() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public ICompradorInsigniaRepository getCompradorInsigniaRepository() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
