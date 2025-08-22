@@ -49,6 +49,10 @@ public class Anuncio {
     public void setIdAnuncio(int idAnuncio){
         this.idAnuncio = idAnuncio;
     }
+    
+    public int getIdAnuncio(){
+        return idAnuncio;
+    }
 
     @Override
     public String toString() {
