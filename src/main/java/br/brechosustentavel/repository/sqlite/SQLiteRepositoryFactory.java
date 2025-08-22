@@ -39,7 +39,7 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
     
     @Override
     public IUsuarioRepository getUsuarioRepository(){
-        return new SQLiteUsuarioRepository(conexaoFactory);
+        return new SQLiteUsuarioRepository(conexaoFactory, getVendedorRepository(), getCompradorRepository());
     }
 
     @Override
