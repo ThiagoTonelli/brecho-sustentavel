@@ -15,9 +15,11 @@ import br.brechosustentavel.view.IJanelaManterAnuncioView;
 public class ManterAnuncioPresenter {
     private ManterAnuncioState estado;
     private JanelaManterAnuncioView view;
+    private String idAnuncio;
 
-    public ManterAnuncioPresenter() throws PropertyVetoException{
+    public ManterAnuncioPresenter(String idAnuncio) throws PropertyVetoException{
         view = new JanelaManterAnuncioView();
+        this.idAnuncio = idAnuncio;
     }
     
     public void setEstadoVendedor(ManterAnuncioState novoEstado){
@@ -26,6 +28,10 @@ public class ManterAnuncioPresenter {
     
     public JanelaManterAnuncioView getView(){
         return view;
+    }
+    
+    public String getIdAnuncio(){
+        return idAnuncio;
     }
     
 }

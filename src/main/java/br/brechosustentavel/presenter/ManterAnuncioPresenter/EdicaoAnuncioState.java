@@ -3,11 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package br.brechosustentavel.presenter.ManterAnuncioPresenter;
-
-import br.brechosustentavel.commandVendedor.EditarAnuncioCommand;
+import br.brechosustentavel.commandVendedor.CarregarAnuncioEdicaoCommand;
+import br.brechosustentavel.commandVendedor.CarregarComposicaoCommand;
+import br.brechosustentavel.commandVendedor.CarregarDefeitosPorTipoCommand;
+import br.brechosustentavel.commandVendedor.CarregarTiposDePecaCommand;
 import br.brechosustentavel.commandVendedor.ICommandVendedor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,14 +21,17 @@ import javax.swing.JOptionPane;
  * @author thiag
  */
 public class EdicaoAnuncioState extends ManterAnuncioState{
-
-    public EdicaoAnuncioState(ManterAnuncioPresenter presenter) {
+    
+    public EdicaoAnuncioState(ManterAnuncioPresenter presenter) throws PropertyVetoException {
         super(presenter);
-        configurarTela(false);
+        visualizar();
         editar();
     }
 
-    private void configurarTela(boolean estado){
+    private void configurarTela(boolean estado) throws PropertyVetoException{
+        presenter.getView().setVisible(true);
+        presenter.getView().setMaximum(true);
+        //presenter.getView().setSelected(true);
         presenter.getView().getBtnExcluir().setVisible(estado);
         presenter.getView().getBtnExcluir().setEnabled(estado);
         if(estado == false){
@@ -81,7 +90,14 @@ public class EdicaoAnuncioState extends ManterAnuncioState{
 
     @Override
     public void visualizar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            new CarregarTiposDePecaCommand().executar(presenter);
+            new CarregarComposicaoCommand().executar(presenter);
+            new CarregarAnuncioEdicaoCommand().executar(presenter);
+            configurarTela(false);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(EdicaoAnuncioState.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

@@ -14,7 +14,7 @@ import java.util.Optional;
  *
  * @author thiag
  */
-public interface IMaterialRepository {
+public interface IComposicaoRepository {
     public void criar();
     public void excluir();
     public void editar();

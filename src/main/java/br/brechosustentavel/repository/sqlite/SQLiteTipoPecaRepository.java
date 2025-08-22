@@ -58,5 +58,23 @@ public class SQLiteTipoPecaRepository implements ITipoDePecaRepository{
             throw new RuntimeException("Erro ao buscar id do tipo de peça no banco de dados", e);
         }
     }
+    
+    @Override
+    public String buscarNomeTipo(int idTipo) {
+        String sql = "SELECT nome FROM tipo_peca WHERE id = ?";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            pstmt.setInt(1, idTipo);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("nome");
+                } else {
+                    return null;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar id do tipo de peça no banco de dados", e);
+        }
+    }
  
 }

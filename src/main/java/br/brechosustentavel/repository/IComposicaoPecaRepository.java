@@ -4,17 +4,13 @@
  */
 package br.brechosustentavel.repository;
 
+import br.brechosustentavel.model.Peca;
 import java.util.List;
 
 /**
  *
  * @author thiag
  */
-public interface ITipoDePecaRepository {
-    public List<String> buscarTiposDePeca();
-    
-    public int buscarIdTipo(String tipo);
-    public String buscarNomeTipo(int idTipo);
-    
-    
+public interface IComposicaoPecaRepository {
+    public void adicionarComposicaoAPeca(Peca peca, List<Integer> idMateriais);
 }

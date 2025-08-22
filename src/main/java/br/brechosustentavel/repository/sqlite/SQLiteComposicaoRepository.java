@@ -7,7 +7,6 @@ package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.model.Material;
 import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.IMaterialRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,16 +15,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import br.brechosustentavel.repository.IComposicaoRepository;
 
 /**
  *
  * @author thiag
  */
 
-public class SQLiteMaterialRepository implements IMaterialRepository{
+public class SQLiteComposicaoRepository implements IComposicaoRepository{
     private final ConexaoFactory conexaoFactory;
 
-    public SQLiteMaterialRepository(ConexaoFactory conexaoFactory) {
+    public SQLiteComposicaoRepository(ConexaoFactory conexaoFactory) {
         this.conexaoFactory = conexaoFactory;
     }
     

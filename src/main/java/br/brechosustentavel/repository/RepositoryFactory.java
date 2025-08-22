@@ -37,7 +37,7 @@ public abstract class RepositoryFactory {
     
     public abstract IUsuarioRepository getUsuarioRepository();
     
-    public abstract IMaterialRepository getMaterialRepository();
+    public abstract IComposicaoRepository getComposicaoRepository();
     
     public abstract ITransacaoRepository getTransacaoRepository();
     
