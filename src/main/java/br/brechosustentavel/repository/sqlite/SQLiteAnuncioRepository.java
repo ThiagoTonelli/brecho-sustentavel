@@ -66,10 +66,8 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository{
         }
     }
     
-    
-    
     @Override 
-    public List<Anuncio> buscarAnuncios(int id_vendedor, IDefeitoRepository repositoryDefeitoPeca) {
+    public List<Anuncio> buscarAnuncios(int idVendedor, IDefeitoRepository repositoryDefeitoPeca) {
         Map<String, Anuncio> anuncioPorIdPeca = new HashMap<>();
         
         String sqlAnuncios = """
@@ -91,7 +89,7 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository{
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sqlAnuncios)) {
 
-            pstmt.setInt(1, id_vendedor);
+            pstmt.setInt(1, idVendedor);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -139,5 +137,23 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository{
         }
 
         return new ArrayList<>(anuncioPorIdPeca.values());
+    }
+
+    @Override
+    public int qtdAnuncioPorVendedor(int idVendedor) {
+        String sql = "SELECT COUNT(*) FROM anuncio WHERE id_vendedor = ?;";
+        
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            pstmt.setInt(1, idVendedor);
+            
+            ResultSet rs = pstmt.executeQuery(); 
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao contar os anúncios do vendedor: " + e.getMessage());
+        }
     }
 }
