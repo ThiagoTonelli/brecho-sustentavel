@@ -13,6 +13,7 @@ import java.util.List;
  */
 public interface IAnuncioRepository {
     public void criar(Anuncio anuncio);
-    public List<Anuncio> buscarAnuncios(int id_vendedor, IDefeitoRepository repositoryDefeito);
+    public List<Anuncio> buscarAnuncios(int idVendedor, IDefeitoRepository repositoryDefeito);
     public void editar(Anuncio anuncio);
+    public int qtdAnuncioPorVendedor(int idVendedor);
 }

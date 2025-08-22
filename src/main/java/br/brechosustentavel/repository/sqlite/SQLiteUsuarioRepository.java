@@ -5,9 +5,13 @@
 
 package br.brechosustentavel.repository.sqlite;
 
+import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.model.Vendedor;
 import br.brechosustentavel.repository.ConexaoFactory;
+import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
+import br.brechosustentavel.repository.IVendedorRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,9 +27,13 @@ import java.util.Optional;
 
 public class SQLiteUsuarioRepository implements IUsuarioRepository{
     private final ConexaoFactory conexaoFactory;
+    private IVendedorRepository vendedorRepository;
+    private ICompradorRepository compradorRepository;
     
-    public SQLiteUsuarioRepository(ConexaoFactory conexaoFactory) {
+    public SQLiteUsuarioRepository(ConexaoFactory conexaoFactory, IVendedorRepository vendedorRepository, ICompradorRepository compradorRepository) {
         this.conexaoFactory = conexaoFactory;
+        this.vendedorRepository = vendedorRepository;
+        this.compradorRepository = compradorRepository;
     }
 
     @Override
@@ -71,6 +79,17 @@ public class SQLiteUsuarioRepository implements IUsuarioRepository{
                usuario.setId(rs.getInt("id"));
                usuario.setAdmin(rs.getBoolean("admin"));
                
+               int usuarioId = usuario.getId();
+               Optional<Vendedor> optVendedor = vendedorRepository.buscarPorId(usuarioId);
+               if (optVendedor.isPresent()) {
+                   usuario.setVendedor(optVendedor.get());
+               }
+
+               Optional<Comprador> optComprador = compradorRepository.buscarPorId(usuarioId);
+               if (optComprador.isPresent()) {
+                   usuario.setComprador(optComprador.get());
+               }
+
                return Optional.of(usuario);
             }
             return Optional.empty();    
