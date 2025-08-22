@@ -10,13 +10,16 @@ import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.IDefeitoPecaRepository;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
-import br.brechosustentavel.repository.IMaterialRepository;
 import br.brechosustentavel.repository.ITipoDePecaRepository;
 import br.brechosustentavel.repository.ITransacaoRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.repository.IPecaRepository;
 import br.brechosustentavel.repository.IVendedorRepository;
+import br.brechosustentavel.repository.IComposicaoRepository;
+import br.brechosustentavel.repository.ICompradorInsigniaRepository;
+import br.brechosustentavel.repository.IInsigniaRepository;
+import br.brechosustentavel.repository.IVendedorInsigniaRepository;
 
 /**
  *
@@ -35,7 +38,7 @@ public class H2RepositoryFactory extends RepositoryFactory{
     }
 
     @Override
-    public IMaterialRepository getMaterialRepository() {
+    public IComposicaoRepository getComposicaoRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -81,6 +84,21 @@ public class H2RepositoryFactory extends RepositoryFactory{
 
     @Override
     public IDefeitoPecaRepository getDefeitoPecaRepository() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public IInsigniaRepository getInsigniaRepository() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public IVendedorInsigniaRepository getVendedorInsigniaRepository() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public ICompradorInsigniaRepository getCompradorInsigniaRepository() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

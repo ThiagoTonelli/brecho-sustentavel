@@ -118,8 +118,9 @@ public class SQLitePecaRepository implements IPecaRepository{
                     double massa = rs.getDouble("massa");
                     String estado = rs.getString("estado_conservacao");
                     double preco = rs.getDouble("preco_base");
+                    int idTipo = rs.getInt("id_tipo");
                     Peca peca = new Peca(id_c, subcategoria, tamanho, cor, massa, estado, preco);
-
+                    peca.setIdTipoDePeca(idTipo);
                     return Optional.of(peca);
                 }
             }
@@ -127,15 +128,6 @@ public class SQLitePecaRepository implements IPecaRepository{
             throw new RuntimeException("Erro ao buscar peças no banco de dados", e);
         }
         return Optional.empty();
-    }
-    
-    public void cadastrarPeca(){
-    
-    
-    }
-    
-    
-    
-    
+    } 
     
 }

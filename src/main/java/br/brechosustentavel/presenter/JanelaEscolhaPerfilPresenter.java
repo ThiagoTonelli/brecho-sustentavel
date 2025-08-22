@@ -57,7 +57,7 @@ public class JanelaEscolhaPerfilPresenter {
         telaPresenter.getView().getjDesktopPane1().add(janelaVendedor);
         janelaVendedor.setMaximum(true);
         janelaVendedor.setVisible(true);
-        new ManterAnuncioPresenter();
+        //new ManterAnuncioPresenter();
     }
     
     

@@ -10,7 +10,6 @@ import br.brechosustentavel.presenter.ManterAnuncioPresenter.EdicaoAnuncioState;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.InclusaoAnuncioState;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.service.SessaoUsuarioService;
-import br.brechosustentavel.view.IJanelaPrincipalView;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import br.brechosustentavel.view.JanelaVisualizarPerfilView;
 import java.awt.event.ActionEvent;
@@ -18,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
@@ -63,13 +64,36 @@ public class VendedorState extends JanelaPrincipalState{
 
             @Override
             public void menuCanceled(MenuEvent e) {}
-        });         
+        });
+    }
+
+
+    @Override
+    public void editar() {
+        try{
+            JTable tabela = presenter.getView().getjTable1();
+            int linhaSelecionada = tabela.getSelectedRow();
+            if (linhaSelecionada == -1) {
+                JOptionPane.showMessageDialog(presenter.getView(), "Selecione um anúncio para visualizar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            String idPeca = (String) tabela.getValueAt(linhaSelecionada, 0);
+            if (idPeca != null) {
+                ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(idPeca);
+                presenter.setFrame(anuncioPresenter.getView());
+                anuncioPresenter.setEstadoVendedor(new EdicaoAnuncioState(anuncioPresenter));
+            } else {
+                JOptionPane.showMessageDialog(presenter.getView(), "Anúncio não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (PropertyVetoException ex) {
+            throw new RuntimeException("erro ao criar novo anuncio", ex);
+        }
     }
     
     @Override
     public void criar(){
         try {
-            ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter();
+            ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(null);
             presenter.setFrame(anuncioPresenter.getView());
             anuncioPresenter.setEstadoVendedor(new InclusaoAnuncioState(anuncioPresenter));
         } catch (PropertyVetoException ex) {
@@ -77,15 +101,6 @@ public class VendedorState extends JanelaPrincipalState{
         }
     }
     
-    @Override
-    public void editar(){
-        try {
-            ManterAnuncioPresenter presenter = new ManterAnuncioPresenter();
-            presenter.setEstadoVendedor(new EdicaoAnuncioState(presenter));
-        } catch (PropertyVetoException ex) {
-            throw new RuntimeException("erro ao editar anuncio", ex);
-        }
-    }
     
     @Override
     public void carregar(){
