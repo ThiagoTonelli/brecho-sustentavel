@@ -6,6 +6,7 @@ import br.brechosustentavel.model.Peca;
 import br.brechosustentavel.observer.Observavel;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.IAnuncioRepository;
+import br.brechosustentavel.repository.IComposicaoPecaRepository;
 import br.brechosustentavel.repository.IDefeitoPecaRepository;
 import br.brechosustentavel.repository.IDefeitoRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
@@ -45,6 +46,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
             IDefeitoPecaRepository repositoryDefeitoPeca = fabrica.getDefeitoPecaRepository();
             IDefeitoRepository repositoryDefeito = fabrica.getDefeitoRepository();
             ITipoDePecaRepository repositoryTipoDePeca = fabrica.getTipoDePecaRepository();
+            IComposicaoPecaRepository repositoryComposicaoPeca = fabrica.getComposicaoPecaRepository();
             
             
             IJanelaManterAnuncioView view = presenter.getView();
@@ -139,6 +141,8 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                 SessaoUsuarioService sessao = SessaoUsuarioService.getInstancia();
                 Anuncio anuncio = new Anuncio(sessao.getUsuarioAutenticado().getId(), novaPeca, novaPeca.getPrecoFinal(), gwpAvoided, mciPeca);
                 repositoryAnuncio.criar(anuncio);
+                
+                repositoryComposicaoPeca.adicionarComposicaoAPeca(novaPeca, idsDefeitos);
                 
                 Observavel.getInstance().notifyObservers();
                 return anuncio;
