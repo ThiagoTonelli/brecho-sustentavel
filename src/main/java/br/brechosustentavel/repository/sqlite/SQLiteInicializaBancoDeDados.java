@@ -177,6 +177,7 @@ public class SQLiteInicializaBancoDeDados {
                      CREATE TABLE IF NOT EXISTS composicao_peca (
                         id_composicao INTEGER NOT NULL,
                         id_peca TEXT NOT NULL,
+                        quantidade INTEGER NOT NULL,
                         PRIMARY KEY (id_composicao, id_peca),
                         FOREIGN KEY (id_composicao) REFERENCES composicao(id) ON DELETE CASCADE,
                         FOREIGN KEY (id_peca) REFERENCES peca(id_c) ON DELETE CASCADE
