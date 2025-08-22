@@ -28,15 +28,16 @@ public class CadastroService {
     private ICompradorRepository compradorRepository = fabrica.getCompradorRepository();
     private IVendedorRepository vendedorRepository = fabrica.getVendedorRepository();
     
-    public void cadastrar(Usuario usuario, boolean isComprador, boolean isVendedor){
-        try{
+    public void cadastrar(Usuario usuario, int opcao){
+        try {
+            
             if(usuarioRepository.buscarPorEmail(usuario.getEmail()).isPresent()){
                 throw new RuntimeException("O email informado já está em uso");
             }   
-            if(!usuario.getTelefone().trim().isEmpty()){
-                if(!verificadorTelefoneService.verificarTelefone(usuario.getTelefone())){
-                    throw new RuntimeException("O número de telefone é inválido!");
-                }
+
+            if(!usuario.getTelefone().trim().isEmpty() &&
+               !verificadorTelefoneService.verificarTelefone(usuario.getTelefone())) {
+                throw new RuntimeException("O número de telefone é inválido!");
             }
 
             if(isVazio()){
@@ -44,26 +45,35 @@ public class CadastroService {
             }
 
             usuario.setSenha(hashService.gerarHash(usuario.getSenha()));
-            Usuario usuarioCadastrado = usuarioRepository.cadastrarUsuario(usuario);
-
-            if(!isVazio()){
-                if(isComprador){
-                    Comprador comprador = new Comprador();
-                    comprador.setId(usuarioCadastrado.getId());
-                    compradorRepository.cadastrarComprador(comprador);
-
-                }
-                else{
-                    Vendedor vendedor = new Vendedor("Bronze", 0.0, 0, 0.0);
-                    vendedor.setId(usuarioCadastrado.getId());
-                    vendedorRepository.cadastrarVendedor(vendedor);
-                }
+            usuarioRepository.cadastrarUsuario(usuario);
+            if(opcao == 1){
+                Comprador comprador = new Comprador("Bronze", 0.0, 0, 0.0, false);
+                comprador.setId(usuario.getId());
+                usuario.setComprador(comprador);
+                usuario.setVendedor(null);
+                compradorRepository.cadastrarComprador(usuario.getComprador().get());
+            } else if(opcao == 2){
+                Vendedor vendedor = new Vendedor("Bronze", 0.0, 0, 0.0);
+                vendedor.setId(usuario.getId());
+                usuario.setVendedor(vendedor);
+                usuario.setComprador(null);
+                vendedorRepository.cadastrarVendedor(usuario.getVendedor().get());
+            } else if(opcao == 3) {
+                Comprador comprador = new Comprador("Bronze", 0.0, 0, 0.0, false);
+                comprador.setId(usuario.getId());
+                usuario.setComprador(comprador);
+                compradorRepository.cadastrarComprador(usuario.getComprador().get());
+                Vendedor vendedor = new Vendedor("Bronze", 0.0, 0, 0.0);
+                vendedor.setId(usuario.getId());
+                usuario.setVendedor(vendedor);
+                vendedorRepository.cadastrarVendedor(usuario.getVendedor().get());
             }
+            
         } catch(Exception e){
             throw new RuntimeException("Erro ao cadastrar: " + e.getMessage());
         }
     }
-    
+
     public boolean isVazio(){
         return usuarioRepository.isVazio();
     }

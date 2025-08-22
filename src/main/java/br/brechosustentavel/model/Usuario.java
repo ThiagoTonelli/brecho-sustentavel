@@ -4,6 +4,8 @@
  */
 package br.brechosustentavel.model;
 
+import java.util.Optional;
+
 /**
  *
  * @author kaila
@@ -15,6 +17,8 @@ public class Usuario {
     private String email;
     private String senha;
     private boolean admin;
+    private Comprador comprador;
+    private Vendedor vendedor;
     
     public Usuario(String nome, String telefone, String email, String senha){
         this.nome = nome;
@@ -71,4 +75,22 @@ public class Usuario {
     public boolean isAdmin(){
         return admin;
     }
+
+    public Optional<Comprador> getComprador() {
+        return Optional.ofNullable(comprador);
+    }
+
+    public void setComprador(Comprador comprador) {
+        this.comprador = comprador;
+    }
+
+    public Optional<Vendedor> getVendedor() {
+        return Optional.ofNullable(vendedor);
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
+    }
+    
+    
 }
