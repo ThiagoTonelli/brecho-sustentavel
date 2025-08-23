@@ -5,14 +5,12 @@
 package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.model.Comprador;
-import br.brechosustentavel.model.Vendedor;
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.ICompradorRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Optional;
 
 /**
@@ -53,7 +51,7 @@ public class SQLiteCompradorRepository implements ICompradorRepository{
     }
 
     @Override
-    public void cadastrarComprador(Comprador comprador) {
+    public void salvar(Comprador comprador) {
        String sql = "INSERT INTO comprador (id_comprador) VALUES (?);";
         
         try(Connection conexao = this.conexaoFactory.getConexao();
@@ -64,4 +62,21 @@ public class SQLiteCompradorRepository implements ICompradorRepository{
            throw new RuntimeException("Erro ao cadastrar usuario: " + e.getMessage());
        }   
     }
+
+    @Override
+    public void atualizarEstrelas(int id, double qtdEstrelas) {
+        String sql = "UPDATE comprador SET estrelas = ? WHERE id_comprador = ?;";
+        
+        try(Connection conexao = this.conexaoFactory.getConexao();
+            PreparedStatement pstmt = conexao.prepareStatement(sql)){
+            pstmt.setDouble(1, qtdEstrelas);
+            pstmt.setInt(2, id);
+            
+            pstmt.executeUpdate();
+        } catch(SQLException e){
+            throw new RuntimeException("Erro ao atualizar estrelas do comprador: " + e.getMessage());
+        }
+    }
+    
+    
 }

@@ -6,8 +6,10 @@ package br.brechosustentavel.service.insignia;
 
 import br.brechosustentavel.model.Insignia;
 import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.model.Vendedor;
 import br.brechosustentavel.repository.IInsigniaRepository;
 import br.brechosustentavel.repository.IVendedorInsigniaRepository;
+import br.brechosustentavel.repository.IVendedorRepository;
 import java.util.Optional;
 
 /**
@@ -17,10 +19,12 @@ import java.util.Optional;
 public class CincoVendasHandler implements ITipoInsigniaHandler{
     private IInsigniaRepository insigniaRepository;
     private IVendedorInsigniaRepository vendedorInsigniaRepository;
+    private IVendedorRepository vendedorRepository;
     
-    public CincoVendasHandler(IInsigniaRepository insigniaRepository, IVendedorInsigniaRepository vendedorInsigniaRepository){
+    public CincoVendasHandler(IInsigniaRepository insigniaRepository, IVendedorInsigniaRepository vendedorInsigniaRepository, IVendedorRepository vendedorRepository){
         this.insigniaRepository = insigniaRepository;
         this.vendedorInsigniaRepository = vendedorInsigniaRepository;
+        this.vendedorRepository = vendedorRepository;
     }
     
     @Override
@@ -41,9 +45,14 @@ public class CincoVendasHandler implements ITipoInsigniaHandler{
         }
         
         Insignia insignia = optInsignia.get();
+        Vendedor vendedor = usuario.getVendedor().get();
         if(!vendedorInsigniaRepository.vendedorPossuiInsignia(insignia.getId(), usuario.getId())){
             if(usuario.getVendedor().get().getVendasConcluidas() >= 5){
                 vendedorInsigniaRepository.inserirInsigniaAVendedor(insignia.getId(), usuario.getId());
+                
+                double qtdEstrelas = vendedor.getEstrelas() + insignia.getValorEstrelas();              
+                vendedorRepository.atualizarEstrelas(vendedor.getId(), qtdEstrelas);
+                vendedor.setEstrelas(qtdEstrelas);
             }
         }
     }

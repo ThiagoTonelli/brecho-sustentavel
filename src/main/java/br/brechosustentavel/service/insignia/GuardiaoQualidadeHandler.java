@@ -4,9 +4,11 @@
  */
 package br.brechosustentavel.service.insignia;
 
+import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.Insignia;
 import br.brechosustentavel.model.Usuario;
 import br.brechosustentavel.repository.ICompradorInsigniaRepository;
+import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.IDenunciaRepository;
 import br.brechosustentavel.repository.IInsigniaRepository;
 import java.util.Optional;
@@ -19,11 +21,14 @@ public class GuardiaoQualidadeHandler implements ITipoInsigniaHandler{
     private IInsigniaRepository insigniaRepository;
     private IDenunciaRepository denunciaRepository;
     private ICompradorInsigniaRepository compradorInsigniaRepository;
+    private ICompradorRepository compradorRepository;
 
-    public GuardiaoQualidadeHandler(IInsigniaRepository insigniaRepository, IDenunciaRepository denunciaRepository, ICompradorInsigniaRepository compradorInsigniaRepository) {
+    public GuardiaoQualidadeHandler(IInsigniaRepository insigniaRepository, IDenunciaRepository denunciaRepository, ICompradorInsigniaRepository compradorInsigniaRepository,
+            ICompradorRepository compradorRepository) {
         this.insigniaRepository = insigniaRepository;
         this.denunciaRepository = denunciaRepository;
         this.compradorInsigniaRepository = compradorInsigniaRepository;
+        this.compradorRepository = compradorRepository;
     }
 
     @Override
@@ -44,9 +49,14 @@ public class GuardiaoQualidadeHandler implements ITipoInsigniaHandler{
         }
         
         Insignia insignia = optInsignia.get();
+        Comprador comprador = usuario.getComprador().get();
         if(!compradorInsigniaRepository.compradorPossuiInsignia(insignia.getId(), usuario.getId())){
             if(denunciaRepository.qtdDenunciasProcedentesPorComprador(usuario.getId()) >= 3){
                 compradorInsigniaRepository.inserirInsigniaAComprador(insignia.getId(), usuario.getId());
+                
+                double qtdEstrelas = comprador.getEstrelas() + insignia.getValorEstrelas();              
+                compradorRepository.atualizarEstrelas(comprador.getId(), qtdEstrelas);
+                comprador.setEstrelas(qtdEstrelas);
             }
         }
 

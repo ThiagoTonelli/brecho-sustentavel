@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Optional;
 
 /**
@@ -51,7 +50,7 @@ public class SQLiteVendedorRepository implements IVendedorRepository{
     }
 
     @Override
-    public void cadastrarVendedor(Vendedor vendedor) {
+    public void salvar(Vendedor vendedor) {
         String sql = "INSERT INTO vendedor (id_vendedor) VALUES (?);";
         
         try(Connection conexao = this.conexaoFactory.getConexao();
@@ -61,5 +60,20 @@ public class SQLiteVendedorRepository implements IVendedorRepository{
        } catch(SQLException e) {
            throw new RuntimeException("Erro ao cadastrar usuario: " + e.getMessage());
        }   
+    }
+
+    @Override
+    public void atualizarEstrelas(int id, double qtdEstrelas) {
+        String sql = "UPDATE vendedor SET estrelas = ? WHERE id_vendedor = ?;";
+        
+        try(Connection conexao = this.conexaoFactory.getConexao();
+            PreparedStatement pstmt = conexao.prepareStatement(sql)){
+            pstmt.setDouble(1, qtdEstrelas);
+            pstmt.setInt(2, id);
+            
+            pstmt.executeUpdate();
+        } catch(SQLException e){
+            throw new RuntimeException("Erro ao atualizar estrelas do vendedor: " + e.getMessage());
+        }
     }
 }

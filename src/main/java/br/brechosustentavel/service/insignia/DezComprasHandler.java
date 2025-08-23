@@ -4,9 +4,11 @@
  */
 package br.brechosustentavel.service.insignia;
 
+import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.Insignia;
 import br.brechosustentavel.model.Usuario;
 import br.brechosustentavel.repository.ICompradorInsigniaRepository;
+import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.IInsigniaRepository;
 import java.util.Optional;
 
@@ -17,10 +19,12 @@ import java.util.Optional;
 public class DezComprasHandler implements ITipoInsigniaHandler{
     private IInsigniaRepository insigniaRepository;
     private ICompradorInsigniaRepository compradorInsigniaRepository;
+    private ICompradorRepository compradorRepository;
 
-    public DezComprasHandler(IInsigniaRepository insigniaRepository, ICompradorInsigniaRepository compradorInsigniaRepository) {
+    public DezComprasHandler(IInsigniaRepository insigniaRepository, ICompradorInsigniaRepository compradorInsigniaRepository, ICompradorRepository compradorRepository) {
         this.insigniaRepository = insigniaRepository;
         this.compradorInsigniaRepository = compradorInsigniaRepository;
+        this.compradorRepository = compradorRepository;
     }
     
     @Override
@@ -41,9 +45,14 @@ public class DezComprasHandler implements ITipoInsigniaHandler{
         }
 
         Insignia insignia = optInsignia.get();
+        Comprador comprador = usuario.getComprador().get();
         if(!compradorInsigniaRepository.compradorPossuiInsignia(insignia.getId(), usuario.getId())){
             if(usuario.getComprador().get().getComprasFinalizadas() >= 10){
                 compradorInsigniaRepository.inserirInsigniaAComprador(insignia.getId(), usuario.getId());
+                
+                double qtdEstrelas = comprador.getEstrelas() + insignia.getValorEstrelas();              
+                compradorRepository.atualizarEstrelas(comprador.getId(), qtdEstrelas);
+                comprador.setEstrelas(qtdEstrelas);
             }
         }
     }   

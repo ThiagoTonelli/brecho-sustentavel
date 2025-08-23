@@ -21,17 +21,21 @@ public class AplicaInsigniaService {
         
         //Insignias de vendedores
         tiposInsignias.add(new PrimeiroAnuncioHandler(repositoryFactory.getAnuncioRepository(), repositoryFactory.getInsigniaRepository(), 
-                repositoryFactory.getVendedorInsigniaRepository())
+                repositoryFactory.getVendedorInsigniaRepository(), repositoryFactory.getVendedorRepository())
         );      
-        tiposInsignias.add(new CincoVendasHandler(repositoryFactory.getInsigniaRepository(), repositoryFactory.getVendedorInsigniaRepository()));
+        tiposInsignias.add(new CincoVendasHandler(repositoryFactory.getInsigniaRepository(), repositoryFactory.getVendedorInsigniaRepository(), 
+                repositoryFactory.getVendedorRepository())
+        );
         
         //Insignias de compradores
         tiposInsignias.add(new PrimeiraOfertaHandler(repositoryFactory.getOfertaRepository(), repositoryFactory.getInsigniaRepository(), 
-                repositoryFactory.getCompradorInsigniaRepository())
+                repositoryFactory.getCompradorInsigniaRepository(), repositoryFactory.getCompradorRepository())
         );
-        tiposInsignias.add(new DezComprasHandler(repositoryFactory.getInsigniaRepository(), repositoryFactory.getCompradorInsigniaRepository()));
+        tiposInsignias.add(new DezComprasHandler(repositoryFactory.getInsigniaRepository(), repositoryFactory.getCompradorInsigniaRepository(),
+                repositoryFactory.getCompradorRepository())
+        );
         tiposInsignias.add(new GuardiaoQualidadeHandler(repositoryFactory.getInsigniaRepository(), repositoryFactory.getDenunciaRepository(), 
-                repositoryFactory.getCompradorInsigniaRepository())
+                repositoryFactory.getCompradorInsigniaRepository(), repositoryFactory.getCompradorRepository())
         );
     }
     

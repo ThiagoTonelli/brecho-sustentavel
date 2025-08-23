@@ -6,9 +6,11 @@ package br.brechosustentavel.service.insignia;
 
 import br.brechosustentavel.model.Insignia;
 import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.model.Vendedor;
 import br.brechosustentavel.repository.IAnuncioRepository;
 import br.brechosustentavel.repository.IInsigniaRepository;
 import br.brechosustentavel.repository.IVendedorInsigniaRepository;
+import br.brechosustentavel.repository.IVendedorRepository;
 import java.util.Optional;
 
 /**
@@ -17,13 +19,16 @@ import java.util.Optional;
  */
 public class PrimeiroAnuncioHandler implements ITipoInsigniaHandler{
     private IAnuncioRepository anuncioRepository;
-    private final IInsigniaRepository insigniaRepository;
+    private IInsigniaRepository insigniaRepository;
     private IVendedorInsigniaRepository vendedorInsigniaRepository;
+    private IVendedorRepository vendedorRepository;
     
-    public PrimeiroAnuncioHandler(IAnuncioRepository anuncioRepository, IInsigniaRepository insigniaRepository, IVendedorInsigniaRepository vendedorInsigniaRepository){
+    public PrimeiroAnuncioHandler(IAnuncioRepository anuncioRepository, IInsigniaRepository insigniaRepository, IVendedorInsigniaRepository vendedorInsigniaRepository, 
+            IVendedorRepository vendedorRepository){
         this.anuncioRepository = anuncioRepository;
         this.insigniaRepository = insigniaRepository;
         this.vendedorInsigniaRepository = vendedorInsigniaRepository;
+        this.vendedorRepository = vendedorRepository;
     }
     
     @Override
@@ -36,7 +41,7 @@ public class PrimeiroAnuncioHandler implements ITipoInsigniaHandler{
     
     @Override
     public void concederInsignia(Usuario usuario) {
-        String nomeInsignia = "Primeiro Anúncio";
+        String nomeInsignia = "Primeiro Anúncio";                
         Optional<Insignia> optInsignia = insigniaRepository.buscarInsigniaPorNome(nomeInsignia);
         
         if(optInsignia.isEmpty()){
@@ -44,9 +49,14 @@ public class PrimeiroAnuncioHandler implements ITipoInsigniaHandler{
         }
         
         Insignia insignia = optInsignia.get();
+        Vendedor vendedor = usuario.getVendedor().get();
         if(!vendedorInsigniaRepository.vendedorPossuiInsignia(insignia.getId(), usuario.getId())){
             if(anuncioRepository.qtdAnuncioPorVendedor(usuario.getId()) >= 1){
                 vendedorInsigniaRepository.inserirInsigniaAVendedor(insignia.getId(), usuario.getId());
+                
+                double qtdEstrelas = vendedor.getEstrelas() + insignia.getValorEstrelas();
+                vendedorRepository.atualizarEstrelas(usuario.getId(), qtdEstrelas);
+                vendedor.setEstrelas(qtdEstrelas);
             }
         }
     }     
