@@ -144,7 +144,7 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
         labelCor.setText("Cor Predominante");
 
         labelMassa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        labelMassa.setText("Massa Estimada (g)");
+        labelMassa.setText("Massa Estimada (kg)");
 
         labelComposicao.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         labelComposicao.setText("Composição Principal");
