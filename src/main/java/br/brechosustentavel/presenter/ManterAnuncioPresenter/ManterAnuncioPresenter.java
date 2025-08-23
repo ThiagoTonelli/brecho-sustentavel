@@ -4,7 +4,6 @@
  */
 package br.brechosustentavel.presenter.ManterAnuncioPresenter;
 
-import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaManterAnuncioView;
 import java.beans.PropertyVetoException;

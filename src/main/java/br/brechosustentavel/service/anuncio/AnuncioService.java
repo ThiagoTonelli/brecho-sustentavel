@@ -174,7 +174,38 @@ public class AnuncioService {
         eventoEdicao.setCliclo(cicloAtual); 
 
         linhaDoTempoRepository.criar(peca.getId_c(), eventoEdicao);
-    } 
+    }
+     
+    public void excluirAnuncio(String idPeca) {
+        if (idPeca == null || idPeca.trim().isEmpty()) {
+            throw new IllegalArgumentException("O ID da peça não pode ser nulo ou vazio para excluir um anúncio.");
+        }
+
+        Peca pecaParaExcluir = pecaRepository.consultar(idPeca)
+                .orElseThrow(() -> new IllegalStateException("Peça com ID " + idPeca + " não encontrada para exclusão."));
+
+        adicionarEventoDeEncerramento(pecaParaExcluir);
+        
+        anuncioRepository.excluirPorPecaId(idPeca);
+
+        Observavel.getInstance().notifyObservers();
+    }
+    
+    private void adicionarEventoDeEncerramento(Peca peca) {
+        Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(peca.getId_c());
+        int cicloAtual = ultimoEventoOpt.map(EventoLinhaDoTempo::getCiclo_n).orElse(1);
+
+        EventoLinhaDoTempo eventoEncerramento = new EventoLinhaDoTempo(
+            "Anúncio encerrado pelo vendedor", 
+            "encerrado",                       
+            LocalDateTime.now(),
+            0,
+            0
+        );
+        eventoEncerramento.setCliclo(cicloAtual);
+
+        linhaDoTempoRepository.criar(peca.getId_c(), eventoEncerramento);
+    }
     
     private void salvarDefeitosDaPeca(Peca peca) {
         if (peca.getDefeitos() != null && !peca.getDefeitos().isEmpty()) {
