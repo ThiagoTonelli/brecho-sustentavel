@@ -29,7 +29,7 @@ import javax.swing.event.MenuListener;
 public class VendedorState extends JanelaPrincipalState{
     
     public VendedorState(JanelaPrincipalPresenter presenter, SessaoUsuarioService usuarioAutenticado) throws PropertyVetoException{
-        super(presenter);
+        super(presenter, usuarioAutenticado);
         carregar();
         JanelaPrincipalView view = presenter.getView();
         view.setMaximum(true);
@@ -79,7 +79,7 @@ public class VendedorState extends JanelaPrincipalState{
             }
             String idPeca = (String) tabela.getValueAt(linhaSelecionada, 0);
             if (idPeca != null) {
-                ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(idPeca);
+                ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(idPeca, usuarioAutenticado);
                 presenter.setFrame(anuncioPresenter.getView());
                 anuncioPresenter.setEstadoVendedor(new EdicaoAnuncioState(anuncioPresenter));
             } else {
@@ -93,7 +93,7 @@ public class VendedorState extends JanelaPrincipalState{
     @Override
     public void criar(){
         try {
-            ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(null);
+            ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(null, usuarioAutenticado);
             presenter.setFrame(anuncioPresenter.getView());
             anuncioPresenter.setEstadoVendedor(new InclusaoAnuncioState(anuncioPresenter));
         } catch (PropertyVetoException ex) {

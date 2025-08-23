@@ -4,15 +4,19 @@
  */
 package br.brechosustentavel.presenter.JanelaPrincipalPresenter;
 
+import br.brechosustentavel.service.SessaoUsuarioService;
+
 /**
  *
  * @author thiag
  */
 public abstract class JanelaPrincipalState {
     protected JanelaPrincipalPresenter presenter;
+    protected SessaoUsuarioService usuarioAutenticado;
     
-    public JanelaPrincipalState(JanelaPrincipalPresenter presenter){
+    public JanelaPrincipalState(JanelaPrincipalPresenter presenter, SessaoUsuarioService usuarioAutenticado){
         this.presenter = presenter;
+        this.usuarioAutenticado = usuarioAutenticado;
     }
     
     public void criar() {

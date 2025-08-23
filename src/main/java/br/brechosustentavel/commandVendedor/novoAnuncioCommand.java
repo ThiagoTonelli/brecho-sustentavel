@@ -27,6 +27,7 @@ import br.brechosustentavel.view.IJanelaManterAnuncioView;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import br.brechosustentavel.repository.IComposicaoRepository;
+import br.brechosustentavel.service.insignia.AplicaInsigniaService;
 
 /**
  *
@@ -146,8 +147,9 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                 Anuncio anuncio = new Anuncio(sessao.getUsuarioAutenticado().getId(), novaPeca, novaPeca.getPrecoFinal(), gwpAvoided, mciPeca);
                 repositoryAnuncio.criar(anuncio);
                 
-                repositoryComposicaoPeca.adicionarComposicaoAPeca(novaPeca, idsComposicao);
-                
+                //repositoryComposicaoPeca.adicionarComposicaoAPeca(novaPeca, idsComposicao);
+                AplicaInsigniaService aplicador = new AplicaInsigniaService(fabrica);
+                aplicador.concederInsignia(presenter.getUsuarioAutenticado().getUsuarioAutenticado());
                 Observavel.getInstance().notifyObservers();
                 return anuncio;
             }
@@ -201,7 +203,7 @@ public class NovoAnuncioCommand implements ICommandVendedor {
                     SessaoUsuarioService sessao = SessaoUsuarioService.getInstancia();
                     Anuncio anuncio = new Anuncio(sessao.getUsuarioAutenticado().getId(), peca, peca.getPrecoFinal(), gwpAvoided, mciPeca);
                     repositoryAnuncio.editar(anuncio);
-                    repositoryComposicaoPeca.adicionarComposicaoAPeca(peca, idsComposicao);
+                    //repositoryComposicaoPeca.adicionarComposicaoAPeca(peca, idsComposicao);
                     
                     Observavel.getInstance().notifyObservers();
                     return anuncio;

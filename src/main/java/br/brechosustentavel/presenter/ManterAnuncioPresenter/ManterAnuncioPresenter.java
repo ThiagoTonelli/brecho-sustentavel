@@ -4,9 +4,9 @@
  */
 package br.brechosustentavel.presenter.ManterAnuncioPresenter;
 
+import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaManterAnuncioView;
 import java.beans.PropertyVetoException;
-import br.brechosustentavel.view.IJanelaManterAnuncioView;
 
 /**
  *
@@ -16,9 +16,11 @@ public class ManterAnuncioPresenter {
     private ManterAnuncioState estado;
     private JanelaManterAnuncioView view;
     private String idAnuncio;
+    private SessaoUsuarioService usuarioAutenticado;
 
-    public ManterAnuncioPresenter(String idAnuncio) throws PropertyVetoException{
+    public ManterAnuncioPresenter(String idAnuncio, SessaoUsuarioService usuarioAutenticado) throws PropertyVetoException{
         view = new JanelaManterAnuncioView();
+        this.usuarioAutenticado = usuarioAutenticado;
         this.idAnuncio = idAnuncio;
     }
     
@@ -28,6 +30,10 @@ public class ManterAnuncioPresenter {
     
     public JanelaManterAnuncioView getView(){
         return view;
+    }
+
+    public SessaoUsuarioService getUsuarioAutenticado() {
+        return usuarioAutenticado;
     }
     
     public String getIdAnuncio(){
