@@ -42,6 +42,7 @@ public class SQLiteCompradorRepository implements ICompradorRepository{
                         rs.getDouble("gwp_evitado"),
                         rs.getBoolean("selo_verificador")
                 );
+                comprador.setId(rs.getInt("id_comprador"));
                 return Optional.of(comprador);
             }
             return Optional.empty();

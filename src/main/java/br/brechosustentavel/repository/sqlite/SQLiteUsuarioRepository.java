@@ -57,45 +57,53 @@ public class SQLiteUsuarioRepository implements IUsuarioRepository{
     public Optional<Usuario> buscarPorEmail(String email) {
         String sql = """
                      SELECT
-                        u.id, u.nome, u.telefone, u.email, u.senha, u.admin,
-                        v.id_vendedor, v.nivel_reputacao as vendedor_reputacao, v.estrelas as vendedor_estrelas, v.vendas_concluidas, v.gwp_contribuido,
-                        c.id_comprador, c.nivel_reputacao as comprador_reputacao, c.estrelas as comprador_estrelas, c.compras_finalizadas, c.gwp_evitado, c.selo_verificador
+                         u.id, u.nome, u.telefone, u.email, u.senha, u.admin,
+                         v.id_vendedor, v.nivel_reputacao as vendedor_reputacao, v.estrelas as vendedor_estrelas, v.vendas_concluidas, v.gwp_contribuido,
+                         c.id_comprador, c.nivel_reputacao as comprador_reputacao, c.estrelas as comprador_estrelas, c.compras_finalizadas, c.gwp_evitado, c.selo_verificador
                      FROM 
-                        usuario u
+                         usuario u
                      LEFT JOIN 
-                        vendedor v ON u.id = v.id_vendedor
+                         vendedor v ON u.id = v.id_vendedor
                      LEFT JOIN 
-                        comprador c ON u.id = c.id_comprador
+                         comprador c ON u.id = c.id_comprador
                      WHERE u.email = ?;
                      """;
 
-        try(Connection conexao = this.conexaoFactory.getConexao();
-            PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
             pstmt.setString(1, email);
 
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 Usuario usuario = new Usuario(
-                    rs.getString("nome"),
-                    rs.getString("telefone"),
-                    rs.getString("email"),
-                    rs.getString("senha")
+                        rs.getString("nome"),
+                        rs.getString("telefone"),
+                        rs.getString("email"),
+                        rs.getString("senha")
                 );
                 usuario.setId(rs.getInt("id"));
                 usuario.setAdmin(rs.getBoolean("admin"));
-                
+
                 //Cria uma instancia de vendedor se o usuário tiver esse perfil
                 if (rs.getObject("id_vendedor") != null) {
-                    Vendedor vendedor = new Vendedor(rs.getString("vendedor_reputacao"), rs.getDouble("vendedor_estrelas"), rs.getInt("vendas_concluidas"), 
-                            rs.getDouble("gwp_contribuido"));
+                    Vendedor vendedor = new Vendedor(
+                            rs.getString("vendedor_reputacao"),
+                            rs.getDouble("vendedor_estrelas"),
+                            rs.getInt("vendas_concluidas"),
+                            rs.getDouble("gwp_contribuido")
+                    );
                     vendedor.setId(rs.getInt("id_vendedor"));
                     usuario.setVendedor(vendedor);
                 }
-                
+
                 //Cria uma instancia de comprador se o usuário tiver esse perfil
                 if (rs.getObject("id_comprador") != null) {
-                    Comprador comprador = new Comprador(rs.getString("comprador_reputacao"), rs.getDouble("comprador_estrelas"), rs.getInt("compras_finalizadas"), 
-                            rs.getDouble("gwp_evitado"), rs.getBoolean("selo_verificador"));
+                    Comprador comprador = new Comprador(
+                            rs.getString("comprador_reputacao"),
+                            rs.getDouble("comprador_estrelas"),
+                            rs.getInt("compras_finalizadas"),
+                            rs.getDouble("gwp_evitado"), rs.getBoolean("selo_verificador")
+                    );
                     comprador.setId(rs.getInt("id_comprador"));
                     usuario.setComprador(comprador);
                 }
