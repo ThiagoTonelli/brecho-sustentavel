@@ -25,7 +25,7 @@ public class CarregarAnuncioEdicaoCommand implements ICommandVendedor{
     @Override
     public Object executar(ManterAnuncioPresenter presenter) {
         IJanelaManterAnuncioView view = presenter.getView();
-        String id_c = presenter.getIdAnuncio();
+        String id_c = presenter.getAnuncio().getPeca().getId_c();
 
 
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
@@ -69,7 +69,7 @@ public class CarregarAnuncioEdicaoCommand implements ICommandVendedor{
             // view.getSpinnerComposicao().setValue(...);
 
 
-            return peca; // Retorna o objeto Peca carregado
+            return peca; 
         } else {
             throw new RuntimeException("Não foi possível encontrar um anúncio com o ID da peça: " + id_c);
         }

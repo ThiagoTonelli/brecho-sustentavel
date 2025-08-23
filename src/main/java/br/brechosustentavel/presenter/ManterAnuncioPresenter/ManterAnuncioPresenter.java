@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.presenter.ManterAnuncioPresenter;
 
+import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaManterAnuncioView;
 import java.beans.PropertyVetoException;
@@ -15,13 +16,12 @@ import java.beans.PropertyVetoException;
 public class ManterAnuncioPresenter {
     private ManterAnuncioState estado;
     private JanelaManterAnuncioView view;
-    private String idAnuncio;
+    private Anuncio anuncio;
     private SessaoUsuarioService usuarioAutenticado;
 
-    public ManterAnuncioPresenter(String idAnuncio, SessaoUsuarioService usuarioAutenticado) throws PropertyVetoException{
+    public ManterAnuncioPresenter(SessaoUsuarioService usuarioAutenticado) throws PropertyVetoException{
         view = new JanelaManterAnuncioView();
         this.usuarioAutenticado = usuarioAutenticado;
-        this.idAnuncio = idAnuncio;
     }
     
     public void setEstadoVendedor(ManterAnuncioState novoEstado){
@@ -36,8 +36,12 @@ public class ManterAnuncioPresenter {
         return usuarioAutenticado;
     }
     
-    public String getIdAnuncio(){
-        return idAnuncio;
+    public Anuncio getAnuncio(){
+        return anuncio;
+    }
+    
+    public  void setAnuncio(Anuncio anuncio){
+        this.anuncio = anuncio;
     }
     
 }
