@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -107,6 +108,36 @@ public class SQLiteComposicaoPecaRepository implements IComposicaoPecaRepository
         }
 
         return composicao;
+    }
+    
+    @Override
+    public Map<String, Double> getMassaTotalPorMaterial() {
+        Map<String, Double> massaPorMaterial = new HashMap<>();
+        String sql = """
+                     SELECT
+                         c.nome as nome_material,
+                         SUM(p.massa * (cp.quantidade / 100.0)) as massa_total
+                     FROM
+                         composicao_peca cp
+                     INNER JOIN
+                         peca p ON cp.id_peca = p.id_c
+                     INNER JOIN
+                         composicao c ON cp.id_composicao = c.id
+                     GROUP BY
+                         c.nome
+                     """;
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                massaPorMaterial.put(rs.getString("nome_material"), rs.getDouble("massa_total"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar massa total por material: " + e.getMessage(), e);
+        }
+        return massaPorMaterial;
     }
     
 }

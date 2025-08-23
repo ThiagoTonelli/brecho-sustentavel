@@ -11,6 +11,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -76,5 +79,55 @@ public class SQLiteVendedorRepository implements IVendedorRepository{
         } catch(SQLException e){
             throw new RuntimeException("Erro ao atualizar estrelas do vendedor: " + e.getMessage());
         }
+    }
+    
+    @Override
+    public Map<String, Double> getTopVendedoresPorGWP(int limite) {
+        Map<String, Double> ranking = new LinkedHashMap<>();
+
+        String sql = """
+                     SELECT
+                         u.nome,
+                         v.gwp_contribuido
+                     FROM
+                         vendedor v
+                     INNER JOIN
+                         usuario u ON v.id_vendedor = u.id
+                     ORDER BY
+                         v.gwp_contribuido DESC
+                     LIMIT ?
+                     """;
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setInt(1, limite);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                ranking.put(rs.getString("nome"), rs.getDouble("gwp_contribuido"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar ranking de vendedores: " + e.getMessage(), e);
+        }
+        return ranking;
+    }
+    
+    @Override
+    public Map<String, Integer> contarPorNivelReputacao() {
+        Map<String, Integer> contagem = new HashMap<>();
+        String sql = "SELECT nivel_reputacao, COUNT(*) as total FROM vendedor GROUP BY nivel_reputacao";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                contagem.put(rs.getString("nivel_reputacao"), rs.getInt("total"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao contar vendedores por reputação: " + e.getMessage(), e);
+        }
+        return contagem;
     }
 }

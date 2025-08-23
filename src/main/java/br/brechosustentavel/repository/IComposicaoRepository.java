@@ -19,4 +19,5 @@ public interface IComposicaoRepository {
     public Optional<Material> consultar();
     public Map<String, Double> buscarMateriais();
     public Map<String, Double> buscarMateriaisNome(List<String> materiais);
+
 }

@@ -5,6 +5,7 @@
 package br.brechosustentavel.repository;
 
 import br.brechosustentavel.model.Vendedor;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -15,4 +16,6 @@ public interface IVendedorRepository {
     public Optional<Vendedor> buscarPorId(int id);
     public void salvar(Vendedor vendedor);
     public void atualizarEstrelas(int id, double qtdEstrelas);
+    Map<String, Double> getTopVendedoresPorGWP(int limite);
+    Map<String, Integer> contarPorNivelReputacao();
 }

@@ -5,6 +5,7 @@
 package br.brechosustentavel.repository;
 
 import br.brechosustentavel.model.Comprador;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -15,4 +16,5 @@ public interface ICompradorRepository {
     public Optional<Comprador> buscarPorId(int id);
     public void salvar(Comprador comprador);
     public void atualizarEstrelas(int id, double qtdEstrelas);
+    public Map<String, Integer> contarPorNivelReputacao();
 }
