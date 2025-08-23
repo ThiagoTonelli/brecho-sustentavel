@@ -14,9 +14,10 @@ import java.util.Optional;
  */
 public interface IAnuncioRepository {
     public void criar(Anuncio anuncio);
-    public List<Anuncio> buscarAnuncios(int idVendedor, IDefeitoRepository repositoryDefeito);
+    public List<Anuncio> buscarAnuncios(int idVendedor);
     public void editar(Anuncio anuncio);
     public int qtdAnuncioPorVendedor(int idVendedor);
     public Optional<Anuncio> buscarAnuncioPorId(int id);
     void excluirPorPecaId(String idPeca);
+    public List<Anuncio> buscarTodos();
 }
