@@ -13,6 +13,8 @@ import br.brechosustentavel.repository.IVendedorRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.hash.HashService;
 import br.brechosustentavel.service.verificador_telefone.VerificadorTelefoneService;
+import com.pss.senha.validacao.ValidadorSenha;
+import java.util.List;
 
 /**
  *
@@ -22,15 +24,16 @@ public class CadastroService {
     private HashService hashService;
     private RepositoryFactory repositoryFactory;
     private VerificadorTelefoneService verificadorTelefoneService;
+    private ValidadorSenha validadorSenha;
     
     public CadastroService(HashService hashService, VerificadorTelefoneService verificadorTelefoneService, RepositoryFactory repositoryFactory){
         this.hashService = hashService;
         this.verificadorTelefoneService = verificadorTelefoneService;
         this.repositoryFactory = repositoryFactory;
+        this.validadorSenha = new ValidadorSenha();
     }
     
     public void cadastrar(Usuario usuario, String confirmacaoSenha, String opcao){
-        try {
             IUsuarioRepository usuarioRepository = repositoryFactory.getUsuarioRepository();
             ICompradorRepository compradorRepository = repositoryFactory.getCompradorRepository();
             IVendedorRepository vendedorRepository = repositoryFactory.getVendedorRepository();
@@ -38,21 +41,28 @@ public class CadastroService {
             if (usuario.getNome().isBlank() || usuario.getEmail().isBlank() || usuario.getSenha().isBlank()) {
                 throw new RuntimeException("Nome, email e senha são campos obrigatórios.");
             }
+            if(usuarioRepository.buscarPorEmail(usuario.getEmail()).isPresent()){
+                throw new RuntimeException("O email informado já está em uso");
+            } 
             if (!usuario.getEmail().contains("@") || !usuario.getEmail().contains(".")){
                 throw new RuntimeException("Email inválido.");
+            }
+            
+            List<String> errosSenha = validadorSenha.validar(usuario.getSenha());
+            if(!errosSenha.isEmpty()){
+                throw new RuntimeException("Senha inválida!\n" + String.join("\n", errosSenha));
             }
             if (!usuario.getSenha().equals(confirmacaoSenha)) {
                 throw new RuntimeException("As senhas não conferem.");
             }
-            if(opcao.equals("")){
-                throw new RuntimeException("Selecione um perfil.");
-            }
-            if(usuarioRepository.buscarPorEmail(usuario.getEmail()).isPresent()){
-                throw new RuntimeException("O email informado já está em uso");
-            }   
             if(!usuario.getTelefone().trim().isEmpty() && !verificadorTelefoneService.verificarTelefone(usuario.getTelefone())) {
                 throw new RuntimeException("O número de telefone é inválido!");
             }
+            if(opcao.equals("")){
+                throw new RuntimeException("Selecione um perfil.");
+            }
+              
+            
             if(isVazio()){
                 usuario.setAdmin(true);
             }
@@ -81,9 +91,6 @@ public class CadastroService {
                 usuario.setVendedor(vendedor);
                 vendedorRepository.salvar(usuario.getVendedor().get());
             } 
-        } catch(Exception e){
-            throw new RuntimeException("Erro ao cadastrar: " + e.getMessage());
-        }
     }
 
     public boolean isVazio(){
