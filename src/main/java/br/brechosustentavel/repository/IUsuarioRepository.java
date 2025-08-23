@@ -14,5 +14,6 @@ import java.util.Optional;
 public interface IUsuarioRepository {
     public void cadastrarUsuario(Usuario usuario);
     public Optional<Usuario> buscarPorEmail(String email);
+    public Optional<Usuario> buscarPorId(int id);
     public boolean isVazio();
 }
