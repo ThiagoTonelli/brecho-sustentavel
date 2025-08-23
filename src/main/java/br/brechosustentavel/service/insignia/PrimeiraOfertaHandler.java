@@ -6,26 +6,29 @@ package br.brechosustentavel.service.insignia;
 
 import br.brechosustentavel.model.Insignia;
 import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.repository.ICompradorInsigniaRepository;
 import br.brechosustentavel.repository.IInsigniaRepository;
-import br.brechosustentavel.repository.IVendedorInsigniaRepository;
+import br.brechosustentavel.repository.IOfertaRepository;
 import java.util.Optional;
 
 /**
  *
  * @author kaila
  */
-public class CincoVendasHandler implements ITipoInsigniaHandler{
+public class PrimeiraOfertaHandler implements ITipoInsigniaHandler{
+    private IOfertaRepository ofertaRepository;
     private IInsigniaRepository insigniaRepository;
-    private IVendedorInsigniaRepository vendedorInsigniaRepository;
-    
-    public CincoVendasHandler(IInsigniaRepository insigniaRepository, IVendedorInsigniaRepository vendedorInsigniaRepository){
+    private ICompradorInsigniaRepository compradorInsigniaRepository;
+
+    public PrimeiraOfertaHandler(IOfertaRepository ofertaRepository, IInsigniaRepository insigniaRepository, ICompradorInsigniaRepository compradorInsigniaRepository) {
+        this.ofertaRepository = ofertaRepository;
         this.insigniaRepository = insigniaRepository;
-        this.vendedorInsigniaRepository = vendedorInsigniaRepository;
+        this.compradorInsigniaRepository = compradorInsigniaRepository;
     }
-    
+
     @Override
     public boolean seAplica(Usuario usuario) {
-        if(usuario.getVendedor().isPresent()){
+        if(usuario.getComprador().isPresent()){
             return true;
         }
         return false;
@@ -33,18 +36,19 @@ public class CincoVendasHandler implements ITipoInsigniaHandler{
 
     @Override
     public void concederInsignia(Usuario usuario) {
-        String nomeInsignia = "Cinco Vendas";
+        String nomeInsignia = "Primeira Oferta";
         Optional<Insignia> optInsignia = insigniaRepository.buscarInsigniaPorNome(nomeInsignia);
-        
+
         if(optInsignia.isEmpty()){
             throw new RuntimeException("A insignia" + nomeInsignia +  "não foi encontrada.");
         }
-        
+
         Insignia insignia = optInsignia.get();
-        if(!vendedorInsigniaRepository.vendedorPossuiInsignia(insignia.getId(), usuario.getId())){
-            if(usuario.getVendedor().get().getVendasConcluidas() >= 5){
-                vendedorInsigniaRepository.inserirInsigniaAVendedor(insignia.getId(), usuario.getId());
+        if(!compradorInsigniaRepository.compradorPossuiInsignia(insignia.getId(), usuario.getId())){
+            if(ofertaRepository.qtdOfertaPorComprador(usuario.getId()) >= 1){
+                compradorInsigniaRepository.inserirInsigniaAComprador(insignia.getId(), usuario.getId());
             }
         }
     }
+    
 }
