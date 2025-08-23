@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -81,6 +83,37 @@ public class SQLiteLinhaDoTempoRepository implements ILinhaDoTempoRepository{
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao inserir evento no banco de dados", e);
         }
+    }
+     
+     @Override
+    public Map<String, Double> getGWPEvitadoPorSemana() {
+        Map<String, Double> gwpPorSemana = new LinkedHashMap<>();
+
+        String sql = """
+                     SELECT
+                         strftime('%Y-%W', data) as semana,
+                         SUM(gwp_evitado) as total_gwp
+                     FROM
+                         evento_linha_tempo
+                     WHERE
+                         tipo_evento = 'publicação' OR tipo_evento = 'edicao' -- Considera apenas eventos relevantes
+                     GROUP BY
+                         semana
+                     ORDER BY
+                         semana ASC
+                     """;
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                gwpPorSemana.put(rs.getString("semana"), rs.getDouble("total_gwp"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar evolução semanal de GWP: " + e.getMessage(), e);
+        }
+        return gwpPorSemana;
     }
     
 }

@@ -40,6 +40,9 @@ public class JanelaPrincipalPresenter implements Observador{
         else if (usuario.getTipoPerfil().equalsIgnoreCase("Vendedor")){
             setEstado(new VendedorState(this, usuario));
         }
+        else {
+            setEstado(new AdminState(this, usuario));
+        }
     }
     
     public void setEstado(JanelaPrincipalState estado){
