@@ -6,9 +6,9 @@ package br.brechosustentavel.presenter.JanelaPrincipalPresenter;
 
 import br.brechosustentavel.commandPrincipal.CarregarAnunciosVendedorCommand;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter.EdicaoAnuncioState;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.InclusaoAnuncioState;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.ManterAnuncioPresenter.VisualizacaoAnuncioState;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import br.brechosustentavel.view.JanelaVisualizarPerfilView;
@@ -43,7 +43,7 @@ public class VendedorState extends JanelaPrincipalState{
         view.getButtonVisualizar().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                editar();
+                visualizar();
             }
         });
         view.getMenuVisualizarPerfil().addMenuListener(new MenuListener(){
@@ -69,7 +69,7 @@ public class VendedorState extends JanelaPrincipalState{
 
 
     @Override
-    public void editar() {
+    public void visualizar() {
         try{
             JTable tabela = presenter.getView().getjTable1();
             int linhaSelecionada = tabela.getSelectedRow();
@@ -81,7 +81,8 @@ public class VendedorState extends JanelaPrincipalState{
             if (idPeca != null) {
                 ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(usuarioAutenticado);
                 presenter.setFrame(anuncioPresenter.getView());
-                anuncioPresenter.setEstadoVendedor(new EdicaoAnuncioState(anuncioPresenter));
+                anuncioPresenter.setIdPeca(idPeca);
+                anuncioPresenter.setEstadoVendedor(new VisualizacaoAnuncioState(anuncioPresenter));
             } else {
                 JOptionPane.showMessageDialog(presenter.getView(), "Anúncio não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
             }

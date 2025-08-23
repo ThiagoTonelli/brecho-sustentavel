@@ -25,11 +25,6 @@ public class CarregarDefeitosPorTipoCommand implements ICommandVendedor{
         JPanel painelDefeitos = view.getPainelScrollDefeitos();
         painelDefeitos.removeAll();
         
-        if (tipoPeca == null || tipoPeca.trim().isEmpty()){
-            view.getPainelScrollDefeitos().revalidate();
-            view.getPainelScrollDefeitos().repaint();
-        }
-        
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         IDefeitoRepository repository = fabrica.getDefeitoRepository();
         Map<String, Double> defeitos = repository.buscarDefeitosPorTipo(tipoPeca);

@@ -16,7 +16,7 @@ import java.beans.PropertyVetoException;
 public class ManterAnuncioPresenter {
     private ManterAnuncioState estado;
     private JanelaManterAnuncioView view;
-    private Anuncio anuncio;
+    private String idPeca;
     private SessaoUsuarioService usuarioAutenticado;
 
     public ManterAnuncioPresenter(SessaoUsuarioService usuarioAutenticado) throws PropertyVetoException{
@@ -35,13 +35,16 @@ public class ManterAnuncioPresenter {
     public SessaoUsuarioService getUsuarioAutenticado() {
         return usuarioAutenticado;
     }
-    
-    public Anuncio getAnuncio(){
-        return anuncio;
+
+    public String getIdPeca() {
+        return idPeca;
     }
-    
-    public  void setAnuncio(Anuncio anuncio){
-        this.anuncio = anuncio;
+
+    public void setIdPeca(String id) {
+        this.idPeca = id;
     }
+
+    
+
     
 }
