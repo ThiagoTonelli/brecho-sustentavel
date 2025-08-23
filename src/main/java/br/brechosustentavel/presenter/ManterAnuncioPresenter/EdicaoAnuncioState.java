@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.presenter.ManterAnuncioPresenter;
 import br.brechosustentavel.commandVendedor.EditarAnuncioCommand;
+import br.brechosustentavel.commandVendedor.ExcluirAnuncioCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
@@ -51,8 +52,8 @@ public class EdicaoAnuncioState extends ManterAnuncioState{
         presenter.getView().setVisible(false);
         presenter.getView().setMaximum(true);
         presenter.getView().setSelected(true);
-        presenter.getView().getBtnExcluir().setVisible(estado);
-        presenter.getView().getBtnExcluir().setEnabled(estado);
+        presenter.getView().getBtnExcluir().setVisible(false);
+        presenter.getView().getBtnExcluir().setEnabled(false);
         presenter.getView().getBtnEnviar().setText("Salvar");
         
         presenter.getView().getTxtId_c().setEnabled(false);
@@ -103,4 +104,10 @@ public class EdicaoAnuncioState extends ManterAnuncioState{
     public void visualizar() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public void excluir() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
 }

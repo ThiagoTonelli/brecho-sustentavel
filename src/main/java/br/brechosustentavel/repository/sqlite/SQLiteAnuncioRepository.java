@@ -196,4 +196,19 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository{
             throw new RuntimeException("Erro ao buscar anuncio por id: " + e.getMessage());
         }  
     }
+    
+    @Override
+    public void excluirPorPecaId(String idPeca) {
+        String sql = "DELETE FROM anuncio WHERE id_peca = ?";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setString(1, idPeca);
+            int affectedRows = pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao excluir o anúncio: " + e.getMessage(), e);
+        }
+    }
 }

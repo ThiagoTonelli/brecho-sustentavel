@@ -6,6 +6,7 @@ package br.brechosustentavel.presenter.ManterAnuncioPresenter;
 
 import br.brechosustentavel.commandVendedor.CarregarComposicaoCommand;
 import br.brechosustentavel.commandVendedor.CarregarTiposDePecaCommand;
+import br.brechosustentavel.commandVendedor.ExcluirAnuncioCommand;
 import br.brechosustentavel.commandVendedor.VisualizarAnuncioCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,7 +42,18 @@ public class VisualizacaoAnuncioState extends ManterAnuncioState{
                 try{
                     cancelar();
                 }catch (Exception ex){
-                    JOptionPane.showMessageDialog(null, "Erro ao ir para editar: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(null, "Erro ao cancelar: " + ex.getMessage());
+                }
+            }
+        });
+        
+        presenter.getView().getBtnExcluir().addActionListener(new ActionListener (){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    excluir();
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(null, "Erro ao excluir: " + ex.getMessage());
                 }
             }
         });
@@ -55,11 +67,9 @@ public class VisualizacaoAnuncioState extends ManterAnuncioState{
         presenter.getView().setVisible(false);
         presenter.getView().setMaximum(true);
         presenter.getView().setSelected(true);
-        presenter.getView().getBtnExcluir().setVisible(estado);
-        presenter.getView().getBtnExcluir().setEnabled(estado);
-        if(estado == false){
-            presenter.getView().getBtnEnviar().setText("Editar");
-        }
+        presenter.getView().getBtnExcluir().setVisible(true);
+        presenter.getView().getBtnExcluir().setEnabled(true);
+        presenter.getView().getBtnEnviar().setText("Editar");
         
         presenter.getView().getTxtId_c().setEnabled(false);
         presenter.getView().getTxtSubcategoria().setEnabled(estado);
@@ -113,6 +123,33 @@ public class VisualizacaoAnuncioState extends ManterAnuncioState{
             configurarTela(false);
         } catch (PropertyVetoException ex) {
             Logger.getLogger(EdicaoAnuncioState.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    @Override
+    public void excluir() {
+        try {
+            ExcluirAnuncioCommand command = new ExcluirAnuncioCommand();
+            boolean sucesso = (boolean) command.executar(presenter);
+
+            if (sucesso) {
+                JOptionPane.showMessageDialog(
+                    presenter.getView(), 
+                    "Anúncio encerrado com sucesso!", 
+                    "Sucesso", 
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+
+                presenter.getView().dispose();
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                presenter.getView(), 
+                "Ocorreu um erro ao encerrar o anúncio:\n" + ex.getMessage(), 
+                "Erro", 
+                JOptionPane.ERROR_MESSAGE
+            );
         }
     }
     

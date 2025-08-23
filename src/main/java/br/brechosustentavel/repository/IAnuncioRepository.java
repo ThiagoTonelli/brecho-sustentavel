@@ -18,4 +18,5 @@ public interface IAnuncioRepository {
     public void editar(Anuncio anuncio);
     public int qtdAnuncioPorVendedor(int idVendedor);
     public Optional<Anuncio> buscarAnuncioPorId(int id);
+    void excluirPorPecaId(String idPeca);
 }

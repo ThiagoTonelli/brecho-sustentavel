@@ -24,5 +24,7 @@ public abstract class ManterAnuncioState {
     public abstract void editar();
     
     public abstract void visualizar();
+    
+    public abstract void excluir();
 
 }

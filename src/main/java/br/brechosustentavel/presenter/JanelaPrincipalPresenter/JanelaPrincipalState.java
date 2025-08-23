@@ -28,11 +28,11 @@ public abstract class JanelaPrincipalState {
     }  
 
     public void ofertar() {
-         throw new RuntimeException("Não é possível ofertar estando neste estado");
+        throw new RuntimeException("Não é possível ofertar estando neste estado");
     }
 
     public void perfil() {
-         throw new RuntimeException("Não é possível cancelar estando neste estado");
+        throw new RuntimeException("Não é possível cancelar estando neste estado");
     }
     
     public void carregar(){
