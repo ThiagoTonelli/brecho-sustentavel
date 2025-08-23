@@ -23,9 +23,9 @@ public abstract class JanelaPrincipalState {
         throw new RuntimeException("Não é possível criar estando neste estado");
     }
 
-    public void editar() {
-         throw new RuntimeException("Não é possível editar estando neste estado");
-    }
+    public void visualizar(){
+        throw new RuntimeException("Não é possível criar estando neste estado");
+    }  
 
     public void ofertar() {
          throw new RuntimeException("Não é possível ofertar estando neste estado");

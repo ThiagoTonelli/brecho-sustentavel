@@ -4,9 +4,7 @@
 
 package br.brechosustentavel;
 
-import br.brechosustentavel.presenter.CadastroPresenter;
 import br.brechosustentavel.presenter.LoginPresenter;
-import br.brechosustentavel.presenter.TelaPrincipalPresenter;
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
@@ -14,17 +12,14 @@ import br.brechosustentavel.repository.sqlite.SQLiteConexaoFactory;
 import br.brechosustentavel.repository.sqlite.SQLiteInicializaBancoDeDados;
 import br.brechosustentavel.seeder.Seeder;
 import br.brechosustentavel.service.AutenticacaoService;
-import br.brechosustentavel.service.CadastroService;
+
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.service.hash.BCryptAdapter;
 import br.brechosustentavel.service.hash.HashService;
-import br.brechosustentavel.service.verificador_telefone.LibPhoneNumberAdapter;
-import br.brechosustentavel.service.verificador_telefone.VerificadorTelefoneService;
+
 import br.brechosustentavel.view.LoginView;
-import br.brechosustentavel.view.TelaPrincipalView;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 
 /**

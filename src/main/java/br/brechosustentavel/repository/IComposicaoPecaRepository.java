@@ -5,12 +5,14 @@
 package br.brechosustentavel.repository;
 
 import br.brechosustentavel.model.Peca;
-import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author thiag
  */
 public interface IComposicaoPecaRepository {
-    public void adicionarComposicaoAPeca(Peca peca, List<Integer> idMateriais);
+    public void adicionarComposicaoAPeca(Peca peca, IComposicaoRepository composicaoRepository);
+    public void excluirComposicaoDaPeca(String idPeca);
+    Map<String, Integer> buscarComposicaoPorPeca(String idPeca);
 }

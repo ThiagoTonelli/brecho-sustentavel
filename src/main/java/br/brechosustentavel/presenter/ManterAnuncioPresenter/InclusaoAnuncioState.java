@@ -25,7 +25,7 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
     
     public InclusaoAnuncioState(ManterAnuncioPresenter presenter) throws PropertyVetoException {
         super(presenter);
-        configurarTela();
+        configurarTela(true);
 
         JComboBox<String> selectTipoDePeca = presenter.getView().getSelectTipoDePeca();
         selectTipoDePeca.addActionListener(new ActionListener (){
@@ -38,74 +38,102 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
                 }
             }
         });
-        salvar();
-        cancelar();         
+        
+        presenter.getView().getBtnGerarId().addActionListener(new ActionListener (){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    new GerarIdCommand().executar(presenter);
+                }catch (Exception ex){
+                        JOptionPane.showMessageDialog(null, "Erro ao carregar id_c: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
+        presenter.getView().getBtnEnviar().addActionListener(new ActionListener (){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    salvar();
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(null, "Erro ao carregar salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
+        presenter.getView().getBtnCancelar().addActionListener(new ActionListener (){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    cancelar();
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(null, "Erro ao carregar cancelar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });        
     }
     
-    private void configurarTela(){
-
-        try{
-            presenter.getView().getBtnExcluir().setVisible(false);
-            presenter.getView().getBtnGerarId().addActionListener(new ActionListener (){
-                @Override
-                public void actionPerformed(ActionEvent e){
-                    try{
-                    new GerarIdCommand().executar(presenter);
-                    }catch (Exception ex){
-                        JOptionPane.showMessageDialog(null, "Erro ao carregar id_c: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            });
-            new CarregarTiposDePecaCommand().executar(presenter);
-            new CarregarDefeitosPorTipoCommand().executar(presenter);
-            new CarregarComposicaoCommand().executar(presenter);
-            presenter.getView().setMaximum(true);
-            presenter.getView().setVisible(true);
-        }   
-            
-        catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Erro ao carregar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+    private void configurarTela(boolean estado) throws PropertyVetoException{
+        for (ActionListener al : presenter.getView().getBtnEnviar().getActionListeners()) {
+            presenter.getView().getBtnEnviar().removeActionListener(al);
         }
+           
+        presenter.getView().setVisible(false);
+        presenter.getView().setMaximum(true);
+        presenter.getView().setSelected(true);
+        presenter.getView().getBtnExcluir().setVisible(false);
+        presenter.getView().getBtnExcluir().setEnabled(false);
+        if(estado == false){
+             presenter.getView().getBtnEnviar().setText("Salvar");
+        }
+        presenter.getView().getTxtId_c().setEnabled(estado);
+        presenter.getView().getTxtSubcategoria().setEnabled(estado);
+        presenter.getView().getTxtCor().setEnabled(estado);
+        presenter.getView().getTxtEstadoConservacao().setEnabled(estado);
+        presenter.getView().getTxtMassa().setEnabled(estado);
+        presenter.getView().getTxtPrecoBase().setEnabled(estado);
+        presenter.getView().getTxtTamanho().setEnabled(estado);
+
+        presenter.getView().getSelectComposicao().setEnabled(estado);
+        presenter.getView().getSelectComposicao1().setEnabled(estado);
+        presenter.getView().getSelectComposicao2().setEnabled(estado);
+        presenter.getView().getSelectTipoDePeca().setEnabled(estado);
+        presenter.getView().getScrollDefeitos().setEnabled(estado);
+        presenter.getView().getSpinnerComposicao().setEnabled(estado);
+        presenter.getView().getSpinnerComposicao1().setEnabled(estado);
+        presenter.getView().getSpinnerComposicao2().setEnabled(estado);
+
+        presenter.getView().getBtnGerarId().setEnabled(estado);
+        for (java.awt.Component comp :  presenter.getView().getPainelScrollDefeitos().getComponents()){
+            comp.setEnabled(estado);
+        }
+
+        new CarregarTiposDePecaCommand().executar(presenter);
+        new CarregarDefeitosPorTipoCommand().executar(presenter);
+        new CarregarComposicaoCommand().executar(presenter);
+        presenter.getView().setVisible(true);  
     }
     
     @Override
     public void salvar(){
         try {
-            presenter.getView().getBtnEnviar().addActionListener(new ActionListener (){
-                @Override
-                public void actionPerformed(ActionEvent e){
-                    try{
-                        if(!todosCamposPreenchidos()){
-                            JOptionPane.showMessageDialog(null, "Preencha todos os campos e verifique se a soma dos materiais atinge os 100%", "Aviso", JOptionPane.WARNING_MESSAGE);
-                        }
-                        ICommandVendedor command = new NovoAnuncioCommand();
-                        Anuncio anuncio = (Anuncio) command.executar(presenter);
-                        JOptionPane.showMessageDialog(null, "anuncio salvo");
-                        presenter.setAnuncio(anuncio);
-                        presenter.setEstadoVendedor(new EdicaoAnuncioState(presenter));
-                    }catch (Exception ex){
-                        JOptionPane.showMessageDialog(null, "Erro ao salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            });
-            //this.cancelar();
-        }catch(Exception e){
-            //JOptionPane.shoMessagemDi
+            if(!todosCamposPreenchidos()){
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos e verifique se a soma dos materiais atinge os 100%", "Aviso", JOptionPane.WARNING_MESSAGE);
+            }
+            ICommandVendedor command = new NovoAnuncioCommand();
+            Anuncio anuncio = (Anuncio) command.executar(presenter);
+            JOptionPane.showMessageDialog(null, "anuncio salvo");
+            presenter.setIdPeca(anuncio.getPeca().getId_c());
+            presenter.setEstadoVendedor(new VisualizacaoAnuncioState(presenter));
+            
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Erro ao salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
     
     @Override
     public void cancelar(){
-        presenter.getView().getBtnCancelar().addActionListener(new ActionListener (){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                try{
-                    presenter.getView().dispose();
-                }catch (Exception ex){
-                        JOptionPane.showMessageDialog(null, "Erro ao cancelar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });  
+        presenter.getView().dispose(); 
     }
 
     @Override
@@ -143,7 +171,5 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
 
         return true;
     }
-
-
-    
+  
 }
