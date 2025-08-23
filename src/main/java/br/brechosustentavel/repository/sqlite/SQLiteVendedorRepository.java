@@ -41,6 +41,7 @@ public class SQLiteVendedorRepository implements IVendedorRepository{
                         rs.getInt("vendas_concluidas"),
                         rs.getDouble("gwp_contribuido")
                 );
+                vendedor.setId(rs.getInt("id_vendedor"));
                 return Optional.of(vendedor);
             }
             return Optional.empty();

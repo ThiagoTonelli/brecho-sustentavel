@@ -55,7 +55,7 @@ public class PrimeiroAnuncioHandler implements ITipoInsigniaHandler{
                 vendedorInsigniaRepository.inserirInsigniaAVendedor(insignia.getId(), usuario.getId());
                 
                 double qtdEstrelas = vendedor.getEstrelas() + insignia.getValorEstrelas();
-                vendedorRepository.atualizarEstrelas(usuario.getId(), qtdEstrelas);
+                vendedorRepository.atualizarEstrelas(vendedor.getId(), qtdEstrelas);
                 vendedor.setEstrelas(qtdEstrelas);
             }
         }
