@@ -79,7 +79,7 @@ public class VendedorState extends JanelaPrincipalState{
             }
             String idPeca = (String) tabela.getValueAt(linhaSelecionada, 0);
             if (idPeca != null) {
-                ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(idPeca, usuarioAutenticado);
+                ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(usuarioAutenticado);
                 presenter.setFrame(anuncioPresenter.getView());
                 anuncioPresenter.setEstadoVendedor(new EdicaoAnuncioState(anuncioPresenter));
             } else {
@@ -93,7 +93,7 @@ public class VendedorState extends JanelaPrincipalState{
     @Override
     public void criar(){
         try {
-            ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(null, usuarioAutenticado);
+            ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(usuarioAutenticado);
             presenter.setFrame(anuncioPresenter.getView());
             anuncioPresenter.setEstadoVendedor(new InclusaoAnuncioState(anuncioPresenter));
         } catch (PropertyVetoException ex) {
