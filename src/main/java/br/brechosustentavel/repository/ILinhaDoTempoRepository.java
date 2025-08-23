@@ -5,6 +5,7 @@
 package br.brechosustentavel.repository;
 
 import br.brechosustentavel.model.EventoLinhaDoTempo;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -14,4 +15,5 @@ import java.util.Optional;
 public interface ILinhaDoTempoRepository {
     public Optional<EventoLinhaDoTempo> ultimoEvento(String id_c);
     public void criar(String id_c, EventoLinhaDoTempo evento);
+    public Map<String, Double> getGWPEvitadoPorSemana();
 }

@@ -14,5 +14,6 @@ import java.util.Map;
 public interface IComposicaoPecaRepository {
     public void adicionarComposicaoAPeca(Peca peca, IComposicaoRepository composicaoRepository);
     public void excluirComposicaoDaPeca(String idPeca);
-    Map<String, Integer> buscarComposicaoPorPeca(String idPeca);
+    public Map<String, Integer> buscarComposicaoPorPeca(String idPeca);
+    public Map<String, Double> getMassaTotalPorMaterial();
 }

@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -77,6 +79,24 @@ public class SQLiteCompradorRepository implements ICompradorRepository{
         } catch(SQLException e){
             throw new RuntimeException("Erro ao atualizar estrelas do comprador: " + e.getMessage());
         }
+    }
+    
+    @Override
+    public Map<String, Integer> contarPorNivelReputacao() {
+        Map<String, Integer> contagem = new HashMap<>();
+        String sql = "SELECT nivel_reputacao, COUNT(*) as total FROM comprador GROUP BY nivel_reputacao";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                contagem.put(rs.getString("nivel_reputacao"), rs.getInt("total"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao contar compradores por reputação: " + e.getMessage(), e);
+        }
+        return contagem;
     }
     
     
