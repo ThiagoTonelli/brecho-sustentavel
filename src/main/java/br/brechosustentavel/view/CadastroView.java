@@ -1,10 +1,9 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package br.brechosustentavel.view;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
@@ -15,12 +14,13 @@ import javax.swing.JTextField;
  *
  * @author kaila
  */
-public class CadastroView extends javax.swing.JFrame {
+public class CadastroView extends javax.swing.JDialog {
 
     /**
-     * Creates new form CadastroView
+     * Creates new form Cadastro
      */
-    public CadastroView() {
+    public CadastroView(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
     }
 
@@ -35,58 +35,33 @@ public class CadastroView extends javax.swing.JFrame {
 
         radioEscolhaPerfil = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
+        txtSenha = new javax.swing.JPasswordField();
+        txtConfirmacaoSenha = new javax.swing.JPasswordField();
         lblCadastro = new javax.swing.JLabel();
+        btnCadastrar = new javax.swing.JButton();
         lblNome = new javax.swing.JLabel();
+        btnCancelar = new javax.swing.JButton();
         lblTelefone = new javax.swing.JLabel();
+        radioComprador = new javax.swing.JRadioButton();
         txtNome = new javax.swing.JTextField();
+        radioVendedor = new javax.swing.JRadioButton();
         txtTelefone = new javax.swing.JTextField();
+        radioCompradorVendedor = new javax.swing.JRadioButton();
         lblEmail = new javax.swing.JLabel();
+        lblPerfil = new javax.swing.JLabel();
         lblSenha = new javax.swing.JLabel();
         lblConfirmacaoSenha = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        txtSenha = new javax.swing.JPasswordField();
-        txtConfirmacaoSenha = new javax.swing.JPasswordField();
-        btnCadastrar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
-        radioComprador = new javax.swing.JRadioButton();
-        radioVendedor = new javax.swing.JRadioButton();
-        radioCompradorVendedor = new javax.swing.JRadioButton();
-        lblPerfil = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro");
+        setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblCadastro.setFont(new java.awt.Font("Segoe UI", 1, 40)); // NOI18N
         lblCadastro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCadastro.setText("CADASTRO");
-
-        lblNome.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblNome.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblNome.setText("Nome completo");
-
-        lblTelefone.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblTelefone.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTelefone.setText("Telefone");
-
-        txtNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeActionPerformed(evt);
-            }
-        });
-
-        lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblEmail.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblEmail.setText("Email");
-
-        lblSenha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblSenha.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblSenha.setText("Senha");
-
-        lblConfirmacaoSenha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblConfirmacaoSenha.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblConfirmacaoSenha.setText("Confirme a senha");
 
         btnCadastrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnCadastrar.setText("Cadastrar");
@@ -96,12 +71,26 @@ public class CadastroView extends javax.swing.JFrame {
             }
         });
 
+        lblNome.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblNome.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblNome.setText("Nome completo");
+
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
+
+        lblTelefone.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTelefone.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTelefone.setText("Telefone");
 
         radioEscolhaPerfil.add(radioComprador);
         radioComprador.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         radioComprador.setText("Comprador");
+
+        txtNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomeActionPerformed(evt);
+            }
+        });
 
         radioEscolhaPerfil.add(radioVendedor);
         radioVendedor.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -116,15 +105,27 @@ public class CadastroView extends javax.swing.JFrame {
             }
         });
 
+        lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblEmail.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblEmail.setText("Email");
+
         lblPerfil.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblPerfil.setText("Escolha seu perfil");
+
+        lblSenha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblSenha.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblSenha.setText("Senha");
+
+        lblConfirmacaoSenha.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblConfirmacaoSenha.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblConfirmacaoSenha.setText("Confirme a senha");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, 1027, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addComponent(lblCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -156,7 +157,7 @@ public class CadastroView extends javax.swing.JFrame {
                                 .addComponent(radioCompradorVendedor))))
                     .addComponent(lblTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
@@ -166,9 +167,9 @@ public class CadastroView extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(100, Short.MAX_VALUE)
+                .addContainerGap(46, Short.MAX_VALUE)
                 .addComponent(lblCadastro)
-                .addGap(58, 58, 58)
+                .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNome, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -194,11 +195,11 @@ public class CadastroView extends javax.swing.JFrame {
                     .addComponent(radioComprador)
                     .addComponent(radioVendedor)
                     .addComponent(radioCompradorVendedor))
-                .addGap(83, 83, 83)
+                .addGap(57, 57, 57)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -213,7 +214,6 @@ public class CadastroView extends javax.swing.JFrame {
         );
 
         pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
@@ -254,11 +254,19 @@ public class CadastroView extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(CadastroView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new CadastroView().setVisible(true);
+                CadastroView dialog = new CadastroView(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
@@ -293,6 +301,18 @@ public class CadastroView extends javax.swing.JFrame {
         return btnCancelar;
     }
 
+    public JRadioButton getRadioComprador() {
+        return radioComprador;
+    }
+
+    public JRadioButton getRadioCompradorVendedor() {
+        return radioCompradorVendedor;
+    }
+
+    public JRadioButton getRadioVendedor() {
+        return radioVendedor;
+    }
+
     public JPasswordField getTxtConfirmacaoSenha() {
         return txtConfirmacaoSenha;
     }
@@ -313,20 +333,9 @@ public class CadastroView extends javax.swing.JFrame {
         return txtTelefone;
     }
 
-    public JRadioButton getRadioComprador() {
-        return radioComprador;
-    }
-
-    public JRadioButton getRadioCompradorVendedor() {
-        return radioCompradorVendedor;
-    }
-
-    public JRadioButton getRadioVendedor() {
-        return radioVendedor;
-    }
-
     public JLabel getLblPerfil() {
         return lblPerfil;
     }
-   
+    
+
 }
