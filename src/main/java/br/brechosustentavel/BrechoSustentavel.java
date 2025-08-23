@@ -16,6 +16,8 @@ import br.brechosustentavel.service.AutenticacaoService;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.service.hash.BCryptAdapter;
 import br.brechosustentavel.service.hash.HashService;
+import br.brechosustentavel.service.verificador_telefone.LibPhoneNumberAdapter;
+import br.brechosustentavel.service.verificador_telefone.VerificadorTelefoneService;
 
 import br.brechosustentavel.view.LoginView;
 import java.beans.PropertyVetoException;
@@ -52,21 +54,18 @@ public class BrechoSustentavel {
             ConexaoFactory conexaoFactory = new SQLiteConexaoFactory();
             Connection conexao = conexaoFactory.getConexao();
             //SQLiteInicializaBancoDeDados inicializador = new SQLiteInicializaBancoDeDados(conexao);
-            HashService hashBCrypt = new BCryptAdapter();
+            HashService hash = new BCryptAdapter();
+            VerificadorTelefoneService verificadorTelefone = new LibPhoneNumberAdapter();
             //inicializador.inicializar();
             //Seeder seeder = new Seeder(conexao, hashBCrypt);
             //seeder.inserir();
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
             IUsuarioRepository usuarioRepository = fabrica.getUsuarioRepository();
-            AutenticacaoService autenticacaoService = new AutenticacaoService(usuarioRepository, hashBCrypt);
+            AutenticacaoService autenticacaoService = new AutenticacaoService(usuarioRepository, hash);
             SessaoUsuarioService sessao = SessaoUsuarioService.getInstancia();
             LoginView loginView = new LoginView();
-            LoginPresenter loginPresenter = new LoginPresenter();
- 
-            
-            
-            
-            
+            LoginPresenter loginPresenter = new LoginPresenter(fabrica, hash, verificadorTelefone, sessao, autenticacaoService);
+                 
         } catch(Exception e){
             System.out.println("Falha: " +  e.getMessage());
         }

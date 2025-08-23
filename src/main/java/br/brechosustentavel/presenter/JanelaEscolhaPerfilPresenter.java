@@ -4,10 +4,9 @@
  */
 package br.brechosustentavel.presenter;
 
-import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.JanelaPrincipalPresenter.JanelaPrincipalPresenter;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaEscolhaPerfilView;
-import br.brechosustentavel.view.JanelaPrincipalView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
@@ -19,18 +18,27 @@ import javax.swing.JOptionPane;
  */
 public class JanelaEscolhaPerfilPresenter {
     private JanelaEscolhaPerfilView view;
-    private TelaPrincipalPresenter telaPresenter;
+    private TelaPrincipalPresenter telaPrincipal;
+    private SessaoUsuarioService sessao;
     
-    public JanelaEscolhaPerfilPresenter(){
-        this.telaPresenter = new TelaPrincipalPresenter();
+    public JanelaEscolhaPerfilPresenter(SessaoUsuarioService sessao, TelaPrincipalPresenter telaPrincipal) throws PropertyVetoException{
+        this.telaPrincipal = telaPrincipal;
+        this.sessao = sessao;
         
         view = new JanelaEscolhaPerfilView();
+        telaPrincipal.getView().getjDesktopPane1().add(view);
+        telaPrincipal.getView().setLocationRelativeTo(null);
+        telaPrincipal.getView().setSize(1150, 800);
+        telaPrincipal.getView().setVisible(true);
+        view.setMaximum(true);
         view.setVisible(false);
+        
         view.getBtnComprador().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     telaComprador();
+                    view.dispose();
                 } catch(Exception ex) {
                     JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
                 }
@@ -42,29 +50,23 @@ public class JanelaEscolhaPerfilPresenter {
             public void actionPerformed(ActionEvent e) {
                 try {
                     telaVendedor();
+                    view.dispose();
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
                 }
             }
         });
-        
         view.setVisible(true);
     }
     
     public void telaVendedor() throws PropertyVetoException{
-        
-        JanelaPrincipalView janelaVendedor = new JanelaPrincipalView();
-        telaPresenter.getView().getjDesktopPane1().add(janelaVendedor);
-        janelaVendedor.setMaximum(true);
-        janelaVendedor.setVisible(true);
-        //new ManterAnuncioPresenter();
+        sessao.setTipoPerfil("Vendedor");
+        new JanelaPrincipalPresenter(sessao, telaPrincipal);
     }
     
     
-    public void telaComprador(){
-        //inicia tela comprador
-        //telaPresenter.getView().getjDesktopPane1().add(janelaEscolhaPerfil);
-        //janelaEscolhaPerfil.setMaximum(true);
-        //janelaEscolhaPerfil.setVisible(true);
+    public void telaComprador() throws PropertyVetoException{
+        sessao.setTipoPerfil("Comprador");
+        new JanelaPrincipalPresenter(sessao, telaPrincipal);
     }
 }

@@ -7,7 +7,6 @@ package br.brechosustentavel.presenter;
 import br.brechosustentavel.model.Usuario;
 import br.brechosustentavel.service.CadastroService;
 import br.brechosustentavel.view.CadastroView;
-import br.brechosustentavel.view.LoginView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -20,11 +19,11 @@ public class CadastroPresenter {
     private CadastroView view;
     private CadastroService cadastroService;
     
-    public CadastroPresenter(CadastroService cadastroService){
+    public CadastroPresenter(CadastroService cadastroService, java.awt.Frame janelaPai){
         this.cadastroService = cadastroService;
-
-        view = new CadastroView();
-        view.setLocationRelativeTo(null);
+        
+        view = new CadastroView(janelaPai, true);
+        view.setLocationRelativeTo(janelaPai);
         view.setSize(1150, 800);
         view.setVisible(false);
         
@@ -42,7 +41,7 @@ public class CadastroPresenter {
                 try {
                     cadastrar();
                 } catch(Exception ex) {
-                    JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(view, "Falha ao cadastrar: " + ex.getMessage());
                 }
             }
         });
@@ -53,7 +52,7 @@ public class CadastroPresenter {
                 try {
                     cancelar();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(view, "Falha ao cancelar: " + ex.getMessage());
                 }
             }
         });
@@ -67,46 +66,24 @@ public class CadastroPresenter {
         String email = view.getTxtEmail().getText();
         String senha = view.getTxtSenha().getText();
         String confirmacaoSenha = view.getTxtConfirmacaoSenha().getText(); 
-        
-        try {
-            if (nome.isBlank() || email.isBlank() || senha.isBlank()) {
-                throw new RuntimeException("Nome, email e senha são campos obrigatórios.");
+                   
+        String opcao = "";
+        if(!cadastroService.isVazio()){      
+            if(view.getRadioComprador().isSelected()) {
+               opcao = "Comprador";
+            } else if(view.getRadioVendedor().isSelected()) {
+                opcao = "Vendedor";
+            } else if(view.getRadioCompradorVendedor().isSelected()) {
+                opcao = "Ambos";
             }
-            if (!email.contains("@") || !email.contains(".")){
-                throw new RuntimeException("Email inválido.");
-            }
-            if (!senha.equals(confirmacaoSenha)) {
-                throw new RuntimeException("As senhas não conferem.");
-            }
-            
-            int opcao = 0;
-            if(!cadastroService.isVazio()){      
-                if(view.getRadioComprador().isSelected()) {
-                   opcao = 1;
-                } else if(view.getRadioVendedor().isSelected()) {
-                    opcao = 2;
-                } else if(view.getRadioCompradorVendedor().isSelected()) {
-                    opcao = 3;
-                }
-                else{
-                    throw new RuntimeException("Selecione um perfil.");
-                }
-            }
-
-            cadastroService.cadastrar(new Usuario(nome, telefone, email, senha), opcao);
-            JOptionPane.showMessageDialog(view, "Cadastro realizado com sucesso!");
-            view.dispose();
-            
-            new LoginPresenter(); 
-            
-        } catch(Exception e) { 
-            JOptionPane.showMessageDialog(view, "" + e.getMessage());
         }
+
+        cadastroService.cadastrar(new Usuario(nome, telefone, email, senha), confirmacaoSenha, opcao);
+        JOptionPane.showMessageDialog(view, "Cadastro realizado com sucesso!");
+        view.dispose();            
     }
     
     private void cancelar(){
-        new LoginPresenter();
         view.dispose();
-    }
-    
+    }  
 }
