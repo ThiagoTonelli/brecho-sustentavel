@@ -93,7 +93,7 @@ public class AnuncioService {
         linhaDoTempoRepository.criar(novaPeca.getId_c(), evento);
 
         // Cria e salva o anúncio
-        Anuncio novoAnuncio = new Anuncio(usuario.getId(), novaPeca, novaPeca.getPrecoFinal(), gwpAvoided, mciPeca);
+        Anuncio novoAnuncio = new Anuncio(usuario.getVendedor().get(), novaPeca, novaPeca.getPrecoFinal(), gwpAvoided, mciPeca);
         anuncioRepository.criar(novoAnuncio);
 
         // Concede insígnias se aplicável
@@ -118,7 +118,7 @@ public class AnuncioService {
             evento.setCliclo(ultimoEventoOpt.get().getCiclo_n() + 1);
             linhaDoTempoRepository.criar(pecaAtualizada.getId_c(), evento);
 
-            Anuncio anuncio = new Anuncio(usuario.getId(), pecaAtualizada, pecaAtualizada.getPrecoFinal(), gwpAvoided, mciPeca);
+            Anuncio anuncio = new Anuncio(usuario.getVendedor().get(), pecaAtualizada, pecaAtualizada.getPrecoFinal(), gwpAvoided, mciPeca);
             anuncioRepository.editar(anuncio);
 
             return anuncio;
@@ -149,7 +149,7 @@ public class AnuncioService {
         salvarComposicaoDaPeca(pecaEditada); // Reutiliza o método auxiliar
 
         // 6. Atualiza o anúncio associado
-        Anuncio anuncio = new Anuncio(usuario.getId(), pecaEditada, pecaEditada.getPrecoFinal(), gwpAvoided, mciPeca);
+        Anuncio anuncio = new Anuncio(usuario.getVendedor().get(), pecaEditada, pecaEditada.getPrecoFinal(), gwpAvoided, mciPeca);
         anuncioRepository.editar(anuncio);
         
         adicionarEventoDeEdicaoNaLinhaDoTempo(pecaEditada, gwpAvoided, mciPeca);

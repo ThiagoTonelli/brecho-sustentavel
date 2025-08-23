@@ -9,6 +9,7 @@ import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.Oferta;
 import br.brechosustentavel.model.Peca;
 import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.model.Vendedor;
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IOfertaRepository;
 import java.sql.Connection;
@@ -61,6 +62,7 @@ public class SQLiteOfertaRepository implements IOfertaRepository{
                         p.id_c, p.subcategoria, p.tamanho, p.cor, p.massa, p.estado_conservacao, p.preco_base,
                         c.id_comprador, c.nivel_reputacao as comprador_reputacao, c.estrelas as comprador_estrelas, c.compras_finalizadas, c.gwp_evitado, c.selo_verificador,
                         u.id as id_usuario, u.nome, u.telefone, u.email, u.senha,
+                        v.id_vendedor, v.nivel_reputacao as vendedor_reputacao, v.estrelas as vendedor_estrelas, v.vendas_concluidas, v.gwp_evitado
                      FROM 
                         oferta o
                      JOIN 
@@ -71,6 +73,8 @@ public class SQLiteOfertaRepository implements IOfertaRepository{
                         comprador c ON o.id_comprador = c.id_comprador
                      JOIN 
                         usuario u ON c.id_comprador = u.id
+                     JOIN
+                        usuario u ON v.id_vendedor = u.id
                      WHERE o.id = ?;
                      """;
 
@@ -88,6 +92,14 @@ public class SQLiteOfertaRepository implements IOfertaRepository{
                         rs.getBoolean("selo_verificador")
                 );
                 comprador.setId(rs.getInt("id_comprador"));
+                
+                Vendedor vendedor = new Vendedor(
+                        rs.getString("vendedor_reputacao"), 
+                        rs.getDouble("vendedor_estrelas"), 
+                        rs.getInt("vendas_concluidas"), 
+                        rs.getDouble("gwp_contribuido")
+                );
+                vendedor.setId(rs.getInt("id_vendedor"));
                 
                 Usuario usuario = new Usuario(
                         rs.getString("nome"),
@@ -109,7 +121,7 @@ public class SQLiteOfertaRepository implements IOfertaRepository{
                 );
                 
                 Anuncio anuncio = new Anuncio(
-                        rs.getInt("id_vendedor"), 
+                        vendedor, 
                         peca, 
                         rs.getDouble("valor_final_anuncio"), 
                         rs.getDouble("gwp_anuncio"), 

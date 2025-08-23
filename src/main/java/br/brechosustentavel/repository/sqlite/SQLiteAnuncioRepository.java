@@ -2,42 +2,31 @@ package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.model.Peca;
+import br.brechosustentavel.model.Vendedor;
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IAnuncioRepository;
-import br.brechosustentavel.repository.IDefeitoRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author thiag
- */
-public class SQLiteAnuncioRepository implements IAnuncioRepository{
+public class SQLiteAnuncioRepository implements IAnuncioRepository {
     private final ConexaoFactory conexaoFactory;
-    
-    public SQLiteAnuncioRepository(ConexaoFactory conexaoFactory){
+
+    public SQLiteAnuncioRepository(ConexaoFactory conexaoFactory) {
         this.conexaoFactory = conexaoFactory;
     }
-    
+
     @Override
-    public void criar(Anuncio anuncio){
+    public void criar(Anuncio anuncio) {
         String sql = "INSERT INTO anuncio(id_vendedor, id_peca, valor_final, gwp, mci) VALUES(?, ?, ?, ?, ?)";
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
             
-            pstmt.setInt(1, anuncio.getIdVendedor());
+            pstmt.setInt(1, anuncio.getVendedor().getId());
             pstmt.setString(2, anuncio.getPeca().getId_c());
             pstmt.setDouble(3, anuncio.getValorFinal());
             pstmt.setDouble(4, anuncio.getGwpAvoided());
@@ -49,166 +38,170 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository{
             throw new RuntimeException("Erro ao inserir anuncio no banco de dados: " + e.getMessage());
         }
     }
-    
-    @Override
-    public void editar(Anuncio anuncio) {
-        String sql = "UPDATE anuncio SET valor_final = ?, gwp = ?, mci = ? WHERE id_peca = ?";
-        try (Connection conexao = this.conexaoFactory.getConexao();
-             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
 
-            pstmt.setDouble(1, anuncio.getValorFinal());
-            pstmt.setDouble(2, anuncio.getGwpAvoided());
-            pstmt.setDouble(3, anuncio.getMci());
-            pstmt.setString(4, anuncio.getPeca().getId_c());
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao editar o anúncio: " + e.getMessage(), e);
-        }
-    }
-    
     @Override 
-    public List<Anuncio> buscarAnuncios(int idVendedor, IDefeitoRepository repositoryDefeitoPeca) {
-        Map<String, Anuncio> anuncioPorIdPeca = new HashMap<>();
-        
-        String sqlAnuncios = """
+    public List<Anuncio> buscarAnuncios(int idVendedor) {
+        List<Anuncio> anuncios = new ArrayList<>();
+        String sql = """
             SELECT
-                a.id, a.id_vendedor, a.id_peca, a.valor_final, a.gwp, a.mci,
-                p.subcategoria, p.tamanho, p.cor, p.massa,
-                p.estado_conservacao, p.preco_base,
+                a.id as anuncio_id, a.valor_final, a.gwp, a.mci,
+                p.id_c, p.subcategoria, p.tamanho, p.cor, p.massa, p.estado_conservacao, p.preco_base, p.id_tipo,
+                v.id_vendedor, v.nivel_reputacao, v.estrelas, v.vendas_concluidas, v.gwp_contribuido,
                 tp.nome AS nome_tipo
-            FROM
-                anuncio a
-            JOIN
-                peca p ON a.id_peca = p.id_c
-            LEFT JOIN
-                tipo_peca tp ON p.id_tipo = tp.id
-            WHERE
-                a.id_vendedor = ?;
+            FROM anuncio a
+            INNER JOIN peca p ON a.id_peca = p.id_c
+            INNER JOIN vendedor v ON a.id_vendedor = v.id_vendedor
+            LEFT JOIN tipo_peca tp ON p.id_tipo = tp.id
+            WHERE a.id_vendedor = ?;
             """;
 
         try (Connection conexao = this.conexaoFactory.getConexao();
-             PreparedStatement pstmt = conexao.prepareStatement(sqlAnuncios)) {
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
 
             pstmt.setInt(1, idVendedor);
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                String pecaId = rs.getString("id_peca");
-
-                if (anuncioPorIdPeca.containsKey(pecaId)) {
-                    continue;
-                }
-
-                Peca peca = new Peca(
-                    pecaId,
-                    rs.getString("subcategoria"),
-                    rs.getString("tamanho"),
-                    rs.getString("cor"),
-                    rs.getDouble("massa"),
-                    rs.getString("estado_conservacao"),
-                    rs.getDouble("preco_base")
-                );
-                peca.setTipoDePeca(rs.getString("nome_tipo"));
-
-                Anuncio anuncio = new Anuncio(
-                    rs.getInt("id_vendedor"),
-                    peca,
-                    rs.getDouble("valor_final"),
-                    rs.getDouble("gwp"),
-                    rs.getDouble("mci")
-                );
-                anuncio.setId(rs.getInt("id"));
-
-                anuncioPorIdPeca.put(pecaId, anuncio);
+                anuncios.add(mapearAnuncioDoResultSet(rs));
             }
-
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar anúncios no banco de dados: " + e.getMessage());
+            throw new RuntimeException("Erro ao buscar anúncios com JOIN: " + e.getMessage(), e);
         }
+        return anuncios;
+    }
+    
+    @Override
+    public Optional<Anuncio> buscarAnuncioPorId(int idAnuncio) {
+        String sql = """
+            SELECT
+                a.id as anuncio_id, a.valor_final, a.gwp, a.mci,
+                p.id_c, p.subcategoria, p.tamanho, p.cor, p.massa, p.estado_conservacao, p.preco_base, p.id_tipo,
+                v.id_vendedor, v.nivel_reputacao, v.estrelas, v.vendas_concluidas, v.gwp_contribuido,
+                tp.nome AS nome_tipo
+            FROM anuncio a
+            INNER JOIN peca p ON a.id_peca = p.id_c
+            INNER JOIN vendedor v ON a.id_vendedor = v.id_vendedor
+            LEFT JOIN tipo_peca tp ON p.id_tipo = tp.id
+            WHERE a.id = ?;
+            """;
 
-        if (anuncioPorIdPeca.isEmpty()) {
-            return new ArrayList<>();
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            
+            pstmt.setInt(1, idAnuncio);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                return Optional.of(mapearAnuncioDoResultSet(rs));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar anuncio por id com JOIN: " + e.getMessage(), e);
         }
+    }
+    
+    @Override
+    public List<Anuncio> buscarTodos() {
+        List<Anuncio> anuncios = new ArrayList<>();
+        String sql = """
+            SELECT
+                a.id as anuncio_id, a.valor_final, a.gwp, a.mci,
+                p.id_c, p.subcategoria, p.tamanho, p.cor, p.massa, p.estado_conservacao, p.preco_base, p.id_tipo,
+                v.id_vendedor, v.nivel_reputacao, v.estrelas, v.vendas_concluidas, v.gwp_contribuido,
+                tp.nome AS nome_tipo
+            FROM anuncio a
+            INNER JOIN peca p ON a.id_peca = p.id_c
+            INNER JOIN vendedor v ON a.id_vendedor = v.id_vendedor
+            LEFT JOIN tipo_peca tp ON p.id_tipo = tp.id;
+            """;
 
-        for (Anuncio anuncio : anuncioPorIdPeca.values()) {
-            String pecaId = anuncio.getPeca().getId_c();
-            Map<String, Double> defeitos = repositoryDefeitoPeca.buscarDefeitosPorTipo(pecaId);
-            anuncio.getPeca().setDefeitos(defeitos);
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            
+            while (rs.next()) {
+                anuncios.add(mapearAnuncioDoResultSet(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar todos os anúncios com JOIN: " + e.getMessage(), e);
         }
+        return anuncios;
+    }
+    
+    private Anuncio mapearAnuncioDoResultSet(ResultSet rs) throws SQLException {
+        Peca peca = new Peca(
+            rs.getString("id_c"),
+            rs.getString("subcategoria"),
+            rs.getString("tamanho"),
+            rs.getString("cor"),
+            rs.getDouble("massa"),
+            rs.getString("estado_conservacao"),
+            rs.getDouble("preco_base")
+        );
+        peca.setIdTipoDePeca(rs.getInt("id_tipo"));
+        peca.setTipoDePeca(rs.getString("nome_tipo"));
 
-        return new ArrayList<>(anuncioPorIdPeca.values());
+        Vendedor vendedor = new Vendedor(
+            rs.getString("nivel_reputacao"),
+            rs.getDouble("estrelas"),
+            rs.getInt("vendas_concluidas"),
+            rs.getDouble("gwp_contribuido")
+        );
+        vendedor.setId(rs.getInt("id_vendedor"));
+
+        Anuncio anuncio = new Anuncio(
+            vendedor,
+            peca,
+            rs.getDouble("valor_final"),
+            rs.getDouble("gwp"),
+            rs.getDouble("mci")
+        );
+        anuncio.setId(rs.getInt("anuncio_id"));
+
+        return anuncio;
     }
 
     @Override
     public int qtdAnuncioPorVendedor(int idVendedor) {
+        // Esta consulta já era eficiente e não precisa de JOIN.
         String sql = "SELECT COUNT(*) FROM anuncio WHERE id_vendedor = ?;";
-        
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
             pstmt.setInt(1, idVendedor);
-            
             ResultSet rs = pstmt.executeQuery(); 
             if (rs.next()) {
                 return rs.getInt(1);
             }
             return 0;
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao contar os anúncios do vendedor: " + e.getMessage());
+            throw new RuntimeException("Erro ao contar os anúncios do vendedor: " + e.getMessage(), e);
         }
     }
 
     @Override
-    public Optional<Anuncio> buscarAnuncioPorId(int idAnuncio) {
-        String sql = """
-                     SELECT
-                        a.id as anuncio_id, a.valor_final, a.gwp, a.mci,
-                        p.id_c as peca_id_c, p.subcategoria, p.tamanho, p.cor, p.massa, p.estado_conservacao, p.preco_base,
-                        a.id_vendedor
-                    FROM anuncio a
-                    JOIN peca p ON a.id_peca = p.id_c
-                    WHERE a.id = ?;
-                     """;
-
+    public void excluirPorPecaId(String idPeca) {
+        String sql = "DELETE FROM anuncio WHERE id_peca = ?";
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
-            
-            pstmt.setInt(1, idAnuncio);
-            
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                Peca peca = new Peca(rs.getString("id_c"), rs.getString("subcategoria"), rs.getString("tamanho"), rs.getString("cor"), 
-                        rs.getDouble("massa"), rs.getString("estado_conservacao"), rs.getDouble("preco_base"));
-
-                Anuncio anuncio = new Anuncio(
-                    rs.getInt("id_vendedor"),
-                    peca,
-                    rs.getDouble("valor_final"),
-                    rs.getDouble("gwp"),
-                    rs.getDouble("mci")
-                );
-                anuncio.setId(rs.getInt("anuncio_id"));   
-                
-                return Optional.of(anuncio);
-            }
-            return Optional.empty();
+            pstmt.setString(1, idPeca);
+            pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar anuncio por id: " + e.getMessage());
-        }  
+            throw new RuntimeException("Erro ao excluir o anúncio: " + e.getMessage(), e);
+        }
     }
     
     @Override
-    public void excluirPorPecaId(String idPeca) {
-        String sql = "DELETE FROM anuncio WHERE id_peca = ?";
-
+    public void editar(Anuncio anuncio) {
+        String sql = "UPDATE anuncio SET valor_final = ?, gwp = ?, mci = ? WHERE id_peca = ?";
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
-
-            pstmt.setString(1, idPeca);
-            int affectedRows = pstmt.executeUpdate();
-
+            pstmt.setDouble(1, anuncio.getValorFinal());
+            pstmt.setDouble(2, anuncio.getGwpAvoided());
+            pstmt.setDouble(3, anuncio.getMci());
+            pstmt.setString(4, anuncio.getPeca().getId_c());
+            pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao excluir o anúncio: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao editar o anúncio: " + e.getMessage(), e);
         }
     }
 }
