@@ -3,22 +3,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package br.brechosustentavel.presenter.ManterAnuncioPresenter;
-import br.brechosustentavel.commandVendedor.EditarAnuncioCommand;
+
+import br.brechosustentavel.commandVendedor.CarregarComposicaoCommand;
+import br.brechosustentavel.commandVendedor.CarregarTiposDePecaCommand;
+import br.brechosustentavel.commandVendedor.VisualizarAnuncioCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author thiag
  */
-public class EdicaoAnuncioState extends ManterAnuncioState{
-    
-    public EdicaoAnuncioState(ManterAnuncioPresenter presenter) throws PropertyVetoException {
+public class VisualizacaoAnuncioState extends ManterAnuncioState{
+
+    public VisualizacaoAnuncioState(ManterAnuncioPresenter presenter) {
         super(presenter);
-        configurarTela(true);
+        visualizar();
+        
         presenter.getView().getBtnEnviar().addActionListener(new ActionListener (){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -43,17 +48,18 @@ public class EdicaoAnuncioState extends ManterAnuncioState{
     }
 
     private void configurarTela(boolean estado) throws PropertyVetoException{
-        
         for (ActionListener al : presenter.getView().getBtnEnviar().getActionListeners()) {
             presenter.getView().getBtnEnviar().removeActionListener(al);
         }
-        
+
         presenter.getView().setVisible(false);
         presenter.getView().setMaximum(true);
         presenter.getView().setSelected(true);
         presenter.getView().getBtnExcluir().setVisible(estado);
         presenter.getView().getBtnExcluir().setEnabled(estado);
-        presenter.getView().getBtnEnviar().setText("Salvar");
+        if(estado == false){
+            presenter.getView().getBtnEnviar().setText("Editar");
+        }
         
         presenter.getView().getTxtId_c().setEnabled(false);
         presenter.getView().getTxtSubcategoria().setEnabled(estado);
@@ -92,15 +98,22 @@ public class EdicaoAnuncioState extends ManterAnuncioState{
     @Override
     public void editar() {
         try {
-            new EditarAnuncioCommand().executar(presenter);
-            presenter.setEstadoVendedor(new VisualizacaoAnuncioState(presenter));
-        } catch (Exception ex) {
-            throw new RuntimeException("erro ao editar anuncio: " + ex.getMessage());
+            presenter.setEstadoVendedor(new EdicaoAnuncioState(presenter));
+        } catch (PropertyVetoException ex) {
+            throw new RuntimeException("erro ao ir parar edicao" + ex);
         }
-    }   
+    }
 
     @Override
     public void visualizar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            new CarregarTiposDePecaCommand().executar(presenter);
+            new CarregarComposicaoCommand().executar(presenter);
+            new VisualizarAnuncioCommand().executar(presenter);
+            configurarTela(false);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(EdicaoAnuncioState.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    
 }
