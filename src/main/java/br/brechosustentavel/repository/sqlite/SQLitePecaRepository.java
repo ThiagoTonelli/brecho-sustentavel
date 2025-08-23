@@ -48,11 +48,6 @@ public class SQLitePecaRepository implements IPecaRepository{
     }
 
     @Override
-    public void excluir() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    @Override
     public void editar(Peca peca) {
         String sql = """
                      UPDATE peca SET
@@ -128,6 +123,6 @@ public class SQLitePecaRepository implements IPecaRepository{
             throw new RuntimeException("Erro ao buscar peças no banco de dados", e);
         }
         return Optional.empty();
-    } 
+    }
     
 }
