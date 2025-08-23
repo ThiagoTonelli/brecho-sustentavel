@@ -81,6 +81,7 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
                         ICommandVendedor command = new NovoAnuncioCommand();
                         Anuncio anuncio = (Anuncio) command.executar(presenter);
                         JOptionPane.showMessageDialog(null, "anuncio salvo");
+                        presenter.setAnuncio(anuncio);
                         presenter.setEstadoVendedor(new EdicaoAnuncioState(presenter));
                     }catch (Exception ex){
                         JOptionPane.showMessageDialog(null, "Erro ao salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
