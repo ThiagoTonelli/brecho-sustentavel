@@ -42,7 +42,7 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
     
     @Override
     public IUsuarioRepository getUsuarioRepository(){
-        return new SQLiteUsuarioRepository(conexaoFactory, getVendedorRepository(), getCompradorRepository());
+        return new SQLiteUsuarioRepository(conexaoFactory);
     }
 
     @Override
@@ -112,11 +112,11 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
 
     @Override
     public IOfertaRepository getOfertaRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new SQLiteOfertaRepository(conexaoFactory);
     }
 
     @Override
     public IDenunciaRepository getDenunciaRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new SQLiteDenunciaRepository(conexaoFactory);
     }
 }

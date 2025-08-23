@@ -11,7 +11,7 @@ import java.util.List;
  * @author thiag
  */
 public class Anuncio {
-    private int idAnuncio;
+    private int id;
     private int idVendedor;
     private Peca peca;
     private double valorFinal;
@@ -46,17 +46,17 @@ public class Anuncio {
         return mci;
     }
     
-    public void setIdAnuncio(int idAnuncio){
-        this.idAnuncio = idAnuncio;
+    public void setId(int idAnuncio){
+        this.id = idAnuncio;
     }
     
-    public int getIdAnuncio(){
-        return idAnuncio;
+    public int getId(){
+        return id;
     }
 
     @Override
     public String toString() {
-        return "Anuncio{" + "idAnuncio=" + idAnuncio + ", idVendedor=" + idVendedor + ", peca=" + peca + ", valorFinal=" + valorFinal + ", gwpAvoided=" + gwpAvoided + ", mci=" + mci + '}';
+        return "Anuncio{" + "idAnuncio=" + id + ", idVendedor=" + idVendedor + ", peca=" + peca + ", valorFinal=" + valorFinal + ", gwpAvoided=" + gwpAvoided + ", mci=" + mci + '}';
     }
     
     

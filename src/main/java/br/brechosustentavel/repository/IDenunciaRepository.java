@@ -4,10 +4,18 @@
  */
 package br.brechosustentavel.repository;
 
+import br.brechosustentavel.model.Denuncia;
+import java.util.List;
+import java.util.Optional;
+
 /**
  *
  * @author kaila
  */
 public interface IDenunciaRepository {
-    
+    public void inserirDenuncia(Denuncia denuncia);
+    public void atualizarStatusDenuncia(Denuncia denuncia, String novoStatus);
+    public Optional<Denuncia> buscarDenunciaPorId(int id);
+    public List<Denuncia> buscarDenunciaPorStatus(String status);
+    public int qtdDenunciasProcedentesPorComprador(int idComprador);
 }

@@ -35,7 +35,7 @@ public class JanelaPrincipalPresenter implements Observador{
         setFrame((JInternalFrame) view);
         
         if(usuario.getTipoPerfil().equalsIgnoreCase("Comprador")){
-            setEstado(new CompradorState(this));
+            setEstado(new CompradorState(this, usuario));
         }
         else if (usuario.getTipoPerfil().equalsIgnoreCase("Vendedor")){
             setEstado(new VendedorState(this, usuario));

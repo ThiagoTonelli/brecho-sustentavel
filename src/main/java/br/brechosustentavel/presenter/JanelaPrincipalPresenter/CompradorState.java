@@ -4,14 +4,16 @@
  */
 package br.brechosustentavel.presenter.JanelaPrincipalPresenter;
 
+import br.brechosustentavel.service.SessaoUsuarioService;
+
 /**
  *
  * @author thiag
  */
 public class CompradorState extends JanelaPrincipalState{
 
-    public CompradorState(JanelaPrincipalPresenter presenter) {
-        super(presenter);
+    public CompradorState(JanelaPrincipalPresenter presenter, SessaoUsuarioService usuarioAutenticado) {
+        super(presenter, usuarioAutenticado);
     }
     
 }

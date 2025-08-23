@@ -6,6 +6,7 @@ package br.brechosustentavel.repository;
 
 import br.brechosustentavel.model.Anuncio;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -16,4 +17,5 @@ public interface IAnuncioRepository {
     public List<Anuncio> buscarAnuncios(int idVendedor, IDefeitoRepository repositoryDefeito);
     public void editar(Anuncio anuncio);
     public int qtdAnuncioPorVendedor(int idVendedor);
+    public Optional<Anuncio> buscarAnuncioPorId(int id);
 }
