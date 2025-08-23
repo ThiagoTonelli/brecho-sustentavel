@@ -51,22 +51,22 @@ public class CadastroService {
                 comprador.setId(usuario.getId());
                 usuario.setComprador(comprador);
                 usuario.setVendedor(null);
-                compradorRepository.cadastrarComprador(usuario.getComprador().get());
+                compradorRepository.salvar(usuario.getComprador().get());
             } else if(opcao == 2){
                 Vendedor vendedor = new Vendedor("Bronze", 0.0, 0, 0.0);
                 vendedor.setId(usuario.getId());
                 usuario.setVendedor(vendedor);
                 usuario.setComprador(null);
-                vendedorRepository.cadastrarVendedor(usuario.getVendedor().get());
+                vendedorRepository.salvar(usuario.getVendedor().get());
             } else if(opcao == 3) {
                 Comprador comprador = new Comprador("Bronze", 0.0, 0, 0.0, false);
                 comprador.setId(usuario.getId());
                 usuario.setComprador(comprador);
-                compradorRepository.cadastrarComprador(usuario.getComprador().get());
+                compradorRepository.salvar(usuario.getComprador().get());
                 Vendedor vendedor = new Vendedor("Bronze", 0.0, 0, 0.0);
                 vendedor.setId(usuario.getId());
                 usuario.setVendedor(vendedor);
-                vendedorRepository.cadastrarVendedor(usuario.getVendedor().get());
+                vendedorRepository.salvar(usuario.getVendedor().get());
             }
             
         } catch(Exception e){
