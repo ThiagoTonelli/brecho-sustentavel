@@ -7,10 +7,11 @@ package br.brechosustentavel.commandPrincipal;
 import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.presenter.JanelaPrincipalPresenter.JanelaPrincipalPresenter;
 import br.brechosustentavel.repository.IAnuncioRepository;
-import br.brechosustentavel.repository.IVendedorRepository;
+import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import java.util.List;
+import java.util.Optional;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -41,10 +42,10 @@ public class CarregarAnunciosCommand implements ICommandPrincipal{
 
         try {
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
-            IAnuncioRepository repositoryAnuncio = fabrica.getAnuncioRepository();
-            IVendedorRepository repositoryVendedor = fabrica.getVendedorRepository();
-            List<Anuncio> anuncios = repositoryAnuncio.buscarTodos();
-
+            IAnuncioRepository anuncioRepository = fabrica.getAnuncioRepository();
+            IUsuarioRepository usuarioRepository = fabrica.getUsuarioRepository();
+            List<Anuncio> anuncios = anuncioRepository.buscarTodos();
+            
             modelo.setRowCount(0);
 
             if (anuncios.isEmpty()) {
@@ -52,7 +53,7 @@ public class CarregarAnunciosCommand implements ICommandPrincipal{
             } else {
                 for (Anuncio a : anuncios) {
                     modelo.addRow(new Object[]{
-                        a.getIdVendedor,
+                        usuarioRepository.buscarPorId(a.getVendedor().getId()).get().getNome(),
                         a.getPeca().getId_c(),
                         a.getPeca().getTipoDePeca(),
                         a.getPeca().getSubcategoria(),

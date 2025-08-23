@@ -32,11 +32,12 @@ public class CompradorState extends JanelaPrincipalState{
         super(presenter, usuarioAutenticado);
         carregar();
         
-        JanelaPrincipalView view = presenter.getView();
+        this.view = presenter.getView();
         view.setMaximum(true);
-        view.setVisible(true);
+        view.setVisible(false);
         view.setTitle("Bem-vindo Comprador!");
         view.getButtonAdicionar().setVisible(false);
+        view.getButtonVisualizar().setText("Ver detalhes do anuncio");
                 
         view.getButtonVisualizar().addActionListener(new ActionListener(){
             @Override
@@ -63,20 +64,19 @@ public class CompradorState extends JanelaPrincipalState{
             @Override
             public void menuCanceled(MenuEvent e) {}
         });
+        view.setVisible(true);
     }
-
 
     @Override
     public void visualizar() {
         try{
-            view.getButtonVisualizar().setText("Ver detalhes do item");
             JTable tabela = presenter.getView().getjTable1();
             int linhaSelecionada = tabela.getSelectedRow();
             if (linhaSelecionada == -1) {
                 JOptionPane.showMessageDialog(presenter.getView(), "Selecione um anúncio para visualizar.", "Aviso", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            String idPeca = (String) tabela.getValueAt(linhaSelecionada, 0);
+            String idPeca = (String) tabela.getValueAt(linhaSelecionada, 1);
             if (idPeca != null) {
                 ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(usuarioAutenticado);
                 presenter.setFrame(anuncioPresenter.getView());
@@ -98,5 +98,4 @@ public class CompradorState extends JanelaPrincipalState{
             System.err.println("Erro ao recarregar anúncios: " + e.getMessage());
         }
     }
-    
 }
