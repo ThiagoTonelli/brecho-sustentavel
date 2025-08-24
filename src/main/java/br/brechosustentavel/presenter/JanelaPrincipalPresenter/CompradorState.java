@@ -7,6 +7,7 @@ package br.brechosustentavel.presenter.JanelaPrincipalPresenter;
 import br.brechosustentavel.commandPrincipal.CarregarAnunciosCommand;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.ManterAnuncioPresenter.RealizarOfertaAnuncioState;
 import br.brechosustentavel.presenter.ManterAnuncioPresenter.VisualizacaoAnuncioState;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaPrincipalView;
@@ -77,11 +78,11 @@ public class CompradorState extends JanelaPrincipalState{
                 return;
             }
             String idPeca = (String) tabela.getValueAt(linhaSelecionada, 1);
-            if (idPeca != null) {
+            if (idPeca != null) {            
                 ManterAnuncioPresenter anuncioPresenter = new ManterAnuncioPresenter(usuarioAutenticado);
                 presenter.setFrame(anuncioPresenter.getView());
                 anuncioPresenter.setIdPeca(idPeca);
-                anuncioPresenter.setEstadoVendedor(new VisualizacaoAnuncioState(anuncioPresenter));
+                anuncioPresenter.setEstadoVendedor(new RealizarOfertaAnuncioState(anuncioPresenter));
             } else {
                 JOptionPane.showMessageDialog(presenter.getView(), "Anúncio não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
