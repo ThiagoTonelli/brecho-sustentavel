@@ -15,5 +15,7 @@ public interface IComposicaoRepository {
     public Integer buscarIdComposicaoPorNome(String nome);
     public Map<String, Double> buscarMateriais();
     public Map<String, Double> buscarMateriaisNome(List<String> materiais);
-
+    public List<Map<String, Object>> buscarTodosParaManutencao();
+    void salvar(Integer id, String nome, double fatorEmissao);
+    void excluir(int idComposicao);
 }

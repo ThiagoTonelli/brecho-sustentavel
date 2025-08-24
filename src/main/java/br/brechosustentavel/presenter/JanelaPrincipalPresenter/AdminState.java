@@ -6,6 +6,7 @@ package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 
 import br.brechosustentavel.presenter.ManterDefeitoPresenter.ManterDefeitoPresenter;
 import br.brechosustentavel.presenter.dashboard.DashboardPresenter;
+import br.brechosustentavel.presenter.manterComposicaoPresenter.ManterComposicaoPresenter;
 import br.brechosustentavel.presenter.manterTipoPecaPresenter.ManterTipoPecaPresenter;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import java.awt.event.ActionEvent;
@@ -41,6 +42,12 @@ public class AdminState extends JanelaPrincipalState {
             @Override
             public void actionPerformed(ActionEvent e){
                 manterTipo();
+            }
+        });
+        presenter.getView().getButtonManterComposicao().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                manterComposicao();
             }
         });
     }
@@ -88,15 +95,25 @@ public class AdminState extends JanelaPrincipalState {
     }
     
     private void manterTipo(){
-            try {
-                ManterTipoPecaPresenter presenterTipos = new ManterTipoPecaPresenter();
-                presenter.setFrame(presenterTipos.getView());
-                presenterTipos.getView().setVisible(true);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(presenter.getView(), "Erro ao abrir manter defeitos: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            }
+        try {
+            ManterTipoPecaPresenter presenterTipos = new ManterTipoPecaPresenter();
+            presenter.setFrame(presenterTipos.getView());
+            presenterTipos.getView().setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(presenter.getView(), "Erro ao abrir manter defeitos: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
-
+    
+    private void manterComposicao(){
+        try {
+            ManterComposicaoPresenter presenterComposicao = new ManterComposicaoPresenter();
+            presenter.setFrame(presenterComposicao.getView());
+            presenterComposicao.getView().setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(presenter.getView(), "Erro ao abrir manter defeitos: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     @Override
     public void carregar() {
         presenter.getView().getjTable1().setModel(new javax.swing.table.DefaultTableModel(

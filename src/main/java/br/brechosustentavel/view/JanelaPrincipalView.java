@@ -43,6 +43,7 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         jTextField2 = new javax.swing.JTextField();
         jComboBox1 = new javax.swing.JComboBox<>();
         buttonManterTipo = new javax.swing.JButton();
+        buttonManterComposicao = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         menuVisualizarPerfil = new javax.swing.JMenu();
         menuPerfil = new javax.swing.JMenu();
@@ -107,6 +108,14 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
             }
         });
 
+        buttonManterComposicao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        buttonManterComposicao.setText("Gerenciar Composicoes");
+        buttonManterComposicao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonManterComposicaoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -126,7 +135,9 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
                         .addGap(35, 35, 35)
                         .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
-                        .addComponent(buttonManterTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(buttonManterTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonManterComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -143,7 +154,8 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonManterTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonManterTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonManterComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
@@ -192,6 +204,10 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonManterTipoActionPerformed
 
+    private void buttonManterComposicaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonManterComposicaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonManterComposicaoActionPerformed
+
     @Override
     public JButton getButtonAdicionar() {
         return buttonAdicionar;
@@ -230,6 +246,11 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     public JButton getButtonManterTipo() {
         return buttonManterTipo;
     }
+
+    public JButton getButtonManterComposicao() {
+        return buttonManterComposicao;
+    }
+    
     
     
     
@@ -240,6 +261,7 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAdicionar;
+    private javax.swing.JButton buttonManterComposicao;
     private javax.swing.JButton buttonManterTipo;
     private javax.swing.JButton buttonVisualizar;
     private javax.swing.JButton jButton1;

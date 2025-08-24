@@ -102,6 +102,8 @@
                           <Component id="buttonVisualizar" min="-2" pref="164" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="buttonManterTipo" min="-2" pref="186" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="buttonManterComposicao" min="-2" pref="186" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="19" max="32767" attributes="0"/>
@@ -124,6 +126,7 @@
                       <Component id="buttonAdicionar" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="buttonVisualizar" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="buttonManterTipo" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="buttonManterComposicao" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="74" max="32767" attributes="0"/>
               </Group>
@@ -208,6 +211,17 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonManterTipoActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="buttonManterComposicao">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Gerenciar Composicoes"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonManterComposicaoActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
