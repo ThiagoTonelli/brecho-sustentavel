@@ -554,6 +554,14 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
     public JButton getBtnExcluir() {
         return btnExcluir;
     }
+
+    public JLabel getLabelId_c() {
+        return labelId_c;
+    }
+
+    public JLabel getLabelPrecoBase() {
+        return labelPrecoBase;
+    }
     
     
     
