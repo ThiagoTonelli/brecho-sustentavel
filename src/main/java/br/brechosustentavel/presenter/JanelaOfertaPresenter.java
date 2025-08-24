@@ -64,11 +64,13 @@ public class JanelaOfertaPresenter {
         view.getTxtValorMinimo().setEnabled(false);
         view.getTxtValorMaximo().setEnabled(false);
         
-        //Configura txtField com informações
+        //Converte a string do valor final para um double com padrao do BR
         NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
         double valorFinalConvertido = nf.parse(valorFinal).doubleValue();
         double valorMinimo = valorFinalConvertido * 0.8;
         double valorMaximo = valorFinalConvertido * 0.99;
+        
+        //Configura txtField com informações
         view.getTxtPeca().setText(tipo + " – " + subcategoria);
         view.getTxtPrecoFinal().setText("R$ " + valorFinal);
         view.getTxtValorMinimo().setText(String.format("R$ %.2f", valorMinimo));
