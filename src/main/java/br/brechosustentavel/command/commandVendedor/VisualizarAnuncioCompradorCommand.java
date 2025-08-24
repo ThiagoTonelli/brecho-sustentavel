@@ -2,10 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.commandVendedor;
+package br.brechosustentavel.command.commandVendedor;
 
+import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.model.Peca;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.repository.IAnuncioRepository;
 import br.brechosustentavel.repository.IComposicaoPecaRepository;
 import br.brechosustentavel.repository.IDefeitoPecaRepository;
 import br.brechosustentavel.repository.IPecaRepository;
@@ -22,38 +24,33 @@ import javax.swing.JSpinner;
 
 /**
  *
- * @author thiag
+ * @author kaila
  */
-public class VisualizarAnuncioCommand implements ICommandVendedor{
+public class VisualizarAnuncioCompradorCommand implements ICommandVendedor{
 
     @Override
     public Object executar(ManterAnuncioPresenter presenter) {
         IJanelaManterAnuncioView view = presenter.getView();
-        // Corrigido para usar o método correto do presenter
         String id_c = presenter.getIdPeca();
 
-        // Inicializa todos os repositórios necessários através da Factory
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
-        IPecaRepository pecaRepository = fabrica.getPecaRepository();
         IDefeitoPecaRepository defeitoPecaRepository = fabrica.getDefeitoPecaRepository();
         ITipoDePecaRepository tipoPecaRepository = fabrica.getTipoDePecaRepository();
-        // Adicionado o repositório para buscar a composição da peça
         IComposicaoPecaRepository composicaoPecaRepository = fabrica.getComposicaoPecaRepository();
+        IAnuncioRepository anuncioRepository = fabrica.getAnuncioRepository();
+        
+        Optional<Anuncio> optAnuncio = anuncioRepository.buscarPorIdPeca(id_c);
+        if (optAnuncio.isPresent()) {
+            Anuncio anuncio = optAnuncio.get();
 
-        Optional<Peca> pecaOptional = pecaRepository.consultar(id_c);
-
-        if (pecaOptional.isPresent()) {
-            Peca peca = pecaOptional.get();
-
-            // Preenche os campos de texto com os dados da peça
             view.getTxtId_c().setText(id_c);
-            view.getTxtSubcategoria().setText(peca.getSubcategoria());
-            view.getTxtTamanho().setText(peca.getTamanho());
-            view.getTxtCor().setText(peca.getCor());
-            view.getTxtMassa().setText(String.valueOf(peca.getMassaEstimada()));
-            view.getTxtEstadoConservacao().setText(peca.getEstadoDeConservacao());
-            view.getTxtPrecoBase().setText(String.format("%.2f", peca.getPrecoBase()));
-            view.getSelectTipoDePeca().setSelectedItem(tipoPecaRepository.buscarNomeTipo(peca.getIdTipoDePeca()));
+            view.getTxtSubcategoria().setText(anuncio.getPeca().getSubcategoria());
+            view.getTxtTamanho().setText(anuncio.getPeca().getTamanho());
+            view.getTxtCor().setText(anuncio.getPeca().getCor());
+            view.getTxtMassa().setText(String.valueOf(anuncio.getPeca().getMassaEstimada()));
+            view.getTxtEstadoConservacao().setText(anuncio.getPeca().getEstadoDeConservacao());
+            view.getTxtPrecoBase().setText(String.format("%.2f", anuncio.getValorFinal()));
+            view.getSelectTipoDePeca().setSelectedItem(tipoPecaRepository.buscarNomeTipo(anuncio.getPeca().getIdTipoDePeca()));
 
             // Carrega a lista de defeitos possíveis para o tipo de peça
             new CarregarDefeitosPorTipoCommand().executar(presenter);
@@ -72,8 +69,6 @@ public class VisualizarAnuncioCommand implements ICommandVendedor{
             }
 
             Map<String, Integer> composicaoDaPeca = composicaoPecaRepository.buscarComposicaoPorPeca(id_c);
-
-            // 2. Cria uma lista de JComboBoxes e JSpinners para facilitar a iteração
             List<JComboBox<String>> comboBoxes = List.of(
                 view.getSelectComposicao(), 
                 view.getSelectComposicao1(), 
@@ -95,12 +90,9 @@ public class VisualizarAnuncioCommand implements ICommandVendedor{
                     }
                 }
             }
-
-            return peca;
+            return anuncio.getPeca();
         } else {
             throw new RuntimeException("Não foi possível encontrar um anúncio com o ID da peça: " + id_c);
         }
     }
 }
-    
-

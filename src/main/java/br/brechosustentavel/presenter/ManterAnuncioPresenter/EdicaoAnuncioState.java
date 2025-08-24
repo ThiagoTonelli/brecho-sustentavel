@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.presenter.ManterAnuncioPresenter;
-import br.brechosustentavel.commandVendedor.EditarAnuncioCommand;
-import br.brechosustentavel.commandVendedor.ExcluirAnuncioCommand;
+package br.brechosustentavel.presenter.manterAnuncioPresenter;
+import br.brechosustentavel.command.commandVendedor.EditarAnuncioCommand;
+import br.brechosustentavel.command.commandVendedor.ExcluirAnuncioCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;

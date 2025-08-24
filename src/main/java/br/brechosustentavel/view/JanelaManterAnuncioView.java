@@ -562,13 +562,10 @@ public class JanelaManterAnuncioView extends javax.swing.JInternalFrame implemen
     public JLabel getLabelPrecoBase() {
         return labelPrecoBase;
     }
-    
-    
-    
-    
-    
-    
 
+    public JLabel getLabelTitulo() {
+        return labelTitulo;
+    }
 }
 
 

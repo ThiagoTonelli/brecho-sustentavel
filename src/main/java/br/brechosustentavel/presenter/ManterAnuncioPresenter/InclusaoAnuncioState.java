@@ -2,19 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.presenter.ManterAnuncioPresenter;
+package br.brechosustentavel.presenter.manterAnuncioPresenter;
 
-import br.brechosustentavel.commandVendedor.CarregarComposicaoCommand;
-import br.brechosustentavel.commandVendedor.CarregarDefeitosPorTipoCommand;
-import br.brechosustentavel.commandVendedor.CarregarTiposDePecaCommand;
-import br.brechosustentavel.commandVendedor.GerarIdCommand;
-import br.brechosustentavel.commandVendedor.NovoAnuncioCommand;
+import br.brechosustentavel.command.commandVendedor.CarregarComposicaoCommand;
+import br.brechosustentavel.command.commandVendedor.CarregarDefeitosPorTipoCommand;
+import br.brechosustentavel.command.commandVendedor.CarregarTiposDePecaCommand;
+import br.brechosustentavel.command.commandVendedor.GerarIdCommand;
+import br.brechosustentavel.command.commandVendedor.NovoAnuncioCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import br.brechosustentavel.commandVendedor.ICommandVendedor;
+import br.brechosustentavel.command.commandVendedor.ICommandVendedor;
 import br.brechosustentavel.model.Anuncio;
 
 /**

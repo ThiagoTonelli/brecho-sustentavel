@@ -4,10 +4,10 @@
  */
 package br.brechosustentavel.presenter.dashboard;
 
-import br.brechosustentavel.commandDashboard.GerarGraficoGWPCommand;
-import br.brechosustentavel.commandDashboard.GerarGraficoMaterialCommand;
-import br.brechosustentavel.commandDashboard.GerarGraficoRankingCommand;
-import br.brechosustentavel.commandDashboard.GerarGraficoReputacaoCommand;
+import br.brechosustentavel.command.commandDashboard.GerarGraficoGWPCommand;
+import br.brechosustentavel.command.commandDashboard.GerarGraficoMaterialCommand;
+import br.brechosustentavel.command.commandDashboard.GerarGraficoRankingCommand;
+import br.brechosustentavel.command.commandDashboard.GerarGraficoReputacaoCommand;
 import br.brechosustentavel.view.DashboardView;
 import javax.swing.JOptionPane;
 

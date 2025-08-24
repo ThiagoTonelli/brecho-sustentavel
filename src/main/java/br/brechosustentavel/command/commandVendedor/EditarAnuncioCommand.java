@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.commandVendedor;
+package br.brechosustentavel.command.commandVendedor;
 
 import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.model.Peca;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.anuncio.AnuncioFormMapper;
 import br.brechosustentavel.service.anuncio.AnuncioService;

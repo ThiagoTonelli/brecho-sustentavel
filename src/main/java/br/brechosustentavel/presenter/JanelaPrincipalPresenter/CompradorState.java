@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.presenter.JanelaPrincipalPresenter;
+package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 
-import br.brechosustentavel.commandPrincipal.CarregarAnunciosCommand;
+import br.brechosustentavel.command.commandPrincipal.CarregarAnunciosCommand;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter.RealizarOfertaAnuncioState;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter.VisualizacaoAnuncioState;
+import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.manterAnuncioPresenter.RealizarOfertaAnuncioState;
+import br.brechosustentavel.presenter.manterAnuncioPresenter.VisualizacaoAnuncioState;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import br.brechosustentavel.view.JanelaVisualizarPerfilView;
