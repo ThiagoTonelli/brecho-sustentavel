@@ -6,6 +6,7 @@ package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 
 import br.brechosustentavel.presenter.ManterDefeitoPresenter.ManterDefeitoPresenter;
 import br.brechosustentavel.presenter.dashboard.DashboardPresenter;
+import br.brechosustentavel.presenter.manterTipoPecaPresenter.ManterTipoPecaPresenter;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,6 +37,12 @@ public class AdminState extends JanelaPrincipalState {
                 manterDefeito();
             }
         });
+        presenter.getView().getButtonManterTipo().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                manterTipo();
+            }
+        });
     }
 
     private void configurarTelaAdmin() throws PropertyVetoException {
@@ -50,7 +57,7 @@ public class AdminState extends JanelaPrincipalState {
         manterDefeitosButton.setVisible(true);
         presenter.getView().setTitle("Painel do Administrador");
         presenter.getView().setMaximum(true);
-  
+
         dashboardButton.setText("Consultar Dashboard");
         dashboardButton.setVisible(true);
         presenter.getView().getButtonVisualizar().setVisible(true);
@@ -75,6 +82,16 @@ public class AdminState extends JanelaPrincipalState {
                 ManterDefeitoPresenter presenterDefeitos = new ManterDefeitoPresenter();
                 presenter.setFrame(presenterDefeitos.getView());
                 presenterDefeitos.getView().setVisible(true);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(presenter.getView(), "Erro ao abrir manter defeitos: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+    }
+    
+    private void manterTipo(){
+            try {
+                ManterTipoPecaPresenter presenterTipos = new ManterTipoPecaPresenter();
+                presenter.setFrame(presenterTipos.getView());
+                presenterTipos.getView().setVisible(true);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(presenter.getView(), "Erro ao abrir manter defeitos: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }

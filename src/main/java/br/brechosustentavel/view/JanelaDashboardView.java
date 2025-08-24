@@ -10,12 +10,12 @@ import javax.swing.JPanel;
  *
  * @author thiag
  */
-public class DashboardView extends javax.swing.JInternalFrame {
+public class JanelaDashboardView extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form DashboardView
      */
-    public DashboardView() {
+    public JanelaDashboardView() {
         initComponents();
     }
 

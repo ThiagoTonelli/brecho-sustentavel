@@ -5,6 +5,7 @@
 package br.brechosustentavel.repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -12,9 +13,10 @@ import java.util.List;
  */
 public interface ITipoDePecaRepository {
     public List<String> buscarTiposDePeca();
-    
     public int buscarIdTipo(String tipo);
     public String buscarNomeTipo(int idTipo);
-    
+    public List<Map<String, Object>> buscarTodosParaManutencao();
+    public void salvar(Integer id, String nome);
+    public void excluir(int idTipoPeca);
     
 }

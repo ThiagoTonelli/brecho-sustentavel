@@ -4,11 +4,8 @@
  */
 package br.brechosustentavel.repository;
 
-import br.brechosustentavel.model.Material;
 import java.util.List;
-
 import java.util.Map;
-import java.util.Optional;
 
 /**
  *
@@ -16,7 +13,6 @@ import java.util.Optional;
  */
 public interface IComposicaoRepository {
     public Integer buscarIdComposicaoPorNome(String nome);
-    public Optional<Material> consultar();
     public Map<String, Double> buscarMateriais();
     public Map<String, Double> buscarMateriaisNome(List<String> materiais);
 
