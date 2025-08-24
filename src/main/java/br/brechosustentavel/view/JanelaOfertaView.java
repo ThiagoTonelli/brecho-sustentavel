@@ -48,6 +48,7 @@ public class JanelaOfertaView extends javax.swing.JDialog {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Oferta");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
