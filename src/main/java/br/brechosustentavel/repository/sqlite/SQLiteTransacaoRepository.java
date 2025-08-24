@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,24 +73,24 @@ public class SQLiteTransacaoRepository implements ITransacaoRepository{
     }
 
     @Override
-    public void criar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void salvar(Transacao transacao) {
+        String sql = "INSERT INTO transacao (id_oferta, valor_total) VALUES (?, ?);";
+        
+        try(Connection conexao = this.conexaoFactory.getConexao();
+            PreparedStatement pstmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+            pstmt.setInt(1, transacao.getOferta().getId());
+            pstmt.setDouble(2, transacao.getValorTotal());
+            pstmt.executeUpdate();
+            
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if(rs.next()){
+                transacao.setId(rs.getInt(1));
+            }
+       } catch(SQLException e) {
+           throw new RuntimeException("Erro ao salvar transação: " + e.getMessage());
+       }   
     }
 
-    @Override
-    public void excluir() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void editar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Optional<Transacao> consultar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
     
 }
