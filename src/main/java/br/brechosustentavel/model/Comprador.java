@@ -17,6 +17,7 @@ public class Comprador {
     private double gwpEvitado;
     
     public Comprador(String nivel, double estrelas, int comprasFinalizadas, double gwpEvitado, boolean selo){
+        this.nivel = nivel;
         this.estrelas = estrelas;
         this.comprasFinalizadas = comprasFinalizadas;
         this.gwpEvitado = gwpEvitado;
