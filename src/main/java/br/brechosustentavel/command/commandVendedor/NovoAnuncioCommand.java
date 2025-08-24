@@ -1,8 +1,8 @@
-package br.brechosustentavel.commandVendedor;
+package br.brechosustentavel.command.commandVendedor;
 
 import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.model.Peca;
-import br.brechosustentavel.presenter.ManterAnuncioPresenter.ManterAnuncioPresenter;
+import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
 
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.anuncio.AnuncioFormMapper;

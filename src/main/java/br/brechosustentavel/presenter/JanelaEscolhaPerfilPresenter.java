@@ -4,7 +4,7 @@
  */
 package br.brechosustentavel.presenter;
 
-import br.brechosustentavel.presenter.JanelaPrincipalPresenter.JanelaPrincipalPresenter;
+import br.brechosustentavel.presenter.janelaPrincipalPresenter.JanelaPrincipalPresenter;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaEscolhaPerfilView;
 import java.awt.event.ActionEvent;
