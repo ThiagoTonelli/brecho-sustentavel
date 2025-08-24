@@ -4,17 +4,17 @@
  */
 package br.brechosustentavel.presenter.manterAnuncioPresenter;
 
-import br.brechosustentavel.command.commandVendedor.CarregarComposicaoCommand;
-import br.brechosustentavel.command.commandVendedor.CarregarDefeitosPorTipoCommand;
-import br.brechosustentavel.command.commandVendedor.CarregarTiposDePecaCommand;
-import br.brechosustentavel.command.commandVendedor.GerarIdCommand;
-import br.brechosustentavel.command.commandVendedor.NovoAnuncioCommand;
+import br.brechosustentavel.command.commandManterAnuncio.CarregarComposicaoCommand;
+import br.brechosustentavel.command.commandManterAnuncio.CarregarDefeitosPorTipoCommand;
+import br.brechosustentavel.command.commandManterAnuncio.CarregarTiposDePecaCommand;
+import br.brechosustentavel.command.commandManterAnuncio.GerarIdCommand;
+import br.brechosustentavel.command.commandManterAnuncio.NovoAnuncioCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import br.brechosustentavel.command.commandVendedor.ICommandVendedor;
+import br.brechosustentavel.command.commandManterAnuncio.ICommandVendedor;
 import br.brechosustentavel.model.Anuncio;
 
 /**

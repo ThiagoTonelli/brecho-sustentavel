@@ -22,6 +22,7 @@ import br.brechosustentavel.service.verificador_telefone.VerificadorTelefoneServ
 import br.brechosustentavel.view.LoginView;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
+import java.util.TimeZone;
 
 
 /**
@@ -53,6 +54,7 @@ public class BrechoSustentavel {
         try{
             ConexaoFactory conexaoFactory = new SQLiteConexaoFactory();
             Connection conexao = conexaoFactory.getConexao();
+            TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
             //SQLiteInicializaBancoDeDados inicializador = new SQLiteInicializaBancoDeDados(conexao);
             HashService hash = new BCryptAdapter();
             VerificadorTelefoneService verificadorTelefone = new LibPhoneNumberAdapter();

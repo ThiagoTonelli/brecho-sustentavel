@@ -15,9 +15,11 @@ import java.util.List;
  */
 public class AplicaInsigniaService {
     private List<ITipoInsigniaHandler> tiposInsignias;
+    private RepositoryFactory repositoryFactory;
 
-    public AplicaInsigniaService(RepositoryFactory repositoryFactory) {
+    public AplicaInsigniaService() {
         tiposInsignias = new ArrayList<>();
+        repositoryFactory = RepositoryFactory.getInstancia();
         
         //Insignias de vendedores
         tiposInsignias.add(new PrimeiroAnuncioHandler(repositoryFactory.getAnuncioRepository(), repositoryFactory.getInsigniaRepository(), 

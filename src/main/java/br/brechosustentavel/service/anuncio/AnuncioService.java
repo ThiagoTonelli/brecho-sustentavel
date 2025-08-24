@@ -55,7 +55,7 @@ public class AnuncioService {
         
         this.calculadoraDeIndices = new CalculadoraDeIndicesService();
         this.aplicarDescontos = new AplicarDescontosDefeitosService();
-        this.aplicaInsigniaService = new AplicaInsigniaService(fabrica);
+        this.aplicaInsigniaService = new AplicaInsigniaService();
     }
 
     public Anuncio criarOuAtualizarAnuncio(Peca peca, Usuario usuario) {

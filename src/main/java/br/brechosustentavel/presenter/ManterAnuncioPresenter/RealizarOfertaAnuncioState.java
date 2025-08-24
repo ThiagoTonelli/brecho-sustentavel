@@ -4,11 +4,11 @@
  */
 package br.brechosustentavel.presenter.manterAnuncioPresenter;
 
-import br.brechosustentavel.command.commandVendedor.CarregarComposicaoCommand;
-import br.brechosustentavel.command.commandVendedor.CarregarTiposDePecaCommand;
-import br.brechosustentavel.command.commandVendedor.VisualizarAnuncioCompradorCommand;
-import br.brechosustentavel.presenter.JanelaOfertaPresenter;
-import br.brechosustentavel.service.OfertaService;
+import br.brechosustentavel.command.commandManterAnuncio.CarregarComposicaoCommand;
+import br.brechosustentavel.command.commandManterAnuncio.CarregarTiposDePecaCommand;
+import br.brechosustentavel.command.commandManterAnuncio.VisualizarAnuncioCompradorCommand;
+import br.brechosustentavel.presenter.JanelaRealizarOfertaPresenter;
+import br.brechosustentavel.service.RealizarOfertaService;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,7 +59,7 @@ public class RealizarOfertaAnuncioState extends ManterAnuncioState{
         String subcategoria = presenter.getView().getTxtSubcategoria().getText();
         String valorFinal = presenter.getView().getTxtPrecoBase().getText();
         String idPeca = presenter.getView().getTxtId_c().getText();
-        new JanelaOfertaPresenter(janelaPai, tipo, subcategoria, valorFinal, idPeca, new OfertaService());
+        new JanelaRealizarOfertaPresenter(janelaPai, tipo, subcategoria, valorFinal, idPeca, new RealizarOfertaService());
     }
     
     

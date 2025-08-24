@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -15,6 +16,7 @@ public class Oferta {
     private Anuncio anuncio;
     private Comprador comprador;
     private double valor;
+    private LocalDateTime data;
 
     public Oferta(Anuncio anuncio, Comprador comprador, double valor) {
         this.anuncio = anuncio;
@@ -52,5 +54,13 @@ public class Oferta {
 
     public void setValor(double valor) {
         this.valor = valor;
+    }
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
     }
 }

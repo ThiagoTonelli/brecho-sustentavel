@@ -5,6 +5,7 @@
 package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 
 import br.brechosustentavel.command.commandPrincipal.CarregarAnunciosVendedorCommand;
+import br.brechosustentavel.presenter.JanelaVisualizarOfertasPresenter;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.InclusaoAnuncioState;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
@@ -12,13 +13,14 @@ import br.brechosustentavel.presenter.manterAnuncioPresenter.VisualizacaoAnuncio
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import br.brechosustentavel.view.JanelaVisualizarPerfilView;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
@@ -30,22 +32,23 @@ public class VendedorState extends JanelaPrincipalState{
     
     public VendedorState(JanelaPrincipalPresenter presenter, SessaoUsuarioService usuarioAutenticado) throws PropertyVetoException{
         super(presenter, usuarioAutenticado);
-        carregar();
+        
         JanelaPrincipalView view = presenter.getView();
-        view.setMaximum(true);
-        view.setVisible(true);
-        view.getButtonAdicionar().addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                criar();
-            }
+        view.setVisible(false);
+        configurarTela(view);
+
+        view.getButtonAdicionar().addActionListener((ActionEvent e) -> {
+            criar();
         });
-        view.getButtonVisualizar().addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                visualizar();
-            }
+        
+        view.getButtonVisualizar().addActionListener((ActionEvent e) -> {
+            visualizar();
         });
+        
+        view.getButtonManterTipo().addActionListener((ActionEvent e) -> {
+            visualizarOfertas();
+        });
+        
         view.getMenuVisualizarPerfil().addMenuListener(new MenuListener(){
             @Override
             public void menuSelected(MenuEvent e) {
@@ -65,8 +68,8 @@ public class VendedorState extends JanelaPrincipalState{
             @Override
             public void menuCanceled(MenuEvent e) {}
         });
+        view.setVisible(true);
     }
-
 
     @Override
     public void visualizar() {
@@ -87,7 +90,7 @@ public class VendedorState extends JanelaPrincipalState{
                 JOptionPane.showMessageDialog(presenter.getView(), "Anúncio não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         } catch (PropertyVetoException ex) {
-            throw new RuntimeException("erro ao criar novo anuncio", ex);
+            throw new RuntimeException("Erro ao visualizar anuncio", ex);
         }
     }
     
@@ -98,7 +101,26 @@ public class VendedorState extends JanelaPrincipalState{
             presenter.setFrame(anuncioPresenter.getView());
             anuncioPresenter.setEstadoVendedor(new InclusaoAnuncioState(anuncioPresenter));
         } catch (PropertyVetoException ex) {
-            throw new RuntimeException("erro ao criar novo anuncio", ex);
+            throw new RuntimeException("Erro ao criar novo anuncio", ex);
+        }
+    }
+    
+    @Override
+    public void visualizarOfertas(){
+        JTable tabela = presenter.getView().getjTable1();
+        int linhaSelecionada = tabela.getSelectedRow();
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(presenter.getView(), "Selecione um anúncio para visualizar as ofertas.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String idPeca = (String) tabela.getValueAt(linhaSelecionada, 0);
+        if (idPeca != null) {
+            String subcategoria = (String) tabela.getValueAt(linhaSelecionada, 1);
+            String valorFinal = (String) tabela.getValueAt(linhaSelecionada, 8);
+            Frame janelaPai = (Frame) SwingUtilities.getWindowAncestor(presenter.getView());
+            JanelaVisualizarOfertasPresenter visualizarOfertasPresenter = new JanelaVisualizarOfertasPresenter(janelaPai, idPeca, subcategoria, valorFinal);
+        } else {
+            JOptionPane.showMessageDialog(presenter.getView(), "Ofertas não encontradas.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -110,5 +132,14 @@ public class VendedorState extends JanelaPrincipalState{
         } catch (Exception e) {
             System.err.println("Erro ao recarregar anúncios: " + e.getMessage());
         }
+    }
+    
+    private void configurarTela(JanelaPrincipalView view) throws PropertyVetoException{
+        view.setMaximum(true);
+        carregar();
+     
+        //Configura botoes
+        view.getButtonManterComposicao().setVisible(false);
+        view.getButtonManterTipo().setText("Visualizar Ofertas");
     }
 }

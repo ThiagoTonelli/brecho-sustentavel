@@ -1,4 +1,4 @@
-package br.brechosustentavel.command.commandVendedor;
+package br.brechosustentavel.command.commandManterAnuncio;
 
 import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.model.Peca;
