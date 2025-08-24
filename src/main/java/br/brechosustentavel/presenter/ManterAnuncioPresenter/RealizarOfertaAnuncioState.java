@@ -6,15 +6,13 @@ package br.brechosustentavel.presenter.manterAnuncioPresenter;
 
 import br.brechosustentavel.command.commandVendedor.CarregarComposicaoCommand;
 import br.brechosustentavel.command.commandVendedor.CarregarTiposDePecaCommand;
-import br.brechosustentavel.command.commandVendedor.ExcluirAnuncioCommand;
-import br.brechosustentavel.command.commandVendedor.VisualizarAnuncioCommand;
 import br.brechosustentavel.command.commandVendedor.VisualizarAnuncioCompradorCommand;
 import br.brechosustentavel.presenter.JanelaOfertaPresenter;
+import br.brechosustentavel.service.OfertaService;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -60,11 +58,8 @@ public class RealizarOfertaAnuncioState extends ManterAnuncioState{
         String tipo = presenter.getView().getSelectTipoDePeca().getSelectedItem().toString();
         String subcategoria = presenter.getView().getTxtSubcategoria().getText();
         String valorFinal = presenter.getView().getTxtPrecoBase().getText();
-        try {
-            new JanelaOfertaPresenter(janelaPai, tipo, subcategoria, valorFinal);
-        } catch (ParseException ex) {
-            Logger.getLogger(RealizarOfertaAnuncioState.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String idPeca = presenter.getView().getTxtId_c().getText();
+        new JanelaOfertaPresenter(janelaPai, tipo, subcategoria, valorFinal, idPeca, new OfertaService());
     }
     
     
