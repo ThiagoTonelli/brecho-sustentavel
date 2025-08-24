@@ -130,4 +130,18 @@ public class SQLiteVendedorRepository implements IVendedorRepository{
         }
         return contagem;
     }
+
+    @Override
+    public void atualizarVendas(int id) {
+        String sql = "UPDATE vendedor SET vendas_concluidas = vendas_concluidas + 1 WHERE id_vendedor = ?;";
+        
+        try(Connection conexao = this.conexaoFactory.getConexao();
+            PreparedStatement pstmt = conexao.prepareStatement(sql)){
+            pstmt.setInt(1, id);
+            
+            pstmt.executeUpdate();
+        } catch(SQLException e){
+            throw new RuntimeException("Erro ao atualizar quantidade de vendas do vendedor: " + e.getMessage());
+        }
+    }
 }

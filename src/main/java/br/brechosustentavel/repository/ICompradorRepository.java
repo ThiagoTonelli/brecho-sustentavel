@@ -16,5 +16,6 @@ public interface ICompradorRepository {
     public Optional<Comprador> buscarPorId(int id);
     public void salvar(Comprador comprador);
     public void atualizarEstrelas(int id, double qtdEstrelas);
+    public void atualizarCompras(int id);
     public Map<String, Integer> contarPorNivelReputacao();
 }
