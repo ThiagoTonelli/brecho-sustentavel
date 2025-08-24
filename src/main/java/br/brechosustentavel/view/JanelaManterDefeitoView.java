@@ -14,12 +14,12 @@ import javax.swing.JTextField;
  *
  * @author thiag
  */
-public class ManterDefeitoView extends javax.swing.JInternalFrame {
+public class JanelaManterDefeitoView extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form ManterDefeitosView
      */
-    public ManterDefeitoView() {
+    public JanelaManterDefeitoView() {
         initComponents();
     }
 
@@ -56,6 +56,7 @@ public class ManterDefeitoView extends javax.swing.JInternalFrame {
         btnLimpar1 = new javax.swing.JButton();
         txtAbatimento = new javax.swing.JTextField();
 
+        setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);

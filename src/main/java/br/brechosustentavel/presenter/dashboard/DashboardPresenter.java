@@ -8,7 +8,7 @@ import br.brechosustentavel.command.commandDashboard.GerarGraficoGWPCommand;
 import br.brechosustentavel.command.commandDashboard.GerarGraficoMaterialCommand;
 import br.brechosustentavel.command.commandDashboard.GerarGraficoRankingCommand;
 import br.brechosustentavel.command.commandDashboard.GerarGraficoReputacaoCommand;
-import br.brechosustentavel.view.DashboardView;
+import br.brechosustentavel.view.JanelaDashboardView;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,10 +17,10 @@ import javax.swing.JOptionPane;
  */
 public class DashboardPresenter {
 
-    private DashboardView view;
+    private JanelaDashboardView view;
 
     public DashboardPresenter() {
-        this.view = new DashboardView();
+        this.view = new JanelaDashboardView();
         
         // Delega a criação de cada gráfico para o seu respectivo Command.
         carregarGraficos();
@@ -38,7 +38,7 @@ public class DashboardPresenter {
         }
     }
     
-    public DashboardView getView() {
+    public JanelaDashboardView getView() {
         return view;
     }
 }

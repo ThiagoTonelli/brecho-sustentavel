@@ -1,9 +1,9 @@
 package br.brechosustentavel.presenter.ManterDefeitoPresenter; // Ajuste o pacote se necessário
 
-import br.brechosustentavel.commandManterDefeito.CarregarDefeitosCommand;
-import br.brechosustentavel.commandManterDefeito.ExcluirDefeitoCommand;
-import br.brechosustentavel.commandManterDefeito.SalvarDefeitoCommand;
-import br.brechosustentavel.view.ManterDefeitoView;
+import br.brechosustentavel.command.commandManterDefeito.CarregarDefeitosCommand;
+import br.brechosustentavel.command.commandManterDefeito.ExcluirDefeitoCommand;
+import br.brechosustentavel.command.commandManterDefeito.SalvarDefeitoCommand;
+import br.brechosustentavel.view.JanelaManterDefeitoView;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
@@ -12,11 +12,11 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 public class ManterDefeitoPresenter {
-    private ManterDefeitoView view;
+    private JanelaManterDefeitoView view;
     private Integer idDefeitoSelecionado = null;
 
     public ManterDefeitoPresenter() throws PropertyVetoException {
-        this.view = new ManterDefeitoView();
+        this.view = new JanelaManterDefeitoView();
         this.view.setMaximum(true);
         configurarTabela();
         vincularEventos();
@@ -97,7 +97,7 @@ public class ManterDefeitoPresenter {
         return idDefeitoSelecionado;
     }
 
-    public ManterDefeitoView getView() {
+    public JanelaManterDefeitoView getView() {
         return view;
     }
 }

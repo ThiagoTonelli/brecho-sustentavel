@@ -13,6 +13,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -76,5 +78,64 @@ public class SQLiteTipoPecaRepository implements ITipoDePecaRepository{
             throw new RuntimeException("Erro ao buscar id do tipo de peça no banco de dados", e);
         }
     }
+    
+    @Override
+    public List<Map<String, Object>> buscarTodosParaManutencao() {
+        List<Map<String, Object>> tipos = new ArrayList<>();
+        String sql = "SELECT id, nome FROM tipo_peca ORDER BY nome";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> tipoPeca = new HashMap<>();
+                tipoPeca.put("id", rs.getInt("id"));
+                tipoPeca.put("nome", rs.getString("nome"));
+                tipos.add(tipoPeca);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar todos os tipos de peça: " + e.getMessage(), e);
+        }
+        return tipos;
+    }
+
+    @Override
+    public void salvar(Integer id, String nome) {
+        if (id == null) {
+            String sql = "INSERT INTO tipo_peca (nome) VALUES (?)";
+            try (Connection conexao = this.conexaoFactory.getConexao();
+                 PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+                pstmt.setString(1, nome);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("Erro ao inserir novo tipo de peça: " + e.getMessage(), e);
+            }
+        } else {
+            String sql = "UPDATE tipo_peca SET nome = ? WHERE id = ?";
+            try (Connection conexao = this.conexaoFactory.getConexao();
+                 PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+                pstmt.setString(1, nome);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("Erro ao atualizar tipo de peça: " + e.getMessage(), e);
+            }
+        }
+    }
+
+    @Override
+    public void excluir(int idTipoPeca) {
+        String sql = "DELETE FROM tipo_peca WHERE id = ?";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            pstmt.setInt(1, idTipoPeca);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao excluir tipo de peça. Verifique se ele não está em uso por defeitos ou peças.", e);
+        }
+    }
+    
+    
  
 }

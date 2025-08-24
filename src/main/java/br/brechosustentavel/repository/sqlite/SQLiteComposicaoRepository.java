@@ -5,7 +5,6 @@
 package br.brechosustentavel.repository.sqlite;
 
 
-import br.brechosustentavel.model.Material;
 import br.brechosustentavel.repository.ConexaoFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +13,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import br.brechosustentavel.repository.IComposicaoRepository;
 
 /**
@@ -61,11 +59,6 @@ public class SQLiteComposicaoRepository implements IComposicaoRepository{
             throw new RuntimeException("Erro ao buscar id da composicao da peca no banco de dados: " + e.getMessage());
         }
         return null; 
-    }
-
-    @Override
-    public Optional<Material> consultar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     @Override

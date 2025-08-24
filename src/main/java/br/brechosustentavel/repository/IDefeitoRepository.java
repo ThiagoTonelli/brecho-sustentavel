@@ -4,7 +4,6 @@
  */
 package br.brechosustentavel.repository;
 
-import br.brechosustentavel.model.Defeito;
 import java.util.List;
 import java.util.Map;
 
