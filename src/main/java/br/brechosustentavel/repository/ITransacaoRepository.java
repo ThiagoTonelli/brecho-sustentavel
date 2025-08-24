@@ -14,9 +14,6 @@ import java.util.Optional;
  * @author thiag
  */
 public interface ITransacaoRepository {
-    public void criar();
-    public void excluir();
-    public void editar();
-    public Optional<Transacao> consultar();
+    public void salvar(Transacao transacao);;
     public List<Map<String, Object>> buscarDadosParaExportacao();
 }
