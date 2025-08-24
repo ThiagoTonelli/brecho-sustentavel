@@ -17,5 +17,4 @@ public class Defeito {
         this.percentual = percentual;
     }
     
-    
 }

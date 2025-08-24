@@ -5,17 +5,18 @@
 package br.brechosustentavel.repository;
 
 import br.brechosustentavel.model.Defeito;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  *
  * @author thiag
  */
 public interface IDefeitoRepository {
-    public void criar();
-    public void excluir();
     public void editar();
     public Map<String, Double> buscarDefeitosPorTipo(String tipoPeca);
     public Integer buscarIdPeloNomeDoDefeito(String nomeDefeito);
+    List<Map<String, Object>> buscarTodosParaManutencao();
+    void salvar(Integer id, String nome, double desconto, int idTipoPeca);
+    void excluir(int idDefeito);
 }
