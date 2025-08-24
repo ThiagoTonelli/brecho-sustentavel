@@ -9,12 +9,16 @@ import br.brechosustentavel.command.commandVendedor.CarregarTiposDePecaCommand;
 import br.brechosustentavel.command.commandVendedor.ExcluirAnuncioCommand;
 import br.brechosustentavel.command.commandVendedor.VisualizarAnuncioCommand;
 import br.brechosustentavel.command.commandVendedor.VisualizarAnuncioCompradorCommand;
+import br.brechosustentavel.presenter.JanelaOfertaPresenter;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -31,9 +35,9 @@ public class RealizarOfertaAnuncioState extends ManterAnuncioState{
             @Override
             public void actionPerformed(ActionEvent e){
                 try{
-                    editar();
+                    ofertar();
                 }catch (Exception ex){
-                    JOptionPane.showMessageDialog(null, "Erro ao ir para editar: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(null, "Erro ao ir ofertar: " + ex.getMessage());
                 }
             }
         });
@@ -48,19 +52,39 @@ public class RealizarOfertaAnuncioState extends ManterAnuncioState{
                 }
             }
         });
-        
-        presenter.getView().getBtnExcluir().addActionListener(new ActionListener (){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                try{
-                    excluir();
-                }catch (Exception ex){
-                    JOptionPane.showMessageDialog(null, "Erro ao excluir: " + ex.getMessage());
-                }
-            }
-        });
     }
-
+    
+    @Override
+    public void ofertar() {
+        Frame janelaPai = (Frame) SwingUtilities.getWindowAncestor(presenter.getView());
+        String tipo = presenter.getView().getSelectTipoDePeca().getSelectedItem().toString();
+        String subcategoria = presenter.getView().getTxtSubcategoria().getText();
+        String valorFinal = presenter.getView().getTxtPrecoBase().getText();
+        try {
+            new JanelaOfertaPresenter(janelaPai, tipo, subcategoria, valorFinal);
+        } catch (ParseException ex) {
+            Logger.getLogger(RealizarOfertaAnuncioState.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    @Override
+    public void cancelar() {
+        presenter.getView().dispose();
+    }
+    
+    @Override
+    public void visualizar() {
+        try {
+            new CarregarTiposDePecaCommand().executar(presenter);
+            new CarregarComposicaoCommand().executar(presenter);
+            new VisualizarAnuncioCompradorCommand().executar(presenter);
+            configurarTela(false);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(EdicaoAnuncioState.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void configurarTela(boolean estado) throws PropertyVetoException{
         presenter.getView().setVisible(false);
         presenter.getView().setMaximum(true);
@@ -99,42 +123,5 @@ public class RealizarOfertaAnuncioState extends ManterAnuncioState{
             comp.setEnabled(estado);
         }
         presenter.getView().setVisible(true);
-    }
-    
-    
-    @Override
-    public void cancelar() {
-        presenter.getView().dispose();
-    }
-
-    @Override
-    public void editar() {
-        try {
-            presenter.setEstadoVendedor(new EdicaoAnuncioState(presenter));
-        } catch (PropertyVetoException ex) {
-            throw new RuntimeException("erro ao ir parar edicao" + ex);
-        }
-    }
-
-    @Override
-    public void visualizar() {
-        try {
-            new CarregarTiposDePecaCommand().executar(presenter);
-            new CarregarComposicaoCommand().executar(presenter);
-            new VisualizarAnuncioCompradorCommand().executar(presenter);
-            configurarTela(false);
-        } catch (PropertyVetoException ex) {
-            Logger.getLogger(EdicaoAnuncioState.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    public void salvar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void excluir() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
