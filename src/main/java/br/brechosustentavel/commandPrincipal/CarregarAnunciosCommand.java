@@ -44,7 +44,7 @@ public class CarregarAnunciosCommand implements ICommandPrincipal{
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
             IAnuncioRepository anuncioRepository = fabrica.getAnuncioRepository();
             IUsuarioRepository usuarioRepository = fabrica.getUsuarioRepository();
-            List<Anuncio> anuncios = anuncioRepository.buscarTodos();
+            List<Anuncio> anuncios = anuncioRepository.buscarTodos(usuarioAutenticado.getUsuarioAutenticado().getId());
             
             modelo.setRowCount(0);
 

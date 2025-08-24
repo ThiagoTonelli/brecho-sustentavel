@@ -101,7 +101,7 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository {
     }
     
     @Override
-    public List<Anuncio> buscarTodos() {
+    public List<Anuncio> buscarTodos(int idUsuario) {
         List<Anuncio> anuncios = new ArrayList<>();
         String sql = """
             SELECT
@@ -112,12 +112,14 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository {
             FROM anuncio a
             INNER JOIN peca p ON a.id_peca = p.id_c
             INNER JOIN vendedor v ON a.id_vendedor = v.id_vendedor
-            LEFT JOIN tipo_peca tp ON p.id_tipo = tp.id;
+            LEFT JOIN tipo_peca tp ON p.id_tipo = tp.id
+            WHERE a.id_vendedor <> ?;
             """;
 
         try (Connection conexao = this.conexaoFactory.getConexao();
-             PreparedStatement pstmt = conexao.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            pstmt.setInt(1, idUsuario);
+            ResultSet rs = pstmt.executeQuery();
             
             while (rs.next()) {
                 anuncios.add(mapearAnuncioDoResultSet(rs));
@@ -163,7 +165,6 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository {
 
     @Override
     public int qtdAnuncioPorVendedor(int idVendedor) {
-        // Esta consulta já era eficiente e não precisa de JOIN.
         String sql = "SELECT COUNT(*) FROM anuncio WHERE id_vendedor = ?;";
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
@@ -202,6 +203,36 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao editar o anúncio: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public Optional<Anuncio> buscarPorIdPeca(String idPeca) {
+        String sql = """
+            SELECT
+                a.id as anuncio_id, a.valor_final, a.gwp, a.mci,
+                p.id_c, p.subcategoria, p.tamanho, p.cor, p.massa, p.estado_conservacao, p.preco_base, p.id_tipo,
+                v.id_vendedor, v.nivel_reputacao, v.estrelas, v.vendas_concluidas, v.gwp_contribuido,
+                tp.nome AS nome_tipo
+            FROM anuncio a
+            INNER JOIN peca p ON a.id_peca = p.id_c
+            INNER JOIN vendedor v ON a.id_vendedor = v.id_vendedor
+            LEFT JOIN tipo_peca tp ON p.id_tipo = tp.id
+            WHERE p.id_c = ?;
+            """;
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            
+            pstmt.setString(1, idPeca);
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                return Optional.of(mapearAnuncioDoResultSet(rs));
+            }
+            return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar anuncio por id com JOIN: " + e.getMessage());
         }
     }
 }
