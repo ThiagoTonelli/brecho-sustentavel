@@ -11,7 +11,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,16 +27,6 @@ public class SQLiteDefeitoRepository implements IDefeitoRepository{
     public SQLiteDefeitoRepository(ConexaoFactory conexaoFactory, ITipoDePecaRepository tipoPecaRepository) {
         this.conexaoFactory = conexaoFactory;
         this.tipoPecaRepository = tipoPecaRepository;
-    }
-
-    @Override
-    public void criar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void excluir() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -83,4 +75,83 @@ public class SQLiteDefeitoRepository implements IDefeitoRepository{
         }
         return null; // Retorna null se não encontrar o defeito
     }
+    
+    public List<Map<String, Object>> buscarTodosParaManutencao() {
+        List<Map<String, Object>> defeitos = new ArrayList<>();
+        // Usamos um JOIN para obter o NOME do tipo da peça, que é mais amigável para a tabela
+        String sql = """
+                     SELECT
+                         d.id,
+                         d.nome,
+                         d.desconto,
+                         tp.nome as tipo_peca_nome
+                     FROM
+                         defeito d
+                     JOIN
+                         tipo_peca tp ON d.id_tipo = tp.id
+                     ORDER BY
+                         tp.nome, d.nome
+                     """;
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> defeito = new HashMap<>();
+                defeito.put("id", rs.getInt("id"));
+                defeito.put("nome", rs.getString("nome"));
+                defeito.put("desconto", rs.getDouble("desconto"));
+                defeito.put("tipo_peca_nome", rs.getString("tipo_peca_nome"));
+                defeitos.add(defeito);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar todos os defeitos: " + e.getMessage(), e);
+        }
+        return defeitos;
+    }
+
+    @Override
+    public void salvar(Integer id, String nome, double desconto, int idTipoPeca) {
+        // Se o ID for nulo, é uma inserção (INSERT). Caso contrário, é uma atualização (UPDATE).
+        if (id == null) {
+            String sql = "INSERT INTO defeito (nome, desconto, id_tipo) VALUES (?, ?, ?)";
+            try (Connection conexao = this.conexaoFactory.getConexao();
+                 PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+                pstmt.setString(1, nome);
+                pstmt.setDouble(2, desconto);
+                pstmt.setInt(3, idTipoPeca);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("Erro ao inserir novo defeito: " + e.getMessage(), e);
+            }
+        } else {
+            String sql = "UPDATE defeito SET nome = ?, desconto = ?, id_tipo = ? WHERE id = ?";
+            try (Connection conexao = this.conexaoFactory.getConexao();
+                 PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+                pstmt.setString(1, nome);
+                pstmt.setDouble(2, desconto);
+                pstmt.setInt(3, idTipoPeca);
+                pstmt.setInt(4, id);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException("Erro ao atualizar defeito com ID " + id + ": " + e.getMessage(), e);
+            }
+        }
+    }
+
+    @Override
+    public void excluir(int idDefeito) {
+        String sql = "DELETE FROM defeito WHERE id = ?";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            pstmt.setInt(1, idDefeito);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // Se o defeito estiver em uso, o SQLite pode lançar uma exceção de violação de chave estrangeira.
+            // O ideal é capturar e tratar isso de forma amigável.
+            throw new RuntimeException("Erro ao excluir defeito com ID " + idDefeito + ". Verifique se ele não está em uso.", e);
+        }
+    }
+    
 }
