@@ -38,6 +38,7 @@ public class CompradorState extends JanelaPrincipalState{
         view.setVisible(false);
         view.setTitle("Bem-vindo Comprador!");
         view.getButtonAdicionar().setVisible(false);
+        view.getButtonManterTipo().setVisible(false);
         view.getButtonVisualizar().setText("Ver detalhes do anuncio");
                 
         view.getButtonVisualizar().addActionListener(new ActionListener(){
