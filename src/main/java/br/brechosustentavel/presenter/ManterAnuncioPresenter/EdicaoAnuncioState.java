@@ -3,8 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package br.brechosustentavel.presenter.manterAnuncioPresenter;
-import br.brechosustentavel.command.commandVendedor.EditarAnuncioCommand;
-import br.brechosustentavel.command.commandVendedor.ExcluirAnuncioCommand;
+import br.brechosustentavel.command.commandManterAnuncio.EditarAnuncioCommand;
+import br.brechosustentavel.command.commandManterAnuncio.ExcluirAnuncioCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;

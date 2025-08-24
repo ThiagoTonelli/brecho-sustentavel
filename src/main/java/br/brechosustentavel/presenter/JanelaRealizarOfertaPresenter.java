@@ -4,8 +4,8 @@
  */
 package br.brechosustentavel.presenter;
 
-import br.brechosustentavel.service.OfertaService;
-import br.brechosustentavel.view.JanelaOfertaView;
+import br.brechosustentavel.service.RealizarOfertaService;
+import br.brechosustentavel.view.JanelaRealizarOfertaView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -14,43 +14,37 @@ import javax.swing.JOptionPane;
  *
  * @author kaila
  */
-public class JanelaOfertaPresenter {
-    private JanelaOfertaView view;
+public class JanelaRealizarOfertaPresenter {
+    private JanelaRealizarOfertaView view;
     private String tipo;
     private String subcategoria;
     private String valorFinal;
     private String idPeca;
-    private OfertaService ofertaService;
+    private RealizarOfertaService ofertaService;
     
-    public JanelaOfertaPresenter(java.awt.Frame janelaPai, String tipo, String subcategoria, String valorFinal, String idPeca, OfertaService ofertaService){   
+    public JanelaRealizarOfertaPresenter(java.awt.Frame janelaPai, String tipo, String subcategoria, String valorFinal, String idPeca, RealizarOfertaService ofertaService){   
         this.tipo = tipo;
         this.subcategoria = subcategoria;
         this.valorFinal = valorFinal;
         this.idPeca = idPeca;
         this.ofertaService = ofertaService;
         
-        view = new JanelaOfertaView(janelaPai, true);        
+        view = new JanelaRealizarOfertaView(janelaPai, true);        
         configurarTela();
         
-        view.getBtnEnviar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    enviar();
-                } catch(Exception ex) {
-                    JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
-                }
+        view.getBtnEnviar().addActionListener((ActionEvent e) -> {
+            try {
+                enviar();
+            } catch(Exception ex) {
+                JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
             }
         });
         
-        view.getBtnCancelar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    cancelar();
-                } catch(Exception ex) {
-                    JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
-                }
+        view.getBtnCancelar().addActionListener((ActionEvent e) -> {
+            try {
+                cancelar();
+            } catch(Exception ex) {
+                JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
             }
         });
         view.setVisible(true);
@@ -97,7 +91,7 @@ public class JanelaOfertaPresenter {
             JOptionPane.showMessageDialog(view, "Oferta enviada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             view.dispose();
         } catch(Exception e) { 
-            JOptionPane.showConfirmDialog(view, "Erro ao enviar oferta: " + e.getMessage());
+            JOptionPane.showMessageDialog(view, "Erro ao enviar oferta: " + e.getMessage());
         }
     }
     

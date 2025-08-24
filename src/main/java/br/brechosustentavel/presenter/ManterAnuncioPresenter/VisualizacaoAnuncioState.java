@@ -4,10 +4,10 @@
  */
 package br.brechosustentavel.presenter.manterAnuncioPresenter;
 
-import br.brechosustentavel.command.commandVendedor.CarregarComposicaoCommand;
-import br.brechosustentavel.command.commandVendedor.CarregarTiposDePecaCommand;
-import br.brechosustentavel.command.commandVendedor.ExcluirAnuncioCommand;
-import br.brechosustentavel.command.commandVendedor.VisualizarAnuncioCommand;
+import br.brechosustentavel.command.commandManterAnuncio.CarregarComposicaoCommand;
+import br.brechosustentavel.command.commandManterAnuncio.CarregarTiposDePecaCommand;
+import br.brechosustentavel.command.commandManterAnuncio.ExcluirAnuncioCommand;
+import br.brechosustentavel.command.commandManterAnuncio.VisualizarAnuncioCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;

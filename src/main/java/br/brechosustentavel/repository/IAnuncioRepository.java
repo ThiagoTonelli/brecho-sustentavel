@@ -21,4 +21,5 @@ public interface IAnuncioRepository {
     public void excluirPorPecaId(String idPeca);
     public List<Anuncio> buscarTodos(int idUsuario);
     public Optional<Anuncio> buscarPorIdPeca(String idPeca);
+    public void excluirPorId(int id);
 }

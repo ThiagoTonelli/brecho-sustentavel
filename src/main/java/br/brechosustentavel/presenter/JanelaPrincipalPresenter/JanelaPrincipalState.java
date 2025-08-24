@@ -38,4 +38,8 @@ public abstract class JanelaPrincipalState {
     public void carregar(){
         throw new RuntimeException("Não é possível cancelar estando neste estado");
     }
+    
+    public void visualizarOfertas(){
+        throw new RuntimeException("Não é possível visualizar ofertas estando neste estado");
+    }
 }
