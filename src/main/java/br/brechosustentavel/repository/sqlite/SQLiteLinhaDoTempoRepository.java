@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -66,7 +65,7 @@ public class SQLiteLinhaDoTempoRepository implements ILinhaDoTempoRepository{
     
     @Override
      public void criar(String id_c, EventoLinhaDoTempo evento) {
-        String sql = "INSERT INTO evento_linha_tempo(id_peca, descricao, ciclo_n, tipo_evento, data, gwp_evitado, mci_peca) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO evento_linha_tempo(id_peca, descricao, ciclo_n, tipo_evento, gwp_evitado, mci_peca) VALUES(?, ?, ?, ?, ?, ?)";
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
             
@@ -74,9 +73,8 @@ public class SQLiteLinhaDoTempoRepository implements ILinhaDoTempoRepository{
             pstmt.setString(2, evento.getDescricao());
             pstmt.setInt(3, evento.getCiclo_n());
             pstmt.setString(4, evento.getTipoEvento());
-            pstmt.setTimestamp(5, Timestamp.valueOf(evento.getDataHora()));
-            pstmt.setDouble(6, evento.getGwpEvitado());
-            pstmt.setDouble(7, evento.getMciPeca());
+            pstmt.setDouble(5, evento.getGwpEvitado());
+            pstmt.setDouble(6, evento.getMciPeca());
             
             pstmt.executeUpdate();
 

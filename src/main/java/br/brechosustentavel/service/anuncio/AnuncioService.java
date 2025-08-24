@@ -15,6 +15,7 @@ import br.brechosustentavel.repository.IPecaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.AplicarDescontosDefeitosService;
 import br.brechosustentavel.service.CalculadoraDeIndicesService;
+import br.brechosustentavel.service.GerenciadorLog;
 import br.brechosustentavel.service.insignia.AplicaInsigniaService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -58,23 +59,33 @@ public class AnuncioService {
     }
 
     public Anuncio criarOuAtualizarAnuncio(Peca peca, Usuario usuario) {
-        peca.setPrecoFinal(aplicarDescontos.calcularDescontos(peca));
-        double gwpAvoided = calculadoraDeIndices.calcularGwpAvoided(peca);
-        double mciPeca = calculadoraDeIndices.calcularMCI(peca);
+        String operacao = peca.getId_c() == null || pecaRepository.consultar(peca.getId_c()).isEmpty() ? "Criação de Anúncio" : "Alteração de Anúncio";
+        try{
+            peca.setPrecoFinal(aplicarDescontos.calcularDescontos(peca));
+            double gwpAvoided = calculadoraDeIndices.calcularGwpAvoided(peca);
+            double mciPeca = calculadoraDeIndices.calcularMCI(peca);
 
-        Optional<Peca> pecaOpt = pecaRepository.consultar(peca.getId_c());
+            Optional<Peca> pecaOpt = pecaRepository.consultar(peca.getId_c());
 
-        Anuncio anuncio;
-        if (pecaOpt.isEmpty()) {
-            anuncio = criarNovoAnuncio(peca, usuario, gwpAvoided, mciPeca);
-        } else {
-            anuncio = republicarAnuncio(peca, usuario, gwpAvoided, mciPeca);
+            Anuncio anuncio;
+            if (pecaOpt.isEmpty()) {
+                anuncio = criarNovoAnuncio(peca, usuario, gwpAvoided, mciPeca);
+            } else {
+                anuncio = republicarAnuncio(peca, usuario, gwpAvoided, mciPeca);
+            }
+
+
+            GerenciadorLog.getInstancia().registrarSucesso(operacao, peca.getId_c(), peca.getSubcategoria());
+
+            // Notifica os observadores que houve uma alteração
+            Observavel.getInstance().notifyObservers();
+            return anuncio;
+        }
+        catch (Exception e){
+            GerenciadorLog.getInstancia().registrarFalha(operacao, peca.getId_c(), peca.getSubcategoria(), e.getMessage());
+            throw e; 
         }
 
-        // Notifica os observadores que houve uma alteração
-        Observavel.getInstance().notifyObservers();
-
-        return anuncio;
     }
 
     private Anuncio criarNovoAnuncio(Peca novaPeca, Usuario usuario, double gwpAvoided, double mciPeca) {
@@ -128,27 +139,22 @@ public class AnuncioService {
     }
     
     public Anuncio editarAnuncio(Peca pecaEditada, Usuario usuario) {
-        // 1. Valida se a peça realmente existe no banco de dados
+        
         pecaRepository.consultar(pecaEditada.getId_c())
                 .orElseThrow(() -> new IllegalStateException("Tentativa de editar uma peça que não existe com o ID: " + pecaEditada.getId_c()));
 
-        // 2. Calcula o novo preço final e os índices com base nos dados editados
         pecaEditada.setPrecoFinal(aplicarDescontos.calcularDescontos(pecaEditada));
         double gwpAvoided = calculadoraDeIndices.calcularGwpAvoided(pecaEditada);
         double mciPeca = calculadoraDeIndices.calcularMCI(pecaEditada);
-
-        // 3. Atualiza a entidade Peca na base de dados
         pecaRepository.editar(pecaEditada);
 
-        // 4. Limpa os defeitos antigos e salva os novos
         defeitoPecaRepository.excluirDefeitosDaPeca(pecaEditada.getId_c());
-        salvarDefeitosDaPeca(pecaEditada); // Reutiliza o método auxiliar
+        salvarDefeitosDaPeca(pecaEditada); 
 
-        // 5. Limpa a composição antiga e salva a nova
+
         composicaoPecaRepository.excluirComposicaoDaPeca(pecaEditada.getId_c());
-        salvarComposicaoDaPeca(pecaEditada); // Reutiliza o método auxiliar
+        salvarComposicaoDaPeca(pecaEditada); 
 
-        // 6. Atualiza o anúncio associado
         Anuncio anuncio = new Anuncio(usuario.getVendedor().get(), pecaEditada, pecaEditada.getPrecoFinal(), gwpAvoided, mciPeca);
         anuncioRepository.editar(anuncio);
         
@@ -177,18 +183,28 @@ public class AnuncioService {
     }
      
     public void excluirAnuncio(String idPeca) {
-        if (idPeca == null || idPeca.trim().isEmpty()) {
-            throw new IllegalArgumentException("O ID da peça não pode ser nulo ou vazio para excluir um anúncio.");
+        Peca peca = null;
+        try {
+            if (idPeca == null || idPeca.trim().isEmpty()) {
+                throw new IllegalArgumentException("O ID da peça não pode ser nulo ou vazio para excluir um anúncio.");
+            }
+
+            Peca pecaParaExcluir = pecaRepository.consultar(idPeca)
+                    .orElseThrow(() -> new IllegalStateException("Peça com ID " + idPeca + " não encontrada para exclusão."));
+
+            adicionarEventoDeEncerramento(pecaParaExcluir);
+
+            anuncioRepository.excluirPorPecaId(idPeca);
+
+            Observavel.getInstance().notifyObservers();
+            GerenciadorLog.getInstancia().registrarSucesso("Exclusão de Anúncio", idPeca, peca != null ? peca.getSubcategoria() : "N/A");
+            
+        } catch (Exception e){
+            String nomePeca = peca != null ? peca.getSubcategoria() : "ID " + idPeca;
+            GerenciadorLog.getInstancia().registrarFalha("Exclusão de Anúncio", idPeca, nomePeca, e.getMessage());
+            throw e;
         }
-
-        Peca pecaParaExcluir = pecaRepository.consultar(idPeca)
-                .orElseThrow(() -> new IllegalStateException("Peça com ID " + idPeca + " não encontrada para exclusão."));
-
-        adicionarEventoDeEncerramento(pecaParaExcluir);
-        
-        anuncioRepository.excluirPorPecaId(idPeca);
-
-        Observavel.getInstance().notifyObservers();
+            
     }
     
     private void adicionarEventoDeEncerramento(Peca peca) {

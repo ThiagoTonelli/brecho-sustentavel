@@ -5,6 +5,8 @@
 package br.brechosustentavel.repository;
 
 import br.brechosustentavel.model.Transacao;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -16,4 +18,5 @@ public interface ITransacaoRepository {
     public void excluir();
     public void editar();
     public Optional<Transacao> consultar();
+    public List<Map<String, Object>> buscarDadosParaExportacao();
 }
