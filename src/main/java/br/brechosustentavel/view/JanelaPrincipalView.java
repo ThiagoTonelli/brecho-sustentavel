@@ -33,7 +33,6 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -49,9 +48,10 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         menuPerfil = new javax.swing.JMenu();
         opcTrocarPerfil = new javax.swing.JMenuItem();
         opcAddPerfil = new javax.swing.JMenuItem();
+        menuRelatorios = new javax.swing.JMenu();
+        opcExportarLogs = new javax.swing.JMenuItem();
+        opcExportarVendas = new javax.swing.JMenuItem();
         menuConfiguracao = new javax.swing.JMenu();
-
-        jMenuItem1.setText("jMenuItem1");
 
         setIconifiable(true);
         setMaximizable(true);
@@ -148,7 +148,7 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -172,6 +172,16 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         menuPerfil.add(opcAddPerfil);
 
         menuBar.add(menuPerfil);
+
+        menuRelatorios.setText("Relatórios");
+
+        opcExportarLogs.setText("Exportar Logs");
+        menuRelatorios.add(opcExportarLogs);
+
+        opcExportarVendas.setText("Exportar Vendas");
+        menuRelatorios.add(opcExportarVendas);
+
+        menuBar.add(menuRelatorios);
 
         menuConfiguracao.setText("Configuração");
         menuBar.add(menuConfiguracao);
@@ -250,6 +260,18 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     public JButton getButtonManterComposicao() {
         return buttonManterComposicao;
     }
+
+    public JMenuItem getOpcExportarVendas() {
+        return opcExportarVendas;
+    }
+
+    public JMenu getMenuRelatorios() {
+        return menuRelatorios;
+    }
+
+    public JMenuItem getOpcExportarLogs() {
+        return opcExportarLogs;
+    }
     
     
     
@@ -266,7 +288,6 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     private javax.swing.JButton buttonVisualizar;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
@@ -274,8 +295,11 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuConfiguracao;
     private javax.swing.JMenu menuPerfil;
+    private javax.swing.JMenu menuRelatorios;
     private javax.swing.JMenu menuVisualizarPerfil;
     private javax.swing.JMenuItem opcAddPerfil;
+    private javax.swing.JMenuItem opcExportarLogs;
+    private javax.swing.JMenuItem opcExportarVendas;
     private javax.swing.JMenuItem opcTrocarPerfil;
     // End of variables declaration//GEN-END:variables
 }

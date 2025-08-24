@@ -57,7 +57,7 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
 
     @Override
     public ITransacaoRepository getTransacaoRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new SQLiteTransacaoRepository(conexaoFactory);
     }
 
     @Override
