@@ -98,6 +98,20 @@ public class SQLiteCompradorRepository implements ICompradorRepository{
         }
         return contagem;
     }
+
+    @Override
+    public void atualizarCompras(int id) {
+        String sql = "UPDATE comprador SET compras_finalizadas = compras_finalizadas + 1 WHERE id_comprador = ?;";
+        
+        try(Connection conexao = this.conexaoFactory.getConexao();
+            PreparedStatement pstmt = conexao.prepareStatement(sql)){
+            pstmt.setInt(1, id);
+            
+            pstmt.executeUpdate();
+        } catch(SQLException e){
+            throw new RuntimeException("Erro ao atualizar quantidadfe de compras do comprador: " + e.getMessage());
+        }
+    }
     
     
 }

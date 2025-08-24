@@ -16,6 +16,7 @@ public interface IVendedorRepository {
     public Optional<Vendedor> buscarPorId(int id);
     public void salvar(Vendedor vendedor);
     public void atualizarEstrelas(int id, double qtdEstrelas);
+    public void atualizarVendas(int id);
     Map<String, Double> getTopVendedoresPorGWP(int limite);
     Map<String, Integer> contarPorNivelReputacao();
 }
