@@ -42,6 +42,8 @@ public class PontuacaoOfertaValidaStrategy implements IPontuacaoStrategy {
 
                 ICompradorRepository compradorRepo = fabrica.getCompradorRepository();
                 compradorRepo.editar(comprador);
+                ReputacaoService reputacaoService = new ReputacaoService();
+                reputacaoService.atualizarNivel(comprador);
             }
         }
     }
