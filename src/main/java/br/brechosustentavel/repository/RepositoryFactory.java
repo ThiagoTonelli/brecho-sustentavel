@@ -68,4 +68,6 @@ public abstract class RepositoryFactory {
     public abstract IOfertaRepository getOfertaRepository();
     
     public abstract IDenunciaRepository getDenunciaRepository();
+    
+    public abstract IAvaliacaoRepository getAvaliacaoRepository();
 }

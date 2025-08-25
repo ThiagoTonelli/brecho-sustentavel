@@ -8,10 +8,12 @@ import br.brechosustentavel.command.commandFiltros.CarregarAnunciosFiltradosComm
 import br.brechosustentavel.command.commandFiltros.CarregarFiltroTiposDePecaCommand;
 import br.brechosustentavel.command.commandPrincipal.AdicionarPerfilCommand;
 import br.brechosustentavel.command.commandPrincipal.CarregarAnunciosCommand;
+import br.brechosustentavel.presenter.JanelaHistoricoPresenter;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.RealizarOfertaAnuncioState;
 import br.brechosustentavel.service.SessaoUsuarioService;
+import br.brechosustentavel.view.JanelaHistoricoView;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import br.brechosustentavel.view.JanelaVisualizarPerfilView;
 import java.awt.event.ActionEvent;
@@ -78,6 +80,12 @@ public class CompradorState extends JanelaPrincipalState{
         
         presenter.getView().getOpcAddPerfil().addActionListener(e -> {
             new AdicionarPerfilCommand().executar(presenter);
+        });
+        
+        
+        
+        view.getOpcAvaliar().addActionListener(e -> {
+            visualizarTransacoes();
         });
         
         view.setVisible(true);
@@ -160,5 +168,16 @@ public class CompradorState extends JanelaPrincipalState{
         view.getButtonManterComposicao().setVisible(false);
         view.getButtonVisualizar().setText("Ver detalhes do anuncio");
         
+    }
+    
+    @Override
+    public void visualizarTransacoes(){
+        try {
+            JanelaHistoricoView view = new JanelaHistoricoView();
+            presenter.setFrame(view);
+            new JanelaHistoricoPresenter(view);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(CompradorState.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

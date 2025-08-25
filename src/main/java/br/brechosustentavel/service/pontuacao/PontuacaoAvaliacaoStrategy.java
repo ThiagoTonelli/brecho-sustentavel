@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.service.pontuacao;
 
+import br.brechosustentavel.model.Avaliacao;
 import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.Vendedor;
 import br.brechosustentavel.repository.ICompradorRepository;
@@ -13,7 +14,7 @@ import br.brechosustentavel.repository.RepositoryFactory;
 /**
  *
  * @author thiag
- *//*
+ */
 public class PontuacaoAvaliacaoStrategy implements IPontuacaoStrategy {
 
     private static final double PONTOS = 0.05;
@@ -32,10 +33,9 @@ public class PontuacaoAvaliacaoStrategy implements IPontuacaoStrategy {
             comprador.setEstrelas(comprador.getEstrelas() + PONTOS);
             compradorRepo.salvar(comprador);
         } else {
-            Vendedor vendedor = avaliacao.getTransacao().getAnuncio().getVendedor();
+            Vendedor vendedor = avaliacao.getTransacao().getOferta().getAnuncio().getVendedor();
             vendedor.setEstrelas(vendedor.getEstrelas() + PONTOS);
             vendedorRepo.salvar(vendedor);
         }
     }
 }
-*/

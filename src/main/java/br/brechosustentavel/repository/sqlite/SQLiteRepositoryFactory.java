@@ -6,6 +6,7 @@ package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IAnuncioRepository;
+import br.brechosustentavel.repository.IAvaliacaoRepository;
 import br.brechosustentavel.repository.IComposicaoPecaRepository;
 import br.brechosustentavel.repository.IComposicaoRepository;
 import br.brechosustentavel.repository.ICompradorInsigniaRepository;
@@ -119,4 +120,10 @@ public class SQLiteRepositoryFactory extends RepositoryFactory{
     public IDenunciaRepository getDenunciaRepository() {
         return new SQLiteDenunciaRepository(conexaoFactory);
     }
+    
+    @Override
+    public IAvaliacaoRepository getAvaliacaoRepository() {
+        return new SQLiteAvaliacaoRepository(conexaoFactory);
+    }
+
 }
