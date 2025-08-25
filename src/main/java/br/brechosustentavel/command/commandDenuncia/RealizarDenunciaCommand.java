@@ -22,14 +22,14 @@ import javax.swing.JOptionPane;
  * @author kaila
  */
 public class RealizarDenunciaCommand implements ICommandDenuncia {
-    private SessaoUsuarioService sessao;
+    private JanelaDenunciarAnuncioPresenter presenter;
     
-    public RealizarDenunciaCommand(SessaoUsuarioService sessao){
-        this.sessao = sessao;
+    public RealizarDenunciaCommand(JanelaDenunciarAnuncioPresenter presenter){
+        this.presenter = presenter;
     }
     
     @Override
-    public void executar(JanelaDenunciarAnuncioPresenter presenter) {
+    public void executar(SessaoUsuarioService sessao) {
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         IAnuncioRepository anuncioRepository = fabrica.getAnuncioRepository();
         ICompradorRepository compradorRepository = fabrica.getCompradorRepository();
