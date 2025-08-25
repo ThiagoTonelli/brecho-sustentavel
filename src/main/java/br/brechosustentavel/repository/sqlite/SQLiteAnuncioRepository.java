@@ -1,5 +1,6 @@
 package br.brechosustentavel.repository.sqlite;
 
+import br.brechosustentavel.dto.FiltroAnuncioDTO;
 import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.model.Peca;
 import br.brechosustentavel.model.Vendedor;
@@ -213,7 +214,7 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository {
                 a.id as anuncio_id, a.valor_final, a.gwp, a.mci,
                 p.id_c, p.subcategoria, p.tamanho, p.cor, p.massa, p.estado_conservacao, p.preco_base, p.id_tipo,
                 v.id_vendedor, v.nivel_reputacao, v.estrelas, v.vendas_concluidas, v.gwp_contribuido,
-                tp.nome AS nome_tipo
+                tp.nome AS nome_tipo       
             FROM anuncio a
             INNER JOIN peca p ON a.id_peca = p.id_c
             INNER JOIN vendedor v ON a.id_vendedor = v.id_vendedor
@@ -245,6 +246,73 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao excluir o anúncio: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<Anuncio> buscarComFiltros(FiltroAnuncioDTO filtro, int idVendedor) {
+        List<Anuncio> anuncios = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+                """
+                SELECT
+                    a.id as anuncio_id, a.valor_final, a.gwp, a.mci,
+                    p.id_c, p.subcategoria, p.tamanho, p.cor, p.massa, p.estado_conservacao, p.preco_base, p.id_tipo,
+                    v.id_vendedor, v.nivel_reputacao, v.estrelas, v.vendas_concluidas, v.gwp_contribuido,
+                    tp.nome AS nome_tipo
+                FROM anuncio a
+                INNER JOIN peca p ON a.id_peca = p.id_c
+                INNER JOIN vendedor v ON a.id_vendedor = v.id_vendedor
+                LEFT JOIN tipo_peca tp ON p.id_tipo = tp.id
+                WHERE 1=1 AND v.id_vendedor != ?
+                """
+        );
+        List<Object> parametros = new ArrayList<>();
+        parametros.add(idVendedor);
+        
+        if (filtro.getTipoCriterio() != null && filtro.getValorFiltro() != null) {
+            String criterio = filtro.getTipoCriterio();
+            String valor = filtro.getValorFiltro();
+            
+            if ("Tipo de Peça".equals(criterio)) {
+                sql.append(" AND p.id_tipo = (SELECT id FROM tipo_peca WHERE nome = ?)");
+                parametros.add(valor);
+            } else if ("Faixa de Preço".equals(criterio)) {
+                if ("Até R$ 50,00".equals(valor)) {
+                    sql.append(" AND a.valor_final <= ?");
+                    parametros.add(50.0);
+                }
+                else if ("R$ 50,01 a R$ 100,00".equals(valor)) {
+                    sql.append(" AND a.valor_final > ? AND a.valor_final <= ?");
+                    parametros.add(50.0);
+                    parametros.add(100.0);
+                }
+                else if ("R$ 100,01 a R$ 500,00".equals(valor)) {
+                    sql.append(" AND a.valor_final > ? AND a.valor_final <= ?");
+                    parametros.add(100);
+                    parametros.add(500.0);
+                }
+                else if ("Acima de R$ 500,00".equals(valor)) {
+                    sql.append(" AND a.valor_final > ?");
+                    parametros.add(500.0);
+                }
+            }
+            // Lembrar de adicionar 'else if' para os demais critérios 
+        }
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql.toString())) {
+            for (int i = 0; i < parametros.size(); i++) {
+                pstmt.setObject(i + 1, parametros.get(i));
+            }
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Anuncio anuncioMapeado = mapearAnuncioDoResultSet(rs);
+                anuncios.add(anuncioMapeado);
+            }
+            return anuncios;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar anúncios com filtros: " + e.getMessage());
         }
     }
 }

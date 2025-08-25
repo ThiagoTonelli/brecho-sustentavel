@@ -4,11 +4,12 @@
  */
 package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 
+import br.brechosustentavel.command.commandFiltros.CarregarAnunciosFiltradosCommand;
+import br.brechosustentavel.command.commandFiltros.CarregarFiltroTiposDePecaCommand;
 import br.brechosustentavel.command.commandPrincipal.CarregarAnunciosCommand;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.RealizarOfertaAnuncioState;
-import br.brechosustentavel.presenter.manterAnuncioPresenter.VisualizacaoAnuncioState;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import br.brechosustentavel.view.JanelaVisualizarPerfilView;
@@ -17,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.MenuEvent;
@@ -31,15 +33,18 @@ public class CompradorState extends JanelaPrincipalState{
     
     public CompradorState(JanelaPrincipalPresenter presenter, SessaoUsuarioService usuarioAutenticado) throws PropertyVetoException{
         super(presenter, usuarioAutenticado);
-        carregar();
-        
-        this.view = presenter.getView();
+
+        view = presenter.getView();
         view.setMaximum(true);
         view.setVisible(false);
         view.setTitle("Bem-vindo Comprador!");
         view.getButtonAdicionar().setVisible(false);
         view.getButtonManterTipo().setVisible(false);
+        view.getButtonManterComposicao().setVisible(false);
         view.getButtonVisualizar().setText("Ver detalhes do anuncio");
+        
+        configurarFiltros();
+        carregar();
                 
         view.getButtonVisualizar().addActionListener(new ActionListener(){
             @Override
@@ -47,6 +52,14 @@ public class CompradorState extends JanelaPrincipalState{
                 visualizar();
             }
         });
+        
+        view.getBtnFiltrar().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                buscarAnuncios();
+            }
+        });
+                
         view.getMenuVisualizarPerfil().addMenuListener(new MenuListener(){
             @Override
             public void menuSelected(MenuEvent e) {
@@ -98,6 +111,45 @@ public class CompradorState extends JanelaPrincipalState{
             new CarregarAnunciosCommand().executar(presenter, SessaoUsuarioService.getInstancia());
         } catch (Exception e) {
             System.err.println("Erro ao recarregar anúncios: " + e.getMessage());
+        }
+    }
+    
+    private void configurarFiltros(){
+        JComboBox<String> cboxCriterio = view.getcBoxCriterioFiltro();
+        
+        cboxCriterio.addItem("Todos");
+        cboxCriterio.addItem("Tipo de Peça");
+        cboxCriterio.addItem("Faixa de Preço");
+        
+        // Adiciona o listener para reagir às mudanças no primeiro ComboBox
+        cboxCriterio.addActionListener(e -> atualizarOpcoesDeFiltro());
+        
+        atualizarOpcoesDeFiltro();
+    }
+    
+    private void atualizarOpcoesDeFiltro(){
+        String criterio = (String) view.getcBoxCriterioFiltro().getSelectedItem();
+        JComboBox<String> valor = view.getcBoxValorFiltro();
+        view.getTxtAtributos().setEnabled(false);
+        valor.removeAllItems();
+        valor.setEnabled(!"Todos".equals(criterio));
+        
+        if ("Tipo de Peça".equals(criterio)) {
+            new CarregarFiltroTiposDePecaCommand().executar(presenter);
+        } else if ("Faixa de Preço".equals(criterio)) {
+            valor.addItem("Até R$ 50,00");
+            valor.addItem("R$ 50,01 a R$ 100,00");
+            valor.addItem("R$ 100,01 a R$ 500,00");
+            valor.addItem("Acima de R$ 500,00");
+            
+        }
+    }
+    
+    private void buscarAnuncios(){
+        try{
+            new CarregarAnunciosFiltradosCommand(usuarioAutenticado).executar(presenter);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(view, "Erro ao buscar anuncios " + e.getMessage());
         }
     }
 }
