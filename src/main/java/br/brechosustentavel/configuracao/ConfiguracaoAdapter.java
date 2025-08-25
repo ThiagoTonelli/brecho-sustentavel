@@ -2,6 +2,7 @@ package br.brechosustentavel.configuracao;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,9 +23,8 @@ import java.util.stream.Collectors;
 public class ConfiguracaoAdapter {
 
     private Dotenv dotenv;
-    private final String diretorio = "src/main/java/br/brechosustentavel/configuracao";
     private final String nomeFicheiro = "configuracaoSGBD.env";
-    private final Path caminhoFicheiro = Paths.get(diretorio, nomeFicheiro);
+    private final Path caminhoFicheiroExterno = Paths.get(nomeFicheiro);
 
     public ConfiguracaoAdapter() {
         carregarConfiguracoes();
@@ -32,9 +32,21 @@ public class ConfiguracaoAdapter {
 
     private void carregarConfiguracoes() {
         this.dotenv = Dotenv.configure()
-                            .directory(diretorio)
+                            .directory("./")
                             .filename(nomeFicheiro)
+                            .ignoreIfMissing()
                             .load();
+        
+        if (dotenv.get("SGBD") == null) {
+            this.dotenv = Dotenv.configure()
+                                .filename(nomeFicheiro) 
+                                .ignoreIfMissing()
+                                .load();
+        }
+
+        if (dotenv.get("SGBD") == null) {
+             throw new RuntimeException("Não foi possível carregar o arquivo de configuração '" + nomeFicheiro + "' nem de um local externo, nem de dentro do JAR.");
+        }
     }
 
     public String getValor(String chave) {
@@ -42,15 +54,21 @@ public class ConfiguracaoAdapter {
     }
 
     public void setValor(String chave, String valor) {
-        try {
-            
-            List<String> linhas = Files.lines(caminhoFicheiro).collect(Collectors.toList());
-            boolean chaveEncontrada = false;
+        File ficheiro = caminhoFicheiroExterno.toFile();
+        
 
+        try {
+            List<String> linhas;
+            if (ficheiro.exists()) {
+                linhas = Files.lines(caminhoFicheiroExterno).collect(Collectors.toList());
+            } else {
+                linhas = new java.util.ArrayList<>();
+            }
+            
+            boolean chaveEncontrada = false;
             for (int i = 0; i < linhas.size(); i++) {
-                String linha = linhas.get(i);
-                if (linha.trim().startsWith(chave + "=")) {
-                    linhas.set(i, chave + "=" + valor); 
+                if (linhas.get(i).trim().startsWith(chave + "=")) {
+                    linhas.set(i, chave + "=" + valor);
                     chaveEncontrada = true;
                     break;
                 }
@@ -60,7 +78,7 @@ public class ConfiguracaoAdapter {
                 linhas.add(chave + "=" + valor);
             }
 
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(caminhoFicheiro.toFile(), false))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(ficheiro, false))) {
                 for (String linha : linhas) {
                     writer.write(linha);
                     writer.newLine();
@@ -70,7 +88,7 @@ public class ConfiguracaoAdapter {
             carregarConfiguracoes();
 
         } catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar a configuração no ficheiro .env", e);
+            throw new RuntimeException("Erro ao salvar a configuração no ficheiro .env externo.", e);
         }
     }
 }
