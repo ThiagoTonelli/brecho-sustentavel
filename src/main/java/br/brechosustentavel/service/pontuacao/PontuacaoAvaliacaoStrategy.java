@@ -26,16 +26,18 @@ public class PontuacaoAvaliacaoStrategy implements IPontuacaoStrategy {
         Avaliacao avaliacao = (Avaliacao) contexto;
         ICompradorRepository compradorRepo = fabrica.getCompradorRepository();
         IVendedorRepository vendedorRepo = fabrica.getVendedorRepository();
-
+        ReputacaoService reputacaoService = new ReputacaoService();
         // Verifica quem é o autor e aplica a pontuação
         if (avaliacao.isAutorComprador()) {
             Comprador comprador = avaliacao.getTransacao().getOferta().getComprador();
             comprador.setEstrelas(comprador.getEstrelas() + PONTOS);
-            compradorRepo.salvar(comprador);
+            compradorRepo.editar(comprador);
+            reputacaoService.atualizarNivel(comprador);
         } else {
             Vendedor vendedor = avaliacao.getTransacao().getOferta().getAnuncio().getVendedor();
             vendedor.setEstrelas(vendedor.getEstrelas() + PONTOS);
-            vendedorRepo.salvar(vendedor);
+            vendedorRepo.editar(vendedor);
+            reputacaoService.atualizarNivel(vendedor);
         }
     }
 }

@@ -30,6 +30,8 @@ public class PontuacaoCadastroCompletoStrategy implements IPontuacaoStrategy {
             new ReputacaoService().atualizarNivel(vendedor);
             IVendedorRepository vendedorRepo = fabrica.getVendedorRepository();
             vendedorRepo.editar(vendedor);
+            ReputacaoService reputacaoService = new ReputacaoService();
+            reputacaoService.atualizarNivel(vendedor);
         }
     }
 
