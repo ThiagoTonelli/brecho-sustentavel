@@ -33,6 +33,11 @@ public class JanelaDashboardView extends javax.swing.JInternalFrame {
         panelMateriais = new javax.swing.JPanel();
         panelRanking = new javax.swing.JPanel();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Dashboard");
         getContentPane().setLayout(new java.awt.GridLayout(2, 2, 10, 10));
 
         panelReputacao.setBorder(javax.swing.BorderFactory.createTitledBorder("Distribuição de Níveis de Reputação"));

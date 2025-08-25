@@ -7,19 +7,16 @@ package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 import br.brechosustentavel.command.commandMenu.ExportarLogCommand;
 import br.brechosustentavel.command.commandMenu.ExportarVendasCommand;
 import br.brechosustentavel.presenter.ConfiguracaoPresenter;
-import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
 import br.brechosustentavel.presenter.ManterDefeitoPresenter.ManterDefeitoPresenter;
 import br.brechosustentavel.presenter.dashboard.DashboardPresenter;
 import br.brechosustentavel.presenter.manterComposicaoPresenter.ManterComposicaoPresenter;
 import br.brechosustentavel.presenter.manterTipoPecaPresenter.ManterTipoPecaPresenter;
+import br.brechosustentavel.service.LimparListenerService;
 import br.brechosustentavel.service.SessaoUsuarioService;
-import br.brechosustentavel.view.JanelaConfiguracaoView;
-import br.brechosustentavel.view.JanelaVisualizarPerfilView;
+import br.brechosustentavel.view.JanelaPrincipalView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.event.MenuEvent;
@@ -33,9 +30,10 @@ public class AdminState extends JanelaPrincipalState {
 
     public AdminState(JanelaPrincipalPresenter presenter, SessaoUsuarioService usuarioAutenticado) throws PropertyVetoException {
         super(presenter, usuarioAutenticado);
+        presenter.getView().setVisible(false);
         configurarTelaAdmin();
         
-        presenter.getView().getButtonAdicionar().addActionListener((ActionEvent e) -> {
+        presenter.getView().getOpcDashboard().addActionListener((ActionEvent e) -> {
             abrirDashboard();
         });
         
@@ -75,29 +73,41 @@ public class AdminState extends JanelaPrincipalState {
     }
 
     private void configurarTelaAdmin() throws PropertyVetoException {
-        presenter.getView().setVisible(false);
+        JanelaPrincipalView view = presenter.getView();
+        view.setTitle("Painel do Administrador");
+        view.setMaximum(true);
         
-        JButton dashboardButton = presenter.getView().getButtonAdicionar();
-        JButton manterDefeitosButton = presenter.getView().getButtonVisualizar();
-        for (ActionListener al : dashboardButton.getActionListeners()) {
-            dashboardButton.removeActionListener(al);
-        }
-        
-        manterDefeitosButton.setText("Manter Tabela de Defeitos");
-        manterDefeitosButton.setVisible(true);
-        presenter.getView().setTitle("Painel do Administrador");
-        presenter.getView().setMaximum(true);
-        dashboardButton.setText("Consultar Dashboard");
-        dashboardButton.setVisible(true);
-        presenter.getView().getButtonVisualizar().setVisible(true);
-        //presenter.getView().getButtonVisualizar().setText("Manter tipos");
-        
-        presenter.getView().getMenuRelatorios().setVisible(true);
-        presenter.getView().getMenuConfiguracao().setVisible(true);
+        //Limpa listeners
+        LimparListenerService limpar = new LimparListenerService();
+        limpar.limparListener(view.getButtonAdicionar());
+        limpar.limparListener(view.getButtonVisualizar());
+        limpar.limparListener(view.getButtonManterComposicao());
+        limpar.limparListener(view.getButtonManterTipo());
 
-        presenter.getView().getMenuPerfil().setVisible(false);
-        presenter.getView().setVisible(true);
- 
+        //Configura botoes
+        view.getButtonAdicionar().setVisible(false);
+        view.getButtonAdicionar().setEnabled(false);
+        view.getButtonVisualizar().setText("Gerenciar Defeitos");
+        view.getButtonVisualizar().setVisible(true);
+        view.getButtonVisualizar().setEnabled(true);
+        view.getButtonManterComposicao().setText("Gerenciar Composições");
+        view.getButtonManterComposicao().setVisible(true);
+        view.getButtonManterComposicao().setEnabled(true);
+        view.getButtonManterTipo().setText("Gerenciar Tipos de Peças");
+        view.getButtonManterTipo().setVisible(true);
+        view.getButtonManterTipo().setEnabled(true);
+        view.getPnlFiltros().setVisible(false);
+
+        //Configura menus
+        view.getMenuConfiguracao().setVisible(true);
+        view.getMenuPerfil().setVisible(false);
+        view.getMenuRelatorios().setVisible(true);
+        view.getMenuTransacao().setVisible(false);
+        view.getMenuVisualizarPerfil().setVisible(false);
+        
+        //Configura label
+        view.getLblTitulo().setText("Bem-vindo ao Painel Administrativo");
+        view.getLblInformacao().setText("Veja todos os anúncios dos vendedores.");
     }
 
     private void abrirDashboard() {

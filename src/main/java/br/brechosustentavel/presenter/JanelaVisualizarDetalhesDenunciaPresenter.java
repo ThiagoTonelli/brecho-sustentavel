@@ -75,7 +75,7 @@ public class JanelaVisualizarDetalhesDenunciaPresenter {
     
     private void aceitar() throws PropertyVetoException{
         new AceitarDenunciaCommand(new DenunciaService(), idDenuncia).executar();
-        JOptionPane.showMessageDialog(view, "Denúncia validada com sucesso! Por favor, edite seu anúncio.", "Sucesso",  JOptionPane.INFORMATION_MESSAGE);        
+        JOptionPane.showMessageDialog(view, "Denúncia validada com sucesso! Por favor, edite seu anúncio.", "Sucesso",  JOptionPane.INFORMATION_MESSAGE);
         view.dispose();
     }
     

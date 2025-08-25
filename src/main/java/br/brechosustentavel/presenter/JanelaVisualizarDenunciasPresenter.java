@@ -10,6 +10,7 @@ import br.brechosustentavel.view.JanelaVisualizarDenunciasView;
 import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
@@ -81,6 +82,10 @@ public class JanelaVisualizarDenunciasPresenter {
         view.setLocationRelativeTo(janelaPai);
         view.getTxtIDPeca().setEnabled(false);
         view.getTxtIDPeca().setText(idPeca);
+        
+        for (ActionListener al : view.getBtnCancelar().getActionListeners()) {
+            view.getBtnCancelar().removeActionListener(al);
+        }
         
         new CarregarDenunciasCommand(this, idPeca).executar();
     }

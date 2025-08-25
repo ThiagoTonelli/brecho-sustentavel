@@ -65,7 +65,12 @@ public class JanelaVisualizarPerfilPresenter implements Observador{
             view.getLblNivel().setText(String.valueOf(comprador.getNivel()));
             view.getLblEstrelas().setText(String.valueOf(comprador.getEstrelas()));
             view.getLblGWP().setText(String.valueOf(comprador.getGwpEvitado()));
-            view.getLblDenuncias().setText(String.valueOf(percentualProcedentes));
+            if(percentualProcedentes >= 0){
+                view.getLblDenuncias().setText(String.valueOf(percentualProcedentes));
+            }
+            else{
+                view.getLblDenuncias().setText("0");
+            }
             
             if(comprador.isSelo()){
                 view.getLblSelo1().setText("Veficador Confiável");
