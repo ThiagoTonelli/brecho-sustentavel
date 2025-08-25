@@ -27,8 +27,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 /**
  *
@@ -67,24 +65,16 @@ public class VendedorState extends JanelaPrincipalState{
             abrirDashboard();
         });
         
-        view.getMenuVisualizarPerfil().addMenuListener(new MenuListener(){
-            @Override
-            public void menuSelected(MenuEvent e) {
+        view.getOpcVisualizarPerfil().addActionListener((ActionEvent e) -> {
+            try {
                 JanelaVisualizarPerfilView visualizar = new JanelaVisualizarPerfilPresenter().getView();
                 presenter.setFrame(visualizar);
-                try {
-                    visualizar.setVisible(true);
-                    visualizar.setSelected(true);
-                    visualizar.setMaximum(true);
-                } catch (PropertyVetoException ex) {
-                    Logger.getLogger(VendedorState.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                visualizar.setVisible(true);
+                visualizar.setSelected(true);
+                visualizar.setMaximum(true);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(CompradorState.class.getName()).log(Level.SEVERE, null, ex);
             }
-            @Override
-            public void menuDeselected(MenuEvent e) {}
-
-            @Override
-            public void menuCanceled(MenuEvent e) {}
         });
         
         presenter.getView().getOpcAddPerfil().addActionListener(e -> {
@@ -218,7 +208,7 @@ public class VendedorState extends JanelaPrincipalState{
         //Configura menus
         view.getMenuConfiguracao().setVisible(false);
         view.getMenuPerfil().setVisible(true);
-        view.getMenuVisualizarPerfil().setVisible(true);
+        view.getOpcVisualizarPerfil().setVisible(true);
         view.getMenuRelatorios().setVisible(false);
         view.getMenuTransacao().setVisible(true);
         view.getMenuTransacao().setText("Minhas vendas");

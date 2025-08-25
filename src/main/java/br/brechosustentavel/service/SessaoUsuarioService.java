@@ -26,8 +26,12 @@ public class SessaoUsuarioService {
         }
         return instancia;
     }
-        
+    
     public void logout(){
+        this.usuario = null;
+        this.autenticado = false;
+        this.tipoPerfil = null;
+        System.out.println("Sessão encerrada.");
     }
     
     public boolean isAutenticado(){

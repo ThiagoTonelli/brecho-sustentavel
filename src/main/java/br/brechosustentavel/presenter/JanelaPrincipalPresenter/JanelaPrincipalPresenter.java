@@ -8,14 +8,20 @@ package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 import br.brechosustentavel.command.commandMenu.TrocarPerfilCommand;
 import br.brechosustentavel.observer.Observador;
 import br.brechosustentavel.observer.Observavel;
+import br.brechosustentavel.presenter.LoginPresenter;
 import br.brechosustentavel.presenter.TelaPrincipalPresenter;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
+import br.brechosustentavel.service.AutenticacaoService;
 import br.brechosustentavel.service.SessaoUsuarioService;
+import br.brechosustentavel.service.hash.BCryptAdapter;
+import br.brechosustentavel.service.verificador_telefone.LibPhoneNumberAdapter;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import java.awt.event.ActionEvent;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -55,6 +61,10 @@ public class JanelaPrincipalPresenter implements Observador{
                 Logger.getLogger(JanelaPrincipalPresenter.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+        
+        view.getOpcSair().addActionListener((ActionEvent e) -> {
+            fazerLogout();
+        });
    
     }
     
@@ -72,6 +82,38 @@ public class JanelaPrincipalPresenter implements Observador{
     
     public void setFrame(JInternalFrame frame){
         telaPrincipal.getView().getjDesktopPane1().add(frame);
+    }
+    
+    private void fazerLogout() {
+        int confirmacao = JOptionPane.showConfirmDialog(
+            view,
+            "Tem certeza que deseja sair?",
+            "Confirmação de Logout",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmacao == JOptionPane.YES_OPTION) {
+
+            usuario.logout();
+
+            view.dispose();
+            telaPrincipal.getView().dispose();
+
+            try {
+
+                RepositoryFactory fabrica = RepositoryFactory.getInstancia();
+                new LoginPresenter(
+                    fabrica,
+                    new BCryptAdapter(),
+                    new LibPhoneNumberAdapter(),
+                    SessaoUsuarioService.getInstancia(),
+                    new AutenticacaoService(fabrica.getUsuarioRepository(), new BCryptAdapter())
+                );
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao reiniciar a aplicação após o logout: " + e.getMessage());
+                System.exit(0); 
+            }
+        }
     }
 
     @Override

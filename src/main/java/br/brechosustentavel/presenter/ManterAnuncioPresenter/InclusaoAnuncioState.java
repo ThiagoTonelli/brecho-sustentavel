@@ -151,11 +151,8 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
         // campos de texto obrigatórios
         if (presenter.getView().getTxtId_c().getText().trim().isEmpty()) return false;
         if (presenter.getView().getTxtSubcategoria().getText().trim().isEmpty()) return false;
-        if (presenter.getView().getTxtCor().getText().trim().isEmpty()) return false;
         if (presenter.getView().getTxtMassa().getText().trim().isEmpty()) return false;
-        if (presenter.getView().getTxtEstadoConservacao().getText().trim().isEmpty()) return false;
         if (presenter.getView().getTxtPrecoBase().getText().trim().isEmpty()) return false;
-        if (presenter.getView().getTxtTamanho().getText().trim().isEmpty()) return false;
         // combobox obrigatórios
         if (presenter.getView().getSelectTipoDePeca().getSelectedIndex() == -1) return false;
         if (presenter.getView().getSelectComposicao().getSelectedIndex() == -1) return false;

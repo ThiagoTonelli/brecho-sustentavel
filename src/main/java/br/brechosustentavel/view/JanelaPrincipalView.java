@@ -53,11 +53,13 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         buttonManterComposicao = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         lblInformacao = new javax.swing.JLabel();
+        textNomeLogado = new javax.swing.JTextField();
         menuBar = new javax.swing.JMenuBar();
-        menuVisualizarPerfil = new javax.swing.JMenu();
         menuPerfil = new javax.swing.JMenu();
         opcTrocarPerfil = new javax.swing.JMenuItem();
         opcAddPerfil = new javax.swing.JMenuItem();
+        opcVisualizarPerfil = new javax.swing.JMenuItem();
+        opcSair = new javax.swing.JMenuItem();
         menuRelatorios = new javax.swing.JMenu();
         opcExportarLogs = new javax.swing.JMenuItem();
         opcExportarVendas = new javax.swing.JMenuItem();
@@ -175,6 +177,12 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         lblInformacao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblInformacao.setToolTipText("");
 
+        textNomeLogado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textNomeLogadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -186,45 +194,42 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1003, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1003, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(buttonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(buttonManterTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(buttonManterComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblInformacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(buttonManterTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(buttonManterComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(textNomeLogado)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addComponent(lblTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 16, Short.MAX_VALUE)
                 .addComponent(pnlFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblInformacao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(68, 68, 68)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonManterTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonManterComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(textNomeLogado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        menuVisualizarPerfil.setText("Visualizar Perfil");
-        menuBar.add(menuVisualizarPerfil);
 
         menuPerfil.setText("Perfil");
         menuPerfil.setToolTipText("");
@@ -234,6 +239,12 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
 
         opcAddPerfil.setText("Adicionar novo perfil");
         menuPerfil.add(opcAddPerfil);
+
+        opcVisualizarPerfil.setText("Visualizar Perfil");
+        menuPerfil.add(opcVisualizarPerfil);
+
+        opcSair.setText("Sair");
+        menuPerfil.add(opcSair);
 
         menuBar.add(menuPerfil);
 
@@ -296,6 +307,10 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonManterComposicaoActionPerformed
 
+    private void textNomeLogadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNomeLogadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textNomeLogadoActionPerformed
+
     @Override
     public JButton getButtonAdicionar() {
         return buttonAdicionar;
@@ -317,10 +332,6 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
 
     public JMenu getMenuPerfil() {
         return menuPerfil;
-    }
-
-    public JMenu getMenuVisualizarPerfil() {
-        return menuVisualizarPerfil;
     }
 
     public JMenuItem getOpcAddPerfil() {
@@ -394,7 +405,19 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     public JLabel getLblInformacao() {
         return lblInformacao;
     }
-    
+
+    public JMenuItem getOpcSair() {
+        return opcSair;
+    }
+
+    public JMenuItem getOpcVisualizarPerfil() {
+        return opcVisualizarPerfil;
+    }
+
+    public JTextField getTextNomeLogado() {
+        return textNomeLogado;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFiltrar;
@@ -417,14 +440,16 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     private javax.swing.JMenu menuPerfil;
     private javax.swing.JMenu menuRelatorios;
     private javax.swing.JMenu menuTransacao;
-    private javax.swing.JMenu menuVisualizarPerfil;
     private javax.swing.JMenuItem opcAddPerfil;
     private javax.swing.JMenuItem opcAvaliar;
     private javax.swing.JMenuItem opcDashboard;
     private javax.swing.JMenuItem opcExportarLogs;
     private javax.swing.JMenuItem opcExportarVendas;
+    private javax.swing.JMenuItem opcSair;
     private javax.swing.JMenuItem opcTrocarPerfil;
+    private javax.swing.JMenuItem opcVisualizarPerfil;
     private javax.swing.JPanel pnlFiltros;
+    private javax.swing.JTextField textNomeLogado;
     private javax.swing.JTextField txtAtributos;
     // End of variables declaration//GEN-END:variables
 }
