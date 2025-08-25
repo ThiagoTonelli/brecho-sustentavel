@@ -5,8 +5,8 @@
 package br.brechosustentavel.repository.h2;
 
 import br.brechosustentavel.model.Insignia;
-import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.IInsigniaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.IInsigniaRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

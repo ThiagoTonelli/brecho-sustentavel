@@ -5,9 +5,9 @@
 package br.brechosustentavel.command.commandManterDefeito;
 
 import br.brechosustentavel.presenter.ManterDefeitoPresenter.ManterDefeitoPresenter;
-import br.brechosustentavel.repository.IDefeitoRepository;
-import br.brechosustentavel.repository.ITipoDePecaRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IDefeitoRepository;
+import br.brechosustentavel.repository.repositoryFactory.ITipoDePecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 
 /**
  *

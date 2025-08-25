@@ -5,8 +5,8 @@
 package br.brechosustentavel.service.avaliacao;
 
 import br.brechosustentavel.model.Avaliacao;
-import br.brechosustentavel.repository.IAvaliacaoRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IAvaliacaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.pontuacao.PontuacaoService;
 
 /**

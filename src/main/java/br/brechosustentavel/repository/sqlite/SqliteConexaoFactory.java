@@ -4,7 +4,7 @@
  */
 package br.brechosustentavel.repository.sqlite;
 
-import br.brechosustentavel.repository.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

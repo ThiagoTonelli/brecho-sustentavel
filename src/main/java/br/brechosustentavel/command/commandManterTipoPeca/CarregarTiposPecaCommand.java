@@ -5,8 +5,8 @@
 package br.brechosustentavel.command.commandManterTipoPeca;
 
 import br.brechosustentavel.presenter.manterTipoPecaPresenter.ManterTipoPecaPresenter;
-import br.brechosustentavel.repository.ITipoDePecaRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.ITipoDePecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import java.util.List;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;

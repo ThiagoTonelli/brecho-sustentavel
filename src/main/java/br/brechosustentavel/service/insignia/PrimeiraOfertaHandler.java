@@ -7,10 +7,10 @@ package br.brechosustentavel.service.insignia;
 import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.Insignia;
 import br.brechosustentavel.model.Usuario;
-import br.brechosustentavel.repository.ICompradorInsigniaRepository;
-import br.brechosustentavel.repository.ICompradorRepository;
-import br.brechosustentavel.repository.IInsigniaRepository;
-import br.brechosustentavel.repository.IOfertaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ICompradorInsigniaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ICompradorRepository;
+import br.brechosustentavel.repository.repositoryFactory.IInsigniaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IOfertaRepository;
 import java.util.Optional;
 
 /**

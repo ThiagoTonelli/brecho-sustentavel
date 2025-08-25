@@ -4,7 +4,7 @@ import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.model.Peca;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
 
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.anuncio.AnuncioFormMapper;
 import br.brechosustentavel.service.anuncio.AnuncioService;
 

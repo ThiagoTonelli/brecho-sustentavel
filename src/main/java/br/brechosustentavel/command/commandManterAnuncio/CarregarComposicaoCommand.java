@@ -5,13 +5,13 @@
 package br.brechosustentavel.command.commandManterAnuncio;
 
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import br.brechosustentavel.view.IJanelaManterAnuncioView;
-import br.brechosustentavel.repository.IComposicaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.IComposicaoRepository;
 
 /**
  *

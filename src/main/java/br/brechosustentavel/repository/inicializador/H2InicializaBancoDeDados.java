@@ -1,16 +1,19 @@
-package br.brechosustentavel.repository.h2;
+package br.brechosustentavel.repository.inicializador;
 
+import br.brechosustentavel.seeder.H2Seeder;
+import br.brechosustentavel.service.hash.BCryptAdapter;
+import br.brechosustentavel.service.hash.HashService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class H2InicializaBancoDeDados {
-    private Connection conexao;
+public class H2InicializaBancoDeDados extends AbstractInicializaBancoDeDados{
 
     public H2InicializaBancoDeDados(Connection conexao) {
-        this.conexao = conexao;
+        super(conexao);
     }
 
+    @Override
     public void inicializar() {
         criarTabelaUsuario();
         criarTabelaVendedor();
@@ -296,5 +299,12 @@ public class H2InicializaBancoDeDados {
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao criar tabela no H2: " + e.getMessage(), e);
         }
+    }
+    
+    @Override
+    protected void popularDadosIniciais() throws SQLException {
+        HashService hashParaSeeder = new BCryptAdapter();
+        H2Seeder seeder = new H2Seeder(conexao, hashParaSeeder);
+        seeder.inserir();
     }
 }

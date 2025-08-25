@@ -6,8 +6,8 @@ package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.Vendedor;
-import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.ICompradorRepository;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.ICompradorRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

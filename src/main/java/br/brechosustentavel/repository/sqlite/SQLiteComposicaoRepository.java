@@ -5,7 +5,7 @@
 package br.brechosustentavel.repository.sqlite;
 
 
-import br.brechosustentavel.repository.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import br.brechosustentavel.repository.IComposicaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.IComposicaoRepository;
 import java.util.ArrayList;
 
 /**

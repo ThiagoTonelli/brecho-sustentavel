@@ -5,8 +5,8 @@
 package br.brechosustentavel.command.commandManterAnuncio;
 
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
-import br.brechosustentavel.repository.IPecaRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IPecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.gerador_id_c.GeradorIdService;
 
 /**

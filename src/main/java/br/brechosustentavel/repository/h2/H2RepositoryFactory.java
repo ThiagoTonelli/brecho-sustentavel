@@ -4,26 +4,26 @@
  */
 package br.brechosustentavel.repository.h2;
 
-import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.IAnuncioRepository;
-import br.brechosustentavel.repository.IAvaliacaoRepository;
-import br.brechosustentavel.repository.IComposicaoPecaRepository;
-import br.brechosustentavel.repository.ICompradorRepository;
-import br.brechosustentavel.repository.IDefeitoPecaRepository;
-import br.brechosustentavel.repository.IDefeitoRepository;
-import br.brechosustentavel.repository.ILinhaDoTempoRepository;
-import br.brechosustentavel.repository.ITipoDePecaRepository;
-import br.brechosustentavel.repository.ITransacaoRepository;
-import br.brechosustentavel.repository.IUsuarioRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
-import br.brechosustentavel.repository.IPecaRepository;
-import br.brechosustentavel.repository.IVendedorRepository;
-import br.brechosustentavel.repository.IComposicaoRepository;
-import br.brechosustentavel.repository.ICompradorInsigniaRepository;
-import br.brechosustentavel.repository.IDenunciaRepository;
-import br.brechosustentavel.repository.IInsigniaRepository;
-import br.brechosustentavel.repository.IOfertaRepository;
-import br.brechosustentavel.repository.IVendedorInsigniaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.IAnuncioRepository;
+import br.brechosustentavel.repository.repositoryFactory.IAvaliacaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.IComposicaoPecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ICompradorRepository;
+import br.brechosustentavel.repository.repositoryFactory.IDefeitoPecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IDefeitoRepository;
+import br.brechosustentavel.repository.repositoryFactory.ILinhaDoTempoRepository;
+import br.brechosustentavel.repository.repositoryFactory.ITipoDePecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ITransacaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.IUsuarioRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IPecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IVendedorRepository;
+import br.brechosustentavel.repository.repositoryFactory.IComposicaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.ICompradorInsigniaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IDenunciaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IInsigniaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IOfertaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IVendedorInsigniaRepository;
 
 /**
  *

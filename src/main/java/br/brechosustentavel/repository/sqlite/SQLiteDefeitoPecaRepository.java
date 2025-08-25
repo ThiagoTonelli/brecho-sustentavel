@@ -4,8 +4,8 @@
  */
 package br.brechosustentavel.repository.sqlite;
 
-import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.IDefeitoPecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.IDefeitoPecaRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
