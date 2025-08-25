@@ -11,7 +11,6 @@ import br.brechosustentavel.repository.repositoryFactory.IUsuarioRepository;
 import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import java.util.List;
-import java.util.Optional;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;

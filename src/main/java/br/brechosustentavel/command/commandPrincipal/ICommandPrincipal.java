@@ -5,7 +5,6 @@
 package br.brechosustentavel.command.commandPrincipal;
 
 import br.brechosustentavel.presenter.janelaPrincipalPresenter.JanelaPrincipalPresenter;
-import br.brechosustentavel.service.SessaoUsuarioService;
 
 
 /**

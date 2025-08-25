@@ -12,8 +12,6 @@ import br.brechosustentavel.model.Vendedor;
  * @author thiag
  */
 public class ReputacaoService {
-
-    // Define os limiares para promoção de nível
     private static final double LIMIAR_PRATA = 2.0;
     private static final double LIMIAR_OURO = 5.0;
 

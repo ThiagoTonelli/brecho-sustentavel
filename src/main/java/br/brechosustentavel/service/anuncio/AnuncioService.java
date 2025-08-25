@@ -30,8 +30,6 @@ import javax.swing.JOptionPane;
  */
 
 public class AnuncioService {
-
-    // Repositorys
     private final IPecaRepository pecaRepository;
     private final IAnuncioRepository anuncioRepository;
     private final ILinhaDoTempoRepository linhaDoTempoRepository;
@@ -39,8 +37,6 @@ public class AnuncioService {
     private final IDefeitoRepository defeitoRepository;
     private final IComposicaoRepository composicaoRepository;
     private final IComposicaoPecaRepository composicaoPecaRepository;
-
-    // Services
     private final CalculadoraDeIndicesService calculadoraDeIndices;
     private final AplicarDescontosDefeitosService aplicarDescontos;
     private final AplicaInsigniaService aplicaInsigniaService;
@@ -79,7 +75,6 @@ public class AnuncioService {
 
             GerenciadorLog.getInstancia().registrarSucesso(operacao, peca.getId_c(), peca.getSubcategoria());
 
-            // Notifica os observadores que houve uma alteração
             Observavel.getInstance().notifyObservers();
             return anuncio;
         }
@@ -92,11 +87,7 @@ public class AnuncioService {
 
     private Anuncio criarNovoAnuncio(Peca novaPeca, Usuario usuario, double gwpAvoided, double mciPeca) {
         pecaRepository.criar(novaPeca);
-
-        // Associa os defeitos
         salvarDefeitosDaPeca(novaPeca);
-        
-        
         salvarComposicaoDaPeca(novaPeca);
         // Cria o primeiro evento na linha do tempo
         EventoLinhaDoTempo evento = new EventoLinhaDoTempo(

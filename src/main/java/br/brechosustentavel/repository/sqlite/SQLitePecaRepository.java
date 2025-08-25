@@ -71,7 +71,7 @@ public class SQLitePecaRepository implements IPecaRepository{
             pstmt.setString(5, peca.getEstadoDeConservacao());
             pstmt.setDouble(6, peca.getPrecoBase());
             pstmt.setInt(7, peca.getIdTipoDePeca());
-            pstmt.setString(8, peca.getId_c()); // A cláusula WHERE é crucial!
+            pstmt.setString(8, peca.getId_c()); 
 
             pstmt.executeUpdate();
 

@@ -4,8 +4,6 @@
  */
 package br.brechosustentavel.command.commandDenuncia;
 
-import br.brechosustentavel.service.SessaoUsuarioService;
-
 /**
  *
  * @author kaila

@@ -12,8 +12,8 @@ public class H2ConexaoFactory extends ConexaoFactory {
         try {
             Class.forName("org.h2.Driver");
             String url = "jdbc:h2:./brechosustentavel_h2;AUTO_SERVER=TRUE"; 
-            String usuario = "sa"; // utilizador padrão
-            String senha = "";     // senha padrão
+            String usuario = "sa"; 
+            String senha = ""; 
             
             return DriverManager.getConnection(url, usuario, senha);
             

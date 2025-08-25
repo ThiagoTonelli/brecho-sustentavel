@@ -7,7 +7,6 @@ package br.brechosustentavel.presenter;
 import br.brechosustentavel.service.RealizarOfertaService;
 import br.brechosustentavel.view.JanelaRealizarOfertaView;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 /**

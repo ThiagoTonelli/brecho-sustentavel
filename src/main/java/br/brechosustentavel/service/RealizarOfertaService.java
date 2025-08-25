@@ -41,14 +41,10 @@ public class RealizarOfertaService {
         if(optAnuncio.isEmpty()){
             throw new RuntimeException("Não foi encontrado um anúncio com a peça " + idPeca);
         }
-     
-        
+
         Oferta oferta = new Oferta(optAnuncio.get(), sessao.getUsuarioAutenticado().getComprador().get(), valorOferta);
-        
-        
         ofertaRepository.adicionarOferta(oferta);
         
-        //Coloca informações na linha do tempo
         Optional<Anuncio> anuncio = anuncioRepository.buscarAnuncioPorId(oferta.getAnuncio().getId());
         Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(anuncio.get().getPeca().getId_c());
         int cicloAtual = ultimoEventoOpt.map(EventoLinhaDoTempo::getCiclo_n).orElse(1);
@@ -57,7 +53,6 @@ public class RealizarOfertaService {
         evento.setCliclo(cicloAtual);
         linhaDoTempoRepository.criar(anuncio.get().getPeca().getId_c(), evento);
         
-        //Aplica insignias
         new AplicaInsigniaService().concederInsignia(sessao.getUsuarioAutenticado());
         
         new PontuacaoService().processarNovaOferta(oferta);

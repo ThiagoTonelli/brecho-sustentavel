@@ -254,19 +254,22 @@ public class H2AnuncioRepository implements IAnuncioRepository {
     public List<Anuncio> buscarComFiltros(FiltroAnuncioDTO filtro, int idUsuarioLogado) {
         List<Anuncio> anuncios = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
-                """
-                SELECT
-                    a.id as anuncio_id, a.valor_final, a.gwp, a.mci, a.status,
-                    p.id_c, p.subcategoria, p.tamanho, p.cor, p.massa, p.estado_conservacao, p.preco_base, p.id_tipo,
-                    v.id_vendedor, v.nivel_reputacao, v.estrelas, v.vendas_concluidas, v.gwp_contribuido,
-                    tp.nome AS nome_tipo
-                FROM anuncio a
-                INNER JOIN peca p ON a.id_peca = p.id_c
-                INNER JOIN vendedor v ON a.id_vendedor = v.id_vendedor
-                LEFT JOIN tipo_peca tp ON p.id_tipo = tp.id
-                WHERE a.status = 'ativo'
-                """
-        );
+                    """
+                    SELECT
+                        a.id as anuncio_id, a.valor_final, a.gwp, a.mci, a.status,
+                        p.id_c, p.subcategoria, p.tamanho, p.cor, p.massa, p.estado_conservacao, p.preco_base, p.id_tipo,
+                        v.id_vendedor, v.nivel_reputacao, v.estrelas, v.vendas_concluidas, v.gwp_contribuido,
+                        tp.nome AS nome_tipo
+                    FROM anuncio a
+                    INNER JOIN peca p ON a.id_peca = p.id_c
+                    INNER JOIN vendedor v ON a.id_vendedor = v.id_vendedor
+                    LEFT JOIN tipo_peca tp ON p.id_tipo = tp.id
+                    LEFT JOIN defeito_peca dp ON p.id_c = dp.id_peca
+                    LEFT JOIN defeito d ON dp.id_defeito = d.id
+                    WHERE a.status = 'ativo'
+                    """
+                );
+
         List<Object> parametros = new ArrayList<>();
 
         sql.append(" AND v.id_vendedor != ?");

@@ -27,7 +27,7 @@ public class PontuacaoAvaliacaoStrategy implements IPontuacaoStrategy {
         ICompradorRepository compradorRepo = fabrica.getCompradorRepository();
         IVendedorRepository vendedorRepo = fabrica.getVendedorRepository();
         ReputacaoService reputacaoService = new ReputacaoService();
-        // Verifica quem é o autor e aplica a pontuação
+
         if (avaliacao.isAutorComprador()) {
             Comprador comprador = avaliacao.getTransacao().getOferta().getComprador();
             comprador.setEstrelas(comprador.getEstrelas() + PONTOS);

@@ -12,7 +12,6 @@ import java.util.Map;
  * @author thiag
  */
 public interface IDefeitoRepository {
-    public void editar();
     public Map<String, Double> buscarDefeitosPorTipo(String tipoPeca);
     public Integer buscarIdPeloNomeDoDefeito(String nomeDefeito);
     List<Map<String, Object>> buscarTodosParaManutencao();

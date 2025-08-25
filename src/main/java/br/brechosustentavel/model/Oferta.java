@@ -5,7 +5,6 @@
 package br.brechosustentavel.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  *

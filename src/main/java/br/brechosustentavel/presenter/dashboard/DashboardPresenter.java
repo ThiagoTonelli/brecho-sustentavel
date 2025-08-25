@@ -21,8 +21,6 @@ public class DashboardPresenter {
 
     public DashboardPresenter() {
         this.view = new JanelaDashboardView();
-        
-        // Delega a criação de cada gráfico para o seu respectivo Command.
         carregarGraficos();
     }
     

@@ -38,17 +38,14 @@ public class DashboardService {
     }
     
     public Map<String, Double> getDadosEvolucaoGWP() {
-    // Presume que um novo método foi criado no ILinhaDoTempoRepository
-    return RepositoryFactory.getInstancia().getLinhaDoTempoRepository().getGWPEvitadoPorSemana();
+        return RepositoryFactory.getInstancia().getLinhaDoTempoRepository().getGWPEvitadoPorSemana();
     }
 
     public Map<String, Double> getDadosParticipacaoMateriais() {
-        // Presume que um novo método foi criado no IComposicaoPecaRepository
         return RepositoryFactory.getInstancia().getComposicaoPecaRepository().getMassaTotalPorMaterial();
     }
 
     public Map<String, Double> getDadosRankingVendedores() {
-        // Presume que um novo método foi criado no IVendedorRepository
         return RepositoryFactory.getInstancia().getVendedorRepository().getTopVendedoresPorGWP(5); // Top 5
     }
 }

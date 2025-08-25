@@ -5,12 +5,10 @@
 package br.brechosustentavel.command.commandManterAnuncio;
 
 import br.brechosustentavel.model.Anuncio;
-import br.brechosustentavel.model.Peca;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.repository.repositoryFactory.IAnuncioRepository;
 import br.brechosustentavel.repository.repositoryFactory.IComposicaoPecaRepository;
 import br.brechosustentavel.repository.repositoryFactory.IDefeitoPecaRepository;
-import br.brechosustentavel.repository.repositoryFactory.IPecaRepository;
 import br.brechosustentavel.repository.repositoryFactory.ITipoDePecaRepository;
 import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.view.IJanelaManterAnuncioView;
@@ -52,10 +50,8 @@ public class VisualizarAnuncioCompradorCommand implements ICommandVendedor{
             view.getTxtPrecoBase().setText(String.format("%.2f", anuncio.getValorFinal()));
             view.getSelectTipoDePeca().setSelectedItem(tipoPecaRepository.buscarNomeTipo(anuncio.getPeca().getIdTipoDePeca()));
 
-            // Carrega a lista de defeitos possíveis para o tipo de peça
             new CarregarDefeitosPorTipoCommand().executar(presenter);
 
-            // Marca os checkboxes dos defeitos que a peça realmente possui
             Map<String, Double> defeitosDaPeca = defeitoPecaRepository.buscarNomeDefeitosDaPeca(id_c);
             if (defeitosDaPeca != null) {
                 for (Component comp : view.getPainelScrollDefeitos().getComponents()) {

@@ -30,11 +30,6 @@ public class H2DefeitoRepository implements IDefeitoRepository {
     }
 
     @Override
-    public void editar() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
-
-    @Override
     public Map<String, Double> buscarDefeitosPorTipo(String tipoPeca) {
         Map<String, Double> defeitos = new HashMap<>();
         int tipoId = this.tipoPecaRepository.buscarIdTipo(tipoPeca);

@@ -30,11 +30,6 @@ public class SQLiteDefeitoRepository implements IDefeitoRepository{
     }
 
     @Override
-    public void editar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public Map<String, Double> buscarDefeitosPorTipo(String tipoPeca) {
         Map<String, Double> defeitos = new HashMap<>();
         int tipoId = this.tipoPecaRepository.buscarIdTipo(tipoPeca);
@@ -73,12 +68,11 @@ public class SQLiteDefeitoRepository implements IDefeitoRepository{
         catch (SQLException e) {
             throw new RuntimeException("Erro ao buscar id do tipo de peça no banco de dados: " + e.getMessage());
         }
-        return null; // Retorna null se não encontrar o defeito
+        return null;
     }
     
     public List<Map<String, Object>> buscarTodosParaManutencao() {
         List<Map<String, Object>> defeitos = new ArrayList<>();
-        // Usamos um JOIN para obter o NOME do tipo da peça, que é mais amigável para a tabela
         String sql = """
                      SELECT
                          d.id,
@@ -113,7 +107,6 @@ public class SQLiteDefeitoRepository implements IDefeitoRepository{
 
     @Override
     public void salvar(Integer id, String nome, double desconto, int idTipoPeca) {
-        // Se o ID for nulo, é uma inserção (INSERT). Caso contrário, é uma atualização (UPDATE).
         if (id == null) {
             String sql = "INSERT INTO defeito (nome, desconto, id_tipo) VALUES (?, ?, ?)";
             try (Connection conexao = this.conexaoFactory.getConexao();
@@ -148,8 +141,6 @@ public class SQLiteDefeitoRepository implements IDefeitoRepository{
             pstmt.setInt(1, idDefeito);
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            // Se o defeito estiver em uso, o SQLite pode lançar uma exceção de violação de chave estrangeira.
-            // O ideal é capturar e tratar isso de forma amigável.
             throw new RuntimeException("Erro ao excluir defeito com ID " + idDefeito + ". Verifique se ele não está em uso.", e);
         }
     }

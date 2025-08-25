@@ -149,6 +149,18 @@ public class H2CompradorRepository implements ICompradorRepository {
 
     @Override
     public void atualizarSelo(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      String sql = "UPDATE comprador SET selo_verificador = 1 WHERE id_comprador = ?";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            if (pstmt.executeUpdate() == 0) {
+                throw new RuntimeException("Nenhum comprador encontrado com o id: " + id);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar selo do comprador: " + e.getMessage(), e);
+        }  
     }
 }

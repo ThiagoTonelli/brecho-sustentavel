@@ -45,7 +45,7 @@ public class ManterTipoPecaPresenter {
                 new SalvarTipoPecaCommand().executar(this);
                 JOptionPane.showMessageDialog(view, "Tipo de peça salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                 limparCampos();
-                new CarregarTiposPecaCommand().executar(this); // Recarrega a tabela
+                new CarregarTiposPecaCommand().executar(this); 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(view, "Erro ao salvar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -55,7 +55,7 @@ public class ManterTipoPecaPresenter {
             try {
                 new ExcluirTipoPecaCommand().executar(this);
                 limparCampos();
-                new CarregarTiposPecaCommand().executar(this); // Recarrega a tabela
+                new CarregarTiposPecaCommand().executar(this);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(view, "Erro ao excluir: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }

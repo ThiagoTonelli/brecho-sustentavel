@@ -38,7 +38,7 @@ public class AvaliacaoService {
         EventoLinhaDoTempo evento = new EventoLinhaDoTempo(
             "Avaliação registrada",
             "Avaliação registrada",
-            LocalDateTime.now(), // A data e hora atuais
+            LocalDateTime.now(), 
             avaliacao.getTransacao().getOferta().getAnuncio().getMci(),
             avaliacao.getTransacao().getOferta().getAnuncio().getGwpAvoided()
         );
