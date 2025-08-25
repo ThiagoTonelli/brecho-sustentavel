@@ -10,10 +10,12 @@ import br.brechosustentavel.model.Oferta;
 import br.brechosustentavel.model.Transacao;
 import br.brechosustentavel.model.Usuario;
 import br.brechosustentavel.repository.IAnuncioRepository;
+import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
 import br.brechosustentavel.repository.IOfertaRepository;
 import br.brechosustentavel.repository.ITransacaoRepository;
 import br.brechosustentavel.repository.IUsuarioRepository;
+import br.brechosustentavel.repository.IVendedorRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.insignia.AplicaInsigniaService;
 import java.time.LocalDateTime;
@@ -28,6 +30,8 @@ public class TransacaoService {
     private ITransacaoRepository transacaoRepository;
     private IOfertaRepository ofertaRepository;
     private IAnuncioRepository anuncioRepository;
+    private ICompradorRepository compradorRepository;
+    private IVendedorRepository vendedorRepository;
     private IUsuarioRepository usuarioRepository;
     private AplicaInsigniaService insigniaService;
     private ILinhaDoTempoRepository linhaDoTempoRepository;
@@ -36,6 +40,8 @@ public class TransacaoService {
     public TransacaoService(AplicaInsigniaService insigniaService){
         this.fabrica = RepositoryFactory.getInstancia();
         this.usuarioRepository = fabrica.getUsuarioRepository();
+        this.compradorRepository = fabrica.getCompradorRepository();
+        this.vendedorRepository = fabrica.getVendedorRepository();
         this.transacaoRepository = fabrica.getTransacaoRepository();
         this.ofertaRepository = fabrica.getOfertaRepository();
         this.anuncioRepository = fabrica.getAnuncioRepository();
@@ -57,10 +63,15 @@ public class TransacaoService {
                     anuncio.get().getMci());
             evento.setCliclo(cicloAtual);
             linhaDoTempoRepository.criar(anuncio.get().getPeca().getId_c(), evento);
-
+            
+            //Escreve no log
             GerenciadorLog.getInstancia().registrarSucesso("Transação concluída", anuncio.get().getPeca().getId_c(), anuncio.get().getPeca() != null ? 
                     anuncio.get().getPeca().getSubcategoria() : "N/A");
-
+            
+            //Adiciona venda e compra ao vendedor e comprador
+            compradorRepository.atualizarCompras(oferta.get().getComprador().getId());
+            vendedorRepository.atualizarVendas(oferta.get().getAnuncio().getVendedor().getId());
+            
             anuncioRepository.excluirPorId(oferta.get().getAnuncio().getId());
 
             //Concede insignias

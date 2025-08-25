@@ -8,6 +8,7 @@ import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.Insignia;
 import br.brechosustentavel.model.Usuario;
 import br.brechosustentavel.model.Vendedor;
+import br.brechosustentavel.observer.Observador;
 import br.brechosustentavel.repository.ICompradorInsigniaRepository;
 import br.brechosustentavel.repository.IVendedorInsigniaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
@@ -24,12 +25,13 @@ import javax.swing.JPanel;
  *
  * @author kaila
  */
-public class JanelaVisualizarPerfilPresenter {
+public class JanelaVisualizarPerfilPresenter implements Observador{
+    private TelaPrincipalPresenter presenter;
     private JanelaVisualizarPerfilView view;
     private SessaoUsuarioService sessao;
     
     public JanelaVisualizarPerfilPresenter(){
-        new TelaPrincipalPresenter();
+        presenter = new TelaPrincipalPresenter();
         sessao = SessaoUsuarioService.getInstancia();
         
         view = new JanelaVisualizarPerfilView();
@@ -113,5 +115,10 @@ public class JanelaVisualizarPerfilPresenter {
     
     public JanelaVisualizarPerfilView getView(){
         return view;
+    }
+
+    @Override
+    public void atualizar() {
+        
     }
 }

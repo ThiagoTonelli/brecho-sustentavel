@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.repository;
 
+import br.brechosustentavel.dto.FiltroAnuncioDTO;
 import br.brechosustentavel.model.Anuncio;
 import java.util.List;
 import java.util.Optional;
@@ -22,4 +23,5 @@ public interface IAnuncioRepository {
     public List<Anuncio> buscarTodos(int idUsuario);
     public Optional<Anuncio> buscarPorIdPeca(String idPeca);
     public void excluirPorId(int id);
+    public List<Anuncio> buscarComFiltros(FiltroAnuncioDTO filtro, int idVendedor);
 }
