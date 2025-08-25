@@ -4,6 +4,8 @@
  */
 package br.brechosustentavel.model;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author kaila
@@ -15,6 +17,7 @@ public class Denuncia {
     private String motivo;
     private String descricao;
     private String status;
+    private LocalDateTime data;
 
     public Denuncia(Anuncio anuncio, Comprador comprador, String motivo, String descricao, String status) {
         this.anuncio = anuncio;
@@ -71,4 +74,14 @@ public class Denuncia {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public LocalDateTime getData() {
+        return data;
+    }
+
+    public void setData(LocalDateTime data) {
+        this.data = data;
+    }
+    
+    
 }

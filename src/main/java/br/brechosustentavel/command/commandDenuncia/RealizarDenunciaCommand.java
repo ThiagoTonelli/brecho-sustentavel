@@ -15,7 +15,6 @@ import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaDenunciarAnuncioView;
 import java.util.Optional;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,13 +22,15 @@ import javax.swing.JOptionPane;
  */
 public class RealizarDenunciaCommand implements ICommandDenuncia {
     private JanelaDenunciarAnuncioPresenter presenter;
+    private SessaoUsuarioService sessao;
     
-    public RealizarDenunciaCommand(JanelaDenunciarAnuncioPresenter presenter){
+    public RealizarDenunciaCommand(JanelaDenunciarAnuncioPresenter presenter, SessaoUsuarioService sessao){
         this.presenter = presenter;
+        this.sessao = sessao;
     }
     
     @Override
-    public void executar(SessaoUsuarioService sessao) {
+    public void executar() {
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         IAnuncioRepository anuncioRepository = fabrica.getAnuncioRepository();
         ICompradorRepository compradorRepository = fabrica.getCompradorRepository();

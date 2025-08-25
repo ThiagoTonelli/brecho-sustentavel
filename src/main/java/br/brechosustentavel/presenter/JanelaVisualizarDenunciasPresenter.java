@@ -4,17 +4,16 @@
  */
 package br.brechosustentavel.presenter;
 
-import br.brechosustentavel.command.commandOferta.AceitarOfertaCommand;
-import br.brechosustentavel.command.commandOferta.CarregarOfertasCommand;
+import br.brechosustentavel.command.commandDenuncia.CarregarDenunciasCommand;
 import br.brechosustentavel.observer.Observavel;
-import br.brechosustentavel.service.TransacaoService;
-import br.brechosustentavel.service.insignia.AplicaInsigniaService;
+import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaVisualizarDenunciasView;
-import br.brechosustentavel.view.JanelaVisualizarOfertasView;
+import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -22,11 +21,13 @@ import javax.swing.JTable;
  */
 public class JanelaVisualizarDenunciasPresenter {
     private JanelaVisualizarDenunciasView view;
-    private String idPeca;
+    private final String idPeca;
+    private final SessaoUsuarioService sessao;
 
     
-    public JanelaVisualizarDenunciasPresenter(java.awt.Frame janelaPai, String idPeca){
+    public JanelaVisualizarDenunciasPresenter(java.awt.Frame janelaPai, String idPeca, SessaoUsuarioService sessao){
         this.idPeca = idPeca;
+        this.sessao = sessao;
 
         view = new JanelaVisualizarDenunciasView(janelaPai, true);
         view.setVisible(false);       
@@ -44,11 +45,9 @@ public class JanelaVisualizarDenunciasPresenter {
             try {
                 cancelar();
             } catch(Exception ex) {
-                JOptionPane.showMessageDialog(view, "Falha ao aceitar oferta: " + ex.getMessage());
+                JOptionPane.showMessageDialog(view, "Falha ao sair: " + ex.getMessage());
             }
-        });
-        
-        
+        });    
         view.setVisible(true);
     }
     
@@ -60,12 +59,13 @@ public class JanelaVisualizarDenunciasPresenter {
                 JOptionPane.showMessageDialog(view, "Selecione uma denuncia para visualizar detalhes.", "Aviso", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            int idOferta = (int) tabela.getValueAt(linhaSelecionada, 0);
-            if (idOferta != 0) {
-                new AceitarDenunciaCommand(new TransacaoService(new AplicaInsigniaService()), idOferta).executar(this, idPeca);
+            int idDenuncia = (int) tabela.getValueAt(linhaSelecionada, 0);
+            if (idDenuncia != 0) {
+                String motivo = (String) tabela.getValueAt(linhaSelecionada, 3);
+                String descricao = (String) tabela.getValueAt(linhaSelecionada, 4);
+                Frame janelaPai = (Frame) SwingUtilities.getWindowAncestor(view);
+                new JanelaVisualizarDetalhesDenunciaPresenter(janelaPai, idPeca, motivo, descricao, idDenuncia, sessao);
                 view.dispose();
-                JOptionPane.showMessageDialog(view, "Venda realizada com sucesso!", "Sucesso", JOptionPane.WARNING_MESSAGE);
-                Observavel.getInstance().notifyObservers();
             } else {
                 JOptionPane.showMessageDialog(view, "Oferta não encontrada.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -83,13 +83,7 @@ public class JanelaVisualizarDenunciasPresenter {
         view.getTxtIDPeca().setEnabled(false);
         view.getTxtIDPeca().setText(idPeca);
         
-        view.getTxtSubcategoria().setEnabled(false);
-        view.getTxtSubcategoria().setText(subcategoria);  
-        
-        view.getTxtValor().setEnabled(false);
-        view.getTxtValor().setText("R$ " + valorFinal);  
-        
-        new CarregarOfertasCommand().executar(this, idPeca);
+        new CarregarDenunciasCommand(this, idPeca).executar();
     }
     
     public JanelaVisualizarDenunciasView getView(){

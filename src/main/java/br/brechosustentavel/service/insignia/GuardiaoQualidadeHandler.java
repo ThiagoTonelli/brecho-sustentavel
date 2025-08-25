@@ -50,6 +50,7 @@ public class GuardiaoQualidadeHandler implements ITipoInsigniaHandler{
         
         Insignia insignia = optInsignia.get();
         Comprador comprador = usuario.getComprador().get();
+        
         if(!compradorInsigniaRepository.compradorPossuiInsignia(insignia.getId(), usuario.getId())){
             if(denunciaRepository.qtdDenunciasProcedentesPorComprador(usuario.getId()) >= 3){
                 compradorInsigniaRepository.inserirInsigniaAComprador(insignia.getId(), usuario.getId());
