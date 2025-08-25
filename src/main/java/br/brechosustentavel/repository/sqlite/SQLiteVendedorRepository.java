@@ -144,7 +144,7 @@ public class SQLiteVendedorRepository implements IVendedorRepository{
             throw new RuntimeException("Erro ao atualizar quantidade de vendas do vendedor: " + e.getMessage());
         }
     }
-    
+
     @Override
     public void editar(Vendedor vendedor) {
         String sql = "UPDATE vendedor SET nivel_reputacao = ?, estrelas = ?, vendas_concluidas = ?, gwp_contribuido = ? WHERE id_vendedor = ?";

@@ -63,6 +63,27 @@ public class Anuncio {
         this.status = status;
     }
 
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public void setPeca(Peca peca) {
+        this.peca = peca;
+    }
+
+    public void setValorFinal(double valorFinal) {
+        this.valorFinal = valorFinal;
+    }
+
+    public void setGwpAvoided(double gwpAvoided) {
+        this.gwpAvoided = gwpAvoided;
+    }
+
+    public void setMci(double mci) {
+        this.mci = mci;
+    }
+    
+
     @Override
     public String toString() {
         return "Anuncio{" + "idAnuncio=" + id + ", Vendedor=" + vendedor + ", peca=" + peca + ", valorFinal=" + valorFinal + ", gwpAvoided=" + gwpAvoided + ", mci=" + mci + '}';

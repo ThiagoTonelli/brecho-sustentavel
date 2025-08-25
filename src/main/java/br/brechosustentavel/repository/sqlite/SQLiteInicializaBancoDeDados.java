@@ -37,6 +37,7 @@ public class SQLiteInicializaBancoDeDados {
         criarTabelaEventoLinhaDoTempo();
         criarTabelaComposicaoPeca();
         criarTabelaDenuncia();
+        criarTabelaAvaliacao();
     }
     
     private void criarTabelaUsuario() {
@@ -278,6 +279,21 @@ public class SQLiteInicializaBancoDeDados {
                         status TEXT NOT NULL DEFAULT 'Pendente',
                         FOREIGN KEY (id_anuncio) REFERENCES anuncio(id) ON DELETE CASCADE,
                         FOREIGN KEY (id_comprador) REFERENCES comprador(id_comprador) ON DELETE CASCADE
+                     );
+                     """;
+        executarSQL(sql);
+    }
+    
+    private void criarTabelaAvaliacao() {
+        String sql = """
+                     CREATE TABLE IF NOT EXISTS avaliacao (
+                         id INTEGER PRIMARY KEY AUTOINCREMENT,
+                         id_transacao INTEGER NOT NULL,
+                         id_autor INTEGER NOT NULL,
+                         texto TEXT NOT NULL,
+                         data DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         FOREIGN KEY (id_transacao) REFERENCES transacao(id),
+                         FOREIGN KEY (id_autor) REFERENCES usuario(id)
                      );
                      """;
         executarSQL(sql);

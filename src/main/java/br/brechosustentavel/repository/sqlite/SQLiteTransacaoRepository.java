@@ -4,14 +4,19 @@
  */
 package br.brechosustentavel.repository.sqlite;
 
+import br.brechosustentavel.model.Oferta;
 import br.brechosustentavel.model.Transacao;
 import br.brechosustentavel.repository.ConexaoFactory;
+import br.brechosustentavel.repository.IOfertaRepository;
 import br.brechosustentavel.repository.ITransacaoRepository;
+import br.brechosustentavel.repository.RepositoryFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,6 +94,88 @@ public class SQLiteTransacaoRepository implements ITransacaoRepository{
        } catch(SQLException e) {
            throw new RuntimeException("Erro ao salvar transação: " + e.getMessage());
        }   
+    }
+    
+    @Override
+    public Optional<Transacao> buscarPorId(int id) {
+
+        String sql = "SELECT * FROM transacao WHERE id = ?;";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                int idOferta = rs.getInt("id_oferta");
+
+                IOfertaRepository ofertaRepo = RepositoryFactory.getInstancia().getOfertaRepository();
+                Oferta ofertaCompleta = ofertaRepo.buscarOfertaPorId(idOferta)
+                        .orElseThrow(() -> new SQLException("Oferta com ID " + idOferta + " associada à transação não foi encontrada."));
+
+                Transacao transacao = new Transacao(
+                        ofertaCompleta,
+                        rs.getDouble("valor_total")
+                );
+                transacao.setId(rs.getInt("id"));
+
+
+                String dataStr = rs.getString("data");
+                if (dataStr != null) {
+                    transacao.setData(LocalDateTime.parse(dataStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                }
+
+                return Optional.of(transacao);
+            }
+            return Optional.empty();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar transação por ID: " + e.getMessage(), e);
+        }
+    }
+    
+    @Override
+    public List<Transacao> buscarPorComprador(int idComprador) {
+        List<Transacao> transacoes = new ArrayList<>();
+        // A query busca todas as transações onde o ID do comprador da oferta corresponde.
+        String sql = "SELECT id FROM transacao WHERE id_oferta IN (SELECT id FROM oferta WHERE id_comprador = ?)";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idComprador);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // Reutiliza o método buscarPorId que já monta o objeto Transacao completo
+                buscarPorId(rs.getInt("id")).ifPresent(transacoes::add);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar transações por comprador: " + e.getMessage(), e);
+        }
+        return transacoes;
+    }
+
+    @Override
+    public List<Transacao> buscarPorVendedor(int idVendedor) {
+        List<Transacao> transacoes = new ArrayList<>();
+        // A query busca todas as transações onde o ID do vendedor do anúncio corresponde.
+        String sql = "SELECT t.id FROM transacao t JOIN oferta o ON t.id_oferta = o.id JOIN anuncio a ON o.id_anuncio = a.id WHERE a.id_vendedor = ?";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idVendedor);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                buscarPorId(rs.getInt("id")).ifPresent(transacoes::add);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar transações por vendedor: " + e.getMessage(), e);
+        }
+        return transacoes;
     }
 
     

@@ -5,6 +5,7 @@
 package br.brechosustentavel.service.pontuacao;
 
 import br.brechosustentavel.model.Anuncio;
+import br.brechosustentavel.model.Avaliacao;
 import br.brechosustentavel.model.Denuncia;
 import br.brechosustentavel.model.Oferta;
 import br.brechosustentavel.model.Transacao;
@@ -38,9 +39,9 @@ public class PontuacaoService {
         new PontuacaoRespostaRapidaStrategy().calcularEAtualizar(oferta, fabrica);
     }
     
-    //public void processarAvaliacaoSubmetida(Avaliacao avaliacao) {
-      //  new PontuacaoAvaliacaoStrategy().calcularEAtualizar(avaliacao, fabrica);
-    //}
+    public void processarAvaliacaoSubmetida(Avaliacao avaliacao) {
+        new PontuacaoAvaliacaoStrategy().calcularEAtualizar(avaliacao, fabrica);
+    }
 
     public void processarDenunciaValidada(Denuncia denuncia) {
         new PontuacaoDenunciaProcedenteStrategy().calcularEAtualizar(denuncia, fabrica);

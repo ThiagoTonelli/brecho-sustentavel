@@ -6,6 +6,7 @@ package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 
 import br.brechosustentavel.command.commandPrincipal.AdicionarPerfilCommand;
 import br.brechosustentavel.command.commandPrincipal.CarregarAnunciosVendedorCommand;
+import br.brechosustentavel.presenter.JanelaHistoricoPresenter;
 import br.brechosustentavel.presenter.JanelaVisualizarDenunciasPresenter;
 import br.brechosustentavel.presenter.JanelaVisualizarOfertasPresenter;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
@@ -13,6 +14,7 @@ import br.brechosustentavel.presenter.manterAnuncioPresenter.InclusaoAnuncioStat
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.VisualizacaoAnuncioState;
 import br.brechosustentavel.service.SessaoUsuarioService;
+import br.brechosustentavel.view.JanelaHistoricoView;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import br.brechosustentavel.view.JanelaVisualizarPerfilView;
 import java.awt.Frame;
@@ -55,6 +57,10 @@ public class VendedorState extends JanelaPrincipalState{
             visualizarDenuncias();
         });
         
+        view.getOpcAvaliar().addActionListener(e -> {
+            visualizarTransacoes();
+        });
+        
         view.getMenuVisualizarPerfil().addMenuListener(new MenuListener(){
             @Override
             public void menuSelected(MenuEvent e) {
@@ -77,6 +83,7 @@ public class VendedorState extends JanelaPrincipalState{
         presenter.getView().getOpcAddPerfil().addActionListener(e -> {
             new AdicionarPerfilCommand().executar(presenter);
         });
+        
         view.setVisible(true);
     }
 
@@ -147,6 +154,17 @@ public class VendedorState extends JanelaPrincipalState{
             new JanelaVisualizarDenunciasPresenter(janelaPai, idPeca, usuarioAutenticado);
         } else {
             JOptionPane.showMessageDialog(presenter.getView(), "Denuncias não encontradas.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    @Override
+    public void visualizarTransacoes(){
+        try {
+            JanelaHistoricoView view = new JanelaHistoricoView();
+            presenter.setFrame(view);
+            new JanelaHistoricoPresenter(view);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(VendedorState.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

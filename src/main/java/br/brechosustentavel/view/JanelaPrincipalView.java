@@ -58,6 +58,8 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         opcExportarLogs = new javax.swing.JMenuItem();
         opcExportarVendas = new javax.swing.JMenuItem();
         menuConfiguracao = new javax.swing.JMenu();
+        menuTransacao = new javax.swing.JMenu();
+        opcAvaliar = new javax.swing.JMenuItem();
 
         setIconifiable(true);
         setMaximizable(true);
@@ -170,17 +172,15 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1003, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(buttonManterTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(buttonManterComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1003, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(buttonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(buttonManterTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(buttonManterComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -227,6 +227,13 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
 
         menuConfiguracao.setText("Configuração");
         menuBar.add(menuConfiguracao);
+
+        menuTransacao.setText("Minhas Compras");
+
+        opcAvaliar.setText("Avaliar compras");
+        menuTransacao.add(opcAvaliar);
+
+        menuBar.add(menuTransacao);
 
         setJMenuBar(menuBar);
 
@@ -331,6 +338,10 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         return txtAtributos;
     }
 
+    public JMenuItem getOpcAvaliar() {
+        return opcAvaliar;
+    }
+
 
     
 
@@ -352,8 +363,10 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     private javax.swing.JMenu menuConfiguracao;
     private javax.swing.JMenu menuPerfil;
     private javax.swing.JMenu menuRelatorios;
+    private javax.swing.JMenu menuTransacao;
     private javax.swing.JMenu menuVisualizarPerfil;
     private javax.swing.JMenuItem opcAddPerfil;
+    private javax.swing.JMenuItem opcAvaliar;
     private javax.swing.JMenuItem opcExportarLogs;
     private javax.swing.JMenuItem opcExportarVendas;
     private javax.swing.JMenuItem opcTrocarPerfil;
