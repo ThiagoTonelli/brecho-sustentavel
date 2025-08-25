@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 
+import br.brechosustentavel.command.commandPrincipal.AdicionarPerfilCommand;
 import br.brechosustentavel.command.commandPrincipal.CarregarAnunciosVendedorCommand;
 import br.brechosustentavel.presenter.JanelaVisualizarOfertasPresenter;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
@@ -68,6 +69,9 @@ public class VendedorState extends JanelaPrincipalState{
             @Override
             public void menuCanceled(MenuEvent e) {}
         });
+        presenter.getView().getOpcAddPerfil().addActionListener(e -> {
+            new AdicionarPerfilCommand().executar(presenter);
+        });
         view.setVisible(true);
     }
 
@@ -128,7 +132,7 @@ public class VendedorState extends JanelaPrincipalState{
     @Override
     public void carregar(){
         try {
-            new CarregarAnunciosVendedorCommand().executar(presenter, SessaoUsuarioService.getInstancia());
+            new CarregarAnunciosVendedorCommand().executar(presenter);
         } catch (Exception e) {
             System.err.println("Erro ao recarregar anúncios: " + e.getMessage());
         }

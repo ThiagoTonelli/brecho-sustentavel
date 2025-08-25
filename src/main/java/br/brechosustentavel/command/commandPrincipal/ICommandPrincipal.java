@@ -13,5 +13,5 @@ import br.brechosustentavel.service.SessaoUsuarioService;
  * @author thiag
  */
 public interface ICommandPrincipal {
-    public void executar(JanelaPrincipalPresenter presenter, SessaoUsuarioService usuarioAutenticado);
+    public void executar(JanelaPrincipalPresenter presenter);
 }

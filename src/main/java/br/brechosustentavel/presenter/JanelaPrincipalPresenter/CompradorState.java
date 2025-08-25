@@ -6,6 +6,7 @@ package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 
 import br.brechosustentavel.command.commandFiltros.CarregarAnunciosFiltradosCommand;
 import br.brechosustentavel.command.commandFiltros.CarregarFiltroTiposDePecaCommand;
+import br.brechosustentavel.command.commandPrincipal.AdicionarPerfilCommand;
 import br.brechosustentavel.command.commandPrincipal.CarregarAnunciosCommand;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
@@ -80,6 +81,9 @@ public class CompradorState extends JanelaPrincipalState{
             public void menuCanceled(MenuEvent e) {}
         });
         view.setVisible(true);
+        presenter.getView().getOpcAddPerfil().addActionListener(e -> {
+            new AdicionarPerfilCommand().executar(presenter);
+        });
     }
 
     @Override
@@ -108,7 +112,7 @@ public class CompradorState extends JanelaPrincipalState{
     @Override
     public void carregar(){
         try {
-            new CarregarAnunciosCommand().executar(presenter, SessaoUsuarioService.getInstancia());
+            new CarregarAnunciosCommand().executar(presenter);
         } catch (Exception e) {
             System.err.println("Erro ao recarregar anúncios: " + e.getMessage());
         }
