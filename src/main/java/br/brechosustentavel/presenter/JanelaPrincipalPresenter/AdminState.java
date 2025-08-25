@@ -103,7 +103,7 @@ public class AdminState extends JanelaPrincipalState {
         view.getMenuPerfil().setVisible(false);
         view.getMenuRelatorios().setVisible(true);
         view.getMenuTransacao().setVisible(false);
-        view.getMenuVisualizarPerfil().setVisible(false);
+        view.getOpcVisualizarPerfil().setVisible(false);
         
         //Configura label
         view.getLblTitulo().setText("Bem-vindo ao Painel Administrativo");

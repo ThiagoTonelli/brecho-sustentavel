@@ -118,7 +118,7 @@ public class AnuncioService {
     private Anuncio republicarAnuncio(Peca pecaAtualizada, Usuario usuario, double gwpAvoided, double mciPeca) {
         Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(pecaAtualizada.getId_c());
 
-        if (ultimoEventoOpt.isPresent() && "encerrado".equals(ultimoEventoOpt.get().getTipoEvento())) {
+        if (ultimoEventoOpt.isPresent() && ( "encerrado".equals(ultimoEventoOpt.get().getTipoEvento()) || "oferta aceita".equals(ultimoEventoOpt.get().getTipoEvento()) || "avaliacao registrada".equals(ultimoEventoOpt.get().getTipoEvento()))) {
 
             pecaRepository.editar(pecaAtualizada);
 

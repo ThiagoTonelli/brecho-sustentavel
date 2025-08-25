@@ -5,9 +5,12 @@
 package br.brechosustentavel.service.avaliacao;
 
 import br.brechosustentavel.model.Avaliacao;
+import br.brechosustentavel.model.EventoLinhaDoTempo;
 import br.brechosustentavel.repository.repositoryFactory.IAvaliacaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.ILinhaDoTempoRepository;
 import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.pontuacao.PontuacaoService;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -16,10 +19,12 @@ import br.brechosustentavel.service.pontuacao.PontuacaoService;
 public class AvaliacaoService {
     
     private final IAvaliacaoRepository avaliacaoRepository;
+    private final ILinhaDoTempoRepository linhaDoTempoRepository;
     private final PontuacaoService pontuacaoService;
 
     public AvaliacaoService() {
         this.avaliacaoRepository = RepositoryFactory.getInstancia().getAvaliacaoRepository();
+        this.linhaDoTempoRepository = RepositoryFactory.getInstancia().getLinhaDoTempoRepository();
         this.pontuacaoService = new PontuacaoService();
     }
     
@@ -29,6 +34,16 @@ public class AvaliacaoService {
         }
 
         avaliacaoRepository.salvar(avaliacao);
+        
+        EventoLinhaDoTempo evento = new EventoLinhaDoTempo(
+            "Avaliação registrada",
+            "Avaliação registrada",
+            LocalDateTime.now(), // A data e hora atuais
+            avaliacao.getTransacao().getOferta().getAnuncio().getMci(),
+            avaliacao.getTransacao().getOferta().getAnuncio().getGwpAvoided()
+        );
+        
+        linhaDoTempoRepository.criar(avaliacao.getTransacao().getOferta().getAnuncio().getPeca().getId_c(), evento);
 
         pontuacaoService.processarAvaliacaoSubmetida(avaliacao);
 
