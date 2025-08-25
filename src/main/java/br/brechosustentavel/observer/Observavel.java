@@ -35,7 +35,7 @@ public class Observavel {
     }
 
     public void notifyObservers() {
-        for (Observador observer : new ArrayList<>(observers)) { // Itera sobre uma cópia para evitar ConcurrentModificationException
+        for (Observador observer : new ArrayList<>(observers)) {
             observer.atualizar();
         }
     }
