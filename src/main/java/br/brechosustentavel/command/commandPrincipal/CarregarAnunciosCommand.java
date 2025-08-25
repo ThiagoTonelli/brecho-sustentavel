@@ -23,7 +23,9 @@ import javax.swing.table.DefaultTableModel;
 public class CarregarAnunciosCommand implements ICommandPrincipal{
 
     @Override
-    public void executar(JanelaPrincipalPresenter presenter, SessaoUsuarioService usuarioAutenticado) {
+    public void executar(JanelaPrincipalPresenter presenter) {
+        SessaoUsuarioService usuarioAutenticado = SessaoUsuarioService.getInstancia();
+        
         String[] colunas = {
             "Vendedor", "ID Peça", "Tipo de Peça", "Subcategoria", "Estado de Conservação", "GWP Evitado (kg)", "MCI", "Preço Final (R$)"
         };
