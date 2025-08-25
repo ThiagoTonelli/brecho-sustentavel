@@ -1,26 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.brechosustentavel.repository.h2;
 
 import br.brechosustentavel.repository.ConexaoFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-/**
- *
- * @author kaila
- */
-public final class H2ConexaoFactory extends ConexaoFactory{
 
-    @Override
+public class H2ConexaoFactory extends ConexaoFactory {
+
+     @Override
     public Connection getConexao() {
         try {
-            return DriverManager.getConnection("jdbc:h2:./meu_brecho_h2", "sa", "");
-        } catch (SQLException e) {
-            throw new RuntimeException("Falha ao conectar com H2 " + e.getMessage());
+            Class.forName("org.h2.Driver");
+            String url = "jdbc:h2:./brechosustentavel_h2;AUTO_SERVER=TRUE"; 
+            String usuario = "sa"; // utilizador padrão
+            String senha = "";     // senha padrão
+            
+            return DriverManager.getConnection(url, usuario, senha);
+            
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException("Falha ao conectar com H2: " + e.getMessage(), e);
         }
     }
 }
-

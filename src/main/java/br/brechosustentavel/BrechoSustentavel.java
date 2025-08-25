@@ -4,13 +4,14 @@
 
 package br.brechosustentavel;
 
+import br.brechosustentavel.configuracao.ConfiguracaoAdapter;
 import br.brechosustentavel.presenter.LoginPresenter;
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.h2.H2InicializaBancoDeDados;
 import br.brechosustentavel.repository.sqlite.SQLiteConexaoFactory;
 import br.brechosustentavel.repository.sqlite.SQLiteInicializaBancoDeDados;
-import br.brechosustentavel.seeder.Seeder;
 import br.brechosustentavel.service.AutenticacaoService;
 
 import br.brechosustentavel.service.SessaoUsuarioService;
@@ -52,13 +53,21 @@ public class BrechoSustentavel {
         }*/
         
         try{
-            ConexaoFactory conexaoFactory = new SQLiteConexaoFactory();
-            Connection conexao = conexaoFactory.getConexao();
+
             TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
-            //SQLiteInicializaBancoDeDados inicializador = new SQLiteInicializaBancoDeDados(conexao);
             HashService hash = new BCryptAdapter();
             VerificadorTelefoneService verificadorTelefone = new LibPhoneNumberAdapter();
-            //inicializador.inicializar();
+            ConfiguracaoAdapter configuracao = new ConfiguracaoAdapter();
+            String sgdb = configuracao.getValor("SGBD");
+        
+            ConexaoFactory conexaoFactory = ConexaoFactory.getConexaoFactory(sgdb);
+            Connection conexao = conexaoFactory.getConexao();
+
+            if ("sqlite".equalsIgnoreCase(sgdb)) {
+                new SQLiteInicializaBancoDeDados(conexao).inicializar();
+            } else if ("h2".equalsIgnoreCase(sgdb)) {
+                new H2InicializaBancoDeDados(conexao).inicializar();
+            }
             //Seeder seeder = new Seeder(conexao, hash);
             //seeder.inserir();
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
