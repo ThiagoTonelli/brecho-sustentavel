@@ -33,7 +33,7 @@ public class PontuacaoTransacaoConcluidaStrategy implements IPontuacaoStrategy {
         IVendedorRepository vendedorRepo = fabrica.getVendedorRepository();
         ICompradorRepository compradorRepo = fabrica.getCompradorRepository();
         
-        vendedorRepo.salvar(vendedor);
-        compradorRepo.salvar(comprador);
+        vendedorRepo.editar(vendedor);
+        compradorRepo.editar(comprador);
     }
 }

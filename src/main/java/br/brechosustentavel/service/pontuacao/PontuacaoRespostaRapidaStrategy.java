@@ -34,7 +34,7 @@ public class PontuacaoRespostaRapidaStrategy implements IPontuacaoStrategy {
                 vendedor.setEstrelas(vendedor.getEstrelas() + PONTOS);
 
                 IVendedorRepository vendedorRepo = fabrica.getVendedorRepository();
-                vendedorRepo.salvar(vendedor);
+                vendedorRepo.editar(vendedor);
             }
         }
     }

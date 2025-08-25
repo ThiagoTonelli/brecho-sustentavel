@@ -160,4 +160,19 @@ public class SQLiteVendedorRepository implements IVendedorRepository{
             throw new RuntimeException("Erro ao atualizar vendedor: " + e.getMessage(), e);
         }
     }
+    
+    @Override
+    public void somarGwpContribuido(int idVendedor, double gwpParaAdicionar) {
+        String sql = "UPDATE vendedor SET gwp_contribuido = gwp_contribuido + ? WHERE id_vendedor = ?";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setDouble(1, gwpParaAdicionar);
+            pstmt.setInt(2, idVendedor);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao somar GWP contribuído do vendedor: " + e.getMessage(), e);
+        }
+    }
 }

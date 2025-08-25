@@ -18,6 +18,7 @@ import br.brechosustentavel.repository.IUsuarioRepository;
 import br.brechosustentavel.repository.IVendedorRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.insignia.AplicaInsigniaService;
+import br.brechosustentavel.service.pontuacao.PontuacaoService;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -61,7 +62,8 @@ public class TransacaoService {
             oferta.setStatus("Aceita");
             oferta.setDataResposta(LocalDateTime.now());
             ofertaRepository.atualizar(oferta);
-
+            
+            
             Transacao transacao = new Transacao(oferta, oferta.getValor());
             transacaoRepository.salvar(transacao);
 
@@ -85,7 +87,13 @@ public class TransacaoService {
             vendedorRepository.atualizarVendas(oferta.getAnuncio().getVendedor().getId());
             
             anuncioRepository.atualizarStatus(anuncio.get().getPeca().getId_c(), "vendido");
-
+            
+            double gwpDaVenda = oferta.getAnuncio().getGwpAvoided();
+        
+            //Soma o valor gwp ao perfis de comprador e vendedor.
+            compradorRepository.somarGwpEvitado(oferta.getComprador().getId(), gwpDaVenda);
+            vendedorRepository.somarGwpContribuido(oferta.getAnuncio().getVendedor().getId(), gwpDaVenda);
+            
             //Concede insignias
             Optional<Usuario> optUsuarioComprador = usuarioRepository.buscarPorId(oferta.getComprador().getId());
             Optional<Usuario> optUsuarioVendedor = usuarioRepository.buscarPorId(oferta.getAnuncio().getVendedor().getId());
@@ -95,6 +103,9 @@ public class TransacaoService {
             insigniaService.concederInsignia(optUsuarioComprador.get());
             insigniaService.concederInsignia(optUsuarioVendedor.get()); 
             
+            //Concede pontuacao
+            new PontuacaoService().processarRespostaOferta(oferta);
+            new PontuacaoService().processarConclusaoTransacao(transacao);
         } catch (Exception e){
             String idcPeca = (anuncio != null && anuncio.isPresent()) ? anuncio.get().getPeca().getId_c() : "N/A";
             String nomePeca = (anuncio != null && anuncio.isPresent()) ? anuncio.get().getPeca().getSubcategoria() : "Oferta ID " + idOferta;
