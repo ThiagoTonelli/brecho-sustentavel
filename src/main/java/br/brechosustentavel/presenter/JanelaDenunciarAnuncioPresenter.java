@@ -62,7 +62,7 @@ public class JanelaDenunciarAnuncioPresenter {
     }
     
     private void denunciar(){
-        new RealizarDenunciaCommand(sessao).executar(this);
+        new RealizarDenunciaCommand(this).executar(sessao);
         JOptionPane.showMessageDialog(view, "Denuncia enviada para análise com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         view.dispose();
     }

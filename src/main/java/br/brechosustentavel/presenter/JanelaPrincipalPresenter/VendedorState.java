@@ -128,6 +128,25 @@ public class VendedorState extends JanelaPrincipalState{
         }
     }
     
+    @Override
+    public void visualizarDenuncias(){
+        JTable tabela = presenter.getView().getjTable1();
+        int linhaSelecionada = tabela.getSelectedRow();
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(presenter.getView(), "Selecione um anúncio para visualizar as denuncias.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String idPeca = (String) tabela.getValueAt(linhaSelecionada, 0);
+        if (idPeca != null) {
+            String subcategoria = (String) tabela.getValueAt(linhaSelecionada, 1);
+            String valorFinal = (String) tabela.getValueAt(linhaSelecionada, 8);
+            Frame janelaPai = (Frame) SwingUtilities.getWindowAncestor(presenter.getView());
+            JanelaVisualizarOfertasPresenter visualizarOfertasPresenter = new JanelaVisualizarOfertasPresenter(janelaPai, idPeca, subcategoria, valorFinal);
+        } else {
+            JOptionPane.showMessageDialog(presenter.getView(), "Ofertas não encontradas.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     
     @Override
     public void carregar(){

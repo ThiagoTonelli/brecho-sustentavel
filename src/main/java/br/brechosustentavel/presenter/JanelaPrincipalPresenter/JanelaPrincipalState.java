@@ -42,4 +42,8 @@ public abstract class JanelaPrincipalState {
     public void visualizarOfertas(){
         throw new RuntimeException("Não é possível visualizar ofertas estando neste estado");
     }
+    
+    public void visualizarDenuncias(){
+        throw new RuntimeException("Não é possível visualizar denuncias estando neste estado");
+    }
 }
