@@ -19,5 +19,6 @@ public interface ICompradorRepository {
     public void atualizarCompras(int id);
     public Map<String, Integer> contarPorNivelReputacao();
     public void editar(Comprador comprador);
-    void somarGwpEvitado(int idComprador, double gwpParaAdicionar);
+    public void somarGwpEvitado(int idComprador, double gwpParaAdicionar);
+    public void atualizarSelo(int id);
 }

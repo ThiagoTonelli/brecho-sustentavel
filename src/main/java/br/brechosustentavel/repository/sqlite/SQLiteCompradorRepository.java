@@ -150,6 +150,20 @@ public class SQLiteCompradorRepository implements ICompradorRepository{
         }
     }
 
+    @Override
+    public void atualizarSelo(int id) {
+        String sql = "UPDATE comprador SET selo_verificador = 1 WHERE id_comprador = ?;";
+        
+        try(Connection conexao = this.conexaoFactory.getConexao();
+            PreparedStatement pstmt = conexao.prepareStatement(sql)){
+            pstmt.setInt(1, id);
+            
+            pstmt.executeUpdate();
+        } catch(SQLException e){
+            throw new RuntimeException("Erro ao atualizar selo do comprador: " + e.getMessage());
+        }
+    }
+    
     
 
     

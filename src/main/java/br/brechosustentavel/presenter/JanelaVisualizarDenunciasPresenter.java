@@ -5,7 +5,6 @@
 package br.brechosustentavel.presenter;
 
 import br.brechosustentavel.command.commandDenuncia.CarregarDenunciasCommand;
-import br.brechosustentavel.observer.Observavel;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaVisualizarDenunciasView;
 import java.awt.Frame;

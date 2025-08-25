@@ -39,6 +39,7 @@ public class AplicaInsigniaService {
         tiposInsignias.add(new GuardiaoQualidadeHandler(repositoryFactory.getInsigniaRepository(), repositoryFactory.getDenunciaRepository(), 
                 repositoryFactory.getCompradorInsigniaRepository(), repositoryFactory.getCompradorRepository())
         );
+        tiposInsignias.add(new VerificadorConfiavelHandler(repositoryFactory.getDenunciaRepository(), repositoryFactory.getCompradorRepository()));
     }
     
     public void concederInsignia(Usuario usuario){
