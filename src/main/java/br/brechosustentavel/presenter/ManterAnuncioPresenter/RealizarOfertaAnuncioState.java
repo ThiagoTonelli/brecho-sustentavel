@@ -7,6 +7,7 @@ package br.brechosustentavel.presenter.manterAnuncioPresenter;
 import br.brechosustentavel.command.commandManterAnuncio.CarregarComposicaoCommand;
 import br.brechosustentavel.command.commandManterAnuncio.CarregarTiposDePecaCommand;
 import br.brechosustentavel.command.commandManterAnuncio.VisualizarAnuncioCompradorCommand;
+import br.brechosustentavel.presenter.JanelaDenunciarAnuncioPresenter;
 import br.brechosustentavel.presenter.JanelaRealizarOfertaPresenter;
 import br.brechosustentavel.service.RealizarOfertaService;
 import java.awt.Frame;
@@ -29,25 +30,27 @@ public class RealizarOfertaAnuncioState extends ManterAnuncioState{
         
         visualizar();
         
-        presenter.getView().getBtnEnviar().addActionListener(new ActionListener (){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                try{
-                    ofertar();
-                }catch (Exception ex){
-                    JOptionPane.showMessageDialog(null, "Erro ao ir ofertar: " + ex.getMessage());
-                }
+        presenter.getView().getBtnEnviar().addActionListener((ActionEvent e) -> {
+            try{
+                ofertar();
+            }catch (Exception ex){
+                JOptionPane.showMessageDialog(null, "Erro ao ir ofertar: " + ex.getMessage());
             }
         });
         
-        presenter.getView().getBtnCancelar().addActionListener(new ActionListener (){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                try{
-                    cancelar();
-                }catch (Exception ex){
-                    JOptionPane.showMessageDialog(null, "Erro ao cancelar: " + ex.getMessage());
-                }
+        presenter.getView().getBtnCancelar().addActionListener((ActionEvent e) -> {
+            try{
+                cancelar();
+            }catch (Exception ex){
+                JOptionPane.showMessageDialog(null, "Erro ao cancelar: " + ex.getMessage());
+            }
+        });
+        
+        presenter.getView().getBtnExcluir().addActionListener((ActionEvent e) -> {
+            try{
+                denunciar();
+            }catch (Exception ex){
+                JOptionPane.showMessageDialog(null, "Erro ao denunciar: " + ex.getMessage());
             }
         });
     }
@@ -80,16 +83,23 @@ public class RealizarOfertaAnuncioState extends ManterAnuncioState{
         }
     }
     
+    @Override
+    public void denunciar(){
+        Frame janelaPai = (Frame) SwingUtilities.getWindowAncestor(presenter.getView());
+        String idPeca = presenter.getView().getTxtId_c().getText();
+        new JanelaDenunciarAnuncioPresenter(janelaPai, idPeca, presenter.getUsuarioAutenticado());
+    }
+    
     private void configurarTela(boolean estado) throws PropertyVetoException{
         presenter.getView().setVisible(false);
         presenter.getView().setMaximum(true);
         presenter.getView().setSelected(true);
         
         //Configura botões [estado = false]
-        presenter.getView().getBtnExcluir().setVisible(estado);
         presenter.getView().getBtnGerarId().setVisible(estado);
         presenter.getView().getBtnCancelar().setText("Voltar");
         presenter.getView().getBtnEnviar().setText("Enviar Oferta");
+        presenter.getView().getBtnExcluir().setText("Denunciar");
         
         //Configura labels
         presenter.getView().getLabelTitulo().setText("Detalhes do Anúncio");

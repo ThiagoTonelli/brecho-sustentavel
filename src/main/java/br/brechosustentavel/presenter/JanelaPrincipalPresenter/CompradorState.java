@@ -36,13 +36,8 @@ public class CompradorState extends JanelaPrincipalState{
         super(presenter, usuarioAutenticado);
 
         view = presenter.getView();
-        view.setMaximum(true);
         view.setVisible(false);
-        view.setTitle("Bem-vindo Comprador!");
-        view.getButtonAdicionar().setVisible(false);
-        view.getButtonManterTipo().setVisible(false);
-        view.getButtonManterComposicao().setVisible(false);
-        view.getButtonVisualizar().setText("Ver detalhes do anuncio");
+        configurarTela();
         
         configurarFiltros();
         carregar();
@@ -80,10 +75,12 @@ public class CompradorState extends JanelaPrincipalState{
             @Override
             public void menuCanceled(MenuEvent e) {}
         });
-        view.setVisible(true);
+        
         presenter.getView().getOpcAddPerfil().addActionListener(e -> {
             new AdicionarPerfilCommand().executar(presenter);
         });
+        
+        view.setVisible(true);
     }
 
     @Override
@@ -125,9 +122,7 @@ public class CompradorState extends JanelaPrincipalState{
         cboxCriterio.addItem("Tipo de Peça");
         cboxCriterio.addItem("Faixa de Preço");
         
-        // Adiciona o listener para reagir às mudanças no primeiro ComboBox
-        cboxCriterio.addActionListener(e -> atualizarOpcoesDeFiltro());
-        
+        cboxCriterio.addActionListener(e -> atualizarOpcoesDeFiltro()); 
         atualizarOpcoesDeFiltro();
     }
     
@@ -144,8 +139,7 @@ public class CompradorState extends JanelaPrincipalState{
             valor.addItem("Até R$ 50,00");
             valor.addItem("R$ 50,01 a R$ 100,00");
             valor.addItem("R$ 100,01 a R$ 500,00");
-            valor.addItem("Acima de R$ 500,00");
-            
+            valor.addItem("Acima de R$ 500,00"); 
         }
     }
     
@@ -155,5 +149,16 @@ public class CompradorState extends JanelaPrincipalState{
         } catch (Exception e) {
             JOptionPane.showMessageDialog(view, "Erro ao buscar anuncios " + e.getMessage());
         }
+    }
+    
+    private void configurarTela() throws PropertyVetoException{
+        view.setMaximum(true);
+        view.setVisible(false);
+        view.setTitle("Bem-vindo Comprador!");
+        view.getButtonAdicionar().setVisible(false);
+        view.getButtonManterTipo().setVisible(false);
+        view.getButtonManterComposicao().setVisible(false);
+        view.getButtonVisualizar().setText("Ver detalhes do anuncio");
+        
     }
 }

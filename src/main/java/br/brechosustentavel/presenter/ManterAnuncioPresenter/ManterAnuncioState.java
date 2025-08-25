@@ -40,4 +40,8 @@ public abstract class ManterAnuncioState {
     public void ofertar(){
         throw new RuntimeException("Não é possível ofertar estando neste estado");
     }
+    
+    public void denunciar(){
+        throw new RuntimeException("Não é possível denunciar estando neste estado");
+    }
 }
