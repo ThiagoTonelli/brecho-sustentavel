@@ -10,9 +10,11 @@ import br.brechosustentavel.presenter.JanelaHistoricoPresenter;
 import br.brechosustentavel.presenter.JanelaVisualizarDenunciasPresenter;
 import br.brechosustentavel.presenter.JanelaVisualizarOfertasPresenter;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
+import br.brechosustentavel.presenter.dashboard.DashboardPresenter;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.InclusaoAnuncioState;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.VisualizacaoAnuncioState;
+import br.brechosustentavel.service.LimparListenerService;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaHistoricoView;
 import br.brechosustentavel.view.JanelaPrincipalView;
@@ -61,6 +63,10 @@ public class VendedorState extends JanelaPrincipalState{
             visualizarTransacoes();
         });
         
+        view.getOpcDashboard().addActionListener((ActionEvent e) -> {
+            abrirDashboard();
+        });
+        
         view.getMenuVisualizarPerfil().addMenuListener(new MenuListener(){
             @Override
             public void menuSelected(MenuEvent e) {
@@ -80,6 +86,7 @@ public class VendedorState extends JanelaPrincipalState{
             @Override
             public void menuCanceled(MenuEvent e) {}
         });
+        
         presenter.getView().getOpcAddPerfil().addActionListener(e -> {
             new AdicionarPerfilCommand().executar(presenter);
         });
@@ -181,9 +188,51 @@ public class VendedorState extends JanelaPrincipalState{
     private void configurarTela(JanelaPrincipalView view) throws PropertyVetoException{
         view.setMaximum(true);
         carregar();
-     
+        
+        //Limpa listeners
+        LimparListenerService limpar = new LimparListenerService();
+        limpar.limparListener(view.getButtonAdicionar());
+        limpar.limparListener(view.getButtonVisualizar());
+        limpar.limparListener(view.getButtonManterComposicao());
+        limpar.limparListener(view.getButtonManterTipo());
+        limpar.limparListener(view.getBtnFiltrar());
+        
+        //Configura panel de filtros
+        view.getPnlFiltros().setEnabled(false);
+        view.getPnlFiltros().setVisible(false);
+        
         //Configura botoes
+        view.getButtonAdicionar().setVisible(true);
+        view.getButtonVisualizar().setVisible(true);
+        view.getButtonManterComposicao().setVisible(true);
+        view.getButtonManterTipo().setVisible(true);        
+        view.getButtonAdicionar().setText("Adicionar Anúncio");
+        view.getButtonVisualizar().setText("Visualizar Anúncio");
         view.getButtonManterComposicao().setText("Visualizar Denuncias");
         view.getButtonManterTipo().setText("Visualizar Ofertas");
+        view.getButtonAdicionar().setEnabled(true);
+        view.getButtonVisualizar().setEnabled(true);
+        view.getButtonManterComposicao().setEnabled(true);
+        view.getButtonManterTipo().setEnabled(true);
+        
+        //Configura menus
+        view.getMenuConfiguracao().setVisible(false);
+        view.getMenuPerfil().setVisible(true);
+        view.getMenuVisualizarPerfil().setVisible(true);
+        view.getMenuRelatorios().setVisible(false);
+        view.getMenuTransacao().setVisible(true);
+        view.getMenuTransacao().setText("Minhas vendas");
+        view.getOpcAvaliar().setText("Avaliar vendas");
+    }
+    
+    private void abrirDashboard() {
+        try {
+            DashboardPresenter dashboardPresenter = new DashboardPresenter();
+            presenter.setFrame(dashboardPresenter.getView());
+            dashboardPresenter.getView().setVisible(true);
+            dashboardPresenter.getView().setMaximum(true);
+        } catch (PropertyVetoException ex) {
+            JOptionPane.showMessageDialog(presenter.getView(), "Erro ao abrir o dashboard: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
