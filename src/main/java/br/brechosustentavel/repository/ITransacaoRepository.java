@@ -16,4 +16,7 @@ import java.util.Optional;
 public interface ITransacaoRepository {
     public void salvar(Transacao transacao);;
     public List<Map<String, Object>> buscarDadosParaExportacao();
+    List<Transacao> buscarPorComprador(int idComprador);
+    List<Transacao> buscarPorVendedor(int idVendedor);
+    Optional<Transacao> buscarPorId(int id);
 }

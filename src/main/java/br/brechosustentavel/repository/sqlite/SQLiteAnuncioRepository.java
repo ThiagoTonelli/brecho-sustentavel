@@ -53,7 +53,7 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository {
             INNER JOIN peca p ON a.id_peca = p.id_c
             INNER JOIN vendedor v ON a.id_vendedor = v.id_vendedor
             LEFT JOIN tipo_peca tp ON p.id_tipo = tp.id
-            WHERE a.id_vendedor = ?;;
+            WHERE a.id_vendedor = ? AND a.status = 'ativo';;
             """;
 
         try (Connection conexao = this.conexaoFactory.getConexao();

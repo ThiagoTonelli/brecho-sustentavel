@@ -27,7 +27,7 @@ public class PontuacaoCadastroCompletoStrategy implements IPontuacaoStrategy {
         
         if (isCadastroCompleto(anuncio.getPeca())) {
             vendedor.setEstrelas(vendedor.getEstrelas() + PONTOS);
-            
+            new ReputacaoService().atualizarNivel(vendedor);
             IVendedorRepository vendedorRepo = fabrica.getVendedorRepository();
             vendedorRepo.editar(vendedor);
         }

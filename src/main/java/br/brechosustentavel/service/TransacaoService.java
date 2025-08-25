@@ -1,14 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.brechosustentavel.service;
 
 import br.brechosustentavel.model.Anuncio;
+import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.EventoLinhaDoTempo;
 import br.brechosustentavel.model.Oferta;
 import br.brechosustentavel.model.Transacao;
 import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.model.Vendedor;
 import br.brechosustentavel.repository.IAnuncioRepository;
 import br.brechosustentavel.repository.ICompradorRepository;
 import br.brechosustentavel.repository.ILinhaDoTempoRepository;
@@ -23,23 +21,22 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
- *
- * @author kaila
+ * Serviço responsável por orquestrar todas as etapas de uma transação bem-sucedida.
  */
 public class TransacaoService {
-    private RepositoryFactory fabrica;
-    private ITransacaoRepository transacaoRepository;
-    private IOfertaRepository ofertaRepository;
-    private IAnuncioRepository anuncioRepository;
-    private ICompradorRepository compradorRepository;
-    private IVendedorRepository vendedorRepository;
-    private IUsuarioRepository usuarioRepository;
-    private AplicaInsigniaService insigniaService;
-    private ILinhaDoTempoRepository linhaDoTempoRepository;
-    private Optional<Anuncio> anuncio;
     
-    public TransacaoService(AplicaInsigniaService insigniaService){
-        this.fabrica = RepositoryFactory.getInstancia();
+    private final ITransacaoRepository transacaoRepository;
+    private final IOfertaRepository ofertaRepository;
+    private final IAnuncioRepository anuncioRepository;
+    private final ICompradorRepository compradorRepository;
+    private final IVendedorRepository vendedorRepository;
+    private final IUsuarioRepository usuarioRepository;
+    private final AplicaInsigniaService insigniaService;
+    private final ILinhaDoTempoRepository linhaDoTempoRepository;
+    private final PontuacaoService pontuacaoService; // Adicionado para centralizar a chamada
+
+    public TransacaoService(AplicaInsigniaService insigniaService) {
+        RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         this.usuarioRepository = fabrica.getUsuarioRepository();
         this.compradorRepository = fabrica.getCompradorRepository();
         this.vendedorRepository = fabrica.getVendedorRepository();
@@ -48,70 +45,71 @@ public class TransacaoService {
         this.anuncioRepository = fabrica.getAnuncioRepository();
         this.linhaDoTempoRepository = fabrica.getLinhaDoTempoRepository();
         this.insigniaService = insigniaService;
+        this.pontuacaoService = new PontuacaoService();
     }
     
-    public void aceitarOferta(int idOferta){
-        Optional<Oferta> ofertaOpt = Optional.empty();
-        try{
-            ofertaOpt = ofertaRepository.buscarOfertaPorId(idOferta);
-            if (ofertaOpt.isEmpty()) {
-                throw new IllegalStateException("Oferta com ID " + idOferta + " não encontrada.");
-            }
-            Oferta oferta = ofertaOpt.get();
+    public void aceitarOferta(int idOferta) {
+        try {
+            Oferta oferta = ofertaRepository.buscarOfertaPorId(idOferta)
+                    .orElseThrow(() -> new IllegalStateException("Oferta com ID " + idOferta + " não encontrada."));
 
+            Vendedor vendedor = oferta.getAnuncio().getVendedor();
+            Comprador comprador = oferta.getComprador();
+            Anuncio anuncio = oferta.getAnuncio();
+
+            // Atualiza contadores de compra/venda
+            vendedor.setVendasConcluidas(vendedor.getVendasConcluidas() + 1);
+            comprador.setComprasFinalizadas(comprador.getComprasFinalizadas() + 1);
+
+            // Soma o GWP aos perfis
+            double gwpDaVenda = anuncio.getGwpAvoided();
+            vendedor.setGwpContribuido(vendedor.getGwpContribuido() + gwpDaVenda);
+            comprador.setGwpEvitado(comprador.getGwpEvitado() + gwpDaVenda);
+            
             oferta.setStatus("Aceita");
             oferta.setDataResposta(LocalDateTime.now());
             ofertaRepository.atualizar(oferta);
             
-            
             Transacao transacao = new Transacao(oferta, oferta.getValor());
             transacaoRepository.salvar(transacao);
 
-            ofertaRepository.rejeitarOfertasRestantes(oferta.getAnuncio().getId(), idOferta);
 
-            //Coloca informações na linha do tempo
-            anuncio = anuncioRepository.buscarAnuncioPorId(oferta.getAnuncio().getId());
-            Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(anuncio.get().getPeca().getId_c());
-            int cicloAtual = ultimoEventoOpt.map(EventoLinhaDoTempo::getCiclo_n).orElse(1);
-            EventoLinhaDoTempo evento = new EventoLinhaDoTempo("Venda finalizada", "oferta aceita", LocalDateTime.now(), anuncio.get().getGwpAvoided(), 
-                    anuncio.get().getMci());
-            evento.setCliclo(cicloAtual);
-            linhaDoTempoRepository.criar(anuncio.get().getPeca().getId_c(), evento);
-            
-            //Escreve no log
-            GerenciadorLog.getInstancia().registrarSucesso("Transação concluída", anuncio.get().getPeca().getId_c(), anuncio.get().getPeca() != null ? 
-                    anuncio.get().getPeca().getSubcategoria() : "N/A");
-            
-            //Adiciona venda e compra ao vendedor e comprador
-            compradorRepository.atualizarCompras(oferta.getComprador().getId());
-            vendedorRepository.atualizarVendas(oferta.getAnuncio().getVendedor().getId());
-            
-            anuncioRepository.atualizarStatus(anuncio.get().getPeca().getId_c(), "vendido");
-            
-            double gwpDaVenda = oferta.getAnuncio().getGwpAvoided();
-        
-            //Soma o valor gwp ao perfis de comprador e vendedor.
-            compradorRepository.somarGwpEvitado(oferta.getComprador().getId(), gwpDaVenda);
-            vendedorRepository.somarGwpContribuido(oferta.getAnuncio().getVendedor().getId(), gwpDaVenda);
-            
-            //Concede insignias
-            Optional<Usuario> optUsuarioComprador = usuarioRepository.buscarPorId(oferta.getComprador().getId());
-            Optional<Usuario> optUsuarioVendedor = usuarioRepository.buscarPorId(oferta.getAnuncio().getVendedor().getId());
-            if(optUsuarioComprador.isEmpty() || optUsuarioVendedor.isEmpty()){
-                throw new RuntimeException("Erro ao encontrar usuarios.");
-            }
-            insigniaService.concederInsignia(optUsuarioComprador.get());
-            insigniaService.concederInsignia(optUsuarioVendedor.get()); 
-            
-            //Concede pontuacao
-            new PontuacaoService().processarRespostaOferta(oferta);
-            new PontuacaoService().processarConclusaoTransacao(transacao);
-        } catch (Exception e){
-            String idcPeca = (anuncio != null && anuncio.isPresent()) ? anuncio.get().getPeca().getId_c() : "N/A";
-            String nomePeca = (anuncio != null && anuncio.isPresent()) ? anuncio.get().getPeca().getSubcategoria() : "Oferta ID " + idOferta;
-            GerenciadorLog.getInstancia().registrarFalha("Conclusão de Transação", idcPeca, nomePeca, e.getMessage());
+            pontuacaoService.processarConclusaoTransacao(transacao);
+            pontuacaoService.processarRespostaOferta(oferta);
 
+
+            ofertaRepository.rejeitarOfertasRestantes(anuncio.getId(), idOferta);
+            anuncioRepository.atualizarStatus(anuncio.getPeca().getId_c(), "vendido");
+            criarEventoLinhaDoTempo(anuncio);
+            concederInsignias(comprador.getId(), vendedor.getId());
+            
+            GerenciadorLog.getInstancia().registrarSucesso("Transação concluída", anuncio.getPeca().getId_c(), anuncio.getPeca().getSubcategoria());
+
+        } catch (Exception e) {
+            GerenciadorLog.getInstancia().registrarFalha("Conclusão de Transação", "", "Oferta ID " + idOferta, e.getMessage());
             throw new RuntimeException("Falha ao aceitar a oferta: " + e.getMessage(), e);
         }
+    }
+
+    private void criarEventoLinhaDoTempo(Anuncio anuncio) {
+        Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(anuncio.getPeca().getId_c());
+        int cicloAtual = ultimoEventoOpt.map(EventoLinhaDoTempo::getCiclo_n).orElse(1);
+        
+        EventoLinhaDoTempo evento = new EventoLinhaDoTempo("Venda finalizada", "oferta aceita", LocalDateTime.now(), anuncio.getGwpAvoided(), anuncio.getMci());
+        evento.setCliclo(cicloAtual);
+        
+        linhaDoTempoRepository.criar(anuncio.getPeca().getId_c(), evento);
+    }
+    
+    private void concederInsignias(int idComprador, int idVendedor) {
+        Optional<Usuario> optUsuarioComprador = usuarioRepository.buscarPorId(idComprador);
+        Optional<Usuario> optUsuarioVendedor = usuarioRepository.buscarPorId(idVendedor);
+
+        if (optUsuarioComprador.isEmpty() || optUsuarioVendedor.isEmpty()) {
+            throw new RuntimeException("Erro ao encontrar usuários para conceder insígnias.");
+        }
+        
+        insigniaService.concederInsignia(optUsuarioComprador.get());
+        insigniaService.concederInsignia(optUsuarioVendedor.get());
     }
 }

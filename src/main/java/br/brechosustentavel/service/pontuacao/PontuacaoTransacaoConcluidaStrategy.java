@@ -7,8 +7,6 @@ package br.brechosustentavel.service.pontuacao;
 import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.Transacao;
 import br.brechosustentavel.model.Vendedor;
-import br.brechosustentavel.repository.ICompradorRepository;
-import br.brechosustentavel.repository.IVendedorRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 
 /**
@@ -29,11 +27,12 @@ public class PontuacaoTransacaoConcluidaStrategy implements IPontuacaoStrategy {
 
         vendedor.setEstrelas(vendedor.getEstrelas() + PONTOS);
         comprador.setEstrelas(comprador.getEstrelas() + PONTOS);
-        
-        IVendedorRepository vendedorRepo = fabrica.getVendedorRepository();
-        ICompradorRepository compradorRepo = fabrica.getCompradorRepository();
-        
-        vendedorRepo.editar(vendedor);
-        compradorRepo.editar(comprador);
+
+        ReputacaoService reputacaoService = new ReputacaoService();
+        reputacaoService.atualizarNivel(vendedor);
+        reputacaoService.atualizarNivel(comprador);
+
+        fabrica.getVendedorRepository().editar(vendedor);
+        fabrica.getCompradorRepository().editar(comprador);
     }
 }
