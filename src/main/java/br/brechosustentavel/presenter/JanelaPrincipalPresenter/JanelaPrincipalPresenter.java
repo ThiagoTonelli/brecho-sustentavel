@@ -5,12 +5,16 @@
 package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 
 
+import br.brechosustentavel.command.commandMenu.TrocarPerfilCommand;
 import br.brechosustentavel.observer.Observador;
 import br.brechosustentavel.observer.Observavel;
 import br.brechosustentavel.presenter.TelaPrincipalPresenter;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaPrincipalView;
+import java.awt.event.ActionEvent;
 import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 
 /**
@@ -43,6 +47,19 @@ public class JanelaPrincipalPresenter implements Observador{
         else {
             setEstado(new AdminState(this, usuario));
         }
+        
+        view.getOpcTrocarPerfil().addActionListener((ActionEvent e) -> {
+            try {
+                new TrocarPerfilCommand().executar(this);
+            } catch (PropertyVetoException ex) {
+                Logger.getLogger(JanelaPrincipalPresenter.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+   
+    }
+    
+    public SessaoUsuarioService getUsuario() {
+        return usuario;
     }
     
     public void setEstado(JanelaPrincipalState estado){
