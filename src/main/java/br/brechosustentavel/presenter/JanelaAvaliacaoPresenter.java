@@ -21,6 +21,7 @@ public class JanelaAvaliacaoPresenter {
 
     public JanelaAvaliacaoPresenter(java.awt.Frame janelaPai, Transacao transacao, Usuario autor) {
         this.view = new JanelaAvaliacaoView(janelaPai, true);
+        view.setLocationRelativeTo(janelaPai);
         this.transacao = transacao;
         this.autor = autor;
         
@@ -42,6 +43,13 @@ public class JanelaAvaliacaoPresenter {
                 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(view, "Erro ao enviar avaliação: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        view.getBtnCancelar().addActionListener(e -> {
+            try {
+                view.dispose(); 
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(view, "Erro ao cancelar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         });
     }

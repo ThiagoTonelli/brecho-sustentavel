@@ -35,6 +35,9 @@ public class PontuacaoRespostaRapidaStrategy implements IPontuacaoStrategy {
 
                 IVendedorRepository vendedorRepo = fabrica.getVendedorRepository();
                 vendedorRepo.editar(vendedor);
+                ReputacaoService reputacaoService = new ReputacaoService();
+                reputacaoService.atualizarNivel(vendedor);
+
             }
         }
     }

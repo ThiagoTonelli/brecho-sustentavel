@@ -30,6 +30,8 @@ public class PontuacaoDenunciaProcedenteStrategy implements IPontuacaoStrategy {
             
             ICompradorRepository compradorRepo = fabrica.getCompradorRepository();
             compradorRepo.editar(denunciante);
+            ReputacaoService reputacaoService = new ReputacaoService();
+            reputacaoService.atualizarNivel(denunciante);
         }
     }
 }
