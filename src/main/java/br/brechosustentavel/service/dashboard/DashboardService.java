@@ -4,9 +4,9 @@
  */
 package br.brechosustentavel.service.dashboard;
 
-import br.brechosustentavel.repository.ICompradorRepository;
-import br.brechosustentavel.repository.IVendedorRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.ICompradorRepository;
+import br.brechosustentavel.repository.repositoryFactory.IVendedorRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import java.util.HashMap;
 import java.util.Map;
 

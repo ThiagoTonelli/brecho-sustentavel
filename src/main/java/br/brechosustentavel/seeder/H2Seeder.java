@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.brechosustentavel.seeder;
 
 import br.brechosustentavel.service.hash.HashService;
@@ -13,34 +9,32 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- *
- * @author kaila
- */
-public class Seeder {
 
-    private Connection conexao;
-    private HashService hashService;
+public class H2Seeder implements ISeeder{
 
-    public Seeder(Connection conexao, HashService hashService) {
+    private final Connection conexao;
+    private final HashService hashService;
+
+    public H2Seeder(Connection conexao, HashService hashService) {
         this.conexao = conexao;
         this.hashService = hashService;
     }
 
+    
+    @Override
     public void inserir() throws SQLException {
-        inserirUsuario();
+        inserirUsuarioEPerfis();
         inserirTiposPeca();
         inserirInsignias();
         inserirDefeitos();
         inserirComposicoes();
     }
 
-    private void inserirUsuario() {
+    private void inserirUsuarioEPerfis() throws SQLException {
         String sql = "INSERT INTO usuario (nome, telefone, email, senha, data_criacao, admin) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?);";
-
-        try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
-
-            // Usuário 1
+        
+        try (PreparedStatement pstmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            
             pstmt.setString(1, "Thiago Tonelli");
             pstmt.setString(2, "28 91234-5678");
             pstmt.setString(3, "thiago@brechosustentavel.com");
@@ -48,7 +42,6 @@ public class Seeder {
             pstmt.setBoolean(5, true);
             pstmt.executeUpdate();
 
-            // Usuário 2
             pstmt.setString(1, "Karen Silva");
             pstmt.setString(2, "28 99999-1111");
             pstmt.setString(3, "k@gmail.com");
@@ -57,7 +50,6 @@ public class Seeder {
             pstmt.executeUpdate();
             int idKaren = pegarIdGerado(pstmt);
 
-            // Usuário 3
             pstmt.setString(1, "João Pedro");
             pstmt.setString(2, "27 98888-2222");
             pstmt.setString(3, "j@gmail.com");
@@ -65,8 +57,7 @@ public class Seeder {
             pstmt.setBoolean(5, false);
             pstmt.executeUpdate();
             int idJoao = pegarIdGerado(pstmt);
-
-            // Usuário 4
+            
             pstmt.setString(1, "Maria Clara");
             pstmt.setString(2, "27 97777-3333");
             pstmt.setString(3, "m@gmail.com");
@@ -78,7 +69,7 @@ public class Seeder {
             inserirPerfis(idKaren, idJoao, idMaria);
 
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao salvar usuários de teste: " + e.getMessage());
+            throw new RuntimeException("Erro ao salvar usuários de teste: " + e.getMessage(), e);
         }
     }
     
@@ -87,7 +78,7 @@ public class Seeder {
             if (rs.next()) {
                 return rs.getInt(1);
             } else {
-                throw new SQLException("Não foi possível recuperar o ID gerado.");
+                throw new SQLException("Não foi possível recuperar o ID gerado para o usuário.");
             }
         }
     }
@@ -97,17 +88,17 @@ public class Seeder {
         String sqlComprador = "INSERT INTO comprador (id_comprador, nivel_reputacao, estrelas, compras_finalizadas, gwp_evitado, selo_verificador) VALUES (?, 'Bronze', 0.0, 0, 0.0, 0);";
 
         // Cria perfil de Vendedor
-        try (PreparedStatement pstmt = conexao.prepareStatement(sqlVendedor)) {            
-            // Karen Silva
+        try (PreparedStatement pstmt = conexao.prepareStatement(sqlVendedor)) {
+
             pstmt.setInt(1, idKaren);
             pstmt.addBatch();
-
+            
             pstmt.executeBatch();
         }
 
         // Cria perfil de Comprador
-        try (PreparedStatement pstmt = conexao.prepareStatement(sqlComprador)) {      
-            // João Pedro
+        try (PreparedStatement pstmt = conexao.prepareStatement(sqlComprador)) {
+
             pstmt.setInt(1, idJoao);
             pstmt.addBatch();
 
@@ -117,131 +108,92 @@ public class Seeder {
             pstmt.executeBatch();
         }
     }
-    
-    private void inserirTiposPeca() {
-        String sql = "INSERT INTO tipo_peca (nome) VALUES (?)";
 
-        try(PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+    private void inserirTiposPeca() throws SQLException {
+        String sql = "INSERT INTO tipo_peca (nome) VALUES (?)";
+        try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
             String[] tipos = {"Vestuário", "Calçados", "Bolsas e mochilas", "Bijuterias e acessórios"};
             for (String tipo : tipos) {
                 pstmt.setString(1, tipo);
                 pstmt.addBatch();
             }
-            
             pstmt.executeBatch();
-        }catch(SQLException e) {
-            throw new RuntimeException("Erro ao salvar tipo de peça: " + e.getMessage());
-        } 
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao salvar tipo de peça: " + e.getMessage(), e);
+        }
     }
     
-    private void inserirInsignias(){
+    private void inserirInsignias() throws SQLException {
         String sql = "INSERT INTO insignia (nome, valor_estrelas, tipo_perfil) VALUES (?,?,?)";
-        
-         try(PreparedStatement pstmt = conexao.prepareStatement(sql)) {
-             pstmt.setString(1, "Primeiro Anúncio");
-             pstmt.setDouble(2, 0.2);
-             pstmt.setString(3, "Vendedor");
-             pstmt.addBatch();
-             
-             pstmt.setString(1, "Cinco Vendas");
-             pstmt.setDouble(2, 0.2);
-             pstmt.setString(3, "Vendedor");
-             pstmt.addBatch();
-             
-             pstmt.setString(1, "Primeira Oferta");
-             pstmt.setDouble(2, 0.2);
-             pstmt.setString(3, "Comprador");
-             pstmt.addBatch();
-             
-             pstmt.setString(1, "Dez Compras");
-             pstmt.setDouble(2, 0.2);
-             pstmt.setString(3, "Comprador");
-             pstmt.addBatch();
-             
-             pstmt.setString(1, "Guardião da Qualidade");
-             pstmt.setDouble(2, 0.2);
-             pstmt.setString(3, "Comprador");
-             pstmt.addBatch();
-             
-             pstmt.executeBatch();
-
-         }catch(SQLException e) {
-            throw new RuntimeException("Erro ao salvar insignias: " + e.getMessage());
-        } 
+        try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            Object[][] insignias = {
+                {"Primeiro Anúncio", 0.2, "Vendedor"},
+                {"Cinco Vendas", 0.2, "Vendedor"},
+                {"Primeira Oferta", 0.2, "Comprador"},
+                {"Dez Compras", 0.2, "Comprador"},
+                {"Guardião da Qualidade", 0.2, "Comprador"}
+            };
+            
+            for (Object[] insignia : insignias) {
+                pstmt.setString(1, (String) insignia[0]);
+                pstmt.setDouble(2, (Double) insignia[1]);
+                pstmt.setString(3, (String) insignia[2]);
+                pstmt.addBatch();
+            }
+            pstmt.executeBatch();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao salvar insignias: " + e.getMessage(), e);
+        }
     }
-    
-    private void inserirDefeitos() {
+
+    private void inserirDefeitos() throws SQLException {
         Map<String, Integer> idTipos = new HashMap<>();
         String sqlBuscaTipos = "SELECT id, nome FROM tipo_peca";
-
         try (Statement stmt = conexao.createStatement();
              ResultSet rs = stmt.executeQuery(sqlBuscaTipos)) {
-
             while (rs.next()) {
                 idTipos.put(rs.getString("nome"), rs.getInt("id"));
             }
-
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar tipos de peça: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao buscar tipos de peça para defeitos: " + e.getMessage(), e);
         }
         
-        String sqlInsertDefeito = "INSERT OR IGNORE INTO defeito (nome, desconto, id_tipo) VALUES (?, ?, ?)";
+        String sqlInsertDefeito = "MERGE INTO defeito (nome, desconto, id_tipo) KEY(nome) VALUES (?, ?, ?)";
         Object[][] defeitos = {
-            {"Rasgo estruturante", 0.30, "Vestuário"},
-            {"Ausência de botão principal", 0.15, "Vestuário"},
-            {"Zíper parcialmente funcional", 0.15, "Vestuário"},
-            {"Mancha permanente", 0.20, "Vestuário"},
-            {"Desgaste por pilling acentuado", 0.10, "Vestuário"},
-
-            {"Sola sem relevo funcional", 0.25, "Calçados"},
-            {"Descolamento parcial de entressola",  0.20, "Calçados"},
-            {"Arranhões profundos",  0.15, "Calçados"},
-            {"Palmilha original ausente", 0.10, "Calçados"},
-            {"Odor persistente leve", 0.10, "Calçados"},
-
-            {"Alça reparada", 0.20, "Bolsas e mochilas"},
-            {"Fecho defeituoso", 0.20, "Bolsas e mochilas"},
-            {"Desbotamento extenso", 0.15, "Bolsas e mochilas"},
-            {"Forro rasgado", 0.15, "Bolsas e mochilas"},
-
-            {"Oxidação visível", 0.20, "Bijuterias e acessórios"},
-            {"Pedra ausente", 0.15, "Bijuterias e acessórios"},
+            {"Rasgo estruturante", 0.30, "Vestuário"}, {"Ausência de botão principal", 0.15, "Vestuário"},
+            {"Zíper parcialmente funcional", 0.15, "Vestuário"}, {"Mancha permanente", 0.20, "Vestuário"},
+            {"Desgaste por pilling acentuado", 0.10, "Vestuário"}, {"Sola sem relevo funcional", 0.25, "Calçados"},
+            {"Descolamento parcial de entressola", 0.20, "Calçados"}, {"Arranhões profundos", 0.15, "Calçados"},
+            {"Palmilha original ausente", 0.10, "Calçados"}, {"Odor persistente leve", 0.10, "Calçados"},
+            {"Alça reparada", 0.20, "Bolsas e mochilas"}, {"Fecho defeituoso", 0.20, "Bolsas e mochilas"},
+            {"Desbotamento extenso", 0.15, "Bolsas e mochilas"}, {"Forro rasgado", 0.15, "Bolsas e mochilas"},
+            {"Oxidação visível", 0.20, "Bijuterias e acessórios"}, {"Pedra ausente", 0.15, "Bijuterias e acessórios"},
             {"Fecho frouxo", 0.10, "Bijuterias e acessórios"}
         };
 
         try (PreparedStatement pstmt = conexao.prepareStatement(sqlInsertDefeito)) {
             for (Object[] defeito : defeitos) {
-                String nome = (String) defeito[0];
-                Double desconto = (Double) defeito[1];
-                String tipoNome = (String) defeito[2];
-
-                Integer idTipo = idTipos.get(tipoNome);
+                Integer idTipo = idTipos.get((String) defeito[2]);
                 if (idTipo == null) {
-                    throw new RuntimeException("Tipo de peça não encontrado: " + tipoNome);
+                    System.err.println("Aviso: Tipo de peça não encontrado para o defeito: " + defeito[0]);
+                    continue; // Pula este defeito se o tipo não for encontrado
                 }
-
-                pstmt.setString(1, nome);
-                pstmt.setDouble(2, desconto);
+                pstmt.setString(1, (String) defeito[0]);
+                pstmt.setDouble(2, (Double) defeito[1]);
                 pstmt.setInt(3, idTipo);
                 pstmt.addBatch();
             }
             pstmt.executeBatch();
-
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao inserir defeitos: " + e.getMessage(), e);
         }
     }
-    
-        
-    private void inserirComposicoes() {
-        String sql = "INSERT OR IGNORE INTO composicao (nome, fator_emissao) VALUES (?, ?)";
 
+    private void inserirComposicoes() throws SQLException {
+        String sql = "MERGE INTO composicao (nome, fator_emissao) KEY(nome) VALUES (?, ?)";
         Object[][] composicoes = {
-            {"algodão", 5.2},
-            {"poliéster", 9.5},
-            {"couro", 14.8},
-            {"metal (ligas leves)", 8.6},
-            {"plástico de base fóssil", 3.1},
+            {"algodão", 5.2}, {"poliéster", 9.5}, {"couro", 14.8},
+            {"metal (ligas leves)", 8.6}, {"plástico de base fóssil", 3.1},
             {"outros", 4.0}
         };
 
@@ -256,6 +208,4 @@ public class Seeder {
             throw new RuntimeException("Erro ao inserir composições: " + e.getMessage(), e);
         }
     }
-
-
 }

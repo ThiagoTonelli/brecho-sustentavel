@@ -5,7 +5,7 @@
 package br.brechosustentavel.service.insignia;
 
 import br.brechosustentavel.model.Usuario;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import java.util.ArrayList;
 import java.util.List;
 

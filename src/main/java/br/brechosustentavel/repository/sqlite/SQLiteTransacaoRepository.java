@@ -6,10 +6,10 @@ package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.model.Oferta;
 import br.brechosustentavel.model.Transacao;
-import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.IOfertaRepository;
-import br.brechosustentavel.repository.ITransacaoRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.IOfertaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ITransacaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

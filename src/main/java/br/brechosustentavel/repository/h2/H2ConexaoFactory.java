@@ -1,6 +1,6 @@
 package br.brechosustentavel.repository.h2;
 
-import br.brechosustentavel.repository.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

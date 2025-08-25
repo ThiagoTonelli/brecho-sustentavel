@@ -2,8 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package br.brechosustentavel.repository.sqlite;
+package br.brechosustentavel.repository.inicializador;
 
+import br.brechosustentavel.seeder.SQLiteSeeder;
+import br.brechosustentavel.service.hash.BCryptAdapter;
+import br.brechosustentavel.service.hash.HashService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,14 +14,13 @@ import java.sql.SQLException;
  *
  * @author kaila
  */
-public class SQLiteInicializaBancoDeDados {
-    private Connection conexao;
-    
+public class SQLiteInicializaBancoDeDados extends AbstractInicializaBancoDeDados{
     
     public SQLiteInicializaBancoDeDados(Connection conexao) {
-        this.conexao = conexao;
+        super(conexao);
     }
     
+    @Override
     public void inicializar(){
         criarTabelaUsuario();
         criarTabelaVendedor();
@@ -305,6 +307,13 @@ public class SQLiteInicializaBancoDeDados {
         }catch (SQLException e) {
             throw new RuntimeException("Erro ao criar tabela: " + e.getMessage());
         }
+    }
+    
+    @Override
+    protected void popularDadosIniciais() throws SQLException {
+        HashService hashParaSeeder = new BCryptAdapter();
+        SQLiteSeeder seeder = new SQLiteSeeder(conexao, hashParaSeeder);
+        seeder.inserir();
     }
 }
 

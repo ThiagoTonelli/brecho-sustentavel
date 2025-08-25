@@ -2,8 +2,8 @@
 package br.brechosustentavel.repository.h2;
 
 import br.brechosustentavel.model.Avaliacao;
-import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.IAvaliacaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.IAvaliacaoRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

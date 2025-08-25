@@ -6,8 +6,8 @@ package br.brechosustentavel.service.pontuacao;
 
 import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.model.Vendedor;
-import br.brechosustentavel.repository.IVendedorRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IVendedorRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 
 /**
  *

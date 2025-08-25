@@ -6,9 +6,9 @@ package br.brechosustentavel.command.commandPrincipal;
 
 import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.presenter.janelaPrincipalPresenter.JanelaPrincipalPresenter;
-import br.brechosustentavel.repository.IAnuncioRepository;
-import br.brechosustentavel.repository.IDefeitoRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IAnuncioRepository;
+import br.brechosustentavel.repository.repositoryFactory.IDefeitoRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import java.util.List;
 import javax.swing.JTable;

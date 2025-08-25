@@ -6,12 +6,14 @@ package br.brechosustentavel;
 
 import br.brechosustentavel.configuracao.ConfiguracaoAdapter;
 import br.brechosustentavel.presenter.LoginPresenter;
-import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.IUsuarioRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
-import br.brechosustentavel.repository.h2.H2InicializaBancoDeDados;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.IUsuarioRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
+import br.brechosustentavel.repository.inicializador.H2InicializaBancoDeDados;
 import br.brechosustentavel.repository.sqlite.SQLiteConexaoFactory;
-import br.brechosustentavel.repository.sqlite.SQLiteInicializaBancoDeDados;
+import br.brechosustentavel.repository.inicializador.SQLiteInicializaBancoDeDados;
+import br.brechosustentavel.seeder.H2Seeder;
+import br.brechosustentavel.seeder.SQLiteSeeder;
 import br.brechosustentavel.service.AutenticacaoService;
 
 import br.brechosustentavel.service.SessaoUsuarioService;
@@ -23,6 +25,8 @@ import br.brechosustentavel.service.verificador_telefone.VerificadorTelefoneServ
 import br.brechosustentavel.view.LoginView;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.TimeZone;
 
 
@@ -40,7 +44,7 @@ public class BrechoSustentavel {
                 HashService hashBCrypt = new BCryptAdapter();
                 inicializador.inicializar();
                 
-                Seeder seeder = new Seeder(conexao, hashBCrypt);
+                SQLiteSeeder seeder = new SQLiteSeeder(conexao, hashBCrypt);
                 seeder.inserir();
             }
                 System.out.println("BD inicializado com sucesso");
@@ -64,12 +68,11 @@ public class BrechoSustentavel {
             Connection conexao = conexaoFactory.getConexao();
 
             if ("sqlite".equalsIgnoreCase(sgdb)) {
-                new SQLiteInicializaBancoDeDados(conexao).inicializar();
+                new SQLiteInicializaBancoDeDados(conexao).executarConfiguracaoInicial();
             } else if ("h2".equalsIgnoreCase(sgdb)) {
-                new H2InicializaBancoDeDados(conexao).inicializar();
+                new H2InicializaBancoDeDados(conexao).executarConfiguracaoInicial();
             }
-            //Seeder seeder = new Seeder(conexao, hash);
-            //seeder.inserir();
+             
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
             IUsuarioRepository usuarioRepository = fabrica.getUsuarioRepository();
             AutenticacaoService autenticacaoService = new AutenticacaoService(usuarioRepository, hash);

@@ -7,9 +7,9 @@ package br.brechosustentavel.service.insignia;
 import br.brechosustentavel.model.Insignia;
 import br.brechosustentavel.model.Usuario;
 import br.brechosustentavel.model.Vendedor;
-import br.brechosustentavel.repository.IInsigniaRepository;
-import br.brechosustentavel.repository.IVendedorInsigniaRepository;
-import br.brechosustentavel.repository.IVendedorRepository;
+import br.brechosustentavel.repository.repositoryFactory.IInsigniaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IVendedorInsigniaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IVendedorRepository;
 import java.util.Optional;
 
 /**

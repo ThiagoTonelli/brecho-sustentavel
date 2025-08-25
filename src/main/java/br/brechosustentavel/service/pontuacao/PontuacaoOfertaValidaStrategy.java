@@ -7,9 +7,9 @@ package br.brechosustentavel.service.pontuacao;
 import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.Oferta;
-import br.brechosustentavel.repository.IAnuncioRepository;
-import br.brechosustentavel.repository.ICompradorRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IAnuncioRepository;
+import br.brechosustentavel.repository.repositoryFactory.ICompradorRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import java.util.Optional;
 
 /**

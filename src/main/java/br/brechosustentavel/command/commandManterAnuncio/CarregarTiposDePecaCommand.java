@@ -5,8 +5,8 @@
 package br.brechosustentavel.command.commandManterAnuncio;
 
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
-import br.brechosustentavel.repository.ITipoDePecaRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.ITipoDePecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import java.util.List;
 import javax.swing.JComboBox;
 import br.brechosustentavel.view.IJanelaManterAnuncioView;

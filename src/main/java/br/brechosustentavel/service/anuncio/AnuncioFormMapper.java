@@ -5,9 +5,9 @@
 package br.brechosustentavel.service.anuncio;
 
 import br.brechosustentavel.model.Peca;
-import br.brechosustentavel.repository.IComposicaoRepository;
-import br.brechosustentavel.repository.ITipoDePecaRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IComposicaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.ITipoDePecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.view.IJanelaManterAnuncioView;
 import java.awt.Component;
 import java.util.ArrayList;

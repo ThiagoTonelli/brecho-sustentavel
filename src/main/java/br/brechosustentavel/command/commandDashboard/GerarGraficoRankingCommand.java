@@ -5,7 +5,7 @@
 package br.brechosustentavel.command.commandDashboard;
 
 import br.brechosustentavel.presenter.dashboard.DashboardPresenter;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.dashboard.DashboardService;
 import java.awt.BorderLayout;
 import java.util.Map;

@@ -6,9 +6,9 @@ package br.brechosustentavel.service;
 
 import br.brechosustentavel.model.Denuncia;
 import br.brechosustentavel.model.Usuario;
-import br.brechosustentavel.repository.IDenunciaRepository;
-import br.brechosustentavel.repository.IUsuarioRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IDenunciaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IUsuarioRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.insignia.AplicaInsigniaService;
 import br.brechosustentavel.service.pontuacao.PontuacaoService;
 import java.util.Optional;

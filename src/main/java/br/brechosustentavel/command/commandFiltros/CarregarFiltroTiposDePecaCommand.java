@@ -5,8 +5,8 @@
 package br.brechosustentavel.command.commandFiltros;
 
 import br.brechosustentavel.presenter.janelaPrincipalPresenter.JanelaPrincipalPresenter;
-import br.brechosustentavel.repository.ITipoDePecaRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.ITipoDePecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.view.JanelaPrincipalView;
 import java.util.List;
 import javax.swing.JComboBox;

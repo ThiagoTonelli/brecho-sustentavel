@@ -1,9 +1,9 @@
 package br.brechosustentavel.repository.h2;
 
 import br.brechosustentavel.model.Peca;
-import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.IComposicaoPecaRepository;
-import br.brechosustentavel.repository.IComposicaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.IComposicaoPecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IComposicaoRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

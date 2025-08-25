@@ -4,8 +4,8 @@
  */
 package br.brechosustentavel.repository.h2;
 
-import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.ITipoDePecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.ITipoDePecaRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

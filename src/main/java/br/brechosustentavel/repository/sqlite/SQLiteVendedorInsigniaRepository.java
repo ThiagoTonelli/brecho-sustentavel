@@ -5,8 +5,8 @@
 package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.model.Insignia;
-import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.IVendedorInsigniaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.IVendedorInsigniaRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -6,9 +6,9 @@ package br.brechosustentavel.presenter;
 
 import br.brechosustentavel.model.Usuario;
 import br.brechosustentavel.presenter.janelaPrincipalPresenter.JanelaPrincipalPresenter;
-import br.brechosustentavel.repository.ICompradorRepository;
-import br.brechosustentavel.repository.IVendedorRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.ICompradorRepository;
+import br.brechosustentavel.repository.repositoryFactory.IVendedorRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.AutenticacaoService;
 import br.brechosustentavel.service.CadastroService;
 import br.brechosustentavel.service.SessaoUsuarioService;

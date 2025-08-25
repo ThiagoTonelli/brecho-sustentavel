@@ -5,8 +5,8 @@
 package br.brechosustentavel.command.commandManterComposicao;
 
 import br.brechosustentavel.presenter.manterComposicaoPresenter.ManterComposicaoPresenter;
-import br.brechosustentavel.repository.IComposicaoRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IComposicaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import javax.swing.JOptionPane;
 
 /**

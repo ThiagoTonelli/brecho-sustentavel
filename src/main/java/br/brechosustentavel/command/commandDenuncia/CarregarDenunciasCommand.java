@@ -6,9 +6,9 @@ package br.brechosustentavel.command.commandDenuncia;
 
 import br.brechosustentavel.model.Denuncia;
 import br.brechosustentavel.presenter.JanelaVisualizarDenunciasPresenter;
-import br.brechosustentavel.repository.IAnuncioRepository;
-import br.brechosustentavel.repository.IDenunciaRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IAnuncioRepository;
+import br.brechosustentavel.repository.repositoryFactory.IDenunciaRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaVisualizarDenunciasView;
 import java.time.format.DateTimeFormatter;

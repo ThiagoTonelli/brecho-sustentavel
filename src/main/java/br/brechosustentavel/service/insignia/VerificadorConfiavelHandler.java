@@ -6,8 +6,8 @@ package br.brechosustentavel.service.insignia;
 
 import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.Usuario;
-import br.brechosustentavel.repository.ICompradorRepository;
-import br.brechosustentavel.repository.IDenunciaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ICompradorRepository;
+import br.brechosustentavel.repository.repositoryFactory.IDenunciaRepository;
 
 /**
  *

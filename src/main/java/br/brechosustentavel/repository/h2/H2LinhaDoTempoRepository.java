@@ -5,8 +5,8 @@
 package br.brechosustentavel.repository.h2;
 
 import br.brechosustentavel.model.EventoLinhaDoTempo;
-import br.brechosustentavel.repository.ConexaoFactory;
-import br.brechosustentavel.repository.ILinhaDoTempoRepository;
+import br.brechosustentavel.repository.repositoryFactory.ConexaoFactory;
+import br.brechosustentavel.repository.repositoryFactory.ILinhaDoTempoRepository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

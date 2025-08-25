@@ -4,8 +4,8 @@
  */
 package br.brechosustentavel.command.commandManterAnuncio;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
-import br.brechosustentavel.repository.IDefeitoRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IDefeitoRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;

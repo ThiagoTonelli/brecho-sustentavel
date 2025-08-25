@@ -6,11 +6,11 @@ package br.brechosustentavel.command.commandManterAnuncio;
 
 import br.brechosustentavel.model.Peca;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
-import br.brechosustentavel.repository.IComposicaoPecaRepository;
-import br.brechosustentavel.repository.IDefeitoPecaRepository;
-import br.brechosustentavel.repository.IPecaRepository;
-import br.brechosustentavel.repository.ITipoDePecaRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.IComposicaoPecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IDefeitoPecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.IPecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.ITipoDePecaRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.view.IJanelaManterAnuncioView;
 import java.awt.Component;
 import java.util.List;

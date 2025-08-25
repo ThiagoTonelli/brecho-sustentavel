@@ -6,9 +6,9 @@ package br.brechosustentavel.command.commandHistorico;
 
 import br.brechosustentavel.model.Transacao;
 import br.brechosustentavel.presenter.JanelaHistoricoPresenter;
-import br.brechosustentavel.repository.ITransacaoRepository;
-import br.brechosustentavel.repository.IUsuarioRepository;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.ITransacaoRepository;
+import br.brechosustentavel.repository.repositoryFactory.IUsuarioRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;

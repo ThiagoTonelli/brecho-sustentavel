@@ -9,7 +9,7 @@ import br.brechosustentavel.model.Avaliacao;
 import br.brechosustentavel.model.Denuncia;
 import br.brechosustentavel.model.Oferta;
 import br.brechosustentavel.model.Transacao;
-import br.brechosustentavel.repository.RepositoryFactory;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 
 /**
  *

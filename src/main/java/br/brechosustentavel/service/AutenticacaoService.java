@@ -5,7 +5,7 @@
 package br.brechosustentavel.service;
 
 import br.brechosustentavel.model.Usuario;
-import br.brechosustentavel.repository.IUsuarioRepository;
+import br.brechosustentavel.repository.repositoryFactory.IUsuarioRepository;
 import br.brechosustentavel.service.hash.HashService;
 import br.brechosustentavel.service.verificador_telefone.VerificadorTelefoneService;
 import java.util.Optional;
