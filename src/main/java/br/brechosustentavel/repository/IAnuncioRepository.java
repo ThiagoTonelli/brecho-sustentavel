@@ -24,4 +24,5 @@ public interface IAnuncioRepository {
     public Optional<Anuncio> buscarPorIdPeca(String idPeca);
     public void excluirPorId(int id);
     public List<Anuncio> buscarComFiltros(FiltroAnuncioDTO filtro, int idVendedor);
+    void atualizarStatus(String idPeca, String novoStatus);
 }

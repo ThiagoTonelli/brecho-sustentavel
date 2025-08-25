@@ -144,4 +144,20 @@ public class SQLiteVendedorRepository implements IVendedorRepository{
             throw new RuntimeException("Erro ao atualizar quantidade de vendas do vendedor: " + e.getMessage());
         }
     }
+    
+    @Override
+    public void editar(Vendedor vendedor) {
+        String sql = "UPDATE vendedor SET nivel_reputacao = ?, estrelas = ?, vendas_concluidas = ?, gwp_contribuido = ? WHERE id_vendedor = ?";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+            pstmt.setString(1, vendedor.getNivel());
+            pstmt.setDouble(2, vendedor.getEstrelas());
+            pstmt.setInt(3, vendedor.getVendasConcluidas());
+            pstmt.setDouble(4, vendedor.getGwpContribuido());
+            pstmt.setInt(5, vendedor.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar vendedor: " + e.getMessage(), e);
+        }
+    }
 }

@@ -33,10 +33,10 @@ public class SQLiteOfertaRepository implements IOfertaRepository{
     public SQLiteOfertaRepository(ConexaoFactory conexaoFactory) {
         this.conexaoFactory = conexaoFactory;
     }
-    
+
     @Override
     public void adicionarOferta(Oferta oferta) {
-        String sql = "INSERT INTO oferta (id_comprador, id_anuncio, valor) VALUES (?, ?, ?);";
+        String sql = "INSERT INTO oferta (id_comprador, id_anuncio, valor, status) VALUES (?, ?, ?, ?);";
 
         try (Connection conexao = conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -44,7 +44,7 @@ public class SQLiteOfertaRepository implements IOfertaRepository{
             pstmt.setInt(1, oferta.getComprador().getId());
             pstmt.setInt(2, oferta.getAnuncio().getId());
             pstmt.setDouble(3, oferta.getValor());
-            
+            pstmt.setString(4, oferta.getStatus());
             pstmt.executeUpdate();
 
             ResultSet rs = pstmt.getGeneratedKeys();
@@ -278,6 +278,40 @@ public class SQLiteOfertaRepository implements IOfertaRepository{
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao buscar ofertas por anúncio: " + e.getMessage(), e);
         } 
+    }
+    @Override
+    public void atualizar(Oferta oferta) {
+        String sql = "UPDATE oferta SET status = ?, data_resposta = ? WHERE id = ?";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setString(1, oferta.getStatus());
+            if (oferta.getDataResposta() != null) {
+                pstmt.setString(2, oferta.getDataResposta().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            } else {
+                pstmt.setNull(2, java.sql.Types.VARCHAR);
+            }
+            pstmt.setInt(3, oferta.getId());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar oferta: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void rejeitarOfertasRestantes(int idAnuncio, int idOfertaAceita) {
+        String sql = "UPDATE oferta SET status = 'Rejeitada' WHERE id_anuncio = ? AND id != ?";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idAnuncio);
+            pstmt.setInt(2, idOfertaAceita);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao rejeitar ofertas restantes: " + e.getMessage(), e);
+        }
     }
     
 }

@@ -59,7 +59,7 @@ public class BrechoSustentavel {
             HashService hash = new BCryptAdapter();
             VerificadorTelefoneService verificadorTelefone = new LibPhoneNumberAdapter();
             //inicializador.inicializar();
-            //Seeder seeder = new Seeder(conexao, hashBCrypt);
+            //Seeder seeder = new Seeder(conexao, hash);
             //seeder.inserir();
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
             IUsuarioRepository usuarioRepository = fabrica.getUsuarioRepository();
@@ -70,16 +70,7 @@ public class BrechoSustentavel {
                  
         } catch(Exception e){
             System.out.println("Falha: " +  e.getMessage());
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        }  
         
     }
 }

@@ -40,12 +40,10 @@ public class RealizarOfertaService {
         if(optAnuncio.isEmpty()){
             throw new RuntimeException("Não foi encontrado um anúncio com a peça " + idPeca);
         }
+     
         
-        Oferta oferta = new Oferta(
-              optAnuncio.get(),
-              sessao.getUsuarioAutenticado().getComprador().get(),
-              valorOferta
-        );
+        Oferta oferta = new Oferta(optAnuncio.get(), sessao.getUsuarioAutenticado().getComprador().get(), valorOferta);
+        
         
         ofertaRepository.adicionarOferta(oferta);
         

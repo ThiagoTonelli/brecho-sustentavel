@@ -27,8 +27,9 @@ public class Seeder {
         this.hashService = hashService;
     }
 
-    public void inserir() {
+    public void inserir() throws SQLException {
         inserirUsuario();
+        inserirPerfis();
         inserirTiposPeca();
         inserirInsignias();
         inserirDefeitos();
@@ -36,17 +37,76 @@ public class Seeder {
     }
 
     private void inserirUsuario() {
-        String sql = "INSERT INTO usuario (nome, telefone, email, senha, data_criacao, admin) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, 1);";
+        String sql = "INSERT INTO usuario (nome, telefone, email, senha, data_criacao, admin) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, 0);";
 
-        try(PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            // Usuário 1
             pstmt.setString(1, "Thiago Tonelli");
             pstmt.setString(2, "28 91234-5678");
             pstmt.setString(3, "thiago@brechosustentavel.com");
-            pstmt.setString(4, hashService.gerarHash("123456"));
+            pstmt.setString(4, hashService.gerarHash("123"));
             pstmt.executeUpdate();
-        } catch(SQLException e){
-            throw new RuntimeException("Erro ao salvar cliente: " + e.getMessage());
-        } 
+
+            // Usuário 2
+            pstmt.setString(1, "Karen Silva");
+            pstmt.setString(2, "28 99999-1111");
+            pstmt.setString(3, "k@gmail.com");
+            pstmt.setString(4, hashService.gerarHash("123"));
+            pstmt.executeUpdate();
+
+            // Usuário 3
+            pstmt.setString(1, "João Pedro");
+            pstmt.setString(2, "27 98888-2222");
+            pstmt.setString(3, "j@gmail.com");
+            pstmt.setString(4, hashService.gerarHash("123"));
+            pstmt.executeUpdate();
+
+            // Usuário 4
+            pstmt.setString(1, "Maria Clara");
+            pstmt.setString(2, "27 97777-3333");
+            pstmt.setString(3, "m@gmail.com");
+            pstmt.setString(4, hashService.gerarHash("123"));
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao salvar usuários de teste: " + e.getMessage());
+        }
+    }
+    
+    private void inserirPerfis() throws SQLException {
+        String sqlVendedor = "INSERT INTO vendedor (id_vendedor, nivel_reputacao, estrelas, vendas_concluidas, gwp_contribuido) VALUES (?, 'Bronze', 0.0, 0, 0.0);";
+        String sqlComprador = "INSERT INTO comprador (id_comprador, nivel_reputacao, estrelas, compras_finalizadas, gwp_evitado, selo_verificador) VALUES (?, 'Bronze', 0.0, 0, 0.0, 0);";
+
+        // Cria perfil de Vendedor
+        try (PreparedStatement pstmt = conexao.prepareStatement(sqlVendedor)) {
+            // Thiago Tonelli (ID 1)
+            pstmt.setInt(1, 1);
+            pstmt.addBatch();
+            
+            // Karen Silva (ID 2)
+            pstmt.setInt(1, 2);
+            pstmt.addBatch();
+
+            pstmt.executeBatch();
+        }
+
+        // Cria perfil de Comprador
+        try (PreparedStatement pstmt = conexao.prepareStatement(sqlComprador)) {
+            // Thiago Tonelli (ID 1)
+            pstmt.setInt(1, 1);
+            pstmt.addBatch();
+            
+            // João Pedro (ID 3)
+            pstmt.setInt(1, 3);
+            pstmt.addBatch();
+
+            // Maria Clara (ID 4)
+            pstmt.setInt(1, 4);
+            pstmt.addBatch();
+            
+            pstmt.executeBatch();
+        }
     }
     
     private void inserirTiposPeca() {

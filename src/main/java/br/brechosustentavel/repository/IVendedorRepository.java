@@ -19,4 +19,5 @@ public interface IVendedorRepository {
     public void atualizarVendas(int id);
     Map<String, Double> getTopVendedoresPorGWP(int limite);
     Map<String, Integer> contarPorNivelReputacao();
+    public void editar(Vendedor vendedor);
 }
