@@ -50,13 +50,25 @@ public class TransacaoService {
     }
     
     public void aceitarOferta(int idOferta){
+        Optional<Oferta> ofertaOpt = Optional.empty();
         try{
-            Optional<Oferta> oferta = ofertaRepository.buscarOfertaPorId(idOferta);
-            Transacao transacao = new Transacao(oferta.get(), oferta.get().getValor());
+            ofertaOpt = ofertaRepository.buscarOfertaPorId(idOferta);
+            if (ofertaOpt.isEmpty()) {
+                throw new IllegalStateException("Oferta com ID " + idOferta + " não encontrada.");
+            }
+            Oferta oferta = ofertaOpt.get();
+
+            oferta.setStatus("Aceita");
+            oferta.setDataResposta(LocalDateTime.now());
+            ofertaRepository.atualizar(oferta);
+
+            Transacao transacao = new Transacao(oferta, oferta.getValor());
             transacaoRepository.salvar(transacao);
 
+            ofertaRepository.rejeitarOfertasRestantes(oferta.getAnuncio().getId(), idOferta);
+
             //Coloca informações na linha do tempo
-            anuncio = anuncioRepository.buscarAnuncioPorId(oferta.get().getAnuncio().getId());
+            anuncio = anuncioRepository.buscarAnuncioPorId(oferta.getAnuncio().getId());
             Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(anuncio.get().getPeca().getId_c());
             int cicloAtual = ultimoEventoOpt.map(EventoLinhaDoTempo::getCiclo_n).orElse(1);
             EventoLinhaDoTempo evento = new EventoLinhaDoTempo("Venda finalizada", "oferta aceita", LocalDateTime.now(), anuncio.get().getGwpAvoided(), 
@@ -69,22 +81,26 @@ public class TransacaoService {
                     anuncio.get().getPeca().getSubcategoria() : "N/A");
             
             //Adiciona venda e compra ao vendedor e comprador
-            compradorRepository.atualizarCompras(oferta.get().getComprador().getId());
-            vendedorRepository.atualizarVendas(oferta.get().getAnuncio().getVendedor().getId());
+            compradorRepository.atualizarCompras(oferta.getComprador().getId());
+            vendedorRepository.atualizarVendas(oferta.getAnuncio().getVendedor().getId());
             
-            anuncioRepository.excluirPorId(oferta.get().getAnuncio().getId());
+            anuncioRepository.atualizarStatus(anuncio.get().getPeca().getId_c(), "vendido");
 
             //Concede insignias
-            Optional<Usuario> optUsuarioComprador = usuarioRepository.buscarPorId(oferta.get().getComprador().getId());
-            Optional<Usuario> optUsuarioVendedor = usuarioRepository.buscarPorId(oferta.get().getAnuncio().getVendedor().getId());
+            Optional<Usuario> optUsuarioComprador = usuarioRepository.buscarPorId(oferta.getComprador().getId());
+            Optional<Usuario> optUsuarioVendedor = usuarioRepository.buscarPorId(oferta.getAnuncio().getVendedor().getId());
             if(optUsuarioComprador.isEmpty() || optUsuarioVendedor.isEmpty()){
                 throw new RuntimeException("Erro ao encontrar usuarios.");
             }
             insigniaService.concederInsignia(optUsuarioComprador.get());
-            insigniaService.concederInsignia(optUsuarioVendedor.get());   
+            insigniaService.concederInsignia(optUsuarioVendedor.get()); 
+            
         } catch (Exception e){
-            String nomePeca = anuncio.get().getPeca() != null ? anuncio.get().getPeca().getSubcategoria() : "ID " + anuncio.get().getPeca().getId_c();
-            GerenciadorLog.getInstancia().registrarFalha("Exclusão de Anúncio", anuncio.get().getPeca().getId_c(), nomePeca, e.getMessage());
+            String idcPeca = (anuncio != null && anuncio.isPresent()) ? anuncio.get().getPeca().getId_c() : "N/A";
+            String nomePeca = (anuncio != null && anuncio.isPresent()) ? anuncio.get().getPeca().getSubcategoria() : "Oferta ID " + idOferta;
+            GerenciadorLog.getInstancia().registrarFalha("Conclusão de Transação", idcPeca, nomePeca, e.getMessage());
+
+            throw new RuntimeException("Falha ao aceitar a oferta: " + e.getMessage(), e);
         }
     }
 }

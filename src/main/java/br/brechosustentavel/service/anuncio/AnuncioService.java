@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -188,17 +189,22 @@ public class AnuncioService {
             if (idPeca == null || idPeca.trim().isEmpty()) {
                 throw new IllegalArgumentException("O ID da peça não pode ser nulo ou vazio para excluir um anúncio.");
             }
+            Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(peca.getId_c());
+            String status = ultimoEventoOpt.get().getTipoEvento();
+            if(!status.equalsIgnoreCase("oferta aceita")){
+                Peca pecaParaExcluir = pecaRepository.consultar(idPeca)
+                        .orElseThrow(() -> new IllegalStateException("Peça com ID " + idPeca + " não encontrada para exclusão."));
 
-            Peca pecaParaExcluir = pecaRepository.consultar(idPeca)
-                    .orElseThrow(() -> new IllegalStateException("Peça com ID " + idPeca + " não encontrada para exclusão."));
+                adicionarEventoDeEncerramento(pecaParaExcluir);
 
-            adicionarEventoDeEncerramento(pecaParaExcluir);
+                anuncioRepository.atualizarStatus(idPeca, "encerrado");
 
-            anuncioRepository.excluirPorPecaId(idPeca);
-
-            Observavel.getInstance().notifyObservers();
-            GerenciadorLog.getInstancia().registrarSucesso("Exclusão de Anúncio", idPeca, peca != null ? peca.getSubcategoria() : "N/A");
-            
+                Observavel.getInstance().notifyObservers();
+                GerenciadorLog.getInstancia().registrarSucesso("Exclusão de Anúncio", idPeca, peca != null ? peca.getSubcategoria() : "N/A");
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Não é possível excluir um item já vendido");
+            }
         } catch (Exception e){
             String nomePeca = peca != null ? peca.getSubcategoria() : "ID " + idPeca;
             GerenciadorLog.getInstancia().registrarFalha("Exclusão de Anúncio", idPeca, nomePeca, e.getMessage());

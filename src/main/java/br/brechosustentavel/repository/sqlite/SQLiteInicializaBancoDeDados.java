@@ -221,14 +221,16 @@ public class SQLiteInicializaBancoDeDados {
     private void criarTabelaAnuncio() {
         String sql = """
                      CREATE TABLE IF NOT EXISTS anuncio (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        id_vendedor INTEGER NOT NULL,
-                        id_peca TEXT NOT NULL UNIQUE,
-                        valor_final REAL NOT NULL,
-                        gwp REAL NOT NULL,
-                        mci REAL NOT NULL,
-                        FOREIGN KEY (id_vendedor) REFERENCES vendedor(id_vendedor) ON DELETE CASCADE,
-                        FOREIGN KEY (id_peca) REFERENCES peca(id_c) ON DELETE CASCADE
+                         id INTEGER PRIMARY KEY AUTOINCREMENT,
+                         id_vendedor INTEGER NOT NULL,
+                         id_peca TEXT NOT NULL,
+                         valor_final REAL NOT NULL,
+                         gwp REAL NOT NULL,
+                         mci REAL NOT NULL,
+                         status TEXT NOT NULL DEFAULT 'ativo',
+                         FOREIGN KEY (id_vendedor) REFERENCES vendedor(id_vendedor),
+                         FOREIGN KEY (id_peca) REFERENCES peca(id_c) ON DELETE CASCADE,
+                         UNIQUE(id_peca, status)
                      );
                      """;
         executarSQL(sql);
@@ -236,16 +238,18 @@ public class SQLiteInicializaBancoDeDados {
     
     private void criarTabelaOferta() {
         String sql = """
-                    CREATE TABLE IF NOT EXISTS oferta (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        id_comprador INTEGER NOT NULL,
-                        id_anuncio INTEGER NOT NULL,
-                        valor REAL NOT NULL,
-                        data DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                        FOREIGN KEY (id_anuncio) REFERENCES anuncio(id) ON DELETE CASCADE,
-                        FOREIGN KEY (id_comprador) REFERENCES comprador(id_comprador) ON DELETE CASCADE
-                    );
-                    """;
+                     CREATE TABLE IF NOT EXISTS oferta (
+                         id INTEGER PRIMARY KEY AUTOINCREMENT,
+                         id_anuncio INTEGER,
+                         id_comprador INTEGER,
+                         valor REAL NOT NULL,
+                         data DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         data_resposta DATETIME,
+                         status TEXT NOT NULL,
+                         FOREIGN KEY (id_anuncio) REFERENCES anuncio(id),
+                         FOREIGN KEY (id_comprador) REFERENCES comprador(id_comprador)
+                     );
+                     """;
         executarSQL(sql);
     }
 

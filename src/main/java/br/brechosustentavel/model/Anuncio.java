@@ -13,6 +13,7 @@ import java.util.List;
 public class Anuncio {
     private int id;
     private Vendedor vendedor;
+    private String status;
     private Peca peca;
     private double valorFinal;
     private double gwpAvoided;
@@ -52,6 +53,14 @@ public class Anuncio {
     
     public int getId(){
         return id;
+    }
+    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

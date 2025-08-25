@@ -17,11 +17,16 @@ public class Oferta {
     private Comprador comprador;
     private double valor;
     private LocalDateTime data;
+    private LocalDateTime dataResposta; 
+    private String status;
+
+    
 
     public Oferta(Anuncio anuncio, Comprador comprador, double valor) {
         this.anuncio = anuncio;
         this.comprador = comprador;
         this.valor = valor;
+        this.status = "pendente";
     }
 
     public int getId() {
@@ -62,5 +67,21 @@ public class Oferta {
 
     public void setData(LocalDateTime data) {
         this.data = data;
+    }
+    
+    public LocalDateTime getDataResposta() { 
+        return dataResposta; 
+    }
+    
+    public void setDataResposta(LocalDateTime dataResposta) { 
+        this.dataResposta = dataResposta; 
+    }
+    
+    public String getStatus() {
+        return status; 
+    }
+    
+    public void setStatus(String status) {
+        this.status = status; 
     }
 }

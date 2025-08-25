@@ -17,4 +17,6 @@ public interface IOfertaRepository {
     public Optional<Oferta> buscarOfertaPorId(int id);
     public int qtdOfertaPorComprador(int idComprador);
     public List<Oferta> buscarOfertaPorAnuncio(int idAnuncio);
+    void atualizar(Oferta oferta);
+    void rejeitarOfertasRestantes(int idAnuncio, int idOfertaAceita);
 }

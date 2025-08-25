@@ -5,6 +5,7 @@
 package br.brechosustentavel.repository.sqlite;
 
 import br.brechosustentavel.model.Comprador;
+import br.brechosustentavel.model.Vendedor;
 import br.brechosustentavel.repository.ConexaoFactory;
 import br.brechosustentavel.repository.ICompradorRepository;
 import java.sql.Connection;
@@ -112,6 +113,30 @@ public class SQLiteCompradorRepository implements ICompradorRepository{
             throw new RuntimeException("Erro ao atualizar quantidadfe de compras do comprador: " + e.getMessage());
         }
     }
+    
+    @Override
+    public void editar(Comprador comprador) {
+        String sql = "UPDATE comprador SET nivel_reputacao = ?, estrelas = ?, compras_finalizadas = ?, gwp_evitado = ?, selo_verificador = ? WHERE id_comprador = ?";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setString(1, comprador.getNivel());
+            pstmt.setDouble(2, comprador.getEstrelas());
+            pstmt.setInt(3, comprador.getComprasFinalizadas());
+            pstmt.setDouble(4, comprador.getGwpEvitado());
+            pstmt.setBoolean(5, comprador.isSelo());
+            pstmt.setInt(6, comprador.getId());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao salvar/atualizar o perfil do comprador: " + e.getMessage(), e);
+        }
+    }
+
+    
+
     
     
 }

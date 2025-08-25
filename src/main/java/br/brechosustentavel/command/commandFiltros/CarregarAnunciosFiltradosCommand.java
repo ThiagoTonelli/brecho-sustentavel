@@ -76,7 +76,7 @@ public class CarregarAnunciosFiltradosCommand implements ICommandFiltros{
         } catch (Exception e) {
             modelo.setRowCount(0);
             modelo.addRow(new Object[]{"Erro ao carregar anúncios filtrados."});
-            throw new RuntimeException("Erro ao inicializar auncios" + e.getMessage());
+            throw new RuntimeException("Erro ao inicializar anuncios" + e.getMessage());
         }
     }
 }
