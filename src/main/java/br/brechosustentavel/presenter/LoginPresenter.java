@@ -82,6 +82,7 @@ public class LoginPresenter {
             
             boolean isComprador = usuarioAutenticado.getComprador().isPresent() ;
             boolean isVendedor = usuarioAutenticado.getVendedor().isPresent();
+            boolean isAdmin = usuarioAutenticado.isAdmin();
             
             sessao.setUsuarioAutenticado(usuarioAutenticado);
             sessao.setAutenticado(true);
@@ -94,7 +95,7 @@ public class LoginPresenter {
                     sessao.setTipoPerfil("Vendedor");   
                 } else if(isComprador){
                     sessao.setTipoPerfil("Comprador");
-                } else {
+                } else if (isAdmin){
                     sessao.setTipoPerfil("Admin");
                 }
                 new JanelaPrincipalPresenter(sessao, new TelaPrincipalPresenter()); 

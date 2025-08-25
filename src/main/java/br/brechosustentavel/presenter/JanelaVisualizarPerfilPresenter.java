@@ -57,10 +57,19 @@ public class JanelaVisualizarPerfilPresenter implements Observador{
     
     private void dadosComprador(RepositoryFactory fabrica, Usuario usuario){
         Optional<Comprador> compradorOpt = fabrica.getCompradorRepository().buscarPorId(usuario.getId());
+        int totalDenuncias = fabrica.getDenunciaRepository().qtdDenunciasPorComprador(usuario.getId());
+        int qtdDenunciasProcedentes = fabrica.getDenunciaRepository().qtdDenunciasProcedentesPorComprador(usuario.getId());
+        double percentualProcedentes = (double) qtdDenunciasProcedentes / totalDenuncias; 
+        
         compradorOpt.ifPresent(comprador -> {
             view.getLblNivel().setText(String.valueOf(comprador.getNivel()));
             view.getLblEstrelas().setText(String.valueOf(comprador.getEstrelas()));
             view.getLblGWP().setText(String.valueOf(comprador.getGwpEvitado()));
+            view.getLblDenuncias().setText(String.valueOf(percentualProcedentes));
+            
+            if(comprador.isSelo()){
+                view.getLblSelo1().setText("Veficador Confiável");
+            }
 
             view.getPanel().setPreferredSize(new Dimension(358, 407));
             JPanel painelInsignias = view.getPnlInsignias();
@@ -90,6 +99,10 @@ public class JanelaVisualizarPerfilPresenter implements Observador{
             view.getLblNivel().setText(String.valueOf(vendedor.getNivel()));
             view.getLblEstrelas().setText(String.valueOf(vendedor.getEstrelas()));
             view.getLblGWP().setText(String.valueOf(vendedor.getGwpContribuido()));
+            view.getLblDenuncias().setVisible(false);
+            view.getLblEstatisticasDenuncia().setVisible(false);
+            view.getLblSelo1().setVisible(false);
+            view.getLblTituloSelos().setVisible(false);
             
             view.getPanel().setPreferredSize(new Dimension(358, 407));
             JPanel painelInsignias = view.getPnlInsignias();

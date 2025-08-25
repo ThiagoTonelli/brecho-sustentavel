@@ -18,4 +18,5 @@ public interface IDenunciaRepository {
     public Optional<Denuncia> buscarDenunciaPorId(int id);
     public List<Denuncia> buscarDenunciaPorStatus(String status, int id);
     public int qtdDenunciasProcedentesPorComprador(int idComprador);
+    public int qtdDenunciasPorComprador(int idComprador);
 }

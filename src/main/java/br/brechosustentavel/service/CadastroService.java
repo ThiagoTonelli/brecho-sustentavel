@@ -58,8 +58,10 @@ public class CadastroService {
             if(!usuario.getTelefone().trim().isEmpty() && !verificadorTelefoneService.verificarTelefone(usuario.getTelefone())) {
                 throw new RuntimeException("O número de telefone é inválido!");
             }
-            if(opcao.equals("")){
-                throw new RuntimeException("Selecione um perfil.");
+            if(!isVazio()){
+                if(opcao.equals("")){
+                    throw new RuntimeException("Selecione um perfil.");
+                }
             }
               
             

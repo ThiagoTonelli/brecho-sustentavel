@@ -262,5 +262,23 @@ public class SQLiteDenunciaRepository implements IDenunciaRepository{
             throw new RuntimeException("Erro ao contar as denúncias do comprador: " + e.getMessage());
         }     
     }
+
+    @Override
+    public int qtdDenunciasPorComprador(int idComprador) {
+       String sql = "SELECT COUNT(*) FROM denuncia WHERE id_comprador = ?;";
+        
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {           
+            pstmt.setInt(1, idComprador);
+            
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao contar as denúncias do comprador: " + e.getMessage());
+        }     
+    }
     
 }

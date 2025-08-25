@@ -89,25 +89,37 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="lblPerfil" alignment="0" max="32767" attributes="0"/>
               <Group type="102" attributes="0">
-                  <EmptySpace pref="19" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" alignment="1" groupAlignment="1" attributes="0">
-                          <Component id="jLabel2" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="jLabel1" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="jLabel3" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                          <Component id="jLabel5" alignment="1" min="-2" pref="150" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel4" alignment="1" min="-2" pref="175" max="-2" attributes="0"/>
+                              <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lblTituloSelos" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="lblEstatisticasDenuncia" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="jLabel2" alignment="1" pref="150" max="32767" attributes="0"/>
+                                  <Component id="jLabel1" alignment="1" pref="150" max="32767" attributes="0"/>
+                                  <Component id="jLabel3" alignment="1" pref="150" max="32767" attributes="0"/>
+                                  <Component id="jLabel5" alignment="1" pref="150" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="lblNome" pref="400" max="32767" attributes="0"/>
+                              <Component id="lblTelefone" pref="400" max="32767" attributes="0"/>
+                              <Component id="lblNivel" pref="400" max="32767" attributes="0"/>
+                              <Component id="lblEstrelas" pref="400" max="32767" attributes="0"/>
+                              <Component id="lblGWP" pref="400" max="32767" attributes="0"/>
+                              <Component id="lblDenuncias" pref="400" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jLabel4" alignment="1" min="-2" pref="175" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace pref="122" max="32767" attributes="0"/>
+                          <Component id="lblSelo1" min="-2" pref="206" max="-2" attributes="0"/>
+                          <EmptySpace pref="290" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="lblNome" min="-2" pref="400" max="-2" attributes="0"/>
-                      <Component id="lblTelefone" min="-2" pref="400" max="-2" attributes="0"/>
-                      <Component id="lblNivel" min="-2" pref="400" max="-2" attributes="0"/>
-                      <Component id="lblEstrelas" min="-2" pref="400" max="-2" attributes="0"/>
-                      <Component id="lblGWP" min="-2" pref="400" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="panel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="34" max="32767" attributes="0"/>
               </Group>
@@ -145,6 +157,15 @@
                               <Component id="jLabel5" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               <Component id="lblGWP" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblEstatisticasDenuncia" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="lblDenuncias" min="-2" pref="30" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="lblTituloSelos" min="-2" pref="30" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="lblSelo1" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
@@ -282,6 +303,28 @@
         <Component class="javax.swing.JLabel" name="lblEstrelas">
         </Component>
         <Component class="javax.swing.JLabel" name="lblGWP">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblEstatisticasDenuncia">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="Estat&#xed;sticas den&#xfa;ncias:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblDenuncias">
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblTituloSelos">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="SELOS"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblSelo1">
         </Component>
       </SubComponents>
     </Container>
