@@ -5,6 +5,7 @@
 package br.brechosustentavel.presenter;
 
 import br.brechosustentavel.command.commandDenuncia.RealizarDenunciaCommand;
+import br.brechosustentavel.observer.Observavel;
 import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaDenunciarAnuncioView;
 import java.awt.event.ActionEvent;
@@ -62,8 +63,9 @@ public class JanelaDenunciarAnuncioPresenter {
     }
     
     private void denunciar(){
-        new RealizarDenunciaCommand(this).executar(sessao);
+        new RealizarDenunciaCommand(this, sessao).executar();
         JOptionPane.showMessageDialog(view, "Denuncia enviada para análise com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        Observavel.getInstance().notifyObservers();
         view.dispose();
     }
     

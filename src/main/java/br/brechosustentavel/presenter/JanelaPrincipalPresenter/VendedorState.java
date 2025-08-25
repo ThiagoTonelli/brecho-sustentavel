@@ -6,6 +6,7 @@ package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 
 import br.brechosustentavel.command.commandPrincipal.AdicionarPerfilCommand;
 import br.brechosustentavel.command.commandPrincipal.CarregarAnunciosVendedorCommand;
+import br.brechosustentavel.presenter.JanelaVisualizarDenunciasPresenter;
 import br.brechosustentavel.presenter.JanelaVisualizarOfertasPresenter;
 import br.brechosustentavel.presenter.JanelaVisualizarPerfilPresenter;
 import br.brechosustentavel.presenter.manterAnuncioPresenter.InclusaoAnuncioState;
@@ -48,6 +49,10 @@ public class VendedorState extends JanelaPrincipalState{
         
         view.getButtonManterTipo().addActionListener((ActionEvent e) -> {
             visualizarOfertas();
+        });
+        
+        view.getButtonManterComposicao().addActionListener((ActionEvent e) -> {
+            visualizarDenuncias();
         });
         
         view.getMenuVisualizarPerfil().addMenuListener(new MenuListener(){
@@ -122,7 +127,7 @@ public class VendedorState extends JanelaPrincipalState{
             String subcategoria = (String) tabela.getValueAt(linhaSelecionada, 1);
             String valorFinal = (String) tabela.getValueAt(linhaSelecionada, 8);
             Frame janelaPai = (Frame) SwingUtilities.getWindowAncestor(presenter.getView());
-            JanelaVisualizarOfertasPresenter visualizarOfertasPresenter = new JanelaVisualizarOfertasPresenter(janelaPai, idPeca, subcategoria, valorFinal);
+            new JanelaVisualizarOfertasPresenter(janelaPai, idPeca, subcategoria, valorFinal);
         } else {
             JOptionPane.showMessageDialog(presenter.getView(), "Ofertas não encontradas.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -138,12 +143,10 @@ public class VendedorState extends JanelaPrincipalState{
         }
         String idPeca = (String) tabela.getValueAt(linhaSelecionada, 0);
         if (idPeca != null) {
-            String subcategoria = (String) tabela.getValueAt(linhaSelecionada, 1);
-            String valorFinal = (String) tabela.getValueAt(linhaSelecionada, 8);
             Frame janelaPai = (Frame) SwingUtilities.getWindowAncestor(presenter.getView());
-            JanelaVisualizarOfertasPresenter visualizarOfertasPresenter = new JanelaVisualizarOfertasPresenter(janelaPai, idPeca, subcategoria, valorFinal);
+            new JanelaVisualizarDenunciasPresenter(janelaPai, idPeca, usuarioAutenticado);
         } else {
-            JOptionPane.showMessageDialog(presenter.getView(), "Ofertas não encontradas.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(presenter.getView(), "Denuncias não encontradas.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -162,7 +165,7 @@ public class VendedorState extends JanelaPrincipalState{
         carregar();
      
         //Configura botoes
-        view.getButtonManterComposicao().setVisible(false);
+        view.getButtonManterComposicao().setText("Visualizar Denuncias");
         view.getButtonManterTipo().setText("Visualizar Ofertas");
     }
 }

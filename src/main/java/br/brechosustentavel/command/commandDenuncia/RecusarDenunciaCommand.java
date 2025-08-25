@@ -10,18 +10,18 @@ import br.brechosustentavel.service.DenunciaService;
  *
  * @author kaila
  */
-public class AceitarDenunciaCommand implements ICommandDenuncia{
+public class RecusarDenunciaCommand implements ICommandDenuncia{
     private final DenunciaService denunciaService;
     private int idDenuncia;
 
-    public AceitarDenunciaCommand(DenunciaService denunciaService, int idDenuncia) {
+    public RecusarDenunciaCommand(DenunciaService denunciaService, int idDenuncia) {
         this.denunciaService = denunciaService;
         this.idDenuncia = idDenuncia;
     }
     
     @Override
     public void executar() {
-        denunciaService.processarDenunciaProcedente(idDenuncia);
+        denunciaService.recusarDenuncia(idDenuncia);
     }
     
 }

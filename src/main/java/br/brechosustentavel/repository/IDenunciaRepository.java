@@ -16,6 +16,6 @@ public interface IDenunciaRepository {
     public void inserirDenuncia(Denuncia denuncia);
     public void atualizarStatusDenuncia(Denuncia denuncia, String novoStatus);
     public Optional<Denuncia> buscarDenunciaPorId(int id);
-    public List<Denuncia> buscarDenunciaPorStatus(String status);
+    public List<Denuncia> buscarDenunciaPorStatus(String status, int id);
     public int qtdDenunciasProcedentesPorComprador(int idComprador);
 }

@@ -11,5 +11,5 @@ import br.brechosustentavel.service.SessaoUsuarioService;
  * @author kaila
  */
 public interface ICommandDenuncia {
-    public void executar(SessaoUsuarioService sessao);
+    public void executar();
 }

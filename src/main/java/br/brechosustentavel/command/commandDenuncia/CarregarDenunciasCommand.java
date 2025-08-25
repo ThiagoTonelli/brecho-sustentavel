@@ -4,14 +4,12 @@
  */
 package br.brechosustentavel.command.commandDenuncia;
 
-import br.brechosustentavel.model.Oferta;
+import br.brechosustentavel.model.Denuncia;
 import br.brechosustentavel.presenter.JanelaVisualizarDenunciasPresenter;
 import br.brechosustentavel.repository.IAnuncioRepository;
-import br.brechosustentavel.repository.IOfertaRepository;
-import br.brechosustentavel.repository.IUsuarioRepository;
+import br.brechosustentavel.repository.IDenunciaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.SessaoUsuarioService;
-import br.brechosustentavel.view.JanelaDenunciarAnuncioView;
 import br.brechosustentavel.view.JanelaVisualizarDenunciasView;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -24,24 +22,25 @@ import javax.swing.table.DefaultTableModel;
  * @author kaila
  */
 public class CarregarDenunciasCommand implements ICommandDenuncia{
-    private JanelaVisualizarDenunciasPresenter presenter;
+    private final JanelaVisualizarDenunciasPresenter presenter;
+    private final String idPeca;
     
-    public CarregarDenunciasCommand(JanelaVisualizarDenunciasPresenter presenter){
+    public CarregarDenunciasCommand(JanelaVisualizarDenunciasPresenter presenter, String idPeca){
         this.presenter = presenter;
+        this.idPeca = idPeca;
     }
 
     @Override
-    public void executar(SessaoUsuarioService sessao) {
+    public void executar() {
         try{
             JanelaVisualizarDenunciasView view = presenter.getView();
             RepositoryFactory fabrica = RepositoryFactory.getInstancia();
-            IOfertaRepository ofertaRepository = fabrica.getOfertaRepository();
+            IDenunciaRepository denunciaRepository = fabrica.getDenunciaRepository();
             IAnuncioRepository anuncioRepository = fabrica.getAnuncioRepository();
-            IUsuarioRepository usuarioRepository = fabrica.getUsuarioRepository();
+            
+            List<Denuncia> denuncias = denunciaRepository.buscarDenunciaPorStatus("Pendente", anuncioRepository.buscarPorIdPeca(idPeca).get().getId());
 
-            List<Oferta> ofertas = ofertaRepository.buscarOfertaPorAnuncio(anuncioRepository.buscarPorIdPeca(idPeca).get().getId());
-
-            String[] colunas = {"ID do Anuncio", "Peça", "Motivo", "Descriçao", "Data da Denuncia"};
+            String[] colunas = {"ID da Denuncia", "ID do Anuncio", "Peça", "Motivo", "Descriçao", "Data da Denuncia"};
             DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
 
             JTable tabela = view.getTableDenuncias();
@@ -50,21 +49,23 @@ public class CarregarDenunciasCommand implements ICommandDenuncia{
             tabela.getTableHeader().setReorderingAllowed(false); 
             modelo.setRowCount(0);
             
-            if (ofertas.isEmpty()) {
-                modelo.addRow(new Object[]{"Nenhuma oferta encontrada."});
+            if (denuncias.isEmpty()) {
+                modelo.addRow(new Object[]{"Nenhuma denúncia encontrada."});
             } else {
-                for (Oferta oferta : ofertas) {
+                for (Denuncia denuncia : denuncias) {
                      Object[] rowData = {
-                         oferta.getId(),
-                         usuarioRepository.buscarPorId(oferta.getComprador().getId()).get().getNome(),
-                         "R$ " + String.format("%.2f", oferta.getValor()),
-                         oferta.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))
+                         denuncia.getId(),
+                         denuncia.getAnuncio().getId(),
+                         denuncia.getAnuncio().getPeca().getSubcategoria(),
+                         denuncia.getMotivo(),
+                         denuncia.getDescricao(),
+                         denuncia.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))
                      };
                      modelo.addRow(rowData);
                  } 
             }
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao carregar as ofertas: " + e.getMessage());
+            throw new RuntimeException("Erro ao carregar as denuncias: " + e.getMessage());
         }
     }   
 }
