@@ -29,100 +29,100 @@ import br.brechosustentavel.repository.IVendedorInsigniaRepository;
  *
  * @author thiag
  */
-public class H2RepositoryFactory extends RepositoryFactory{
+public class H2RepositoryFactory extends RepositoryFactory {
     private final ConexaoFactory conexaoFactory;
-    
-    public H2RepositoryFactory(ConexaoFactory conexaoFactory){
+
+    public H2RepositoryFactory(ConexaoFactory conexaoFactory) {
         this.conexaoFactory = conexaoFactory;
     }
 
     @Override
+    public IDefeitoRepository getDefeitoRepository() {
+        return new H2DefeitoRepository(conexaoFactory, getTipoDePecaRepository());
+    }
+
+    @Override
     public IUsuarioRepository getUsuarioRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new H2UsuarioRepository(conexaoFactory);
     }
 
     @Override
     public IComposicaoRepository getComposicaoRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public ITransacaoRepository getTransacaoRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public IDefeitoRepository getDefeitoRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public ITipoDePecaRepository getTipoDePecaRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public IPecaRepository getPecaRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public ILinhaDoTempoRepository getLinhaDoTempoRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public IVendedorRepository getVendedorRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public ICompradorRepository getCompradorRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public IAnuncioRepository getAnuncioRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public IDefeitoPecaRepository getDefeitoPecaRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public IInsigniaRepository getInsigniaRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public IVendedorInsigniaRepository getVendedorInsigniaRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public ICompradorInsigniaRepository getCompradorInsigniaRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new H2ComposicaoRepository(conexaoFactory);
     }
 
     @Override
     public IComposicaoPecaRepository getComposicaoPecaRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new H2ComposicaoPecaRepository(conexaoFactory);
+    }
+
+    @Override
+    public ITransacaoRepository getTransacaoRepository() {
+        return new H2TransacaoRepository(conexaoFactory);
+    }
+
+    @Override
+    public IPecaRepository getPecaRepository() {
+        return new H2PecaRepository(conexaoFactory);
+    }
+
+    @Override
+    public ITipoDePecaRepository getTipoDePecaRepository() {
+        return new H2TipoPecaRepository(conexaoFactory);
+    }
+
+    @Override
+    public ILinhaDoTempoRepository getLinhaDoTempoRepository() {
+        return new H2LinhaDoTempoRepository(conexaoFactory);
+    }
+
+    @Override
+    public IVendedorRepository getVendedorRepository() {
+        return new H2VendedorRepository(conexaoFactory);
+    }
+
+    @Override
+    public ICompradorRepository getCompradorRepository() {
+        return new H2CompradorRepository(conexaoFactory);
+    }
+
+    @Override
+    public IAnuncioRepository getAnuncioRepository() {
+        return new H2AnuncioRepository(conexaoFactory);
+    }
+
+    @Override
+    public IDefeitoPecaRepository getDefeitoPecaRepository() {
+        return new H2DefeitoPecaRepository(conexaoFactory);
+    }
+
+    @Override
+    public IInsigniaRepository getInsigniaRepository() {
+        return new H2InsigniaRepository(conexaoFactory);
+    }
+
+    @Override
+    public IVendedorInsigniaRepository getVendedorInsigniaRepository() {
+        return new H2VendedorInsigniaRepository(conexaoFactory);
+    }
+
+    @Override
+    public ICompradorInsigniaRepository getCompradorInsigniaRepository() {
+        return new H2CompradorInsigniaRepository(conexaoFactory);
     }
 
     @Override
     public IOfertaRepository getOfertaRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new H2OfertaRepository(conexaoFactory);
     }
 
     @Override
     public IDenunciaRepository getDenunciaRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new H2DenunciaRepository(conexaoFactory);
     }
 
     @Override
     public IAvaliacaoRepository getAvaliacaoRepository() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new H2AvaliacaoRepository(conexaoFactory);
     }
 }
