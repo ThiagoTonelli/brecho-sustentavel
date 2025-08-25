@@ -12,6 +12,7 @@ import br.brechosustentavel.repository.ILinhaDoTempoRepository;
 import br.brechosustentavel.repository.IOfertaRepository;
 import br.brechosustentavel.repository.RepositoryFactory;
 import br.brechosustentavel.service.insignia.AplicaInsigniaService;
+import br.brechosustentavel.service.pontuacao.PontuacaoService;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -58,5 +59,7 @@ public class RealizarOfertaService {
         
         //Aplica insignias
         new AplicaInsigniaService().concederInsignia(sessao.getUsuarioAutenticado());
+        
+        new PontuacaoService().processarNovaOferta(oferta);
     }
 }

@@ -20,4 +20,5 @@ public interface IVendedorRepository {
     Map<String, Double> getTopVendedoresPorGWP(int limite);
     Map<String, Integer> contarPorNivelReputacao();
     public void editar(Vendedor vendedor);
+    void somarGwpContribuido(int idVendedor, double gwpParaAdicionar);
 }

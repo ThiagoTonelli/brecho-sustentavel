@@ -134,6 +134,21 @@ public class SQLiteCompradorRepository implements ICompradorRepository{
             throw new RuntimeException("Erro ao salvar/atualizar o perfil do comprador: " + e.getMessage(), e);
         }
     }
+    
+    @Override
+    public void somarGwpEvitado(int idComprador, double gwpParaAdicionar) {
+        String sql = "UPDATE comprador SET gwp_evitado = gwp_evitado + ? WHERE id_comprador = ?";
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setDouble(1, gwpParaAdicionar);
+            pstmt.setInt(2, idComprador);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao somar GWP evitado do comprador: " + e.getMessage(), e);
+        }
+    }
 
     
 

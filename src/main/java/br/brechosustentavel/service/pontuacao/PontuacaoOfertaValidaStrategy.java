@@ -41,7 +41,7 @@ public class PontuacaoOfertaValidaStrategy implements IPontuacaoStrategy {
                 comprador.setEstrelas(comprador.getEstrelas() + PONTOS);
 
                 ICompradorRepository compradorRepo = fabrica.getCompradorRepository();
-                compradorRepo.salvar(comprador);
+                compradorRepo.editar(comprador);
             }
         }
     }

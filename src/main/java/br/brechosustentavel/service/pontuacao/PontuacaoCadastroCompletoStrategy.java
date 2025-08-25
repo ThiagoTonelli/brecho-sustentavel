@@ -29,7 +29,7 @@ public class PontuacaoCadastroCompletoStrategy implements IPontuacaoStrategy {
             vendedor.setEstrelas(vendedor.getEstrelas() + PONTOS);
             
             IVendedorRepository vendedorRepo = fabrica.getVendedorRepository();
-            vendedorRepo.salvar(vendedor); // Você precisará de um método 'salvar' ou 'atualizar'
+            vendedorRepo.editar(vendedor);
         }
     }
 

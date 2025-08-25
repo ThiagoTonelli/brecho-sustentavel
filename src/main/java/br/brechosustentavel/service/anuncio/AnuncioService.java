@@ -17,6 +17,7 @@ import br.brechosustentavel.service.AplicarDescontosDefeitosService;
 import br.brechosustentavel.service.CalculadoraDeIndicesService;
 import br.brechosustentavel.service.GerenciadorLog;
 import br.brechosustentavel.service.insignia.AplicaInsigniaService;
+import br.brechosustentavel.service.pontuacao.PontuacaoService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +111,7 @@ public class AnuncioService {
 
         // Concede insígnias se aplicável
         aplicaInsigniaService.concederInsignia(usuario);
-
+        new PontuacaoService().processarNovoAnuncio(novoAnuncio);
         return novoAnuncio;
     }
 
