@@ -29,15 +29,12 @@ public class VisualizarAnuncioCommand implements ICommandVendedor{
     @Override
     public Object executar(ManterAnuncioPresenter presenter) {
         IJanelaManterAnuncioView view = presenter.getView();
-        // Corrigido para usar o método correto do presenter
         String id_c = presenter.getIdPeca();
 
-        // Inicializa todos os repositórios necessários através da Factory
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         IPecaRepository pecaRepository = fabrica.getPecaRepository();
         IDefeitoPecaRepository defeitoPecaRepository = fabrica.getDefeitoPecaRepository();
         ITipoDePecaRepository tipoPecaRepository = fabrica.getTipoDePecaRepository();
-        // Adicionado o repositório para buscar a composição da peça
         IComposicaoPecaRepository composicaoPecaRepository = fabrica.getComposicaoPecaRepository();
 
         Optional<Peca> pecaOptional = pecaRepository.consultar(id_c);
@@ -45,7 +42,6 @@ public class VisualizarAnuncioCommand implements ICommandVendedor{
         if (pecaOptional.isPresent()) {
             Peca peca = pecaOptional.get();
 
-            // Preenche os campos de texto com os dados da peça
             view.getTxtId_c().setText(id_c);
             view.getTxtSubcategoria().setText(peca.getSubcategoria());
             view.getTxtTamanho().setText(peca.getTamanho());
@@ -55,10 +51,8 @@ public class VisualizarAnuncioCommand implements ICommandVendedor{
             view.getTxtPrecoBase().setText(String.format("%.2f", peca.getPrecoBase()));
             view.getSelectTipoDePeca().setSelectedItem(tipoPecaRepository.buscarNomeTipo(peca.getIdTipoDePeca()));
 
-            // Carrega a lista de defeitos possíveis para o tipo de peça
             new CarregarDefeitosPorTipoCommand().executar(presenter);
 
-            // Marca os checkboxes dos defeitos que a peça realmente possui
             Map<String, Double> defeitosDaPeca = defeitoPecaRepository.buscarNomeDefeitosDaPeca(id_c);
             if (defeitosDaPeca != null) {
                 for (Component comp : view.getPainelScrollDefeitos().getComponents()) {
@@ -73,7 +67,6 @@ public class VisualizarAnuncioCommand implements ICommandVendedor{
 
             Map<String, Integer> composicaoDaPeca = composicaoPecaRepository.buscarComposicaoPorPeca(id_c);
 
-            // 2. Cria uma lista de JComboBoxes e JSpinners para facilitar a iteração
             List<JComboBox<String>> comboBoxes = List.of(
                 view.getSelectComposicao(), 
                 view.getSelectComposicao1(), 

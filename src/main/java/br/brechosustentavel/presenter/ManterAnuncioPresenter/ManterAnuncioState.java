@@ -4,8 +4,6 @@
  */
 package br.brechosustentavel.presenter.manterAnuncioPresenter;
 
-import br.brechosustentavel.presenter.manterAnuncioPresenter.ManterAnuncioPresenter;
-
 /**
  *
  * @author thiag

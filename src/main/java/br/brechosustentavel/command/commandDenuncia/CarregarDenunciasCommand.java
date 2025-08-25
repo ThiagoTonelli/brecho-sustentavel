@@ -9,7 +9,6 @@ import br.brechosustentavel.presenter.JanelaVisualizarDenunciasPresenter;
 import br.brechosustentavel.repository.repositoryFactory.IAnuncioRepository;
 import br.brechosustentavel.repository.repositoryFactory.IDenunciaRepository;
 import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
-import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.view.JanelaVisualizarDenunciasView;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

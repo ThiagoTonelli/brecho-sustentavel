@@ -135,16 +135,6 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
     public void cancelar(){
         presenter.getView().dispose(); 
     }
-
-    @Override
-    public void editar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void visualizar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
     private boolean todosCamposPreenchidos() {
 
@@ -167,11 +157,6 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
         if (somaMateriais <= 0 && somaMateriais != 100) return false;
 
         return true;
-    }
-
-    @Override
-    public void excluir() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
   
 }

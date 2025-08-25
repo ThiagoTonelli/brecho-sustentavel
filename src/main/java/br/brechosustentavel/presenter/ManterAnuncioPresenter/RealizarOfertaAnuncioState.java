@@ -12,7 +12,6 @@ import br.brechosustentavel.presenter.JanelaRealizarOfertaPresenter;
 import br.brechosustentavel.service.RealizarOfertaService;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

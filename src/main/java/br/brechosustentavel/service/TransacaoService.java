@@ -20,9 +20,6 @@ import br.brechosustentavel.service.pontuacao.PontuacaoService;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-/**
- * Serviço responsável por orquestrar todas as etapas de uma transação bem-sucedida.
- */
 public class TransacaoService {
     
     private final ITransacaoRepository transacaoRepository;
@@ -33,7 +30,7 @@ public class TransacaoService {
     private final IUsuarioRepository usuarioRepository;
     private final AplicaInsigniaService insigniaService;
     private final ILinhaDoTempoRepository linhaDoTempoRepository;
-    private final PontuacaoService pontuacaoService; // Adicionado para centralizar a chamada
+    private final PontuacaoService pontuacaoService;
 
     public TransacaoService(AplicaInsigniaService insigniaService) {
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
@@ -57,11 +54,9 @@ public class TransacaoService {
             Comprador comprador = oferta.getComprador();
             Anuncio anuncio = oferta.getAnuncio();
 
-            // Atualiza contadores de compra/venda
             vendedor.setVendasConcluidas(vendedor.getVendasConcluidas() + 1);
             comprador.setComprasFinalizadas(comprador.getComprasFinalizadas() + 1);
 
-            // Soma o GWP aos perfis
             double gwpDaVenda = anuncio.getGwpAvoided();
             vendedor.setGwpContribuido(vendedor.getGwpContribuido() + gwpDaVenda);
             comprador.setGwpEvitado(comprador.getGwpEvitado() + gwpDaVenda);

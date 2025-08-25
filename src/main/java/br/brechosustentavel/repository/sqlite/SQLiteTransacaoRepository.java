@@ -138,7 +138,6 @@ public class SQLiteTransacaoRepository implements ITransacaoRepository{
     @Override
     public List<Transacao> buscarPorComprador(int idComprador) {
         List<Transacao> transacoes = new ArrayList<>();
-        // A query busca todas as transações onde o ID do comprador da oferta corresponde.
         String sql = "SELECT id FROM transacao WHERE id_oferta IN (SELECT id FROM oferta WHERE id_comprador = ?)";
 
         try (Connection conexao = this.conexaoFactory.getConexao();
@@ -148,7 +147,6 @@ public class SQLiteTransacaoRepository implements ITransacaoRepository{
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                // Reutiliza o método buscarPorId que já monta o objeto Transacao completo
                 buscarPorId(rs.getInt("id")).ifPresent(transacoes::add);
             }
         } catch (SQLException e) {
@@ -160,7 +158,6 @@ public class SQLiteTransacaoRepository implements ITransacaoRepository{
     @Override
     public List<Transacao> buscarPorVendedor(int idVendedor) {
         List<Transacao> transacoes = new ArrayList<>();
-        // A query busca todas as transações onde o ID do vendedor do anúncio corresponde.
         String sql = "SELECT t.id FROM transacao t JOIN oferta o ON t.id_oferta = o.id JOIN anuncio a ON o.id_anuncio = a.id WHERE a.id_vendedor = ?";
 
         try (Connection conexao = this.conexaoFactory.getConexao();

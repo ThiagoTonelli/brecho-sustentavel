@@ -4,8 +4,6 @@
  */
 package br.brechosustentavel.model;
 
-import java.util.List;
-
 /**
  *
  * @author thiag
@@ -82,10 +80,4 @@ public class Anuncio {
     public void setMci(double mci) {
         this.mci = mci;
     }
-    
-
-    @Override
-    public String toString() {
-        return "Anuncio{" + "idAnuncio=" + id + ", Vendedor=" + vendedor + ", peca=" + peca + ", valorFinal=" + valorFinal + ", gwpAvoided=" + gwpAvoided + ", mci=" + mci + '}';
-    }    
 }

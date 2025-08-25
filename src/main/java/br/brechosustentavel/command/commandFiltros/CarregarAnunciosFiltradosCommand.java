@@ -53,6 +53,7 @@ public class CarregarAnunciosFiltradosCommand implements ICommandFiltros{
 
             filtro.setTipoCriterio((String) presenter.getView().getcBoxCriterioFiltro().getSelectedItem());
             filtro.setValorFiltro((String) presenter.getView().getcBoxValorFiltro().getSelectedItem());
+            filtro.setBusca((String) presenter.getView().getTxtAtributos().getText());
             List<Anuncio> anuncios = anuncioRepository.buscarComFiltros(filtro, sessao.getUsuarioAutenticado().getId());
             
             modelo.setRowCount(0);

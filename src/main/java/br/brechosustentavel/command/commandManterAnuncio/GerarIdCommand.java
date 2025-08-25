@@ -19,10 +19,8 @@ public class GerarIdCommand implements ICommandVendedor{
     public Object executar(ManterAnuncioPresenter presenter) {
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         IPecaRepository repository = fabrica.getPecaRepository();
-        //chama o service para id_c
         GeradorIdService gerador = new GeradorIdService();
         String id = gerador.Gerar();
-        //verifica se existe no bd se sim cria outro id_c
         while(repository.ExisteId_c(id)){
             id = gerador.Gerar();
         }

@@ -35,7 +35,5 @@ public class FiltroAnuncioDTO {
 
     public void setBusca(String busca) {
         this.busca = busca;
-    }
-    
-    
+    }   
 }

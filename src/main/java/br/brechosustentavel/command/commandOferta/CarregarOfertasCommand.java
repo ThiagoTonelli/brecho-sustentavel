@@ -13,7 +13,6 @@ import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.view.JanelaVisualizarOfertasView;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;

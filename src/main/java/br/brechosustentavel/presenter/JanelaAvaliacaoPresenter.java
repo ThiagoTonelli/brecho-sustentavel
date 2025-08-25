@@ -54,7 +54,6 @@ public class JanelaAvaliacaoPresenter {
         });
     }
 
-    // Getters para que o Command possa aceder ao contexto
     public Transacao getTransacao() {
         return transacao;
     }

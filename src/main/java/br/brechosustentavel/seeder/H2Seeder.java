@@ -176,7 +176,7 @@ public class H2Seeder implements ISeeder{
                 Integer idTipo = idTipos.get((String) defeito[2]);
                 if (idTipo == null) {
                     System.err.println("Aviso: Tipo de peça não encontrado para o defeito: " + defeito[0]);
-                    continue; // Pula este defeito se o tipo não for encontrado
+                    continue;
                 }
                 pstmt.setString(1, (String) defeito[0]);
                 pstmt.setDouble(2, (Double) defeito[1]);

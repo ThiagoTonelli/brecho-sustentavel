@@ -24,17 +24,44 @@ public class Avaliacao {
         this.data = LocalDateTime.now();
     }
 
-    // Getters e Setters para todos os campos
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    public Transacao getTransacao() { return transacao; }
-    public void setTransacao(Transacao transacao) { this.transacao = transacao; }
-    public Usuario getAutor() { return autor; }
-    public void setAutor(Usuario autor) { this.autor = autor; }
-    public String getTexto() { return texto; }
-    public void setTexto(String texto) { this.texto = texto; }
-    public LocalDateTime getData() { return data; }
-    public void setData(LocalDateTime data) { this.data = data; }
+    public int getId() { 
+        return id; 
+    }
+    
+    public void setId(int id) { 
+        this.id = id; 
+    }
+    
+    public Transacao getTransacao() { 
+        return transacao; 
+    }
+    public void setTransacao(Transacao transacao) { 
+        this.transacao = transacao;
+    }
+    
+    public Usuario getAutor() { 
+        return autor; 
+    }
+    
+    public void setAutor(Usuario autor) { 
+        this.autor = autor; 
+    }
+    
+    public String getTexto() { 
+        return texto; 
+    }
+    
+    public void setTexto(String texto) { 
+        this.texto = texto; 
+    }
+    
+    public LocalDateTime getData() { 
+        return data; 
+    }
+    
+    public void setData(LocalDateTime data) { 
+        this.data = data; 
+    }
     
     public boolean isAutorComprador() {
         return autor.getId() == transacao.getOferta().getComprador().getId();

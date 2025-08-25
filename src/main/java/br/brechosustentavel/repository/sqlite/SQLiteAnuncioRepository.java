@@ -251,7 +251,7 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository {
     }
     
     @Override
-    public List<Anuncio> buscarComFiltros(FiltroAnuncioDTO filtro, int idUsuarioLogado) { // Renomeado para clareza
+    public List<Anuncio> buscarComFiltros(FiltroAnuncioDTO filtro, int idUsuarioLogado) {
         List<Anuncio> anuncios = new ArrayList<>();
         StringBuilder sql = new StringBuilder(
                 """
@@ -264,45 +264,143 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository {
                 INNER JOIN peca p ON a.id_peca = p.id_c
                 INNER JOIN vendedor v ON a.id_vendedor = v.id_vendedor
                 LEFT JOIN tipo_peca tp ON p.id_tipo = tp.id
+                LEFT JOIN defeito_peca dp ON p.id_c = dp.id_peca
+                LEFT JOIN defeito d ON dp.id_defeito = d.id
                 WHERE a.status = 'ativo'
-                """
+            """
         );
         List<Object> parametros = new ArrayList<>();
 
         sql.append(" AND v.id_vendedor != ?");
         parametros.add(idUsuarioLogado);
 
-        if (filtro != null && filtro.getTipoCriterio() != null && filtro.getValorFiltro() != null) {
+        if (filtro != null && filtro.getTipoCriterio() != null && !"Todos".equals(filtro.getTipoCriterio()))  {
             String criterio = filtro.getTipoCriterio();
             String valor = filtro.getValorFiltro();
+            
+            if ("Atributos".equals(criterio)) {
+                String busca = filtro.getBusca();
+                if (busca != null && !busca.isBlank()) {
+                    sql.append("""
+                         AND (
+                             LOWER(p.subcategoria) LIKE LOWER(?) OR
+                             LOWER(p.cor) LIKE LOWER(?) OR
+                             LOWER(p.estado_conservacao) LIKE LOWER(?)
+                    """);
+                    String pattern = "%" + busca + "%";
+                    parametros.add(pattern);
+                    parametros.add(pattern);
+                    parametros.add(pattern);
 
-            if ("Tipo de Peça".equals(criterio) && !"Todos".equals(valor)) {
-                sql.append(" AND tp.nome = ?");
-                parametros.add(valor);
-            } else if ("Faixa de Preço".equals(criterio)) {
-                switch (valor) {
-                    case "Até R$ 50,00":
-                        sql.append(" AND a.valor_final <= ?");
-                        parametros.add(50.0);
-                        break;
-                    case "R$ 50,01 a R$ 100,00":
-                        sql.append(" AND a.valor_final > ? AND a.valor_final <= ?");
-                        parametros.add(50.0);
-                        parametros.add(100.0);
-                        break;
-                    case "R$ 100,01 a R$ 500,00":
-                        sql.append(" AND a.valor_final > ? AND a.valor_final <= ?");
-                        parametros.add(100.0);
-                        parametros.add(500.0);
-                        break;
-                    case "Acima de R$ 500,00":
-                        sql.append(" AND a.valor_final > ?");
-                        parametros.add(500.0);
-                        break;
+                    try {
+                        double massa = Double.parseDouble(busca);
+                        sql.append(" OR p.massa = ?");
+                        parametros.add(massa);
+                    } catch (NumberFormatException ignored) {
+                    }
+
+                    sql.append(")"); 
+                }
+            }else {
+                if ("Tipo de Peça".equals(criterio) && !"Todos".equals(valor)) {
+                    sql.append(" AND tp.nome = ?");
+                    parametros.add(valor);
+                } else if ("Faixa de Preço".equals(criterio)) {
+                    switch (valor) {
+                        case "Até R$ 50,00":
+                            sql.append(" AND a.valor_final <= ?");
+                            parametros.add(50.0);
+                            break;
+                        case "R$ 50,01 a R$ 100,00":
+                            sql.append(" AND a.valor_final > ? AND a.valor_final <= ?");
+                            parametros.add(50.0);
+                            parametros.add(100.0);
+                            break;
+                        case "R$ 100,01 a R$ 500,00":
+                            sql.append(" AND a.valor_final > ? AND a.valor_final <= ?");
+                            parametros.add(100.0);
+                            parametros.add(500.0);
+                            break;
+                        case "Acima de R$ 500,00":
+                            sql.append(" AND a.valor_final > ?");
+                            parametros.add(500.0);
+                            break;
+                    }
+                } else if("Defeitos".equals(criterio) && !"Todos".equals(valor)) {
+                    sql.append(" AND d.nome = ?");
+                    parametros.add(valor);
+                } else if ("GWP".equals(criterio)) {
+                    switch (valor) {
+                        case "Até 10kg CO₂e":
+                            sql.append(" AND a.gwp < ?");
+                            parametros.add(10.0);
+                            break;
+                        case "10,01 a 50kg CO₂e":
+                            sql.append(" AND a.gwp >= ? AND a.gwp <= ?");
+                            parametros.add(10.01);
+                            parametros.add(50.0);
+                            break;
+                        case "50,01 a 100kg CO₂e":
+                            sql.append(" AND a.gwp >= ? AND a.gwp <= ?");
+                            parametros.add(50.01);
+                            parametros.add(100.0);
+                            break;
+                        case "Acima de 100 kg CO₂e":
+                            sql.append(" AND a.gwp > ?");
+                            parametros.add(100.0);
+                            break;
+                    }
+                } else if ("MCI".equals(criterio)) {
+                    switch (valor) {
+                        case "Baixo (< 0.3)":
+                            sql.append(" AND a.mci < ?");
+                            parametros.add(0.3);
+                            break;
+                        case "Médio (0.3 - 0.7)":
+                            sql.append(" AND a.mci >= ? AND a.mci <= ?");
+                            parametros.add(0.3);
+                            parametros.add(0.7);
+                            break;
+                        case "Alto (> 0.7)":
+                            sql.append(" AND a.mci > ?");
+                            parametros.add(0.7);
+                            break;
+                    }
+                } else if("Atributos".equals(criterio)){
+                    String busca = filtro.getBusca();
+                    if (busca != null && !busca.isBlank()) {
+                        sql.append("""
+                            AND (
+                                LOWER(p.subcategoria) LIKE LOWER(?) OR
+                                LOWER(p.tamanho) LIKE LOWER(?) OR
+                                LOWER(p.cor) LIKE LOWER(?) OR
+                                LOWER(p.estado_conservacao) LIKE LOWER(?) OR
+                                LOWER (p.id_c) = LOWER(?)
+                            )
+                        """);
+
+                        String pattern = "%" + busca + "%";
+                        parametros.add(pattern);
+                        parametros.add(pattern);
+                        parametros.add(pattern);
+                        parametros.add(pattern);
+                        parametros.add(busca);
+
+                        try {
+                            double massa = Double.parseDouble(busca);
+                            sql.append(" OR p.massa = ?");
+                            parametros.add(massa);
+                        } catch (NumberFormatException ignored) {
+                            throw new RuntimeException("Masse deve ser numérica.");
+                        }
+
+                        sql.append(")");
+                    }
                 }
             }
         }
-
+        sql.append(" GROUP BY a.id");
+        
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql.toString())) {
 

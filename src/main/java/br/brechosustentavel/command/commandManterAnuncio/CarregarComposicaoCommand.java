@@ -54,7 +54,6 @@ public class CarregarComposicaoCommand implements ICommandVendedor{
         spinner1.addChangeListener(e -> atualizarEstado(spinner1, spinner2, spinner3, jcomboComposicao, jcomboComposicao1, jcomboComposicao2, spinner1));
         spinner2.addChangeListener(e -> atualizarEstado(spinner1, spinner2, spinner3, jcomboComposicao, jcomboComposicao1, jcomboComposicao2, spinner2));
         spinner3.addChangeListener(e -> atualizarEstado(spinner1, spinner2, spinner3, jcomboComposicao, jcomboComposicao1, jcomboComposicao2, spinner3));
-        //atualizarEstado(spinner1, spinner2, spinner3, jcomboComposicao, jcomboComposicao1, jcomboComposicao2, spinner1);
         return null;
     } 
     

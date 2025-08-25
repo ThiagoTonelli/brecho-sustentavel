@@ -162,10 +162,5 @@ public class SQLiteCompradorRepository implements ICompradorRepository{
         } catch(SQLException e){
             throw new RuntimeException("Erro ao atualizar selo do comprador: " + e.getMessage());
         }
-    }
-    
-    
-
-    
-    
+    } 
 }

@@ -16,11 +16,10 @@ import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 public class SalvarDefeitoCommand implements ICommandDefeito {
     @Override
     public void executar(ManterDefeitoPresenter presenter) {
-        // 1. Extrai dados da View
         Integer id = presenter.getIdDefeitoSelecionado();
         String nome = presenter.getView().getTxtNomeDefeito().getText();
         
-        String abatimentoStr = presenter.getView().getTxtAbatimento().getText().replace(",", "."); // Substitui vírgula por ponto
+        String abatimentoStr = presenter.getView().getTxtAbatimento().getText().replace(",", ".");
         
         String tipoPecaNome = (String) presenter.getView().getSelectTipoPeca().getSelectedItem();
 

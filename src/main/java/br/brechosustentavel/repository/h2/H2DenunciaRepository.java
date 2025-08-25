@@ -240,6 +240,20 @@ public class H2DenunciaRepository implements IDenunciaRepository {
 
     @Override
     public int qtdDenunciasPorComprador(int idComprador) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "SELECT COUNT(*) AS total FROM denuncia WHERE id_comprador = ?;";
+
+        try (Connection conexao = this.conexaoFactory.getConexao();
+             PreparedStatement pstmt = conexao.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idComprador);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("total");
+            }
+            return 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao contar as denúncias do comprador: " + e.getMessage(), e);
+        }
     }
 }

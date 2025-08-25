@@ -4,7 +4,6 @@
  */
 package br.brechosustentavel.presenter.manterAnuncioPresenter;
 import br.brechosustentavel.command.commandManterAnuncio.EditarAnuncioCommand;
-import br.brechosustentavel.command.commandManterAnuncio.ExcluirAnuncioCommand;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
@@ -79,16 +78,6 @@ public class EdicaoAnuncioState extends ManterAnuncioState{
         }
         presenter.getView().setVisible(true);
     }
-    
-    @Override
-    public void salvar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void cancelar() {
-        presenter.getView().dispose();
-    }
 
     @Override
     public void editar() {
@@ -99,15 +88,5 @@ public class EdicaoAnuncioState extends ManterAnuncioState{
             throw new RuntimeException("erro ao editar anuncio: " + ex.getMessage());
         }
     }   
-
-    @Override
-    public void visualizar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void excluir() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
 }

@@ -23,8 +23,8 @@ public class GuardiaoQualidadeHandler implements ITipoInsigniaHandler{
     private ICompradorInsigniaRepository compradorInsigniaRepository;
     private ICompradorRepository compradorRepository;
 
-    public GuardiaoQualidadeHandler(IInsigniaRepository insigniaRepository, IDenunciaRepository denunciaRepository, ICompradorInsigniaRepository compradorInsigniaRepository,
-            ICompradorRepository compradorRepository) {
+    public GuardiaoQualidadeHandler(IInsigniaRepository insigniaRepository, IDenunciaRepository denunciaRepository, 
+            ICompradorInsigniaRepository compradorInsigniaRepository, ICompradorRepository compradorRepository) {
         this.insigniaRepository = insigniaRepository;
         this.denunciaRepository = denunciaRepository;
         this.compradorInsigniaRepository = compradorInsigniaRepository;

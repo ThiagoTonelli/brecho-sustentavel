@@ -5,6 +5,7 @@
 package br.brechosustentavel.presenter.janelaPrincipalPresenter;
 
 import br.brechosustentavel.command.commandFiltros.CarregarAnunciosFiltradosCommand;
+import br.brechosustentavel.command.commandFiltros.CarregarFiltroDefeitosCommand;
 import br.brechosustentavel.command.commandFiltros.CarregarFiltroTiposDePecaCommand;
 import br.brechosustentavel.command.commandPrincipal.AdicionarPerfilCommand;
 import br.brechosustentavel.command.commandPrincipal.CarregarAnunciosCommand;
@@ -26,8 +27,6 @@ import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 /**
  *
@@ -130,6 +129,7 @@ public class CompradorState extends JanelaPrincipalState{
         cboxCriterio.addItem("Defeitos");
         cboxCriterio.addItem("GWP");
         cboxCriterio.addItem("MCI");
+        cboxCriterio.addItem("Atributos");
         
         cboxCriterio.addActionListener(e -> atualizarOpcoesDeFiltro()); 
         atualizarOpcoesDeFiltro();
@@ -149,9 +149,26 @@ public class CompradorState extends JanelaPrincipalState{
             valor.addItem("R$ 50,01 a R$ 100,00");
             valor.addItem("R$ 100,01 a R$ 500,00");
             valor.addItem("Acima de R$ 500,00"); 
+        } else if("Defeitos".equals(criterio)) {
+            new CarregarFiltroDefeitosCommand().executar(presenter);
+        } else if("GWP".equals(criterio)) {
+            valor.addItem("Até 10kg CO₂e");
+            valor.addItem("10,01 a 50kg CO₂e");
+            valor.addItem("50,01 a 100kg CO₂e");
+            valor.addItem("Acima de 100 kg CO₂e");
+        } else if("MCI".equals(criterio)) {
+            valor.addItem("Baixo (< 0.3)");
+            valor.addItem("Médio (0.3 - 0.7)");
+            valor.addItem("Alto (> 0.7)");
+        } else if("Atributos".equals(criterio)){
+            valor.removeAllItems();
+            valor.setEnabled(false); 
+            view.getTxtAtributos().setEnabled(true);
+            view.getTxtAtributos().setText("");
+            view.getTxtAtributos().requestFocusInWindow();
         }
     }
-    
+ 
     private void buscarAnuncios(){
         try{
             new CarregarAnunciosFiltradosCommand(usuarioAutenticado).executar(presenter);

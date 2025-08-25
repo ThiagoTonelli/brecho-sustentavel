@@ -22,14 +22,11 @@ public class GerarGraficoMaterialCommand implements ICommandDashboard {
 
     @Override
     public Object executar(DashboardPresenter presenter) {
-        // 1. Inicializa o serviço
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         DashboardService dashboardService = new DashboardService(fabrica);
 
-        // 2. Busca os dados de participação de materiais
         Map<String, Double> dadosMateriais = dashboardService.getDadosParticipacaoMateriais();
 
-        // 3. Prepara o dataset
         DefaultPieDataset dataset = new DefaultPieDataset();
         if (dadosMateriais.isEmpty()) {
             dataset.setValue("Nenhum material cadastrado", 100);
@@ -39,13 +36,11 @@ public class GerarGraficoMaterialCommand implements ICommandDashboard {
             });
         }
 
-        // 4. Cria o gráfico
         JFreeChart pieChart = ChartFactory.createPieChart(
             "Participação de Materiais (Massa Total)",
             dataset,
             true, true, false);
 
-        // 5. Adiciona o gráfico ao painel
         ChartPanel chartPanel = new ChartPanel(pieChart);
         presenter.getView().getPanelMateriais().setLayout(new BorderLayout());
         presenter.getView().getPanelMateriais().add(chartPanel, BorderLayout.CENTER);

@@ -42,6 +42,7 @@ public class JanelaPrincipalPresenter implements Observador{
         telaPrincipal.getView().setLocationRelativeTo(null);
         telaPrincipal.getView().setSize(1150, 800);
         telaPrincipal.getView().setVisible(true);
+        view.getTextNomeLogado().setText(usuario.getUsuarioAutenticado().getNome());
         setFrame((JInternalFrame) view);
         
         if(usuario.getTipoPerfil().equalsIgnoreCase("Comprador")){

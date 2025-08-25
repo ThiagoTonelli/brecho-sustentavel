@@ -23,7 +23,6 @@ public class PontuacaoDenunciaProcedenteStrategy implements IPontuacaoStrategy {
 
         Denuncia denuncia = (Denuncia) contexto;
 
-        // A pontuação só é aplicada se o status for "Procedente"
         if ("Procedente".equalsIgnoreCase(denuncia.getStatus())) {
             Comprador denunciante = denuncia.getComprador();
             denunciante.setEstrelas(denunciante.getEstrelas() + PONTOS);

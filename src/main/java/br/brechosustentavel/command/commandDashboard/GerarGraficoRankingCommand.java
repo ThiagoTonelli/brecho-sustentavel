@@ -23,7 +23,6 @@ public class GerarGraficoRankingCommand implements ICommandDashboard {
 
     @Override
     public Object executar(DashboardPresenter presenter) {
-        // 1. Inicializa o serviço
         RepositoryFactory fabrica = RepositoryFactory.getInstancia();
         DashboardService dashboardService = new DashboardService(fabrica);
 
@@ -46,7 +45,6 @@ public class GerarGraficoRankingCommand implements ICommandDashboard {
                 PlotOrientation.VERTICAL,
                 false, true, false);                  
 
-        // 5. Adiciona o gráfico ao painel correto na View
         ChartPanel chartPanel = new ChartPanel(barChart);
         presenter.getView().getPanelRanking().setLayout(new BorderLayout());
         presenter.getView().getPanelRanking().add(chartPanel, BorderLayout.CENTER);

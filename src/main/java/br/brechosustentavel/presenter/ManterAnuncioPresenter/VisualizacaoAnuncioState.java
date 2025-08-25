@@ -94,11 +94,6 @@ public class VisualizacaoAnuncioState extends ManterAnuncioState{
         }
         presenter.getView().setVisible(true);
     }
-    
-    @Override
-    public void salvar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     @Override
     public void cancelar() {

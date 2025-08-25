@@ -28,7 +28,6 @@ public class GerarGraficoReputacaoCommand implements ICommandDashboard {
 
             Map<String, Integer> dadosReputacao = dashboardService.getDadosReputacao();
 
-            // 3. Prepara o conjunto de dados (dataset) para o JFreeChart.
             DefaultPieDataset dataset = new DefaultPieDataset();
             if (dadosReputacao.isEmpty()) {
                 dataset.setValue("Nenhum dado encontrado", 100);
@@ -38,24 +37,21 @@ public class GerarGraficoReputacaoCommand implements ICommandDashboard {
                 });
             }
 
-            // 4. Cria o objeto do gráfico de pizza (Pie Chart).
             JFreeChart pieChart = ChartFactory.createPieChart(
-                "Distribuição de Reputação (Total)", // Título do gráfico
-                dataset,                             // Dados
-                true,                                // Exibir legenda
+                "Distribuição de Reputação (Total)", 
+                dataset,                             
+                true,                                
                 true,
                 false);
 
-            // 5. Adiciona o gráfico ao painel correto na View, através do Presenter.
             ChartPanel chartPanel = new ChartPanel(pieChart);
             presenter.getView().getPanelReputacao().setLayout(new BorderLayout());
             presenter.getView().getPanelReputacao().add(chartPanel, BorderLayout.CENTER);
-            presenter.getView().getPanelReputacao().revalidate(); // Garante que a UI seja atualizada
+            presenter.getView().getPanelReputacao().revalidate(); 
             
-            return pieChart; // Retorna o objeto do gráfico criado
+            return pieChart;
 
         } catch (Exception e) {
-            // Lança uma exceção para ser tratada pela camada de apresentação (Presenter).
             throw new RuntimeException("Falha ao gerar o gráfico de reputação: " + e.getMessage(), e);
         }
     }
