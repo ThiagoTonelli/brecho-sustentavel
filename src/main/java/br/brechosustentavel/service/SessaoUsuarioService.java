@@ -5,6 +5,8 @@
 package br.brechosustentavel.service;
 
 import br.brechosustentavel.model.Usuario;
+import br.brechosustentavel.repository.repositoryFactory.IUsuarioRepository;
+import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 
 /**
  *
@@ -56,6 +58,15 @@ public class SessaoUsuarioService {
     
     public void setTipoPerfil(String tipoPerfil){
         this.tipoPerfil = tipoPerfil;
+    }
+    
+    public void recarregarUsuarioAutenticado() {
+        if (this.usuario != null) {
+            IUsuarioRepository usuarioRepo = RepositoryFactory.getInstancia().getUsuarioRepository();
+            usuarioRepo.buscarPorId(this.usuario.getId()).ifPresent(usuarioAtualizado -> {
+                this.usuario = usuarioAtualizado;
+            });
+        }
     }
     
 }

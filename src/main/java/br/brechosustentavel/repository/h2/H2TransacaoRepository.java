@@ -119,7 +119,7 @@ public class H2TransacaoRepository implements ITransacaoRepository {
 
                     String dataStr = rs.getString("data");
                     if (dataStr != null) {
-                        transacao.setData(LocalDateTime.parse(dataStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                        transacao.setData(LocalDateTime.parse(dataStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSS")));
                     }
 
                     return Optional.of(transacao);

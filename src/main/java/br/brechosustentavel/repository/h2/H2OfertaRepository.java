@@ -149,7 +149,7 @@ public class H2OfertaRepository implements IOfertaRepository {
                             rs.getDouble("valor_oferta")
                     );
                     oferta.setId(rs.getInt("id_oferta"));
-                    oferta.setData(LocalDateTime.parse(rs.getString("data_oferta"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                    oferta.setData(LocalDateTime.parse(rs.getString("data_oferta"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")));
 
                     return Optional.of(oferta);
                 }
@@ -273,7 +273,7 @@ public class H2OfertaRepository implements IOfertaRepository {
                             rs.getDouble("valor_oferta")
                     );
                     oferta.setId(rs.getInt("id_oferta"));
-                    oferta.setData(LocalDateTime.parse(rs.getString("data_oferta"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                    oferta.setData(LocalDateTime.parse(rs.getString("data_oferta"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")));
 
                     ofertas.add(oferta);
                 }
@@ -292,7 +292,7 @@ public class H2OfertaRepository implements IOfertaRepository {
 
             pstmt.setString(1, oferta.getStatus());
             if (oferta.getDataResposta() != null) {
-                pstmt.setString(2, oferta.getDataResposta().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                pstmt.setString(2, oferta.getDataResposta().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")));
             } else {
                 pstmt.setNull(2, java.sql.Types.VARCHAR);
             }

@@ -68,6 +68,7 @@ public class TrocarPerfilCommand {
                 presenter.setEstado(new VendedorState(presenter, sessao));
             }
             
+            sessao.recarregarUsuarioAutenticado();
             JOptionPane.showMessageDialog(presenter.getView(), "Perfil alterado para " + novoPerfilSelecionado + " com sucesso!");
         }
         

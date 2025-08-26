@@ -5,6 +5,7 @@
 package br.brechosustentavel.service;
 
 import br.brechosustentavel.model.Anuncio;
+import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.EventoLinhaDoTempo;
 import br.brechosustentavel.model.Oferta;
 import br.brechosustentavel.repository.repositoryFactory.IAnuncioRepository;
@@ -37,7 +38,8 @@ public class RealizarOfertaService {
     
     public void realizarOferta(String idPeca, double valorOferta){
         Optional<Anuncio> optAnuncio = anuncioRepository.buscarPorIdPeca(idPeca);
-        
+        Comprador comprador = sessao.getUsuarioAutenticado().getComprador()
+                .orElseThrow(() -> new IllegalStateException("O usuário logado não possui um perfil de comprador para realizar uma oferta."));
         if(optAnuncio.isEmpty()){
             throw new RuntimeException("Não foi encontrado um anúncio com a peça " + idPeca);
         }

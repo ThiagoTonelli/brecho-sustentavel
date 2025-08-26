@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -52,7 +53,6 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         buttonManterTipo = new javax.swing.JButton();
         buttonManterComposicao = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
-        lblInformacao = new javax.swing.JLabel();
         textNomeLogado = new javax.swing.JTextField();
         menuBar = new javax.swing.JMenuBar();
         menuPerfil = new javax.swing.JMenu();
@@ -173,10 +173,6 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("ANÚNCIOS");
 
-        lblInformacao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblInformacao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblInformacao.setToolTipText("");
-
         textNomeLogado.setBackground(new java.awt.Color(242, 242, 242));
         textNomeLogado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,17 +187,13 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(textNomeLogado)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1003, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblInformacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(textNomeLogado)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(buttonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -220,9 +212,7 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
                 .addComponent(lblTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 16, Short.MAX_VALUE)
                 .addComponent(pnlFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblInformacao)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +220,7 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
                     .addComponent(buttonVisualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonManterTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonManterComposicao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(textNomeLogado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43))
         );
@@ -406,10 +396,6 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
         return lblTitulo;
     }
 
-    public JLabel getLblInformacao() {
-        return lblInformacao;
-    }
-
     public JMenuItem getOpcSair() {
         return opcSair;
     }
@@ -420,6 +406,10 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
 
     public JTextField getTextNomeLogado() {
         return textNomeLogado;
+    }
+
+    public JScrollPane getjScrollPane1() {
+        return jScrollPane1;
     }
 
 
@@ -435,7 +425,6 @@ public class JanelaPrincipalView extends javax.swing.JInternalFrame implements I
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lblInformacao;
     private javax.swing.JLabel lblSubtitulo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JMenuBar menuBar;

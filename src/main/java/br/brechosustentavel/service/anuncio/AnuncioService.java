@@ -181,7 +181,7 @@ public class AnuncioService {
             if (idPeca == null || idPeca.trim().isEmpty()) {
                 throw new IllegalArgumentException("O ID da peça não pode ser nulo ou vazio para excluir um anúncio.");
             }
-            Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(peca.getId_c());
+            Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(idPeca);
             String status = ultimoEventoOpt.get().getTipoEvento();
             if(!status.equalsIgnoreCase("oferta aceita")){
                 Peca pecaParaExcluir = pecaRepository.consultar(idPeca)
