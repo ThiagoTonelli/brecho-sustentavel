@@ -46,7 +46,6 @@ public class CarregarHistoricoCommand implements ICommandHistorico {
             }
         };
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
         for (Transacao t : transacoes) {
             String outraParte = "Comprador".equalsIgnoreCase(perfil)
@@ -55,7 +54,7 @@ public class CarregarHistoricoCommand implements ICommandHistorico {
             
             model.addRow(new Object[]{
                 t, 
-                t.getData().format(formatter),
+                t.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")),
                 t.getOferta().getAnuncio().getPeca().getSubcategoria(),
                 String.format("R$ %.2f", t.getValorTotal()),
                 outraParte

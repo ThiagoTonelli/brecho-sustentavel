@@ -98,14 +98,18 @@ public class AdminState extends JanelaPrincipalState {
 
         //Configura menus
         view.getMenuConfiguracao().setVisible(true);
-        view.getMenuPerfil().setVisible(false);
+        view.getMenuPerfil().setVisible(true);
+        view.getOpcAddPerfil().setVisible(false);
+        view.getOpcTrocarPerfil().setVisible(false);
+        view.getOpcVisualizarPerfil().setVisible(false);
         view.getMenuRelatorios().setVisible(true);
         view.getMenuTransacao().setVisible(false);
         view.getOpcVisualizarPerfil().setVisible(false);
         
         //Configura label
         view.getLblTitulo().setText("Bem-vindo ao Painel Administrativo");
-        view.getLblInformacao().setText("Veja todos os anúncios dos vendedores.");
+        view.getjScrollPane1().setVisible(false);
+        
     }
 
     private void abrirDashboard() {

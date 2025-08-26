@@ -132,7 +132,7 @@ public class H2DenunciaRepository implements IDenunciaRepository {
                         rs.getString("denuncia_status")
                 );
                 denuncia.setId(rs.getInt("id"));
-                denuncia.setData(LocalDateTime.parse(rs.getString("data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                denuncia.setData(LocalDateTime.parse(rs.getString("data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")));
 
                 return Optional.of(denuncia);
             }
@@ -212,7 +212,7 @@ public class H2DenunciaRepository implements IDenunciaRepository {
                         rs.getString("denuncia_status")
                 );
                 denuncia.setId(rs.getInt("id"));
-                denuncia.setData(LocalDateTime.parse(rs.getString("data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                denuncia.setData(LocalDateTime.parse(rs.getString("data"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")));
 
                 denuncias.add(denuncia);
             }

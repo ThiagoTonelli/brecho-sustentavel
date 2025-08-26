@@ -87,6 +87,11 @@ public class EdicaoAnuncioState extends ManterAnuncioState{
         } catch (Exception ex) {
             throw new RuntimeException("erro ao editar anuncio: " + ex.getMessage());
         }
-    }   
+    }
+    
+    @Override
+    public void cancelar(){
+        presenter.getView().dispose();
+    }
     
 }
