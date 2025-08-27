@@ -422,7 +422,7 @@ public class SQLiteAnuncioRepository implements IAnuncioRepository {
     
     @Override
     public void atualizarStatus(String idPeca, String novoStatus) {
-        String sql = "UPDATE anuncio SET status = ? WHERE id_peca = ?";
+        String sql = "UPDATE anuncio SET status = ? WHERE id_peca = ? AND status = 'ativo'";
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
             pstmt.setString(1, novoStatus);

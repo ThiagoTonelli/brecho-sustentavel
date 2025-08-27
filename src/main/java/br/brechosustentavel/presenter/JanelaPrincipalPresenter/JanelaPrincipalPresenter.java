@@ -82,7 +82,7 @@ public class JanelaPrincipalPresenter implements Observador{
     }
     
     public void setFrame(JInternalFrame frame){
-        telaPrincipal.getView().getjDesktopPane1().add(frame);
+        telaPrincipal.abrirJanelaUnica(frame);
     }
     
     private void fazerLogout() {

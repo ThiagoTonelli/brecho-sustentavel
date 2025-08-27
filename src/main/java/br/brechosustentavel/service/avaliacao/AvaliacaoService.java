@@ -42,8 +42,8 @@ public class AvaliacaoService {
             "Avaliação registrada",
             "Avaliação registrada",
             LocalDateTime.now(), 
-            avaliacao.getTransacao().getOferta().getAnuncio().getMci(),
-            avaliacao.getTransacao().getOferta().getAnuncio().getGwpAvoided()
+            avaliacao.getTransacao().getOferta().getAnuncio().getGwpAvoided(),
+            avaliacao.getTransacao().getOferta().getAnuncio().getMci()
         );
         
         evento.setCliclo(ultimoEventoOpt.get().getCiclo_n());

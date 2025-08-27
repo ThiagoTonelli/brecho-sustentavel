@@ -46,6 +46,8 @@ public class TransacaoService {
     }
     
     public void aceitarOferta(int idOferta) {
+        String id_c = "";
+        SessaoUsuarioService usuario = SessaoUsuarioService.getInstancia();
         try {
             Oferta oferta = ofertaRepository.buscarOfertaPorId(idOferta)
                     .orElseThrow(() -> new IllegalStateException("Oferta com ID " + idOferta + " não encontrada."));
@@ -53,7 +55,7 @@ public class TransacaoService {
             Vendedor vendedor = oferta.getAnuncio().getVendedor();
             Comprador comprador = oferta.getComprador();
             Anuncio anuncio = oferta.getAnuncio();
-
+            id_c = anuncio.getPeca().getId_c();
             vendedor.setVendasConcluidas(vendedor.getVendasConcluidas() + 1);
             comprador.setComprasFinalizadas(comprador.getComprasFinalizadas() + 1);
 
@@ -72,16 +74,17 @@ public class TransacaoService {
             pontuacaoService.processarConclusaoTransacao(transacao);
             pontuacaoService.processarRespostaOferta(oferta);
 
-
+            
             ofertaRepository.rejeitarOfertasRestantes(anuncio.getId(), idOferta);
             anuncioRepository.atualizarStatus(anuncio.getPeca().getId_c(), "vendido");
             criarEventoLinhaDoTempo(anuncio);
             concederInsignias(comprador.getId(), vendedor.getId());
-            
-            GerenciadorLog.getInstancia().registrarSucesso("Transação concluída", anuncio.getPeca().getId_c(), anuncio.getPeca().getSubcategoria());
+
+            Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(anuncio.getPeca().getId_c());
+            GerenciadorLog.getInstancia().registrarSucesso("Transação concluída", anuncio.getPeca().getId_c(), String.valueOf(ultimoEventoOpt.get().getCiclo_n()), usuario.getUsuarioAutenticado().getNome());
 
         } catch (Exception e) {
-            GerenciadorLog.getInstancia().registrarFalha("Conclusão de Transação", "", "Oferta ID " + idOferta, e.getMessage());
+            GerenciadorLog.getInstancia().registrarFalha("Conclusão de Transação", id_c, usuario.getUsuarioAutenticado().getNome(), e.getMessage());
             throw new RuntimeException("Falha ao aceitar a oferta: " + e.getMessage(), e);
         }
     }
