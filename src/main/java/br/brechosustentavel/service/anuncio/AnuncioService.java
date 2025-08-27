@@ -109,7 +109,7 @@ public class AnuncioService {
     private Anuncio republicarAnuncio(Peca pecaAtualizada, Usuario usuario, double gwpAvoided, double mciPeca) {
         Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(pecaAtualizada.getId_c());
 
-        if (ultimoEventoOpt.isPresent() && ( "encerrado".equals(ultimoEventoOpt.get().getTipoEvento()) || "oferta aceita".equals(ultimoEventoOpt.get().getTipoEvento()) || "avaliacao registrada".equals(ultimoEventoOpt.get().getTipoEvento()))) {
+        if (ultimoEventoOpt.isPresent() && ( "encerrado".equalsIgnoreCase(ultimoEventoOpt.get().getTipoEvento()) || "oferta aceita".equalsIgnoreCase(ultimoEventoOpt.get().getTipoEvento()) || "avaliação registrada".equalsIgnoreCase(ultimoEventoOpt.get().getTipoEvento()))) {
 
             pecaRepository.editar(pecaAtualizada);
 
@@ -123,7 +123,7 @@ public class AnuncioService {
             linhaDoTempoRepository.criar(pecaAtualizada.getId_c(), evento);
 
             Anuncio anuncio = new Anuncio(usuario.getVendedor().get(), pecaAtualizada, pecaAtualizada.getPrecoFinal(), gwpAvoided, mciPeca);
-            anuncioRepository.editar(anuncio);
+            anuncioRepository.criar(anuncio);
 
             return anuncio;
         } else {

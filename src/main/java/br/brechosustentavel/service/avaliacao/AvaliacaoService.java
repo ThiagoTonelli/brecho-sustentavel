@@ -11,6 +11,7 @@ import br.brechosustentavel.repository.repositoryFactory.ILinhaDoTempoRepository
 import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.pontuacao.PontuacaoService;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  *
@@ -32,7 +33,9 @@ public class AvaliacaoService {
         if (avaliacao.getTexto() == null || avaliacao.getTexto().trim().isEmpty()) {
             throw new IllegalArgumentException("O texto da avaliação não pode ser vazio.");
         }
-
+        
+        Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(avaliacao.getTransacao().getOferta().getAnuncio().getPeca().getId_c());
+        
         avaliacaoRepository.salvar(avaliacao);
         
         EventoLinhaDoTempo evento = new EventoLinhaDoTempo(
@@ -42,6 +45,8 @@ public class AvaliacaoService {
             avaliacao.getTransacao().getOferta().getAnuncio().getMci(),
             avaliacao.getTransacao().getOferta().getAnuncio().getGwpAvoided()
         );
+        
+        evento.setCliclo(ultimoEventoOpt.get().getCiclo_n());
         
         linhaDoTempoRepository.criar(avaliacao.getTransacao().getOferta().getAnuncio().getPeca().getId_c(), evento);
 
