@@ -29,7 +29,7 @@ public class TelaPrincipalView extends javax.swing.JFrame implements ITelaPrinci
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jDesktopPane1 = new br.brechosustentavel.view.CamadaDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Brecho Sustentavel");
@@ -116,6 +116,8 @@ public class TelaPrincipalView extends javax.swing.JFrame implements ITelaPrinci
     public JDesktopPane getjDesktopPane1() {
         return jDesktopPane1;
     }
+    
+    
     
 
 
