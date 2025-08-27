@@ -52,14 +52,14 @@ public final class GerenciadorLog {
         return "SISTEMA";
     }
 
-    public void registrarSucesso(String operacao, String idc, String nome) {
+    public void registrarSucesso(String operacao, String idc, String ciclo, String nome) {
         LocalDateTime agora = LocalDateTime.now();
         String data = agora.format(dateFormatter);
         String hora = agora.format(timeFormatter);
         String usuario = getUsuarioLogado();
 
-        String mensagem = String.format("<<%s>><%s>: <<%s>>, (<<%s>>, <<%s>>, e <<%s>>",
-                idc, operacao, nome, data, hora, usuario);
+        String mensagem = String.format("<<%s>> ciclo: <%s> <%s>: <<%s>>, (<<%s>>, <<%s>>, e <<%s>>",
+                idc, ciclo, operacao, nome, data, hora, usuario);
         
         logger.registrar(mensagem, usuario, agora);
     }

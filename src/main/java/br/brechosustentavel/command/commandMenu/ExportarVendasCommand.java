@@ -41,7 +41,7 @@ public class ExportarVendasCommand implements ICommandMenu{
                         "Relatório exportado com sucesso para:\n" + ficheiroParaSalvar.getAbsolutePath(),
                         "Exportação Concluída",
                         JOptionPane.INFORMATION_MESSAGE);
-                GerenciadorLog.getInstancia().registrarSucesso("Exportação de Dados", "N/A", ficheiroParaSalvar.getName());
+                GerenciadorLog.getInstancia().registrarSucesso("Exportação de Dados", "N/A", "N/A", ficheiroParaSalvar.getName());
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(parent,
                         "Erro ao exportar o ficheiro CSV:\n" + e.getMessage(),

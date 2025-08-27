@@ -16,6 +16,7 @@ import br.brechosustentavel.repository.repositoryFactory.RepositoryFactory;
 import br.brechosustentavel.service.AplicarDescontosDefeitosService;
 import br.brechosustentavel.service.CalculadoraDeIndicesService;
 import br.brechosustentavel.service.GerenciadorLog;
+import br.brechosustentavel.service.SessaoUsuarioService;
 import br.brechosustentavel.service.insignia.AplicaInsigniaService;
 import br.brechosustentavel.service.pontuacao.PontuacaoService;
 import java.time.LocalDateTime;
@@ -71,15 +72,16 @@ public class AnuncioService {
             } else {
                 anuncio = republicarAnuncio(peca, usuario, gwpAvoided, mciPeca);
             }
+            Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(anuncio.getPeca().getId_c());
+            String ciclo = String.valueOf(ultimoEventoOpt.get().getCiclo_n());
 
-
-            GerenciadorLog.getInstancia().registrarSucesso(operacao, peca.getId_c(), peca.getSubcategoria());
+            GerenciadorLog.getInstancia().registrarSucesso(operacao, peca.getId_c(), ciclo, usuario.getNome());
 
             Observavel.getInstance().notifyObservers();
             return anuncio;
         }
         catch (Exception e){
-            GerenciadorLog.getInstancia().registrarFalha(operacao, peca.getId_c(), peca.getSubcategoria(), e.getMessage());
+            GerenciadorLog.getInstancia().registrarFalha(operacao, peca.getId_c(), usuario.getNome(), e.getMessage());
             throw e; 
         }
 
@@ -177,6 +179,7 @@ public class AnuncioService {
      
     public void excluirAnuncio(String idPeca) {
         Peca peca = null;
+        SessaoUsuarioService usuario = SessaoUsuarioService.getInstancia();
         try {
             if (idPeca == null || idPeca.trim().isEmpty()) {
                 throw new IllegalArgumentException("O ID da peça não pode ser nulo ou vazio para excluir um anúncio.");
@@ -190,16 +193,15 @@ public class AnuncioService {
                 adicionarEventoDeEncerramento(pecaParaExcluir);
 
                 anuncioRepository.atualizarStatus(idPeca, "encerrado");
-
+                
                 Observavel.getInstance().notifyObservers();
-                GerenciadorLog.getInstancia().registrarSucesso("Exclusão de Anúncio", idPeca, peca != null ? peca.getSubcategoria() : "N/A");
+                GerenciadorLog.getInstancia().registrarSucesso("Exclusão de Anúncio", idPeca, String.valueOf(ultimoEventoOpt.get().getCiclo_n()), usuario.getUsuarioAutenticado().getNome());
             }
             else {
                 JOptionPane.showMessageDialog(null, "Não é possível excluir um item já vendido");
             }
         } catch (Exception e){
-            String nomePeca = peca != null ? peca.getSubcategoria() : "ID " + idPeca;
-            GerenciadorLog.getInstancia().registrarFalha("Exclusão de Anúncio", idPeca, nomePeca, e.getMessage());
+            GerenciadorLog.getInstancia().registrarFalha("Exclusão de Anúncio", idPeca, usuario.getUsuarioAutenticado().getNome(), e.getMessage());
             throw e;
         }
             

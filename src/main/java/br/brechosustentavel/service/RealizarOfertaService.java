@@ -37,26 +37,31 @@ public class RealizarOfertaService {
     }
     
     public void realizarOferta(String idPeca, double valorOferta){
+        
         Optional<Anuncio> optAnuncio = anuncioRepository.buscarPorIdPeca(idPeca);
-        Comprador comprador = sessao.getUsuarioAutenticado().getComprador()
-                .orElseThrow(() -> new IllegalStateException("O usuário logado não possui um perfil de comprador para realizar uma oferta."));
-        if(optAnuncio.isEmpty()){
-            throw new RuntimeException("Não foi encontrado um anúncio com a peça " + idPeca);
-        }
+        if((valorOferta <= (optAnuncio.get().getValorFinal() * 0.99)) && (valorOferta >= (optAnuncio.get().getValorFinal() * 0.80))){
+            Comprador comprador = sessao.getUsuarioAutenticado().getComprador()
+                    .orElseThrow(() -> new IllegalStateException("O usuário logado não possui um perfil de comprador para realizar uma oferta."));
+            if(optAnuncio.isEmpty()){
+                throw new RuntimeException("Não foi encontrado um anúncio com a peça " + idPeca);
+            }
+            Oferta oferta = new Oferta(optAnuncio.get(), sessao.getUsuarioAutenticado().getComprador().get(), valorOferta);
+            ofertaRepository.adicionarOferta(oferta);
 
-        Oferta oferta = new Oferta(optAnuncio.get(), sessao.getUsuarioAutenticado().getComprador().get(), valorOferta);
-        ofertaRepository.adicionarOferta(oferta);
-        
-        Optional<Anuncio> anuncio = anuncioRepository.buscarAnuncioPorId(oferta.getAnuncio().getId());
-        Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(anuncio.get().getPeca().getId_c());
-        int cicloAtual = ultimoEventoOpt.map(EventoLinhaDoTempo::getCiclo_n).orElse(1);
-        EventoLinhaDoTempo evento = new EventoLinhaDoTempo("Oferta enviada", "oferta enviada", LocalDateTime.now(), anuncio.get().getGwpAvoided(), 
-                anuncio.get().getMci());
-        evento.setCliclo(cicloAtual);
-        linhaDoTempoRepository.criar(anuncio.get().getPeca().getId_c(), evento);
-        
-        new AplicaInsigniaService().concederInsignia(sessao.getUsuarioAutenticado());
-        
-        new PontuacaoService().processarNovaOferta(oferta);
+            Optional<Anuncio> anuncio = anuncioRepository.buscarAnuncioPorId(oferta.getAnuncio().getId());
+            Optional<EventoLinhaDoTempo> ultimoEventoOpt = linhaDoTempoRepository.ultimoEvento(anuncio.get().getPeca().getId_c());
+            int cicloAtual = ultimoEventoOpt.map(EventoLinhaDoTempo::getCiclo_n).orElse(1);
+            EventoLinhaDoTempo evento = new EventoLinhaDoTempo("Oferta enviada", "oferta enviada", LocalDateTime.now(), anuncio.get().getGwpAvoided(), 
+                    anuncio.get().getMci());
+            evento.setCliclo(cicloAtual);
+            linhaDoTempoRepository.criar(anuncio.get().getPeca().getId_c(), evento);
+
+            new AplicaInsigniaService().concederInsignia(sessao.getUsuarioAutenticado());
+
+            new PontuacaoService().processarNovaOferta(oferta);
+        }
+        else {
+            throw new IllegalStateException("Oferta inválida (fora dos limites)");
+        }
     }
 }

@@ -232,8 +232,7 @@ public class SQLiteInicializaBancoDeDados extends AbstractInicializaBancoDeDados
                          mci REAL NOT NULL,
                          status TEXT NOT NULL DEFAULT 'ativo',
                          FOREIGN KEY (id_vendedor) REFERENCES vendedor(id_vendedor),
-                         FOREIGN KEY (id_peca) REFERENCES peca(id_c) ON DELETE CASCADE,
-                         UNIQUE(id_peca, status)
+                         FOREIGN KEY (id_peca) REFERENCES peca(id_c) ON DELETE CASCADE
                      );
                      """;
         executarSQL(sql);

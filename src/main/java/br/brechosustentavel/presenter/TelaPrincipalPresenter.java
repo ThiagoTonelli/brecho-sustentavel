@@ -4,6 +4,7 @@
  */
 package br.brechosustentavel.presenter;
 import br.brechosustentavel.view.TelaPrincipalView;
+import javax.swing.JInternalFrame;
 
 
 /**
@@ -20,4 +21,29 @@ public final class TelaPrincipalPresenter {
     public TelaPrincipalView getView(){
         return view;
     }
+    
+    public void abrirJanelaUnica(JInternalFrame frame) {
+        for (JInternalFrame openFrame : view.getjDesktopPane1().getAllFrames()) {
+            if (openFrame.getClass().equals(frame.getClass())) {
+                try {
+                    openFrame.moveToFront(); 
+                    openFrame.setSelected(true);
+                } catch (java.beans.PropertyVetoException e) {
+                    System.err.println("Erro ao focar na janela existente: " + e.getMessage());
+                }
+                return; 
+            }
+        }
+
+        view.getjDesktopPane1().add(frame);
+        frame.setVisible(true);
+        frame.moveToFront();
+        try {
+            frame.setSelected(true);
+            //frame.setMaximum(true); 
+        } catch (java.beans.PropertyVetoException e) {
+            System.err.println("Erro ao abrir nova janela: " + e.getMessage());
+        }
+    }
+    
 }

@@ -65,6 +65,8 @@ public class JanelaVisualizarPerfilPresenter implements Observador{
             view.getLblNivel().setText(String.valueOf(comprador.getNivel()));
             view.getLblEstrelas().setText(String.valueOf(comprador.getEstrelas()));
             view.getLblGWP().setText(String.valueOf(comprador.getGwpEvitado()));
+            view.getTxtQtdTransacao().setVisible(true);
+            view.getTxtQtdTransacao().setText(String.valueOf(usuario.getComprador().get().getComprasFinalizadas()));
             if(percentualProcedentes >= 0){
                 view.getLblDenuncias().setText(String.valueOf(percentualProcedentes));
             }
@@ -96,6 +98,7 @@ public class JanelaVisualizarPerfilPresenter implements Observador{
             view.getPnlInsignias().revalidate();
             view.getPnlInsignias().repaint();
         });
+
     }
     
     private void dadosVendedor(RepositoryFactory fabrica, Usuario usuario){
@@ -108,6 +111,8 @@ public class JanelaVisualizarPerfilPresenter implements Observador{
             view.getLblEstatisticasDenuncia().setVisible(false);
             view.getLblSelo1().setVisible(false);
             view.getLblTituloSelos().setVisible(false);
+            view.getTxtQtdTransacao().setVisible(true);
+            view.getTxtQtdTransacao().setText(String.valueOf(usuario.getVendedor().get().getVendasConcluidas()));
             
             view.getPanel().setPreferredSize(new Dimension(358, 407));
             JPanel painelInsignias = view.getPnlInsignias();
@@ -127,7 +132,8 @@ public class JanelaVisualizarPerfilPresenter implements Observador{
             }
 
             view.getPnlInsignias().revalidate();
-            view.getPnlInsignias().repaint();       
+            view.getPnlInsignias().repaint();
+            
         });
     }
     
