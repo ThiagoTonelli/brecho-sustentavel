@@ -29,7 +29,7 @@ public class SQLiteSeeder implements ISeeder{
 
     @Override
     public void inserir() throws SQLException {
-        inserirUsuario();
+        //inserirUsuario();
         inserirTiposPeca();
         inserirInsignias();
         inserirDefeitos();
