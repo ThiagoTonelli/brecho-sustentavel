@@ -238,7 +238,7 @@ public class H2InicializaBancoDeDados extends AbstractInicializaBancoDeDados{
                     id_anuncio INT,
                     id_comprador INT,
                     valor DOUBLE NOT NULL,
-                    data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    data TIMESTAMP,
                     data_resposta TIMESTAMP,
                     status VARCHAR(50) NOT NULL,
                     FOREIGN KEY (id_anuncio) REFERENCES anuncio(id),

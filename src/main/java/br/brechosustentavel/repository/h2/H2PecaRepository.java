@@ -98,7 +98,14 @@ public class H2PecaRepository implements IPecaRepository {
 
     @Override
     public Optional<Peca> consultar(String idC) {
-        String sql = "SELECT * FROM peca WHERE id_c = ?";
+        String sql = """
+                     SELECT 
+                        p.*,
+                        tp.nome AS nome_peca
+                     FROM peca p
+                     JOIN tipo_peca tp ON p.id_tipo = tp.id
+                     WHERE p.id_c = ?
+                     """;
 
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
@@ -117,6 +124,8 @@ public class H2PecaRepository implements IPecaRepository {
                         rs.getDouble("preco_base")
                     );
                     peca.setIdTipoDePeca(rs.getInt("id_tipo"));
+                    peca.setTipoDePeca(rs.getString("nome_peca"));
+                    
                     return Optional.of(peca);
                 }
             }

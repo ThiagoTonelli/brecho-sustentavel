@@ -39,12 +39,14 @@ public class H2TransacaoRepository implements ITransacaoRepository {
         List<Map<String, Object>> dados = new ArrayList<>();
         String sql = """
             SELECT
-                t.id AS "ID Transacao",
-                t.data AS "Data",
-                p.massa AS "Massa",
-                (SELECT elt.gwp_evitado FROM evento_linha_tempo elt WHERE elt.id_peca = p.id_c ORDER BY elt.data ASC LIMIT 1) AS "GWP_Base",
-                a.gwp AS "GWP_Evitado",
-                a.mci AS "MCI"
+                t.id AS ID Transacao"
+                t.data AS Data,
+                p.massa AS Massa, 
+                p.id_c,
+                (SELECT et.gwp_evitado FROM evento_linha_tempo et WHERE et.id_peca = p.id_c ORDER BY et.data ASC FETCH FIRST 1 ROWS ONLY) AS GWP_Base,
+                et.ciclo_n as ciclo,
+                a.gwp AS GWP_Evitado,
+                a.mci AS MCI
             FROM
                 transacao t
             INNER JOIN
@@ -53,6 +55,8 @@ public class H2TransacaoRepository implements ITransacaoRepository {
                 anuncio a ON o.id_anuncio = a.id
             INNER JOIN
                 peca p ON a.id_peca = p.id_c
+            INNER JOIN
+                evento_linha_tempo et ON et.id_peca = p.id_c
             ORDER BY
                 t.data;
         """;
@@ -64,7 +68,9 @@ public class H2TransacaoRepository implements ITransacaoRepository {
             while (rs.next()) {
                 Map<String, Object> linha = new HashMap<>();
                 linha.put("ID", rs.getInt("ID Transacao"));
-                linha.put("Data", rs.getString("Data"));
+                linha.put("ID_C", rs.getString("ID Transacao"));
+                linha.put("Ciclo", rs.getInt("ciclo"));
+                linha.put("Data", rs.getTimestamp("Data"));
                 linha.put("Massa", rs.getDouble("Massa"));
                 linha.put("GWP_base", rs.getDouble("GWP_Base"));
                 linha.put("GWP_avoided", rs.getDouble("GWP_Evitado"));
