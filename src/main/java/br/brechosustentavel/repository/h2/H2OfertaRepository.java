@@ -36,7 +36,7 @@ public class H2OfertaRepository implements IOfertaRepository {
 
     @Override
     public void adicionarOferta(Oferta oferta) {
-        String sql = "INSERT INTO oferta (id_comprador, id_anuncio, valor, status) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO oferta (id_comprador, id_anuncio, valor, status, data) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)";
 
         try (Connection conexao = conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -185,7 +185,7 @@ public class H2OfertaRepository implements IOfertaRepository {
         List<Oferta> ofertas = new ArrayList<>();
         String sql = """
                      SELECT
-                         o.id as id_oferta, o.valor as valor_oferta, o.data as data_oferta,
+                         o.id as id_oferta, o.valor as valor_oferta, o.data as data_oferta, o.status as status_oferta,
                          a.id as id_anuncio, a.valor_final as valor_final_anuncio, a.gwp as gwp_anuncio, a.mci as mci_anuncio,
                          p.id_c, p.subcategoria, p.tamanho, p.cor, p.massa, p.estado_conservacao, p.preco_base,
                          c.id_comprador, c.nivel_reputacao as comprador_reputacao, c.estrelas as comprador_estrelas, c.compras_finalizadas, c.gwp_evitado, c.selo_verificador,
@@ -206,7 +206,8 @@ public class H2OfertaRepository implements IOfertaRepository {
                          vendedor v ON a.id_vendedor = v.id_vendedor
                      JOIN 
                          usuario u_vendedor ON v.id_vendedor = u_vendedor.id
-                     WHERE o.id_anuncio = ?""";
+                     WHERE o.id_anuncio = ? AND status_oferta = 'Pendente'
+                     """;
 
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
@@ -286,17 +287,12 @@ public class H2OfertaRepository implements IOfertaRepository {
 
     @Override
     public void atualizar(Oferta oferta) {
-        String sql = "UPDATE oferta SET status = ?, data_resposta = ? WHERE id = ?";
+        String sql = "UPDATE oferta SET status = ?, data_resposta = CURRENT_TIMESTAMP WHERE id = ?";
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
 
             pstmt.setString(1, oferta.getStatus());
-            if (oferta.getDataResposta() != null) {
-                pstmt.setString(2, oferta.getDataResposta().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")));
-            } else {
-                pstmt.setNull(2, java.sql.Types.VARCHAR);
-            }
-            pstmt.setInt(3, oferta.getId());
+            pstmt.setInt(2, oferta.getId());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -306,7 +302,7 @@ public class H2OfertaRepository implements IOfertaRepository {
 
     @Override
     public void rejeitarOfertasRestantes(int idAnuncio, int idOfertaAceita) {
-        String sql = "UPDATE oferta SET status = 'Rejeitada' WHERE id_anuncio = ? AND id != ?";
+        String sql = "UPDATE oferta SET status = 'Rejeitada', data_respota = CURRENT_TIMESTAMP WHERE id_anuncio = ? AND id != ?";
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
 
