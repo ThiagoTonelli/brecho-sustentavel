@@ -37,7 +37,7 @@ public class PontuacaoRespostaRapidaStrategy implements IPontuacaoStrategy {
                 vendedorRepo.editar(vendedor);
                 ReputacaoService reputacaoService = new ReputacaoService();
                 reputacaoService.atualizarNivel(vendedor);
-
+                System.out.println("entrou aqui oferta");
             }
         }
     }

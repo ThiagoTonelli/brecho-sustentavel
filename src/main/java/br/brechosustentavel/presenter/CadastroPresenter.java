@@ -63,7 +63,7 @@ public class CadastroPresenter {
     private void cadastrar(){
         String nome = view.getTxtNome().getText();
         String telefone = view.getTxtTelefone().getText();
-        String email = view.getTxtEmail().getText();
+        String email = view.getTxtEmail().getText().toLowerCase();
         String senha = view.getTxtSenha().getText();
         String confirmacaoSenha = view.getTxtConfirmacaoSenha().getText(); 
                    

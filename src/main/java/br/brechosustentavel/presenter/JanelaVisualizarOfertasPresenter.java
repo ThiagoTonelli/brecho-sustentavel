@@ -6,6 +6,7 @@ package br.brechosustentavel.presenter;
 
 import br.brechosustentavel.command.commandOferta.AceitarOfertaCommand;
 import br.brechosustentavel.command.commandOferta.CarregarOfertasCommand;
+import br.brechosustentavel.command.commandOferta.RecusarOfertaCommand;
 import br.brechosustentavel.observer.Observavel;
 import br.brechosustentavel.service.TransacaoService;
 import br.brechosustentavel.service.insignia.AplicaInsigniaService;
@@ -29,14 +30,22 @@ public class JanelaVisualizarOfertasPresenter {
         this.idPeca = idPeca;
         this.subcategoria = subcategoria;
         this.valorFinal = valorFinal;
-        
         view = new JanelaVisualizarOfertasView(janelaPai, true);
+        
         view.setVisible(false);       
         configurarTela(janelaPai);
         
         view.getBtnAceitar().addActionListener((ActionEvent e) -> {
             try {
                 aceitar();
+            } catch(Exception ex) {
+                JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
+            }
+        });
+        
+        view.getBtnRecusar().addActionListener((ActionEvent e) -> {
+            try {
+                recusar();
             } catch(Exception ex) {
                 JOptionPane.showMessageDialog(view, "Falha: " + ex.getMessage());
             }
@@ -64,15 +73,36 @@ public class JanelaVisualizarOfertasPresenter {
             }
             int idOferta = (int) tabela.getValueAt(linhaSelecionada, 0);
             if (idOferta != 0) {
-                new AceitarOfertaCommand(new TransacaoService(new AplicaInsigniaService()), idOferta).executar(this, idPeca);
+                new AceitarOfertaCommand(new TransacaoService(new AplicaInsigniaService()), idOferta).executar(this, idPeca);               
+                JOptionPane.showMessageDialog(view, "Venda realizada com sucesso!", "Sucesso", JOptionPane.WARNING_MESSAGE); 
                 view.dispose();
-                JOptionPane.showMessageDialog(view, "Venda realizada com sucesso!", "Sucesso", JOptionPane.WARNING_MESSAGE);
                 Observavel.getInstance().notifyObservers();
             } else {
                 JOptionPane.showMessageDialog(view, "Oferta não encontrada.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (HeadlessException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Falha ao aceitar oferta: " + e.getMessage());
+        }
+    }
+    
+    private void recusar(){
+        try { 
+            JTable tabela = view.getTableOfertas();
+            int linhaSelecionada = tabela.getSelectedRow();
+            if (linhaSelecionada == -1) {
+                JOptionPane.showMessageDialog(view, "Selecione uma oferta para recusar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            int idOferta = (int) tabela.getValueAt(linhaSelecionada, 0);
+            if (idOferta != 0) {
+                new RecusarOfertaCommand(new TransacaoService(new AplicaInsigniaService()), idOferta).executar(this, idPeca);
+                JOptionPane.showMessageDialog(view, "Oferta recusada com sucesso!", "Sucesso", JOptionPane.WARNING_MESSAGE);
+               
+            } else {
+                JOptionPane.showMessageDialog(view, "Oferta não encontrada.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (HeadlessException e) {
+            throw new RuntimeException("Falha ao recusar oferta: " + e.getMessage());
         }
     }
     
@@ -96,6 +126,5 @@ public class JanelaVisualizarOfertasPresenter {
     
     public JanelaVisualizarOfertasView getView(){
         return this.view;
-    }
-    
+    }    
 }
