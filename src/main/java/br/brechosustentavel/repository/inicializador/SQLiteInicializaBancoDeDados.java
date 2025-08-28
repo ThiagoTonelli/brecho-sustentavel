@@ -245,7 +245,7 @@ public class SQLiteInicializaBancoDeDados extends AbstractInicializaBancoDeDados
                          id_anuncio INTEGER,
                          id_comprador INTEGER,
                          valor REAL NOT NULL,
-                         data DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                         data DATETIME,
                          data_resposta DATETIME,
                          status TEXT NOT NULL,
                          FOREIGN KEY (id_anuncio) REFERENCES anuncio(id),

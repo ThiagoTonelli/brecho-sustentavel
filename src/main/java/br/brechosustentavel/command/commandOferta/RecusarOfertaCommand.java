@@ -11,17 +11,17 @@ import br.brechosustentavel.service.TransacaoService;
  *
  * @author kaila
  */
-public class AceitarOfertaCommand implements ICommandOferta{
+public class RecusarOfertaCommand implements ICommandOferta{
     private final TransacaoService transacaoService;
     private final int idOferta;
 
-    public AceitarOfertaCommand(TransacaoService transacaoService, int idOferta) {
+    public RecusarOfertaCommand(TransacaoService transacaoService, int idOferta) {
         this.transacaoService = transacaoService;
         this.idOferta = idOferta;
     }
     
     @Override
     public void executar(JanelaVisualizarOfertasPresenter presenter, String idPeca) {
-            transacaoService.aceitarOferta(presenter, idOferta);
+            transacaoService.recusarOferta(presenter, idOferta);
     }   
 }

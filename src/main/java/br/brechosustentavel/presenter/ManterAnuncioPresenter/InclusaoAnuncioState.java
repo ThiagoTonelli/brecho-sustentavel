@@ -5,6 +5,7 @@
 package br.brechosustentavel.presenter.manterAnuncioPresenter;
 
 import br.brechosustentavel.command.commandManterAnuncio.CarregarComposicaoCommand;
+import br.brechosustentavel.command.commandManterAnuncio.CarregarDadosPecaExistenteCommand;
 import br.brechosustentavel.command.commandManterAnuncio.CarregarDefeitosPorTipoCommand;
 import br.brechosustentavel.command.commandManterAnuncio.CarregarTiposDePecaCommand;
 import br.brechosustentavel.command.commandManterAnuncio.GerarIdCommand;
@@ -16,6 +17,8 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import br.brechosustentavel.command.commandManterAnuncio.ICommandVendedor;
 import br.brechosustentavel.model.Anuncio;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  *
@@ -44,6 +47,8 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
             public void actionPerformed(ActionEvent e){
                 try{
                     new GerarIdCommand().executar(presenter);
+                    presenter.getView().getBtnEnviar().setEnabled(true);
+                    presenter.getView().getTxtId_c().setEnabled(false);
                 }catch (Exception ex){
                         JOptionPane.showMessageDialog(null, "Erro ao carregar id_c: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
@@ -70,7 +75,22 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
                     JOptionPane.showMessageDialog(null, "Erro ao carregar cancelar: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        });        
+        });
+
+        presenter.getView().getTxtId_c().addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                try {
+                    new CarregarDadosPecaExistenteCommand().executar(presenter);
+                    presenter.getView().getBtnEnviar().setEnabled(true);
+                } catch (Exception ex) {
+                     JOptionPane.showMessageDialog(
+                        null, "Erro ao buscar dados da peça: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+        });
+        
     }
     
     private void configurarTela(boolean estado) throws PropertyVetoException{
@@ -83,6 +103,7 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
         presenter.getView().setSelected(true);
         presenter.getView().getBtnExcluir().setVisible(false);
         presenter.getView().getBtnExcluir().setEnabled(false);
+        presenter.getView().getBtnEnviar().setEnabled(false);
         if(estado == false){
              presenter.getView().getBtnEnviar().setText("Salvar");
         }
@@ -117,9 +138,6 @@ public class InclusaoAnuncioState extends ManterAnuncioState{
     @Override
     public void salvar(){
         try {
-            if(!todosCamposPreenchidos()){
-                JOptionPane.showMessageDialog(null, "Preencha todos os campos e verifique se a soma dos materiais atinge os 100%", "Aviso", JOptionPane.WARNING_MESSAGE);
-            }
             ICommandVendedor command = new NovoAnuncioCommand();
             Anuncio anuncio = (Anuncio) command.executar(presenter);
             JOptionPane.showMessageDialog(null, "anuncio salvo");

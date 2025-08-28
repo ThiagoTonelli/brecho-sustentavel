@@ -8,6 +8,7 @@ import br.brechosustentavel.model.Anuncio;
 import br.brechosustentavel.model.Comprador;
 import br.brechosustentavel.model.EventoLinhaDoTempo;
 import br.brechosustentavel.model.Oferta;
+import br.brechosustentavel.observer.Observavel;
 import br.brechosustentavel.repository.repositoryFactory.IAnuncioRepository;
 import br.brechosustentavel.repository.repositoryFactory.ILinhaDoTempoRepository;
 import br.brechosustentavel.repository.repositoryFactory.IOfertaRepository;
@@ -59,6 +60,8 @@ public class RealizarOfertaService {
             new AplicaInsigniaService().concederInsignia(sessao.getUsuarioAutenticado());
 
             new PontuacaoService().processarNovaOferta(oferta);
+            
+            Observavel.getInstance().notifyObservers();
         }
         else {
             throw new IllegalStateException("Oferta inválida (fora dos limites)");

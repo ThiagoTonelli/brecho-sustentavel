@@ -33,16 +33,16 @@ public class CarregarOfertasCommand implements ICommandOferta{
             IUsuarioRepository usuarioRepository = fabrica.getUsuarioRepository();
 
             List<Oferta> ofertas = ofertaRepository.buscarOfertaPorAnuncio(anuncioRepository.buscarPorIdPeca(idPeca).get().getId());
-
+            
             String[] colunas = {"ID da Oferta", "Nome do Comprador", "Valor ofertado", "Data da Oferta"};
             DefaultTableModel modelo = new DefaultTableModel(colunas, 0);
-
+            modelo.setRowCount(0);
+            
             JTable tabela = view.getTableOfertas();
             tabela.setModel(modelo);
             tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); 
             tabela.getTableHeader().setReorderingAllowed(false); 
-            modelo.setRowCount(0);
-            
+                     
             if (ofertas.isEmpty()) {
                 modelo.addRow(new Object[]{"Nenhuma oferta encontrada."});
             } else {

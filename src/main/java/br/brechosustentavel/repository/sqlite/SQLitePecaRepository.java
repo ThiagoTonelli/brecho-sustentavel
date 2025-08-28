@@ -96,7 +96,14 @@ public class SQLitePecaRepository implements IPecaRepository{
     
     @Override
     public Optional<Peca> consultar(String idC) {
-        String sql = "SELECT * FROM peca WHERE id_c = ?";
+        String sql = """
+                     SELECT 
+                        p.*,
+                        tp.nome AS nome_peca
+                     FROM peca p 
+                     JOIN tipo_peca tp ON p.id_tipo = tp.id
+                     WHERE p.id_c = ?
+                     """;
 
         try (Connection conexao = this.conexaoFactory.getConexao();
              PreparedStatement pstmt = conexao.prepareStatement(sql)) {
@@ -116,6 +123,8 @@ public class SQLitePecaRepository implements IPecaRepository{
                     int idTipo = rs.getInt("id_tipo");
                     Peca peca = new Peca(id_c, subcategoria, tamanho, cor, massa, estado, preco);
                     peca.setIdTipoDePeca(idTipo);
+                    peca.setTipoDePeca(rs.getString("nome_peca"));
+                    
                     return Optional.of(peca);
                 }
             }

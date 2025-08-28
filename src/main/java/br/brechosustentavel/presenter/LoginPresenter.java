@@ -76,7 +76,7 @@ public class LoginPresenter {
         String senha = view.getTxtSenha().getText();
         
         try {
-            Usuario usuarioAutenticado = autenticacaoService.autenticar(email, senha);
+            Usuario usuarioAutenticado = autenticacaoService.autenticar(email.toLowerCase(), senha);
             usuarioAutenticado.setVendedor(vendedorRepository.buscarPorId(usuarioAutenticado.getId()).orElse(null));
             usuarioAutenticado.setComprador(compradorRepository.buscarPorId(usuarioAutenticado.getId()).orElse(null));
             

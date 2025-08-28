@@ -41,8 +41,9 @@ public class SQLiteTransacaoRepository implements ITransacaoRepository{
             SELECT
                 t.id AS "ID Transação",
                 t.data AS "Data",
-                p.massa AS "Massa",
+                p.massa AS "Massa", p.id_c,
                 (SELECT elt.gwp_evitado FROM evento_linha_tempo elt WHERE elt.id_peca = p.id_c ORDER BY elt.data ASC LIMIT 1) AS "GWP Base",
+                elt.ciclo_n as ciclo,
                 a.gwp AS "GWP Evitado",
                 a.mci AS "MCI"
             FROM
@@ -53,6 +54,8 @@ public class SQLiteTransacaoRepository implements ITransacaoRepository{
                 anuncio a ON o.id_anuncio = a.id
             INNER JOIN
                 peca p ON a.id_peca = p.id_c
+            INNER JOIN
+                evento_linha_tempo elt ON elt.id_peca = p.id_c
             ORDER BY
                 t.data;
             """;
@@ -64,6 +67,8 @@ public class SQLiteTransacaoRepository implements ITransacaoRepository{
             while (rs.next()) {
                 Map<String, Object> linha = new HashMap<>();
                 linha.put("ID", rs.getInt("ID Transação"));
+                linha.put("ID_C", rs.getString("id_c"));
+                linha.put("Ciclo", rs.getInt("ciclo"));
                 linha.put("Data", rs.getString("Data"));
                 linha.put("Massa", rs.getDouble("Massa"));
                 linha.put("GWP_base", rs.getDouble("GWP Base"));

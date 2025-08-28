@@ -25,7 +25,7 @@ public class Oferta {
         this.anuncio = anuncio;
         this.comprador = comprador;
         this.valor = valor;
-        this.status = "pendente";
+        this.status = "Pendente";
     }
 
     public int getId() {
