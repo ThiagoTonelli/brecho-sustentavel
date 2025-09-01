@@ -17,7 +17,7 @@ O sistema foi construído seguindo os princípios **SOLID** e utilizando diverso
 ## ✨ Funcionalidades Principais
 
 * **Autenticação e Perfis:** Sistema completo de cadastro e login de usuários.
-* **Múltiplos Perfis:** Os usuários podem atuar como **Comprador** ou **Vendedor**, com a possibilidade de um perfil de **Administrador** para gerenciamento.
+* **Múltiplos Perfis:** Os usuários podem atuar como **Comprador** ou **Vendedor**.
 * **Anúncios Detalhados:** Vendedores podem criar anúncios informando o tipo de peça, composição dos materiais e possíveis defeitos.
 * **Cálculo de Sustentabilidade:** O sistema calcula automaticamente os índices GWP e MCI com base nos dados do anúncio.
 * **Sistema de Ofertas:** Compradores podem fazer ofertas nos anúncios, e vendedores podem aceitar ou recusar.
